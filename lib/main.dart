@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'screens/add.dart';
-import 'screens/all_items.dart';
-import 'screens/favorites.dart';
-import 'screens/home.dart';
-import 'screens/search.dart';
-import 'widgets/bottom_nav_bar.dart';
+import 'ui/screens/add.dart';
+import 'ui/screens/all_items.dart';
+import 'ui/screens/favorites.dart';
+import 'ui/screens/home.dart';
+import 'ui/screens/search.dart';
+import 'ui/widgets/bottom_nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
