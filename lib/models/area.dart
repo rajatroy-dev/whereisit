@@ -11,19 +11,19 @@ String areaToMap(Area data) => json.encode(data.toMap());
 class Area {
   Area({
     required this.id,
-    required this.area,
+    required this.name,
   });
 
   final String id;
-  final String area;
+  final String name;
 
   factory Area.fromMap(Map<String, dynamic> json) => Area(
         id: json["id"],
-        area: json["area"],
+        name: json["name"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "area": area,
+        "name": name,
       };
 }

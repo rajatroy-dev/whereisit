@@ -11,19 +11,19 @@ String propertyToMap(Property data) => json.encode(data.toMap());
 class Property {
   Property({
     required this.id,
-    required this.property,
+    required this.name,
   });
 
   final String id;
-  final String property;
+  final String name;
 
   factory Property.fromMap(Map<String, dynamic> json) => Property(
         id: json["id"],
-        property: json["property"],
+        name: json["name"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "property": property,
+        "name": name,
       };
 }

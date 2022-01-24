@@ -5,8 +5,8 @@ import '../models/item.dart';
 
 class ItemDB {
   insert(Item item) async {
-    Database? db = await DBProvider.db;
+    Database db = await DBProvider.instance.db;
 
-    return await db?.insert('items', item.toMap());
+    return await db.insert('items', item.toMap());
   }
 }

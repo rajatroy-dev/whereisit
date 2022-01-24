@@ -10,69 +10,72 @@ String itemToMap(Item data) => json.encode(data.toMap());
 
 class Item {
   Item({
-    required this.id,
-    this.property,
-    this.room,
-    this.area,
+    this.id,
+    this.propertyId,
+    this.roomId,
+    this.areaId,
     required this.name,
+    required this.thumbnail,
+    this.quantity,
+    this.favorite,
     this.serial,
     this.description,
-    required this.quantity,
-    required this.thumbnail,
-    this.images,
     this.location,
-    required this.favorite,
+    this.address,
     this.qr,
-    this.tags,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  final String id;
-  String? property;
-  String? room;
-  String? area;
+  int? id;
+  int? propertyId;
+  int? roomId;
+  int? areaId;
   final String name;
+  final String thumbnail;
+  int? quantity;
+  int? favorite;
   String? serial;
   String? description;
-  final int quantity;
-  final String thumbnail;
-  List<String>? images;
   String? location;
-  final bool favorite;
+  String? address;
   String? qr;
-  List<String>? tags;
+  final int createdAt;
+  final int updatedAt;
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(
         id: json["id"],
-        property: json["property"],
-        room: json["room"],
-        area: json["area"],
+        propertyId: json["property_id"],
+        roomId: json["room_id"],
+        areaId: json["area_id"],
         name: json["name"],
+        thumbnail: json["thumbnail"],
+        quantity: json["quantity"],
+        favorite: json["favorite"],
         serial: json["serial"],
         description: json["description"],
-        quantity: json["quantity"],
-        thumbnail: json["thumbnail"],
-        images:
-            json["images"] ?? List<String>.from(json["images"].map((x) => x)),
         location: json["location"],
-        favorite: json["favorite"],
+        address: json["address"],
         qr: json["qr"],
-        tags: json["tags"] ?? List<String>.from(json["tags"].map((x) => x)),
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "property": property,
-        "room": room,
-        "area": area,
+        "property_id": propertyId,
+        "room_id": roomId,
+        "area_id": areaId,
         "name": name,
         "serial": serial,
         "description": description,
         "quantity": quantity,
         "thumbnail": thumbnail,
-        "images": images ?? List<String>.from(images!.map((x) => x)),
         "location": location,
+        "address": address,
         "favorite": favorite,
         "qr": qr,
-        "tags": tags ?? List<String>.from(tags!.map((x) => x)),
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
       };
 }

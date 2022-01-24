@@ -10,7 +10,7 @@ class ItemBloc implements Bloc {
 
   get itemStream => _itemController.stream;
 
-  Future<void> getItem(Item item) async {
+  Future<void> createItem(Item item) async {
     var itemDb = ItemDB();
     _itemController.sink.add(await itemDb.insert(item));
   }
