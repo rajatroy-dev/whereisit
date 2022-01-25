@@ -40,7 +40,7 @@ class DBProvider {
         'name TEXT NOT NULL'
         ')');
 
-    await db.execute('CREATE TABLE areas ('
+    await db.execute('CREATE TABLE categories ('
         'id INTEGER PRIMARY KEY AUTOINCREMENT,'
         'name TEXT NOT NULL'
         ')');
@@ -49,7 +49,7 @@ class DBProvider {
         'id INTEGER PRIMARY KEY AUTOINCREMENT,'
         'property_id INTEGER NOT NULL,'
         'room_id INTEGER NOT NULL,'
-        'area_id INTEGER NOT NULL,'
+        'category_id INTEGER NOT NULL,'
         'name TEXT NOT NULL,'
         'thumbnail TEXT NOT NULL,'
         'quantity INTEGER DEFAULT 1 NOT NULL,'
@@ -63,7 +63,7 @@ class DBProvider {
         'updatedAt INTEGER NOT NULL,'
         'FOREIGN KEY (property_id) REFERENCES properties (id) INTEGER ON DELETE RESTRICT,'
         'FOREIGN KEY (room_id) REFERENCES rooms (id) INTEGER ON DELETE RESTRICT,'
-        'FOREIGN KEY (area_id) REFERENCES areas (id) INTEGER ON DELETE RESTRICT'
+        'FOREIGN KEY (category_id) REFERENCES categories (id) INTEGER ON DELETE RESTRICT'
         ')');
 
     await db.execute('CREATE TABLE images ('

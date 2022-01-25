@@ -1,20 +1,20 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/item.dart';
+import '../models/room.dart';
 
-class ItemDB {
-  insert(Item item) async {
+class RoomDB {
+  insert(Room room) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('items', item.toMap());
+    return await db.insert('properties', room.toMap());
   }
 
   read(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'items',
+      'properties',
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -23,21 +23,21 @@ class ItemDB {
   readAll() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('items');
-    List<Item> list =
-        res.isNotEmpty ? res.map((e) => Item.fromMap(e)).toList() : [];
+    var res = await db.query('properties');
+    List<Room> list =
+        res.isNotEmpty ? res.map((e) => Room.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  update(Item item) async {
+  update(Room room) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'items',
-      item.toMap(),
+      'properties',
+      room.toMap(),
       where: 'id = ?',
-      whereArgs: [item.id],
+      whereArgs: [room.id],
     );
   }
 
@@ -45,7 +45,7 @@ class ItemDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'items',
+      'properties',
       where: 'id = ?',
       whereArgs: [id],
     );

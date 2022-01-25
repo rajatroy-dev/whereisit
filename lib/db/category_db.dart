@@ -1,20 +1,20 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/item.dart';
+import '../models/category.dart';
 
-class ItemDB {
-  insert(Item item) async {
+class CategoryDB {
+  insert(Category category) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('items', item.toMap());
+    return await db.insert('categories', category.toMap());
   }
 
   read(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'items',
+      'categories',
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -23,21 +23,21 @@ class ItemDB {
   readAll() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('items');
-    List<Item> list =
-        res.isNotEmpty ? res.map((e) => Item.fromMap(e)).toList() : [];
+    var res = await db.query('categories');
+    List<Category> list =
+        res.isNotEmpty ? res.map((e) => Category.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  update(Item item) async {
+  update(Category category) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'items',
-      item.toMap(),
+      'categories',
+      category.toMap(),
       where: 'id = ?',
-      whereArgs: [item.id],
+      whereArgs: [category.id],
     );
   }
 
@@ -45,7 +45,7 @@ class ItemDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'items',
+      'categories',
       where: 'id = ?',
       whereArgs: [id],
     );

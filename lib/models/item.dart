@@ -13,7 +13,7 @@ class Item {
     this.id,
     this.propertyId,
     this.roomId,
-    this.areaId,
+    this.categoryId,
     required this.name,
     required this.thumbnail,
     this.quantity,
@@ -30,7 +30,7 @@ class Item {
   int? id;
   int? propertyId;
   int? roomId;
-  int? areaId;
+  int? categoryId;
   final String name;
   final String thumbnail;
   int? quantity;
@@ -47,7 +47,7 @@ class Item {
         id: json["id"],
         propertyId: json["property_id"],
         roomId: json["room_id"],
-        areaId: json["area_id"],
+        categoryId: json["category_id"],
         name: json["name"],
         thumbnail: json["thumbnail"],
         quantity: json["quantity"],
@@ -65,7 +65,7 @@ class Item {
         "id": id,
         "property_id": propertyId,
         "room_id": roomId,
-        "area_id": areaId,
+        "category_id": categoryId,
         "name": name,
         "serial": serial,
         "description": description,

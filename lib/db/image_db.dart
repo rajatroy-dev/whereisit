@@ -1,20 +1,20 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/item.dart';
+import '../models/image.dart';
 
-class ItemDB {
-  insert(Item item) async {
+class ImageDB {
+  insert(Image image) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('items', item.toMap());
+    return await db.insert('images', image.toMap());
   }
 
   read(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'items',
+      'images',
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -23,21 +23,21 @@ class ItemDB {
   readAll() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('items');
-    List<Item> list =
-        res.isNotEmpty ? res.map((e) => Item.fromMap(e)).toList() : [];
+    var res = await db.query('images');
+    List<Image> list =
+        res.isNotEmpty ? res.map((e) => Image.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  update(Item item) async {
+  update(Image image) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'items',
-      item.toMap(),
+      'images',
+      image.toMap(),
       where: 'id = ?',
-      whereArgs: [item.id],
+      whereArgs: [image.id],
     );
   }
 
@@ -45,7 +45,7 @@ class ItemDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'items',
+      'images',
       where: 'id = ?',
       whereArgs: [id],
     );
