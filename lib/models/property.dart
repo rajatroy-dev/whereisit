@@ -10,20 +10,24 @@ String propertyToMap(Property data) => json.encode(data.toMap());
 
 class Property {
   Property({
-    required this.id,
+    this.id,
+    this.locationId,
     required this.name,
   });
 
-  final String id;
+  int? id;
+  int? locationId;
   final String name;
 
   factory Property.fromMap(Map<String, dynamic> json) => Property(
         id: json["id"],
+        locationId: json["location_id"],
         name: json["name"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
+        "location_id": locationId,
         "name": name,
       };
 }

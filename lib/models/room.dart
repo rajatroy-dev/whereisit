@@ -10,11 +10,11 @@ String roomToMap(Room data) => json.encode(data.toMap());
 
 class Room {
   Room({
-    required this.id,
+    this.id,
     required this.name,
   });
 
-  final String id;
+  String? id;
   final String name;
 
   factory Room.fromMap(Map<String, dynamic> json) => Room(

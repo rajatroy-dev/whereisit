@@ -1,43 +1,43 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/tag.dart';
+import '../models/location.dart';
 
-class TagDB {
-  Future<int> insert(Tag tag) async {
+class LocationDB {
+  Future<int> insert(Location location) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('tags', tag.toMap());
+    return await db.insert('locations', location.toMap());
   }
 
-  Future<Tag> findById(int id) async {
+  Future<Location> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'tags',
+      'locations',
       where: 'id = ?',
       whereArgs: [id],
-    ) as Tag;
+    ) as Location;
   }
 
-  Future<List<Tag>> findAllById() async {
+  Future<List<Location>> findAllById() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('tags');
-    List<Tag> list =
-        res.isNotEmpty ? res.map((e) => Tag.fromMap(e)).toList() : [];
+    var res = await db.query('locations');
+    List<Location> list =
+        res.isNotEmpty ? res.map((e) => Location.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  Future<int> update(Tag tag) async {
+  Future<int> update(Location location) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'tags',
-      tag.toMap(),
+      'locations',
+      location.toMap(),
       where: 'id = ?',
-      whereArgs: [tag.id],
+      whereArgs: [location.id],
     );
   }
 
@@ -45,7 +45,7 @@ class TagDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'tags',
+      'locations',
       where: 'id = ?',
       whereArgs: [id],
     );

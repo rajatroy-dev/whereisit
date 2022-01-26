@@ -24,72 +24,87 @@ class DBProvider {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, 'whereisit.db');
 
-    var openDb = await openDatabase(path, onCreate: _onCreate);
+    var openDb = await openDatabase(
+      path,
+      onCreate: _onCreate,
+      onConfigure: _onConfigure,
+    );
 
     return openDb;
   }
 
+  static Future _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
+
   static Future<void> _onCreate(Database db, int version) async {
+    await db.execute('CREATE TABLE locations ('
+        'id INTEGER PRIMARY KEY, '
+        'location TEXT, '
+        'address TEXT NOT NULL UNIQUE'
+        ')');
+
     await db.execute('CREATE TABLE properties ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'name TEXT NOT NULL'
+        'id INTEGER PRIMARY KEY, '
+        'location_id INTEGER, '
+        'name TEXT NOT NULL UNIQUE, '
+        'FOREIGN KEY (location_id) REFERENCES locations (id) ON DELETE RESTRICT'
         ')');
 
     await db.execute('CREATE TABLE rooms ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'name TEXT NOT NULL'
+        'id INTEGER PRIMARY KEY, '
+        'name TEXT NOT NULL UNIQUE'
         ')');
 
     await db.execute('CREATE TABLE categories ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'name TEXT NOT NULL'
+        'id INTEGER PRIMARY KEY, '
+        'name TEXT NOT NULL UNIQUE'
         ')');
 
+    await db.execute('INSERT INTO categories '
+        '(name) '
+        'VALUES '
+        '(\'Uncategorized\')');
+
     await db.execute('CREATE TABLE items ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'property_id INTEGER NOT NULL,'
-        'room_id INTEGER NOT NULL,'
-        'category_id INTEGER NOT NULL,'
-        'name TEXT NOT NULL,'
-        'thumbnail TEXT NOT NULL,'
-        'quantity INTEGER DEFAULT 1 NOT NULL,'
-        'favorite INTEGER DEFAULT 0 NOT NULL CHECK (favorite IN (0, 1)),'
-        'serial TEXT,'
-        'description TEXT,'
-        'location TEXT,'
-        'address TEXT'
-        'qr TEXT,'
-        'createdAt INTEGER NOT NULL,'
-        'updatedAt INTEGER NOT NULL,'
-        'FOREIGN KEY (property_id) REFERENCES properties (id) INTEGER ON DELETE RESTRICT,'
-        'FOREIGN KEY (room_id) REFERENCES rooms (id) INTEGER ON DELETE RESTRICT,'
-        'FOREIGN KEY (category_id) REFERENCES categories (id) INTEGER ON DELETE RESTRICT'
+        'id INTEGER PRIMARY KEY, '
+        'property_id INTEGER, '
+        'room_id INTEGER, '
+        'category_id INTEGER DEFAULT 1 NOT NULL, '
+        'name TEXT NOT NULL, '
+        'thumbnail TEXT NOT NULL, '
+        'quantity INTEGER DEFAULT 1 NOT NULL, '
+        'favorite INTEGER DEFAULT 0 NOT NULL CHECK (favorite IN (0, 1)), '
+        'location_id INTEGER, '
+        'serial TEXT, '
+        'description TEXT, '
+        'qr TEXT UNIQUE, '
+        'createdAt INTEGER NOT NULL, '
+        'updatedAt INTEGER NOT NULL, '
+        'FOREIGN KEY (property_id) REFERENCES properties (id) ON DELETE RESTRICT, '
+        'FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE RESTRICT, '
+        'FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE RESTRICT, '
+        'FOREIGN KEY (location_id) REFERENCES locations (id) ON DELETE RESTRICT'
         ')');
 
     await db.execute('CREATE TABLE images ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'filename TEXT NOT NULL,'
-        'filelocation TEXT NOT NULL'
+        'id INTEGER PRIMARY KEY, '
+        'item_id INTEGER NOT NULL, '
+        'filename TEXT NOT NULL UNIQUE, '
+        'filelocation TEXT NOT NULL UNIQUE, '
+        'FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE'
         ')');
 
     await db.execute('CREATE TABLE tags ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'name TEXT NOT NULL'
-        ')');
-
-    await db.execute('CREATE TABLE items_images ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'item_id INTEGER NOT NULL,'
-        'image_id INTEGER,'
-        'FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE,'
-        'FOREIGN KEY (image_id) REFERENCES images (id) ON DELETE SET NULL'
+        'id INTEGER PRIMARY KEY, '
+        'name TEXT NOT NULL UNIQUE'
         ')');
 
     await db.execute('CREATE TABLE items_tags ('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-        'item_id INTEGER,'
-        'tag_id INTEGER NOT NULL,'
-        'FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE SET NULL,'
+        'id INTEGER PRIMARY KEY, '
+        'item_id INTEGER, '
+        'tag_id INTEGER NOT NULL, '
+        'FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE SET NULL, '
         'FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE'
         ')');
   }

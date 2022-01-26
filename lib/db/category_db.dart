@@ -4,23 +4,23 @@ import '../db/db_provider.dart';
 import '../models/category.dart';
 
 class CategoryDB {
-  insert(Category category) async {
+  Future<int> insert(Category category) async {
     Database db = await DBProvider.instance.db;
 
     return await db.insert('categories', category.toMap());
   }
 
-  read(int id) async {
+  Future<Category> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
       'categories',
       where: 'id = ?',
       whereArgs: [id],
-    );
+    ) as Category;
   }
 
-  readAll() async {
+  Future<List<Category>> findAll() async {
     Database db = await DBProvider.instance.db;
 
     var res = await db.query('categories');
@@ -30,7 +30,7 @@ class CategoryDB {
     return list;
   }
 
-  update(Category category) async {
+  Future<int> update(Category category) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
@@ -41,7 +41,7 @@ class CategoryDB {
     );
   }
 
-  delete(int id) async {
+  Future<int> delete(int id) async {
     Database db = await DBProvider.instance.db;
 
     return db.delete(

@@ -12,7 +12,9 @@ class ItemBloc implements Bloc {
 
   Future<void> createItem(Item item) async {
     var itemDb = ItemDB();
-    _itemController.sink.add(await itemDb.insert(item));
+    int itemId = await itemDb.insert(item);
+    item.id = itemId;
+    _itemController.sink.add(item);
   }
 
   @override

@@ -4,23 +4,23 @@ import '../db/db_provider.dart';
 import '../models/property.dart';
 
 class PropertyDB {
-  insert(Property property) async {
+  Future<int> insert(Property property) async {
     Database db = await DBProvider.instance.db;
 
     return await db.insert('properties', property.toMap());
   }
 
-  read(int id) async {
+  Future<Property> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
       'properties',
       where: 'id = ?',
       whereArgs: [id],
-    );
+    ) as Property;
   }
 
-  readAll() async {
+  Future<List<Property>> findAllById() async {
     Database db = await DBProvider.instance.db;
 
     var res = await db.query('properties');
@@ -30,7 +30,7 @@ class PropertyDB {
     return list;
   }
 
-  update(Property property) async {
+  Future<int> update(Property property) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
@@ -41,7 +41,7 @@ class PropertyDB {
     );
   }
 
-  delete(int id) async {
+  Future<int> delete(int id) async {
     Database db = await DBProvider.instance.db;
 
     return db.delete(

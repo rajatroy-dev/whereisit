@@ -10,11 +10,11 @@ String categoryToMap(Category data) => json.encode(data.toMap());
 
 class Category {
   Category({
-    required this.id,
+    this.id,
     required this.name,
   });
 
-  final int id;
+  int? id;
   final String name;
 
   factory Category.fromMap(Map<String, dynamic> json) => Category(

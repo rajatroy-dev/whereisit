@@ -10,11 +10,11 @@ String tagToMap(Tag data) => json.encode(data.toMap());
 
 class Tag {
   Tag({
-    required this.id,
+    this.id,
     required this.name,
   });
 
-  final String id;
+  String? id;
   final String name;
 
   factory Tag.fromMap(Map<String, dynamic> json) => Tag(

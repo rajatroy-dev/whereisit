@@ -4,23 +4,23 @@ import '../db/db_provider.dart';
 import '../models/room.dart';
 
 class RoomDB {
-  insert(Room room) async {
+  Future<int> insert(Room room) async {
     Database db = await DBProvider.instance.db;
 
     return await db.insert('properties', room.toMap());
   }
 
-  read(int id) async {
+  Future<Room> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
       'properties',
       where: 'id = ?',
       whereArgs: [id],
-    );
+    ) as Room;
   }
 
-  readAll() async {
+  Future<List<Room>> findAllById() async {
     Database db = await DBProvider.instance.db;
 
     var res = await db.query('properties');
@@ -30,7 +30,7 @@ class RoomDB {
     return list;
   }
 
-  update(Room room) async {
+  Future<int> update(Room room) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
@@ -41,7 +41,7 @@ class RoomDB {
     );
   }
 
-  delete(int id) async {
+  Future<int> delete(int id) async {
     Database db = await DBProvider.instance.db;
 
     return db.delete(

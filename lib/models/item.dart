@@ -20,8 +20,7 @@ class Item {
     this.favorite,
     this.serial,
     this.description,
-    this.location,
-    this.address,
+    this.locationId,
     this.qr,
     required this.createdAt,
     required this.updatedAt,
@@ -35,10 +34,9 @@ class Item {
   final String thumbnail;
   int? quantity;
   int? favorite;
+  int? locationId;
   String? serial;
   String? description;
-  String? location;
-  String? address;
   String? qr;
   final int createdAt;
   final int updatedAt;
@@ -52,10 +50,9 @@ class Item {
         thumbnail: json["thumbnail"],
         quantity: json["quantity"],
         favorite: json["favorite"],
+        locationId: json["location_id"],
         serial: json["serial"],
         description: json["description"],
-        location: json["location"],
-        address: json["address"],
         qr: json["qr"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
@@ -67,13 +64,12 @@ class Item {
         "room_id": roomId,
         "category_id": categoryId,
         "name": name,
+        "thumbnail": thumbnail,
+        "quantity": quantity,
+        "favorite": favorite,
+        "location_id": locationId,
         "serial": serial,
         "description": description,
-        "quantity": quantity,
-        "thumbnail": thumbnail,
-        "location": location,
-        "address": address,
-        "favorite": favorite,
         "qr": qr,
         "createdAt": createdAt,
         "updatedAt": updatedAt,

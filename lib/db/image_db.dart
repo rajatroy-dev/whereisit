@@ -4,23 +4,23 @@ import '../db/db_provider.dart';
 import '../models/image.dart';
 
 class ImageDB {
-  insert(Image image) async {
+  Future<int> insert(Image image) async {
     Database db = await DBProvider.instance.db;
 
     return await db.insert('images', image.toMap());
   }
 
-  read(int id) async {
+  Future<Image> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
       'images',
       where: 'id = ?',
       whereArgs: [id],
-    );
+    ) as Image;
   }
 
-  readAll() async {
+  Future<List<Image>> findAllById() async {
     Database db = await DBProvider.instance.db;
 
     var res = await db.query('images');
@@ -30,7 +30,7 @@ class ImageDB {
     return list;
   }
 
-  update(Image image) async {
+  Future<int> update(Image image) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
@@ -41,7 +41,7 @@ class ImageDB {
     );
   }
 
-  delete(int id) async {
+  Future<int> delete(int id) async {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
