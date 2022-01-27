@@ -1,43 +1,43 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/location.dart';
+import '../model/category.dart';
 
-class LocationDB {
-  Future<int> insert(Location location) async {
+class CategoryDao {
+  Future<int> insert(Category category) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('locations', location.toMap());
+    return await db.insert('categories', category.toMap());
   }
 
-  Future<Location> findById(int id) async {
+  Future<Category> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'locations',
+      'categories',
       where: 'id = ?',
       whereArgs: [id],
-    ) as Location;
+    ) as Category;
   }
 
-  Future<List<Location>> findAllById() async {
+  Future<List<Category>> findAll() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('locations');
-    List<Location> list =
-        res.isNotEmpty ? res.map((e) => Location.fromMap(e)).toList() : [];
+    var res = await db.query('categories');
+    List<Category> list =
+        res.isNotEmpty ? res.map((e) => Category.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  Future<int> update(Location location) async {
+  Future<int> update(Category category) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'locations',
-      location.toMap(),
+      'categories',
+      category.toMap(),
       where: 'id = ?',
-      whereArgs: [location.id],
+      whereArgs: [category.id],
     );
   }
 
@@ -45,7 +45,7 @@ class LocationDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'locations',
+      'categories',
       where: 'id = ?',
       whereArgs: [id],
     );

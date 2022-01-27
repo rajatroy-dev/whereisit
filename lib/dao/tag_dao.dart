@@ -1,43 +1,43 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/image.dart';
+import '../model/tag.dart';
 
-class ImageDB {
-  Future<int> insert(Image image) async {
+class TagDao {
+  Future<int> insert(Tag tag) async {
     Database db = await DBProvider.instance.db;
 
-    return await db.insert('images', image.toMap());
+    return await db.insert('tags', tag.toMap());
   }
 
-  Future<Image> findById(int id) async {
+  Future<Tag> findById(int id) async {
     Database db = await DBProvider.instance.db;
 
     return await db.query(
-      'images',
+      'tags',
       where: 'id = ?',
       whereArgs: [id],
-    ) as Image;
+    ) as Tag;
   }
 
-  Future<List<Image>> findAllById() async {
+  Future<List<Tag>> findAll() async {
     Database db = await DBProvider.instance.db;
 
-    var res = await db.query('images');
-    List<Image> list =
-        res.isNotEmpty ? res.map((e) => Image.fromMap(e)).toList() : [];
+    var res = await db.query('tags');
+    List<Tag> list =
+        res.isNotEmpty ? res.map((e) => Tag.fromMap(e)).toList() : [];
 
     return list;
   }
 
-  Future<int> update(Image image) async {
+  Future<int> update(Tag tag) async {
     Database db = await DBProvider.instance.db;
 
     return db.update(
-      'images',
-      image.toMap(),
+      'tags',
+      tag.toMap(),
       where: 'id = ?',
-      whereArgs: [image.id],
+      whereArgs: [tag.id],
     );
   }
 
@@ -45,7 +45,7 @@ class ImageDB {
     Database db = await DBProvider.instance.db;
 
     return db.delete(
-      'images',
+      'tags',
       where: 'id = ?',
       whereArgs: [id],
     );

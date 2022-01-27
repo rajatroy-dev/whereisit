@@ -1,4 +1,4 @@
-package com.example.whereisit
+package `in`.rajatroy.whereisit
 
 import io.flutter.embedding.android.FlutterActivity
 

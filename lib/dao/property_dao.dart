@@ -1,9 +1,9 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../models/property.dart';
+import '../model/property.dart';
 
-class PropertyDB {
+class PropertyDao {
   Future<int> insert(Property property) async {
     Database db = await DBProvider.instance.db;
 
@@ -20,7 +20,7 @@ class PropertyDB {
     ) as Property;
   }
 
-  Future<List<Property>> findAllById() async {
+  Future<List<Property>> findAll() async {
     Database db = await DBProvider.instance.db;
 
     var res = await db.query('properties');
