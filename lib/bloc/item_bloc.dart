@@ -4,11 +4,11 @@ import 'package:sqflite/sqflite.dart';
 
 import 'base.dart';
 import '../db/db_response.dart';
-import '../repository/item_repository.dart';
 import '../model/item.dart';
+import '../repository/item_repository.dart';
 
 class ItemBloc implements Bloc {
-  final _itemController = StreamController<DBResponse>.broadcast();
+  final _itemController = StreamController<DBResponse<Item>>.broadcast();
 
   get stream => _itemController.stream;
 
