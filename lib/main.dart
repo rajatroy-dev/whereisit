@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'ui/screens/add.dart';
 import 'ui/screens/all_items.dart';
 import 'ui/screens/favorites.dart';
-import 'ui/screens/home.dart';
+import 'ui/home/home.screen.dart';
 import 'ui/screens/search.dart';
 import 'ui/widgets/bottom_nav_bar.dart';
 
