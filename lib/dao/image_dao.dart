@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/image.dart';
+import '../models/image.model.dart';
 
 class ImageDao {
   Future<int> insert(Image image) async {

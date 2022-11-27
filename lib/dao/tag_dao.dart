@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/tag.dart';
+import '../models/tag.model.dart';
 
 class TagDao {
   Future<int> insert(Tag tag) async {

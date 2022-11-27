@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/display_item.dart';
+import '../models/display_item.model.dart';
 
 class DisplayItemDao {
   Future<DisplayItem> findByItemId(int id) async {

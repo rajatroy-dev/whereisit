@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/location.dart';
+import '../models/location.model.dart';
 
 class LocationDao {
   Future<int> insert(Location location) async {

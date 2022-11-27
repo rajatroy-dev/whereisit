@@ -1,5 +1,5 @@
 import '../dao/tag_dao.dart';
-import '../model/tag.dart';
+import '../models/tag.model.dart';
 
 class TagRepository {
   final dao = TagDao();

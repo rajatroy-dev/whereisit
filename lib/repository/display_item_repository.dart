@@ -1,5 +1,5 @@
 import '../dao/display_item_dao.dart';
-import '../model/display_item.dart';
+import '../models/display_item.model.dart';
 
 class DisplayItemRepository {
   final dao = DisplayItemDao();

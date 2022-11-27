@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'base.dart';
 import '../db/db_response.dart';
-import '../model/image.dart';
+import '../models/image.model.dart';
 import '../repository/image_repository.dart';
 
 class ImageBloc implements Bloc {

@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/category.dart';
+import '../models/category.model.dart';
 
 class CategoryDao {
   Future<int> insert(Category category) async {

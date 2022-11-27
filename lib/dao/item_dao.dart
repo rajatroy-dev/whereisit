@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/item.dart';
+import '../models/item.model.dart';
 
 class ItemDao {
   Future<int> insert(Item item) async {

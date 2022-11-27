@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'base.dart';
 import '../db/db_response.dart';
-import '../model/item.dart';
+import '../models/item.model.dart';
 import '../repository/item_repository.dart';
 
 class ItemBloc implements Bloc {

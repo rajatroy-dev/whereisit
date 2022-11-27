@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../db/db_provider.dart';
-import '../model/property.dart';
+import '../models/property.model.dart';
 
 class PropertyDao {
   Future<int> insert(Property property) async {

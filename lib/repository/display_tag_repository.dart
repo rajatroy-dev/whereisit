@@ -1,5 +1,5 @@
 import '../dao/display_tag_dao.dart';
-import '../model/display_tag.dart';
+import '../models/display_tag.model.dart';
 
 class DisplayTagRepository {
   final dao = DisplayTagDao();

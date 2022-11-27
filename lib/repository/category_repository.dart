@@ -1,5 +1,5 @@
 import '../dao/category_dao.dart';
-import '../model/category.dart';
+import '../models/category.model.dart';
 
 class CategoryRepository {
   final dao = CategoryDao();

@@ -1,5 +1,5 @@
 import '../dao/location_dao.dart';
-import '../model/location.dart';
+import '../models/location.model.dart';
 
 class LocationRepository {
   final dao = LocationDao();
