@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/ui/all_items/listtile_items/listtile_items.viewgroup.dart';
+import 'package:whereisit/ui/all_items/full_width_card_list/full_width_card_list.viewgroup.dart';
 
 class AllItems extends StatefulWidget {
   const AllItems({
@@ -125,7 +125,7 @@ class _AllItemsState extends State<AllItems> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListTileItems(list: filtered),
+              : FullWidthCardList(list: filtered),
         ),
       ],
     );

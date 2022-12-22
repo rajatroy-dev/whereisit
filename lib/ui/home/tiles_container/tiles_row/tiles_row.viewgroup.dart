@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/ui/home/tiles/tile.view.dart';
+import 'package:whereisit/ui/home/tiles_container/tiles_row/tile.view.dart';
 
-class EachTilesRow extends StatelessWidget {
+class TilesRow extends StatelessWidget {
   final List<Tile> tiles;
 
-  const EachTilesRow({
+  const TilesRow({
     Key? key,
     required this.tiles,
   }) : super(key: key);

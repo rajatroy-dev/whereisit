@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ListTileItemLocation extends StatelessWidget {
+class FullWidthCardLocation extends StatelessWidget {
   final String location;
 
-  const ListTileItemLocation({
+  const FullWidthCardLocation({
     Key? key,
     required this.location,
   }) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/ui/home/tiles/each_tiles_row.viewgroup.dart';
-import 'package:whereisit/ui/home/tiles/tile.view.dart';
+import 'package:whereisit/ui/home/tiles_container/tiles_row/tiles_row.viewgroup.dart';
+import 'package:whereisit/ui/home/tiles_container/tiles_row/tile.view.dart';
 
-class Tiles extends StatelessWidget {
-  const Tiles({
+class TilesContainer extends StatelessWidget {
+  const TilesContainer({
     Key? key,
   }) : super(key: key);
 
@@ -11,7 +11,7 @@ class Tiles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        EachTilesRow(
+        TilesRow(
           tiles: [
             Tile(
               tileIcon: Icons.apartment_rounded,
@@ -23,7 +23,7 @@ class Tiles extends StatelessWidget {
             ),
           ],
         ),
-        EachTilesRow(
+        TilesRow(
           tiles: [
             Tile(
               tileIcon: Icons.all_inbox_rounded,

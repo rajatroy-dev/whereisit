@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ListTileItemQuantity extends StatelessWidget {
+class FullWidthCardQuantity extends StatelessWidget {
   final String qty;
 
-  const ListTileItemQuantity({
+  const FullWidthCardQuantity({
     Key? key,
     required this.qty,
   }) : super(key: key);

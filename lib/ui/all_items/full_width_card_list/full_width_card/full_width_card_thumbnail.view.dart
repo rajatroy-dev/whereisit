@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListTileItemThumbnail extends StatelessWidget {
-  const ListTileItemThumbnail({
+class FullWidthCardThumbnail extends StatelessWidget {
+  const FullWidthCardThumbnail({
     Key? key,
   }) : super(key: key);
 

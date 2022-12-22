@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/ui/all_items/listtile_items/listtile_item/listtile_item_content/listtile_item_tags/listtile_item_tag.view.dart';
+import 'package:whereisit/ui/all_items/full_width_card_list/full_width_card/full_width_card_content/full_width_card_tags/full_width_card_tag.view.dart';
 
-class ListItemItemTags extends StatelessWidget {
+class FullWidthCardTags extends StatelessWidget {
   final List<String> tags;
 
-  const ListItemItemTags({
+  const FullWidthCardTags({
     Key? key,
     required this.tags,
   }) : super(key: key);
@@ -18,8 +18,8 @@ class ListItemItemTags extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ListTileItemTag(title: "# ${tags[0]}"),
-          ListTileItemTag(title: "# ${tags[1]}"),
+          FullWidthCardTag(title: "# ${tags[0]}"),
+          FullWidthCardTag(title: "# ${tags[1]}"),
         ],
       ),
     );

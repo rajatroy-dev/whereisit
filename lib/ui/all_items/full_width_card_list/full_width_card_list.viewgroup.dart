@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/ui/all_items/listtile_items/listtile_item/listtile_item.viewgroup.dart';
+import 'package:whereisit/ui/all_items/full_width_card_list/full_width_card/full_width_card.viewgroup.dart';
 
-class ListTileItems extends StatelessWidget {
+class FullWidthCardList extends StatelessWidget {
   final List<CardData> list;
-  const ListTileItems({
+  const FullWidthCardList({
     Key? key,
     required this.list,
   }) : super(key: key);
@@ -18,7 +18,7 @@ class ListTileItems extends StatelessWidget {
         : ListView.builder(
             itemCount: list.length,
             itemBuilder: (context, index) {
-              return ListTileItem(data: list[index]);
+              return FullWidthCard(data: list[index]);
             },
           );
   }

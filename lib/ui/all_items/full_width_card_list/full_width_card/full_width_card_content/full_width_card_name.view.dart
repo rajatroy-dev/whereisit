@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ListTileItemName extends StatelessWidget {
+class FullWidthCardName extends StatelessWidget {
   final String name;
 
-  const ListTileItemName({
+  const FullWidthCardName({
     Key? key,
     required this.name,
   }) : super(key: key);
