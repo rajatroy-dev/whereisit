@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/ui/all_items/full_width_card_list/full_width_card/full_width_card_content/full_width_card_tags/full_width_card_tag.view.dart';
+import 'package:whereisit/shared/ui/full_width_card_list/full_width_card/full_width_card_content/full_width_card_tags/full_width_card_tag.view.dart';
 
 class FullWidthCardTags extends StatelessWidget {
   final List<String> tags;

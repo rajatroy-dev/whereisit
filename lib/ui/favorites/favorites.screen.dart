@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/shared/ui/full_width_card_list/full_width_card_list.viewgroup.dart';
 
-class AllItems extends StatefulWidget {
-  const AllItems({
+class Favorites extends StatefulWidget {
+  const Favorites({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AllItems> createState() => _AllItemsState();
+  State<Favorites> createState() => _FavoritesState();
 }
 
-class _AllItemsState extends State<AllItems> {
+class _FavoritesState extends State<Favorites> {
   final list = <CardData>[
     CardData(
       title: "A random picture 1",
@@ -78,7 +78,7 @@ class _AllItemsState extends State<AllItems> {
 
   late bool isLoading;
   late List<CardData> filtered;
-  _AllItemsState() {
+  _FavoritesState() {
     filtered = list;
     isLoading = false;
   }

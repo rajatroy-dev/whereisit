@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/ui/home/items_list/item_card/item_favorite_button.view.dart';
 
+import 'package:whereisit/ui/home/items_list/item_card/item_favorite_button.view.dart';
 import 'package:whereisit/ui/home/items_list/item_card/item_location.view.dart';
 import 'package:whereisit/ui/home/items_list/item_card/item_name.view.dart';
 import 'package:whereisit/ui/home/items_list/item_card/item_quantity.view.dart';
