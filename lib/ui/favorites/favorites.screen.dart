@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/shared/ui/full_width_card_list/full_width_card_list.viewgroup.dart';
+import 'package:whereisit/shared/ui/sort_filter/sort_filter.viewgroup.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({
@@ -107,6 +108,7 @@ class _FavoritesState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SortFilter(),
         Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 10.0,
