@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:whereisit/ui/widgets/bottom_nav_bar.dart';
+import 'package:whereisit/shared/widgets/bottom_nav_bar.dart';
 
 void main() {
   testWidgets('renders BottomNavBar', (WidgetTester tester) async {

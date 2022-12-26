@@ -13,7 +13,7 @@ class FullWidthCardThumbnail extends StatelessWidget {
         bottomLeft: Radius.circular(5.0),
       ),
       child: Image.network(
-        'https://picsum.photos/110',
+        'https://picsum.photos/115',
         fit: BoxFit.fill,
       ),
     );

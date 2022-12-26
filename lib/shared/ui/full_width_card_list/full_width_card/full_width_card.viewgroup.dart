@@ -19,7 +19,7 @@ class FullWidthCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: SizedBox(
-        height: 110,
+        height: 115,
         child: Row(
           children: [
             const FullWidthCardThumbnail(),

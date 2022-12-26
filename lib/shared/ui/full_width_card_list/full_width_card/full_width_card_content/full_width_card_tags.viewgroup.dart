@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/shared/ui/full_width_card_list/full_width_card/full_width_card_content/full_width_card_tags/full_width_card_tag.view.dart';
+import 'package:whereisit/shared/widgets/pill_tag.dart';
 
 class FullWidthCardTags extends StatelessWidget {
   final List<String> tags;
@@ -18,8 +18,8 @@ class FullWidthCardTags extends StatelessWidget {
       ),
       child: Row(
         children: [
-          FullWidthCardTag(title: "# ${tags[0]}"),
-          FullWidthCardTag(title: "# ${tags[1]}"),
+          PillTag(title: "# ${tags[0]}"),
+          PillTag(title: "# ${tags[1]}"),
         ],
       ),
     );
