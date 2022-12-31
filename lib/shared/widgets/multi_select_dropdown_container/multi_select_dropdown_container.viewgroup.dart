@@ -8,9 +8,13 @@ class MultiSelectDropdownContainer extends StatefulWidget {
 
   const MultiSelectDropdownContainer({
     Key? key,
-    this.height = 200,
+    this.height = 350,
     this.width = double.infinity,
-  }) : super(key: key);
+  })  : assert(
+            height >= 350,
+            'The height of the multi-select dropdown '
+            'must be greater than 200.'),
+        super(key: key);
 
   @override
   State<MultiSelectDropdownContainer> createState() =>
@@ -30,17 +34,23 @@ class _MultiSelectDropdownContainerState
     MultiSelectDropdownData('5', false, 'tagFive'),
   ];
   var _selectedItems = '';
+  var _selectedItemsCount = 0;
   var _showDropdown = false;
   var _selected = [];
 
-  _handleCheckboxToggle(int index, bool status) {
+  _handleCheckboxToggle(int index, bool checkValue) {
     setState(() {
-      _list[index].isSelected = status;
+      _list[index].isSelected = checkValue;
 
       if (_selectedItems.isEmpty) {
-        _selectedItems = '${_list[index].value}, ';
-      } else if (status) {
+        _selectedItems = _list[index].value;
+        _selectedItemsCount++;
+      } else if (checkValue) {
         _selectedItems = '$_selectedItems, ${_list[index].value}';
+        _selectedItemsCount++;
+      } else if (_selectedItemsCount == 1) {
+        _selectedItems = '';
+        _selectedItemsCount--;
       } else {
         var _selectedItem = _list[index].value;
         var _lastItem = _selectedItems.substring(
@@ -48,23 +58,28 @@ class _MultiSelectDropdownContainerState
             _selectedItems.length);
 
         if (_lastItem == _selectedItem) {
-          _selectedItems.replaceAll(', ${_list[index].value}', '');
+          _selectedItems =
+              _selectedItems.replaceAll(', ${_list[index].value}', '');
         } else {
-          _selectedItems.replaceAll('${_list[index].value}, ', '');
+          _selectedItems =
+              _selectedItems.replaceAll('${_list[index].value}, ', '');
         }
+        _selectedItemsCount--;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: widget.height,
       width: widget.width,
       child: Column(
         children: [
           Text(_selectedItems),
           MultiSelectDropdownList(
+            height: 300,
+            width: widget.width,
             list: _list,
             checkboxHandler: _handleCheckboxToggle,
           ),
