@@ -5,15 +5,15 @@ import 'package:whereisit/shared/widgets/multi_select_dropdown_container/multi_s
 class MultiSelectDropdownContainer extends StatefulWidget {
   final double height;
   final double width;
+  final double padding;
 
   const MultiSelectDropdownContainer({
     Key? key,
     this.height = 350,
     this.width = double.infinity,
-  })  : assert(
-            height >= 350,
-            'The height of the multi-select dropdown '
-            'must be greater than 200.'),
+    this.padding = 5,
+  })  : assert(height >= 350, 'Minimum height is 200.'),
+        assert(padding >= 5, 'Minimum padding is 5.'),
         super(key: key);
 
   @override
@@ -32,11 +32,19 @@ class _MultiSelectDropdownContainerState
     MultiSelectDropdownData('3', false, 'tagThree'),
     MultiSelectDropdownData('4', false, 'tagFour'),
     MultiSelectDropdownData('5', false, 'tagFive'),
+    MultiSelectDropdownData('6', false, 'tagSix'),
+    MultiSelectDropdownData('7', false, 'tagSeven'),
+    MultiSelectDropdownData('8', false, 'tagEight'),
   ];
   var _selectedItems = '';
   var _selectedItemsCount = 0;
   var _showDropdown = false;
-  var _selected = [];
+
+  _handleDropdownToggle() {
+    setState(() {
+      _showDropdown = !_showDropdown;
+    });
+  }
 
   _handleCheckboxToggle(int index, bool checkValue) {
     setState(() {
@@ -71,19 +79,50 @@ class _MultiSelectDropdownContainerState
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
-      width: widget.width,
-      child: Column(
-        children: [
-          Text(_selectedItems),
-          MultiSelectDropdownList(
-            height: 300,
-            width: widget.width,
-            list: _list,
-            checkboxHandler: _handleCheckboxToggle,
-          ),
-        ],
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: widget.height,
+      ),
+      child: Container(
+        padding: EdgeInsets.all(widget.padding),
+        width: widget.width,
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: _handleDropdownToggle,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(color: Colors.purple),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedItems,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    _showDropdown
+                        ? const Icon(Icons.arrow_drop_up_rounded)
+                        : const Icon(Icons.arrow_drop_down_rounded),
+                  ],
+                ),
+              ),
+            ),
+            const Spacer(),
+            if (_showDropdown)
+              MultiSelectDropdownList(
+                height: 300,
+                width: widget.width,
+                list: _list,
+                checkboxHandler: _handleCheckboxToggle,
+              ),
+          ],
+        ),
       ),
     );
   }
