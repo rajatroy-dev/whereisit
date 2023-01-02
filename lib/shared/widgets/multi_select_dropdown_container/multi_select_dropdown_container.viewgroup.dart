@@ -3,17 +3,14 @@ import 'package:whereisit/models/multi_select_dropdown_data.model.dart';
 import 'package:whereisit/shared/widgets/multi_select_dropdown_container/multi_select_dropdown_list.view.dart';
 
 class MultiSelectDropdownContainer extends StatefulWidget {
-  final double height;
   final double width;
   final double padding;
 
   const MultiSelectDropdownContainer({
     Key? key,
-    this.height = 350,
     this.width = double.infinity,
     this.padding = 5,
-  })  : assert(height >= 350, 'Minimum height is 200.'),
-        assert(padding >= 5, 'Minimum padding is 5.'),
+  })  : assert(padding >= 5, 'Minimum padding is 5.'),
         super(key: key);
 
   @override
@@ -79,50 +76,42 @@ class _MultiSelectDropdownContainerState
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: widget.height,
-      ),
-      child: Container(
-        padding: EdgeInsets.all(widget.padding),
-        width: widget.width,
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: _handleDropdownToggle,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  border: Border.all(color: Colors.purple),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedItems,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+    return Container(
+      padding: EdgeInsets.all(widget.padding),
+      width: widget.width,
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: _handleDropdownToggle,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                border: Border.all(color: Colors.purple),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedItems,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    _showDropdown
-                        ? const Icon(Icons.arrow_drop_up_rounded)
-                        : const Icon(Icons.arrow_drop_down_rounded),
-                  ],
-                ),
+                  ),
+                  _showDropdown
+                      ? const Icon(Icons.arrow_drop_up_rounded)
+                      : const Icon(Icons.arrow_drop_down_rounded),
+                ],
               ),
             ),
-            const Spacer(),
-            if (_showDropdown)
-              MultiSelectDropdownList(
-                height: 300,
-                width: widget.width,
-                list: _list,
-                checkboxHandler: _handleCheckboxToggle,
-              ),
-          ],
-        ),
+          ),
+          if (_showDropdown)
+            MultiSelectDropdownList(
+              list: _list,
+              checkboxHandler: _handleCheckboxToggle,
+            ),
+        ],
       ),
     );
   }
