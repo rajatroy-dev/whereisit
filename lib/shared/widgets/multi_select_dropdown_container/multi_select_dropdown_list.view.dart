@@ -13,29 +13,79 @@ class MultiSelectDropdownList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      minChildSize: .1,
-      initialChildSize: .2,
-      maxChildSize: .4,
-      builder: (_, scrollController) {
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: list.length,
-          itemBuilder: ((__, index) {
-            return Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: DraggableScrollableSheet(
+        initialChildSize: .65,
+        minChildSize: .65,
+        maxChildSize: .65,
+        builder: (_, scrollController) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.purple[50],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Stack(
               children: [
-                Checkbox(
-                  value: list[index].isSelected,
-                  onChanged: (bool? value) {
-                    checkboxHandler(index, value!);
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: ((__, index) {
+                      return Row(
+                        children: [
+                          Checkbox(
+                            value: list[index].isSelected,
+                            onChanged: (bool? value) {
+                              checkboxHandler(index, value!);
+                            },
+                          ),
+                          Text(list[index].value),
+                        ],
+                      );
+                    }),
+                  ),
                 ),
-                Text(list[index].value),
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      'Select Tags',
+                      style: TextStyle(
+                        color: Colors.purple,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text('OK'),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text('CANCEL'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
-            );
-          }),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 }

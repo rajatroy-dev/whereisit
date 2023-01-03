@@ -77,7 +77,11 @@ class _MultiSelectDropdownContainerState
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(widget.padding),
+      padding: EdgeInsets.only(
+        top: widget.padding,
+        left: widget.padding,
+        right: widget.padding,
+      ),
       width: widget.width,
       child: Stack(
         children: [
