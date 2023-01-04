@@ -4,11 +4,15 @@ import 'package:whereisit/models/multi_select_dropdown_data.model.dart';
 class MultiSelectDropdownList extends StatelessWidget {
   final List<MultiSelectDropdownData> list;
   final void Function(int, bool) checkboxHandler;
+  final void Function() okHandler;
+  final void Function() cancelHandler;
 
   const MultiSelectDropdownList({
     Key? key,
     required this.list,
     required this.checkboxHandler,
+    required this.okHandler,
+    required this.cancelHandler,
   }) : super(key: key);
 
   @override
@@ -68,13 +72,13 @@ class MultiSelectDropdownList extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: okHandler,
                           child: const Text('OK'),
                         ),
                       ),
                       Expanded(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: cancelHandler,
                           child: const Text('CANCEL'),
                         ),
                       ),

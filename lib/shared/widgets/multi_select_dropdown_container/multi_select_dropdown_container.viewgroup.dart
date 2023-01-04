@@ -34,12 +34,17 @@ class _MultiSelectDropdownContainerState
     MultiSelectDropdownData('8', false, 'tagEight'),
   ];
   var _selectedItems = '';
+  var _itemsRecordForCancel = '';
+  Map<int, bool> _indexRecordForCancel = {};
   var _selectedItemsCount = 0;
   var _showDropdown = false;
 
   _handleDropdownToggle() {
     setState(() {
-      _showDropdown = !_showDropdown;
+      if (!_showDropdown) {
+        _itemsRecordForCancel = _selectedItems;
+      }
+      _showDropdown = true;
     });
   }
 
@@ -47,30 +52,54 @@ class _MultiSelectDropdownContainerState
     setState(() {
       _list[index].isSelected = checkValue;
 
-      if (_selectedItems.isEmpty) {
-        _selectedItems = _list[index].value;
+      if (_itemsRecordForCancel.isEmpty) {
+        _itemsRecordForCancel = _list[index].value;
+        _indexRecordForCancel[index] = true;
         _selectedItemsCount++;
       } else if (checkValue) {
-        _selectedItems = '$_selectedItems, ${_list[index].value}';
+        _itemsRecordForCancel = '$_itemsRecordForCancel, ${_list[index].value}';
+        _indexRecordForCancel[index] = true;
         _selectedItemsCount++;
       } else if (_selectedItemsCount == 1) {
-        _selectedItems = '';
+        _itemsRecordForCancel = '';
+        _indexRecordForCancel[index] = false;
         _selectedItemsCount--;
       } else {
         var _selectedItem = _list[index].value;
-        var _lastItem = _selectedItems.substring(
-            _selectedItems.length - _selectedItem.length,
-            _selectedItems.length);
+        var _lastItem = _itemsRecordForCancel.substring(
+            _itemsRecordForCancel.length - _selectedItem.length,
+            _itemsRecordForCancel.length);
 
         if (_lastItem == _selectedItem) {
-          _selectedItems =
-              _selectedItems.replaceAll(', ${_list[index].value}', '');
+          _itemsRecordForCancel =
+              _itemsRecordForCancel.replaceAll(', ${_list[index].value}', '');
         } else {
-          _selectedItems =
-              _selectedItems.replaceAll('${_list[index].value}, ', '');
+          _itemsRecordForCancel =
+              _itemsRecordForCancel.replaceAll('${_list[index].value}, ', '');
         }
+        _indexRecordForCancel[index] = false;
         _selectedItemsCount--;
       }
+    });
+  }
+
+  _handleDropdownCancel() {
+    var temp = _list;
+    _indexRecordForCancel
+        .forEach((key, value) => temp[key].isSelected = !value);
+
+    setState(() {
+      _list = temp;
+      _showDropdown = false;
+    });
+  }
+
+  _handleDropdownOk() {
+    setState(() {
+      _selectedItems = _itemsRecordForCancel;
+      _itemsRecordForCancel = '';
+      _indexRecordForCancel = {};
+      _showDropdown = false;
     });
   }
 
@@ -99,7 +128,7 @@ class _MultiSelectDropdownContainerState
                 children: [
                   Expanded(
                     child: Text(
-                      _selectedItems,
+                      _showDropdown ? _itemsRecordForCancel : _selectedItems,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -114,6 +143,8 @@ class _MultiSelectDropdownContainerState
             MultiSelectDropdownList(
               list: _list,
               checkboxHandler: _handleCheckboxToggle,
+              okHandler: _handleDropdownOk,
+              cancelHandler: _handleDropdownCancel,
             ),
         ],
       ),
