@@ -33,16 +33,21 @@ class _MultiSelectDropdownContainerState
     MultiSelectDropdownData('7', false, 'tagSeven'),
     MultiSelectDropdownData('8', false, 'tagEight'),
   ];
+  var _listCopy = <MultiSelectDropdownData>[];
   var _selectedItems = '';
-  var _itemsRecordForCancel = '';
-  Map<int, bool> _indexRecordForCancel = {};
-  var _selectedItemsCount = 0;
+  var _selectedItemsCopy = '';
   var _showDropdown = false;
 
   _handleDropdownToggle() {
+    var temp = <MultiSelectDropdownData>[];
+    for (var element in _list) {
+      temp.add(MultiSelectDropdownData.copyWith(
+          element.id, element.isSelected, element.value));
+    }
     setState(() {
       if (!_showDropdown) {
-        _itemsRecordForCancel = _selectedItems;
+        _selectedItemsCopy = _selectedItems;
+        _listCopy = temp;
       }
       _showDropdown = true;
     });
@@ -50,55 +55,45 @@ class _MultiSelectDropdownContainerState
 
   _handleCheckboxToggle(int index, bool checkValue) {
     setState(() {
-      _list[index].isSelected = checkValue;
+      _listCopy[index].isSelected = checkValue;
 
-      if (_itemsRecordForCancel.isEmpty) {
-        _itemsRecordForCancel = _list[index].value;
-        _indexRecordForCancel[index] = true;
-        _selectedItemsCount++;
+      if (_selectedItemsCopy.isEmpty) {
+        _selectedItemsCopy = _listCopy[index].value;
       } else if (checkValue) {
-        _itemsRecordForCancel = '$_itemsRecordForCancel, ${_list[index].value}';
-        _indexRecordForCancel[index] = true;
-        _selectedItemsCount++;
-      } else if (_selectedItemsCount == 1) {
-        _itemsRecordForCancel = '';
-        _indexRecordForCancel[index] = false;
-        _selectedItemsCount--;
+        _selectedItemsCopy = '$_selectedItemsCopy, ${_listCopy[index].value}';
+      } else if (!_selectedItemsCopy.contains(',')) {
+        _selectedItemsCopy = '';
       } else {
-        var _selectedItem = _list[index].value;
-        var _lastItem = _itemsRecordForCancel.substring(
-            _itemsRecordForCancel.length - _selectedItem.length,
-            _itemsRecordForCancel.length);
+        var _selectedItem = _listCopy[index].value;
+        var _lastItem = _selectedItemsCopy.substring(
+            _selectedItemsCopy.length - _selectedItem.length,
+            _selectedItemsCopy.length);
 
         if (_lastItem == _selectedItem) {
-          _itemsRecordForCancel =
-              _itemsRecordForCancel.replaceAll(', ${_list[index].value}', '');
+          _selectedItemsCopy =
+              _selectedItemsCopy.replaceAll(', ${_listCopy[index].value}', '');
         } else {
-          _itemsRecordForCancel =
-              _itemsRecordForCancel.replaceAll('${_list[index].value}, ', '');
+          _selectedItemsCopy =
+              _selectedItemsCopy.replaceAll('${_listCopy[index].value}, ', '');
         }
-        _indexRecordForCancel[index] = false;
-        _selectedItemsCount--;
       }
     });
   }
 
   _handleDropdownCancel() {
-    var temp = _list;
-    _indexRecordForCancel
-        .forEach((key, value) => temp[key].isSelected = !value);
-
     setState(() {
-      _list = temp;
+      _listCopy = [];
+      _selectedItemsCopy = '';
       _showDropdown = false;
     });
   }
 
   _handleDropdownOk() {
     setState(() {
-      _selectedItems = _itemsRecordForCancel;
-      _itemsRecordForCancel = '';
-      _indexRecordForCancel = {};
+      _selectedItems = _selectedItemsCopy;
+      _selectedItemsCopy = '';
+      _list = _listCopy;
+      _listCopy = [];
       _showDropdown = false;
     });
   }
@@ -128,7 +123,7 @@ class _MultiSelectDropdownContainerState
                 children: [
                   Expanded(
                     child: Text(
-                      _showDropdown ? _itemsRecordForCancel : _selectedItems,
+                      _showDropdown ? _selectedItemsCopy : _selectedItems,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -141,7 +136,7 @@ class _MultiSelectDropdownContainerState
           ),
           if (_showDropdown)
             MultiSelectDropdownList(
-              list: _list,
+              list: _showDropdown ? _listCopy : _list,
               checkboxHandler: _handleCheckboxToggle,
               okHandler: _handleDropdownOk,
               cancelHandler: _handleDropdownCancel,

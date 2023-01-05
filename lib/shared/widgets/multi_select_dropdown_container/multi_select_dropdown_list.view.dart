@@ -24,14 +24,15 @@ class MultiSelectDropdownList extends StatelessWidget {
         minChildSize: .65,
         maxChildSize: .65,
         builder: (_, scrollController) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.purple[50],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+          return Card(
+            margin: EdgeInsets.zero,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
             ),
+            elevation: 5,
             child: Stack(
               children: [
                 Padding(
