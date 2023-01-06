@@ -3,12 +3,10 @@ import 'package:whereisit/models/multi_select_dropdown_data.model.dart';
 import 'package:whereisit/shared/widgets/multi_select_dropdown_container/multi_select_dropdown_list.view.dart';
 
 class MultiSelectDropdownContainer extends StatefulWidget {
-  final double width;
   final double padding;
 
   const MultiSelectDropdownContainer({
     Key? key,
-    this.width = double.infinity,
     this.padding = 5,
   })  : assert(padding >= 5, 'Minimum padding is 5.'),
         super(key: key);
@@ -41,8 +39,9 @@ class _MultiSelectDropdownContainerState
   _handleDropdownToggle() {
     var temp = <MultiSelectDropdownData>[];
     for (var element in _list) {
-      temp.add(MultiSelectDropdownData.copyWith(
-          element.id, element.isSelected, element.value));
+      temp.add(
+        MultiSelectDropdownData(element.id, element.isSelected, element.value),
+      );
     }
     setState(() {
       if (!_showDropdown) {
@@ -106,7 +105,6 @@ class _MultiSelectDropdownContainerState
         left: widget.padding,
         right: widget.padding,
       ),
-      width: widget.width,
       child: Stack(
         children: [
           GestureDetector(
