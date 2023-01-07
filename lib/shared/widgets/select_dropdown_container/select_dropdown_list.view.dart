@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SelectDropdownList extends StatelessWidget {
+  final String title;
+  final String selectedValue;
   final List<String> list;
+  final void Function(String? value) selectHandler;
   final void Function() okHandler;
   final void Function() cancelHandler;
 
   const SelectDropdownList({
     Key? key,
+    required this.title,
+    required this.selectedValue,
     required this.list,
+    required this.selectHandler,
     required this.okHandler,
     required this.cancelHandler,
   }) : super(key: key);
@@ -37,17 +43,21 @@ class SelectDropdownList extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: list.length,
                     itemBuilder: ((__, index) {
-                      return Text(list[index]);
+                      return RadioListTile(
+                          title: Text(list[index]),
+                          value: list[index],
+                          groupValue: selectedValue,
+                          onChanged: selectHandler);
                     }),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Text(
-                      'Select a value',
-                      style: TextStyle(
+                      title,
+                      style: const TextStyle(
                         color: Colors.purple,
                         fontSize: 20,
                       ),

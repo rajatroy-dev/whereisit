@@ -3,10 +3,12 @@ import 'package:whereisit/shared/widgets/select_dropdown_container/select_dropdo
 
 class SelectDropdownContainer extends StatefulWidget {
   final double padding;
+  final String title;
 
   const SelectDropdownContainer({
     Key? key,
-    required this.padding,
+    this.padding = 5,
+    this.title = "Select an item",
   })  : assert(padding >= 5, 'Minimum padding is 5.'),
         super(key: key);
 
@@ -19,10 +21,47 @@ class _SelectDropdownContainerState extends State<SelectDropdownContainer> {
   // ignore: prefer_final_fields
   var _showDropdown = false;
   // ignore: prefer_final_fields
-  var _list = <String>[];
+  var _list = <String>[
+    'ItemA',
+    'ItemB',
+    'ItemC',
+    'ItemD',
+    'ItemE',
+    'ItemF',
+    'ItemG',
+    'ItemH',
+    'ItemI',
+  ];
+  var _selectedItem = '';
+  var _selectedItemCopy = '';
 
-  void _handleDropdownOk() {}
-  void _handleDropdownCancel() {}
+  void _handleDropdown() {
+    setState(() {
+      _selectedItemCopy = _selectedItem;
+      _showDropdown = true;
+    });
+  }
+
+  void _handleSelect(String? value) {
+    setState(() {
+      _selectedItemCopy = value!;
+    });
+  }
+
+  void _handleDropdownOk() {
+    setState(() {
+      _selectedItem = _selectedItemCopy;
+      _selectedItemCopy = '';
+      _showDropdown = false;
+    });
+  }
+
+  void _handleDropdownCancel() {
+    setState(() {
+      _selectedItemCopy = '';
+      _showDropdown = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +74,7 @@ class _SelectDropdownContainerState extends State<SelectDropdownContainer> {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: _handleDropdown,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(5.0),
@@ -47,8 +86,8 @@ class _SelectDropdownContainerState extends State<SelectDropdownContainer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: const Text(
-                      'adasd',
+                    child: Text(
+                      _showDropdown ? _selectedItemCopy : _selectedItem,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -61,7 +100,10 @@ class _SelectDropdownContainerState extends State<SelectDropdownContainer> {
           ),
           if (_showDropdown)
             SelectDropdownList(
+              title: widget.title,
+              selectedValue: _selectedItemCopy,
               list: _list,
+              selectHandler: _handleSelect,
               okHandler: _handleDropdownOk,
               cancelHandler: _handleDropdownCancel,
             ),
