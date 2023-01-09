@@ -18,10 +18,28 @@ class SortFilter extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              child: TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.sort_rounded),
-                label: const Text('Sort'),
+              child: GestureDetector(
+                onTap: () {},
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    color: Colors.purple,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(
+                          Icons.sort_rounded,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      Text('Sort'),
+                    ],
+                  ),
+                ),
               ),
             ),
             const VerticalDivider(
