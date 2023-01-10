@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/ui/home/tiles_container/tiles_row/tile.view.dart';
+import 'package:whereisit/screens/home/tiles_container/tiles_row/tile.view.dart';
 
 class TilesRow extends StatelessWidget {
   final List<Tile> tiles;

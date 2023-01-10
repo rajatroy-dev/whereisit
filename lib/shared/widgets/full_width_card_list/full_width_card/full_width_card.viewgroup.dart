@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/shared/ui/full_width_card_list/full_width_card/full_width_card_content/full_width_card_content.viewgroup.dart';
-import 'package:whereisit/shared/ui/full_width_card_list/full_width_card/full_width_card_thumbnail.view.dart';
+import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card/full_width_card_content/full_width_card_content.viewgroup.dart';
+import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card/full_width_card_thumbnail.view.dart';
 
 class FullWidthCard extends StatelessWidget {
   final CardData data;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/shared/ui/full_width_card_list/full_width_card/full_width_card.viewgroup.dart';
+import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card/full_width_card.viewgroup.dart';
 
 class FullWidthCardList extends StatelessWidget {
   final List<CardData> list;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/ui/home/items_list/item_card/item_tag.view.dart';
+import 'package:whereisit/screens/home/items_list/item_card/item_tag.view.dart';
 
 class ItemTagsList extends StatelessWidget {
   const ItemTagsList({

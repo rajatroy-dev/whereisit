@@ -7,6 +7,7 @@ class SortFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Container(
+        height: 50,
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -15,10 +16,12 @@ class SortFilter extends StatelessWidget {
           ),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              child: GestureDetector(
+              child: InkWell(
+                splashColor: Colors.purple[100],
                 onTap: () {},
                 child: DefaultTextStyle(
                   style: const TextStyle(
@@ -46,10 +49,29 @@ class SortFilter extends StatelessWidget {
               color: Colors.purple,
             ),
             Expanded(
-              child: TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.filter_alt_rounded),
-                label: const Text('Filter'),
+              child: InkWell(
+                splashColor: Colors.purple[100],
+                onTap: () {},
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    color: Colors.purple,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(
+                          Icons.filter_alt_rounded,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      Text('Filter'),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

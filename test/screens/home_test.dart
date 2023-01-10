@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:whereisit/ui/home/home.screen.dart';
+import 'package:whereisit/screens/home/home.screen.dart';
 
 void main() {
   testWidgets('renders home screen', (WidgetTester tester) async {

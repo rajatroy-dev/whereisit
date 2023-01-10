@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/ui/add/add_new_item/add_new_item.viewgroup.dart';
+import 'package:whereisit/screens/add/add_new_item/add_new_item.viewgroup.dart';
 
 class Add extends StatelessWidget {
   const Add({Key? key}) : super(key: key);

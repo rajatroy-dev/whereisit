@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/ui/home/items_list/item_card/item_card.viewgroup.dart';
+import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
 
 class ItemsList extends StatelessWidget {
   const ItemsList({Key? key}) : super(key: key);

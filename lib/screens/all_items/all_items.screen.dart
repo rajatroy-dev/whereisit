@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/shared/ui/full_width_card_list/full_width_card_list.viewgroup.dart';
-import 'package:whereisit/shared/ui/sort_filter/sort_filter.viewgroup.dart';
+import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
+import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
 class AllItems extends StatefulWidget {
   const AllItems({
