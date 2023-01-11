@@ -148,6 +148,7 @@ class DBProvider {
     await db.execute('CREATE TABLE tags ('
         'id INTEGER PRIMARY KEY, '
         'name TEXT NOT NULL UNIQUE, '
+        'tag_count INTEGER, '
         'created_by TEXT NOT NULL, '
         'created_at TEXT NOT NULL, '
         'updated_by TEXT NOT NULL, '
