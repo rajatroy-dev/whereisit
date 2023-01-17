@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/screens/add.dart';
@@ -16,12 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'WhereIsIt',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => HomeCubit()),
+      ],
+      child: MaterialApp(
+        title: 'WhereIsIt',
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+        ),
+        home: const MyHomePage(title: 'WhereIsIt'),
       ),
-      home: const MyHomePage(title: 'WhereIsIt'),
     );
   }
 }

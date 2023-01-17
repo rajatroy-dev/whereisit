@@ -8,8 +8,20 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
   Future<void> fetchTilesDetails() async {
-    var list = [TilesDetails('type', 1)];
+    var list = [
+      TilesDetails('Property', 1),
+      TilesDetails('Room', 2),
+      TilesDetails('Area', 3),
+      TilesDetails('Item', 4),
+    ];
+
+    emit(FetchFavoriteItemsLoading());
+
+    if (list.isEmpty) {
+      emit(FetchTilesDetailsFailure('Error'));
+      return;
+    }
+
     emit(FetchTilesDetailsSuccess(list));
-    emit(FetchTilesDetailsFailure('Error'));
   }
 }
