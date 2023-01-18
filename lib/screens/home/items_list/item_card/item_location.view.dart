@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ItemLocation extends StatelessWidget {
+  final String itemLocation;
+
   const ItemLocation({
     Key? key,
+    required this.itemLocation,
   }) : super(key: key);
 
   @override

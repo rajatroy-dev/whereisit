@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/models/item_card_data.model.dart';
 
 import 'package:whereisit/screens/home/items_list/item_card/item_favorite_button.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_location.view.dart';
@@ -8,8 +9,11 @@ import 'package:whereisit/screens/home/items_list/item_card/item_tags_list.viewg
 import 'package:whereisit/screens/home/items_list/item_card/item_thumbnail.view.dart';
 
 class ItemCard extends StatelessWidget {
+  final ItemCardData data;
+
   const ItemCard({
     Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -25,12 +29,22 @@ class ItemCard extends StatelessWidget {
             width: 149,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ItemThumbnail(),
-                ItemName(),
-                ItemLocation(),
-                ItemQuantity(),
-                ItemTagsList()
+              children: [
+                ItemThumbnail(
+                  imgSrc: data.imageSrc,
+                ),
+                ItemName(
+                  name: data.name,
+                ),
+                ItemLocation(
+                  itemLocation: data.locationName,
+                ),
+                ItemQuantity(
+                  itemQuantity: data.quantity,
+                ),
+                ItemTagsList(
+                  tags: data.tags,
+                )
               ],
             ),
           ),

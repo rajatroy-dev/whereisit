@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ItemName extends StatelessWidget {
+  final String name;
+
   const ItemName({
     Key? key,
+    required this.name,
   }) : super(key: key);
 
   @override

@@ -8,7 +8,7 @@ class HomeInitial extends HomeState {}
 class FetchTilesDetailsLoading extends HomeInitial {}
 
 class FetchTilesDetailsSuccess extends HomeInitial {
-  final List<TilesDetails> tilesDetails;
+  final List<TilesDetailsData> tilesDetails;
 
   FetchTilesDetailsSuccess(this.tilesDetails);
 }
@@ -21,7 +21,11 @@ class FetchTilesDetailsFailure extends HomeInitial {
 
 class FetchOldestItemsLoading extends HomeInitial {}
 
-class FetchOldestItemsSuccess extends HomeInitial {}
+class FetchOldestItemsSuccess extends HomeInitial {
+  final List<ItemCardData> itemsList;
+
+  FetchOldestItemsSuccess(this.itemsList);
+}
 
 class FetchOldestItemsFailure extends HomeInitial {
   final String message;

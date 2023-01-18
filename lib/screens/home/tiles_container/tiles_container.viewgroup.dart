@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/tiles_details.model.dart';
+import 'package:whereisit/models/tiles_details_data.model.dart';
 
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/tiles_container/tiles_row/tiles_row.viewgroup.dart';
@@ -45,7 +45,7 @@ class TilesContainer extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildTilesContainer(List<TilesDetails> list) {
+  List<Widget> _buildTilesContainer(List<TilesDetailsData> list) {
     List<Tile> firstRow = [];
     List<Tile> secondRow = [];
 

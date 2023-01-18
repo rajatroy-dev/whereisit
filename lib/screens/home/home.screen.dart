@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
-import 'package:whereisit/shared/widgets/multi_select_dropdown_container/multi_select_dropdown_container.viewgroup.dart';
-import 'package:whereisit/shared/widgets/select_dropdown_container/select_dropdown_container.viewgroup.dart';
+import 'package:whereisit/screens/home/items_list/items_list.viewgroup.dart';
 import 'package:whereisit/screens/home/tiles_container/tiles_container.viewgroup.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     BlocProvider.of<HomeCubit>(context).fetchTilesDetails();
+    BlocProvider.of<HomeCubit>(context).fetchOldestItems();
     super.initState();
   }
 
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: const [
         TilesContainer(),
-        SelectDropdownContainer(),
+        ItemsList(),
       ],
     );
   }
