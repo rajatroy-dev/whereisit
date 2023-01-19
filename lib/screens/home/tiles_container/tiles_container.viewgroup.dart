@@ -22,21 +22,20 @@ class TilesContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if (state is FetchTilesDetailsLoading) {
+        if (state is FetchAllLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        if (state is FetchTilesDetailsFailure) {
+        if (state is FetchAllComplete) {
+          if (state.response.success['tiles']!) {
+            return Column(
+              children: _buildTilesContainer(state.response.result['tiles']),
+            );
+          }
           return Center(
-            child: Text(state.message),
-          );
-        }
-
-        if (state is FetchTilesDetailsSuccess) {
-          return Column(
-            children: _buildTilesContainer(state.tilesDetails),
+            child: Text(state.response.error['tiles']!),
           );
         }
 

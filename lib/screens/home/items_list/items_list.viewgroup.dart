@@ -13,27 +13,29 @@ class ItemsList extends StatelessWidget {
       height: 280,
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          if (state is FetchOldestItemsLoading) {
+          if (state is FetchAllLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (state is FetchFavoriteItemsFailure) {
+          if (state is FetchAllComplete) {
+            if (state.response.success['item_card']!) {
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.response.result['item_card'].length,
+                itemBuilder: (context, index) {
+                  return ItemCard(
+                      data: state.response.result['item_card'][index]);
+                },
+              );
+            }
             return Center(
-              child: Text(state.message),
+              child: Text(state.response.error['item_card']!),
             );
           }
 
-          if (state is FetchOldestItemsSuccess) {
-            return ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.itemsList.length,
-              itemBuilder: (context, index) {
-                return ItemCard(data: state.itemsList[index]);
-              },
-            );
-          }
+          if (state is FetchOldestItemsSuccess) {}
 
           return const SizedBox();
         },

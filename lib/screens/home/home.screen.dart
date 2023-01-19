@@ -14,8 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    BlocProvider.of<HomeCubit>(context).fetchTilesDetails();
-    BlocProvider.of<HomeCubit>(context).fetchOldestItems();
+    BlocProvider.of<HomeCubit>(context).fetchAll();
     super.initState();
   }
 
