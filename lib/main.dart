@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: _screens.elementAt(_selectedIndex),
+      body: SingleChildScrollView(child: _screens.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

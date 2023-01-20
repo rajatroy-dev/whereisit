@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import 'package:whereisit/models/home_cubit_response.dart';
 import 'package:whereisit/models/item_card_data.model.dart';
 import 'package:whereisit/models/tiles_details_data.model.dart';
@@ -55,6 +56,10 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     ];
 
+    var latestList = oldestList;
+    var favoriteList = oldestList;
+    var mostTaggedList = oldestList;
+
     emit(FetchAllLoading());
 
     var response = HomeCubitResponse({}, {}, {}, {}, {});
@@ -74,17 +79,59 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     if (oldestList.isEmpty) {
-      response.success['item_card'] = false;
-      response.error['item_card'] = 'Error';
-      response.errorCode['item_card'] = "2";
-      response.statusCode['item_card'] = 400;
-      response.result['item_card'] = null;
+      response.success['oldest_items'] = false;
+      response.error['oldest_items'] = 'Error';
+      response.errorCode['oldest_items'] = "2";
+      response.statusCode['oldest_items'] = 400;
+      response.result['oldest_items'] = null;
     } else {
-      response.success['item_card'] = true;
-      response.error['item_card'] = '';
-      response.errorCode['item_card'] = "0";
-      response.statusCode['item_card'] = 200;
-      response.result['item_card'] = oldestList;
+      response.success['oldest_items'] = true;
+      response.error['oldest_items'] = '';
+      response.errorCode['oldest_items'] = "0";
+      response.statusCode['oldest_items'] = 200;
+      response.result['oldest_items'] = oldestList;
+    }
+
+    if (latestList.isEmpty) {
+      response.success['latest_items'] = false;
+      response.error['latest_items'] = 'Error';
+      response.errorCode['latest_items'] = "3";
+      response.statusCode['latest_items'] = 400;
+      response.result['latest_items'] = null;
+    } else {
+      response.success['latest_items'] = true;
+      response.error['latest_items'] = '';
+      response.errorCode['latest_items'] = "0";
+      response.statusCode['latest_items'] = 200;
+      response.result['latest_items'] = oldestList;
+    }
+
+    if (favoriteList.isEmpty) {
+      response.success['favorites'] = false;
+      response.error['favorites'] = 'Error';
+      response.errorCode['favorites'] = "4";
+      response.statusCode['favorites'] = 400;
+      response.result['favorites'] = null;
+    } else {
+      response.success['favorites'] = true;
+      response.error['favorites'] = '';
+      response.errorCode['favorites'] = "0";
+      response.statusCode['favorites'] = 200;
+      response.result['favorites'] = favoriteList;
+    }
+
+    if (mostTaggedList.isEmpty) {
+      response.success['most_tagged'] = false;
+      response.error['most_tagged'] = 'Error';
+      response.errorCode['most_tagged'] = "5";
+      response.statusCode['most_tagged'] = 400;
+      response.result['most_tagged'] = null;
+    } else {
+      response.success['most_tagged'] = true;
+      response.error['most_tagged'] = '';
+      response.errorCode['most_tagged'] = "0";
+      response.statusCode['most_tagged'] = 200;
+      response.result['most_tagged'] = mostTaggedList;
     }
 
     emit(FetchAllComplete(response));

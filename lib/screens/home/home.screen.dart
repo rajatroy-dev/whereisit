@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/items_list/items_list.viewgroup.dart';
 import 'package:whereisit/screens/home/tiles_container/tiles_container.viewgroup.dart';
@@ -20,11 +21,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        TilesContainer(),
-        ItemsList(),
-      ],
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        if (state is FetchAllLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state is FetchAllComplete) {
+          return Column(
+            children: [
+              state.response.success['tiles']!
+                  ? TilesContainer(list: state.response.result['tiles']!)
+                  : Center(
+                      child: Text(state.response.error['tiles']!),
+                    ),
+              state.response.success['oldest_items']!
+                  ? ItemsList(list: state.response.result['oldest_items']!)
+                  : Center(
+                      child: Text(state.response.error['oldest_items']!),
+                    ),
+              state.response.success['latest_items']!
+                  ? ItemsList(list: state.response.result['latest_items']!)
+                  : Center(
+                      child: Text(state.response.error['latest_items']!),
+                    ),
+              state.response.success['favorites']!
+                  ? ItemsList(list: state.response.result['favorites']!)
+                  : Center(
+                      child: Text(state.response.error['favorites']!),
+                    ),
+              state.response.success['most_tagged']!
+                  ? ItemsList(list: state.response.result['most_tagged']!)
+                  : Center(
+                      child: Text(state.response.error['most_tagged']!),
+                    ),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 }
