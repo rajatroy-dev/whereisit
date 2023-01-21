@@ -13,8 +13,8 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> fetchAll() async {
     var tilesList = [
       TilesDetailsData('Property', 1),
-      TilesDetailsData('Room', 2),
       TilesDetailsData('Area', 3),
+      TilesDetailsData('Room', 2),
       TilesDetailsData('Item', 4),
     ];
 

@@ -14,8 +14,8 @@ class TilesContainer extends StatelessWidget {
 
   final Map<String, IconData> iconMap = const {
     'Property': Icons.apartment_rounded,
-    'Room': Icons.space_dashboard_outlined,
     'Area': Icons.all_inbox_rounded,
+    'Room': Icons.space_dashboard_outlined,
     'Item': Icons.move_to_inbox_rounded,
   };
 
@@ -50,7 +50,8 @@ class TilesContainer extends StatelessWidget {
       ),
       TilesRow(
         tiles: secondRow,
-      )
+      ),
+      const SizedBox(height: 14),
     ];
   }
 }

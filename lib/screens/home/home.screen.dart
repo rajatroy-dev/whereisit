@@ -38,22 +38,38 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(state.response.error['tiles']!),
                     ),
               state.response.success['oldest_items']!
-                  ? ItemsList(list: state.response.result['oldest_items']!)
+                  ? ItemsList(
+                      listTitle: 'Oldest Items',
+                      list: state.response.result['oldest_items']!,
+                      navigateTo: '',
+                    )
                   : Center(
                       child: Text(state.response.error['oldest_items']!),
                     ),
-              state.response.success['latest_items']!
-                  ? ItemsList(list: state.response.result['latest_items']!)
-                  : Center(
-                      child: Text(state.response.error['latest_items']!),
-                    ),
               state.response.success['favorites']!
-                  ? ItemsList(list: state.response.result['favorites']!)
+                  ? ItemsList(
+                      listTitle: 'Favorites',
+                      list: state.response.result['favorites']!,
+                      navigateTo: '',
+                    )
                   : Center(
                       child: Text(state.response.error['favorites']!),
                     ),
+              state.response.success['latest_items']!
+                  ? ItemsList(
+                      listTitle: 'Latest Items',
+                      list: state.response.result['latest_items']!,
+                      navigateTo: '',
+                    )
+                  : Center(
+                      child: Text(state.response.error['latest_items']!),
+                    ),
               state.response.success['most_tagged']!
-                  ? ItemsList(list: state.response.result['most_tagged']!)
+                  ? ItemsList(
+                      listTitle: 'Most Tagged',
+                      list: state.response.result['most_tagged']!,
+                      navigateTo: '',
+                    )
                   : Center(
                       child: Text(state.response.error['most_tagged']!),
                     ),
