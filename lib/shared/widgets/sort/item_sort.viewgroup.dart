@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/shared/chronology.enum.dart';
+import 'package:whereisit/shared/enums/chronology.enum.dart';
 
 class ItemSort extends StatefulWidget {
   const ItemSort({Key? key}) : super(key: key);

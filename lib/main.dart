@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 
 import 'package:whereisit/screens/home/home.screen.dart';
@@ -28,6 +29,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.purple,
         ),
         home: const MyHomePage(title: 'WhereIsIt'),
+        initialRoute: HomeScreen.routeName,
+        routes: {
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          FilteredItems.routeName: (context) => const FilteredItems(),
+        },
       ),
     );
   }

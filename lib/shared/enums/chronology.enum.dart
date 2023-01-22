@@ -1,0 +1,4 @@
+enum Chronology {
+  oldestFirst,
+  newestFirst,
+}

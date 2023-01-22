@@ -31,7 +31,7 @@ class ListError extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                'Error: ',
+                'ERROR: ',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
               ),
             ),
