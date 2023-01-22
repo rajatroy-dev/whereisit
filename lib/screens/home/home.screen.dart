@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/items_list/items_list.viewgroup.dart';
 import 'package:whereisit/screens/home/tiles_container/tiles_container.viewgroup.dart';
+import 'package:whereisit/shared/widgets/list_error/list_error.viewgroup.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,17 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               state.response.success['tiles']!
                   ? TilesContainer(list: state.response.result['tiles']!)
-                  : Center(
-                      child: Text(state.response.error['tiles']!),
-                    ),
+                  : ListError(errorMessage: state.response.error['tiles']!),
               state.response.success['oldest_items']!
                   ? ItemsList(
                       listTitle: 'Oldest Items',
                       list: state.response.result['oldest_items']!,
                       navigateTo: '',
                     )
-                  : Center(
-                      child: Text(state.response.error['oldest_items']!),
+                  : ListError(
+                      errorMessage: state.response.error['oldest_items']!,
                     ),
               state.response.success['favorites']!
                   ? ItemsList(
@@ -52,8 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       list: state.response.result['favorites']!,
                       navigateTo: '',
                     )
-                  : Center(
-                      child: Text(state.response.error['favorites']!),
+                  : ListError(
+                      errorMessage: state.response.error['favorites']!,
                     ),
               state.response.success['latest_items']!
                   ? ItemsList(
@@ -61,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       list: state.response.result['latest_items']!,
                       navigateTo: '',
                     )
-                  : Center(
-                      child: Text(state.response.error['latest_items']!),
+                  : ListError(
+                      errorMessage: state.response.error['latest_items']!,
                     ),
               state.response.success['most_tagged']!
                   ? ItemsList(
@@ -70,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       list: state.response.result['most_tagged']!,
                       navigateTo: '',
                     )
-                  : Center(
-                      child: Text(state.response.error['most_tagged']!),
+                  : ListError(
+                      errorMessage: state.response.error['most_tagged']!,
                     ),
             ],
           );

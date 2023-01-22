@@ -22,7 +22,9 @@ class FullWidthCard extends StatelessWidget {
         height: 115,
         child: Row(
           children: [
-            const FullWidthCardThumbnail(),
+            FullWidthCardThumbnail(
+              imageSrc: data.imageSrc,
+            ),
             Expanded(
               child: FullWidthCardContent(data: data),
             ),

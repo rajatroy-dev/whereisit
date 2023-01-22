@@ -16,60 +16,70 @@ class AllItems extends StatefulWidget {
 class _AllItemsState extends State<AllItems> {
   final list = <CardData>[
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 1",
       location: "A random location 1",
       qty: 5,
       tags: ["tag1", "tag2"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 2",
       location: "A random location 2",
       qty: 6,
       tags: ["tag3", "tag4"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 3",
       location: "A random location 3",
       qty: 7,
       tags: ["tag5", "tag6"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 4",
       location: "A random location 4",
       qty: 8,
       tags: ["tag1", "tag6"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 5",
       location: "A random location 5",
       qty: 9,
       tags: ["tag2", "tag5"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 6",
       location: "A random location 6",
       qty: 1,
       tags: ["tag3", "tag4"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 7",
       location: "A random location 7",
       qty: 2,
       tags: ["tag7", "tag8"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 8",
       location: "A random location 8",
       qty: 3,
       tags: ["tag9", "tag10"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 9",
       location: "A random location 9",
       qty: 4,
       tags: ["tag7", "tag10"],
     ),
     CardData(
+      imageSrc: 'https://picsum.photos/115',
       title: "A random picture 10",
       location: "A random location 10",
       qty: 10,
@@ -107,6 +117,7 @@ class _AllItemsState extends State<AllItems> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const SortFilter(),
         Padding(

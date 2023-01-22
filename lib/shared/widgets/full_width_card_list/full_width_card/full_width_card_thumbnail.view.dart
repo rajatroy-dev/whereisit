@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class FullWidthCardThumbnail extends StatelessWidget {
+  final String imageSrc;
+
   const FullWidthCardThumbnail({
     Key? key,
+    required this.imageSrc,
   }) : super(key: key);
 
   @override
@@ -13,7 +16,7 @@ class FullWidthCardThumbnail extends StatelessWidget {
         bottomLeft: Radius.circular(5.0),
       ),
       child: Image.network(
-        'https://picsum.photos/115',
+        imageSrc,
         fit: BoxFit.fill,
       ),
     );

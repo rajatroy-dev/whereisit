@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/models/item_card_data.model.dart';
+import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
 
 class ItemsList extends StatelessWidget {
   final String listTitle;
-  final List<ItemCardData> list;
+  final List<CardData> list;
   final String navigateTo;
 
   const ItemsList({

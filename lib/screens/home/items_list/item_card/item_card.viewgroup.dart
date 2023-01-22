@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/models/item_card_data.model.dart';
 
+import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_favorite_button.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_location.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_name.view.dart';
@@ -9,7 +9,7 @@ import 'package:whereisit/screens/home/items_list/item_card/item_tags_list.viewg
 import 'package:whereisit/screens/home/items_list/item_card/item_thumbnail.view.dart';
 
 class ItemCard extends StatelessWidget {
-  final ItemCardData data;
+  final CardData data;
 
   const ItemCard({
     Key? key,
@@ -34,13 +34,13 @@ class ItemCard extends StatelessWidget {
                   imgSrc: data.imageSrc,
                 ),
                 ItemName(
-                  name: data.name,
+                  name: data.title,
                 ),
                 ItemLocation(
-                  itemLocation: data.locationName,
+                  itemLocation: data.location,
                 ),
                 ItemQuantity(
-                  itemQuantity: data.quantity,
+                  itemQuantity: data.qty,
                 ),
                 ItemTagsList(
                   tags: data.tags,
