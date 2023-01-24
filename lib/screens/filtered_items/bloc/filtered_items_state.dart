@@ -7,6 +7,10 @@ class FilteredItemsInitial extends FilteredItemsState {}
 
 class FilteredItemsLoading extends FilteredItemsState {}
 
-class FilteredItemsSuccess extends FilteredItemsState {}
+class FilteredItemsSuccess extends FilteredItemsState {
+  final List<CardData> filteredItems;
+
+  FilteredItemsSuccess(this.filteredItems);
+}
 
 class FilteredItemsError extends FilteredItemsState {}

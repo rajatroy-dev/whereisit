@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
 
 class ItemsList extends StatelessWidget {
@@ -51,7 +52,10 @@ class ItemsList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  FilteredItems.routeName,
+                ),
                 child: const Text('View All'),
               ),
             ],

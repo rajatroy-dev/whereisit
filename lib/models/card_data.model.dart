@@ -14,6 +14,7 @@ class CardData {
   final String location;
   final int qty;
   final List<String> tags;
+  bool? isFavorite;
 
   CardData({
     required this.imageSrc,
@@ -21,6 +22,7 @@ class CardData {
     required this.location,
     required this.qty,
     required this.tags,
+    this.isFavorite,
   });
 
   factory CardData.fromJson(Map<String, dynamic> json) => CardData(
@@ -29,6 +31,7 @@ class CardData {
         location: json["location"],
         qty: json["qty"],
         tags: List<String>.from(json["tags"].map((x) => x)),
+        isFavorite: json.containsKey("isFavorite") ? true : false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class CardData {
         "location": location,
         "qty": qty,
         "tags": List<dynamic>.from(tags.map((x) => x)),
+        "isFavorite": isFavorite ?? false,
       };
 }

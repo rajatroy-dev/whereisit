@@ -7,7 +7,7 @@ import 'package:whereisit/screens/home/tiles_container/tiles_container.viewgroup
 import 'package:whereisit/shared/widgets/list_error/list_error.viewgroup.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/home';
 
   const HomeScreen({Key? key}) : super(key: key);
 
