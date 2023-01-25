@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/shared/widgets/pill_tag.dart';
+import 'package:whereisit/shared/widgets/pill_tag,view.dart';
 
 class AddNewItem extends StatelessWidget {
   const AddNewItem({Key? key}) : super(key: key);

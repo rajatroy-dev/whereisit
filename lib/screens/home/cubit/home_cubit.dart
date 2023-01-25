@@ -20,6 +20,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     var oldestList = [
       CardData(
+        id: "1",
         imageSrc: 'https://picsum.photos/115',
         title: "A random picture 1",
         location: "A random location 1",
@@ -27,6 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
         tags: ["tag1", "tag2"],
       ),
       CardData(
+        id: "2",
         imageSrc: 'https://picsum.photos/115',
         title: "A random picture 2",
         location: "A random location 2",
@@ -34,6 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
         tags: ["tag3", "tag4"],
       ),
       CardData(
+        id: "3",
         imageSrc: 'https://picsum.photos/115',
         title: "A random picture 3",
         location: "A random location 3",
@@ -41,6 +44,7 @@ class HomeCubit extends Cubit<HomeState> {
         tags: ["tag5", "tag6"],
       ),
       CardData(
+        id: "4",
         imageSrc: 'https://picsum.photos/115',
         title: "A random picture 4",
         location: "A random location 4",
@@ -48,6 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
         tags: ["tag1", "tag6"],
       ),
       CardData(
+        id: "5",
         imageSrc: 'https://picsum.photos/115',
         title: "A random picture 5",
         location: "A random location 5",

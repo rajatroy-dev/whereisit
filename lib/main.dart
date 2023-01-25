@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
-
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/screens/add.dart';
 import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
 import 'package:whereisit/screens/screens/search.dart';
-import 'package:whereisit/shared/widgets/bottom_nav_bar.dart';
+import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.purple,
         ),
-        home: const MyHomePage(title: 'WhereIsIt'),
+        home: const MyHomePage(),
         routes: {
           HomeScreen.routeName: (context) => const HomeScreen(),
           FilteredItems.routeName: (context) => const FilteredItems(),
@@ -41,9 +42,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -68,10 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+    return AppScaffold(
       body: SingleChildScrollView(child: _screens.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,

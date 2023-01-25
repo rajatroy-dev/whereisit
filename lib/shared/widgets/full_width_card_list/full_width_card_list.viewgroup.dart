@@ -16,6 +16,7 @@ class FullWidthCardList extends StatelessWidget {
             child: Text("No data"),
           )
         : ListView.builder(
+            shrinkWrap: true,
             itemCount: list.length,
             itemBuilder: (context, index) {
               return FullWidthCard(data: list[index]);

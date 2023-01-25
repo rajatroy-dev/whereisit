@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ItemFavoriteButton extends StatelessWidget {
+  final String id;
+
   const ItemFavoriteButton({
     Key? key,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -13,6 +18,7 @@ class ItemFavoriteButton extends StatelessWidget {
       margin: const EdgeInsets.all(5.0),
       child: FittedBox(
         child: FloatingActionButton(
+          heroTag: key,
           onPressed: () {},
           backgroundColor: Colors.white,
           child: const Icon(

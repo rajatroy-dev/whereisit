@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
 class FullScreenError extends StatelessWidget {
   final String errorMessage;
@@ -10,7 +11,7 @@ class FullScreenError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       body: Center(
         child: Card(
           child: Padding(

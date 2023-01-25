@@ -16,6 +16,7 @@ class AllItems extends StatefulWidget {
 class _AllItemsState extends State<AllItems> {
   final list = <CardData>[
     CardData(
+      id: "1",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 1",
       location: "A random location 1",
@@ -23,6 +24,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag1", "tag2"],
     ),
     CardData(
+      id: "2",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 2",
       location: "A random location 2",
@@ -30,6 +32,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag3", "tag4"],
     ),
     CardData(
+      id: "3",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 3",
       location: "A random location 3",
@@ -37,6 +40,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag5", "tag6"],
     ),
     CardData(
+      id: "4",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 4",
       location: "A random location 4",
@@ -44,6 +48,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag1", "tag6"],
     ),
     CardData(
+      id: "5",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 5",
       location: "A random location 5",
@@ -51,6 +56,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag2", "tag5"],
     ),
     CardData(
+      id: "6",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 6",
       location: "A random location 6",
@@ -58,6 +64,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag3", "tag4"],
     ),
     CardData(
+      id: "7",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 7",
       location: "A random location 7",
@@ -65,6 +72,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag7", "tag8"],
     ),
     CardData(
+      id: "8",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 8",
       location: "A random location 8",
@@ -72,6 +80,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag9", "tag10"],
     ),
     CardData(
+      id: "9",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 9",
       location: "A random location 9",
@@ -79,6 +88,7 @@ class _AllItemsState extends State<AllItems> {
       tags: ["tag7", "tag10"],
     ),
     CardData(
+      id: "10",
       imageSrc: 'https://picsum.photos/115',
       title: "A random picture 10",
       location: "A random location 10",
@@ -133,13 +143,13 @@ class _AllItemsState extends State<AllItems> {
             ),
           ),
         ),
-        Expanded(
-          child: isLoading
-              ? const Center(
+        isLoading
+            ? const Expanded(
+                child: Center(
                   child: CircularProgressIndicator(),
-                )
-              : FullWidthCardList(list: filtered),
-        ),
+                ),
+              )
+            : FullWidthCardList(list: filtered),
       ],
     );
   }
