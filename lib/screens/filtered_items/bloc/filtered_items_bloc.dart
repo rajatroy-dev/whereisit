@@ -16,6 +16,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 1",
       qty: 5,
       tags: ["tag1", "tag2"],
+      isFavorite: true,
     ),
     CardData(
       id: "2",
@@ -32,6 +33,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 3",
       qty: 7,
       tags: ["tag5", "tag6"],
+      isFavorite: true,
     ),
     CardData(
       id: "4",
@@ -48,6 +50,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 5",
       qty: 9,
       tags: ["tag2", "tag5"],
+      isFavorite: false,
     ),
     CardData(
       id: "6",
@@ -80,6 +83,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 9",
       qty: 4,
       tags: ["tag7", "tag10"],
+      isFavorite: true,
     ),
     CardData(
       id: "10",
@@ -112,9 +116,10 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
             );
           }
         }
+        emit(FilteredItemsSuccess(filtered));
+      } else {
+        emit(FilteredItemsFailure('Failed to load items'));
       }
-
-      emit(FilteredItemsSuccess(filtered));
     });
   }
 }

@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: SingleChildScrollView(child: _screens.elementAt(_selectedIndex)),
+      body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

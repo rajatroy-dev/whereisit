@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
+import 'package:whereisit/shared/enums/traits.enum.dart';
 
 class ItemsList extends StatelessWidget {
   final String listTitle;
   final List<CardData> list;
-  final String navigateTo;
+  final Traits navigateTo;
 
   const ItemsList({
     Key? key,
@@ -55,6 +56,7 @@ class ItemsList extends StatelessWidget {
                 onPressed: () => Navigator.pushNamed(
                   context,
                   FilteredItems.routeName,
+                  arguments: navigateTo != Traits.none ? navigateTo : null,
                 ),
                 child: const Text('View All'),
               ),

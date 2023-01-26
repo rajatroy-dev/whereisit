@@ -127,7 +127,6 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         const SortFilter(),
         Padding(
@@ -143,13 +142,13 @@ class _FavoritesState extends State<Favorites> {
             ),
           ),
         ),
-        isLoading
-            ? const Expanded(
-                child: Center(
+        Expanded(
+          child: isLoading
+              ? const Center(
                   child: CircularProgressIndicator(),
-                ),
-              )
-            : FullWidthCardList(list: filtered),
+                )
+              : FullWidthCardList(list: filtered),
+        ),
       ],
     );
   }

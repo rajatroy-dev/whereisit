@@ -13,4 +13,8 @@ class FilteredItemsSuccess extends FilteredItemsState {
   FilteredItemsSuccess(this.filteredItems);
 }
 
-class FilteredItemsError extends FilteredItemsState {}
+class FilteredItemsFailure extends FilteredItemsState {
+  final String errorMessage;
+
+  FilteredItemsFailure(this.errorMessage);
+}

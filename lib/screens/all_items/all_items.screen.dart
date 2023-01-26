@@ -143,13 +143,13 @@ class _AllItemsState extends State<AllItems> {
             ),
           ),
         ),
-        isLoading
-            ? const Expanded(
-                child: Center(
+        Expanded(
+          child: isLoading
+              ? const Center(
                   child: CircularProgressIndicator(),
-                ),
-              )
-            : FullWidthCardList(list: filtered),
+                )
+              : FullWidthCardList(list: filtered),
+        ),
       ],
     );
   }

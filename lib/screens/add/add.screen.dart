@@ -8,7 +8,7 @@ class Add extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 500,
+        height: 200,
         child: Column(
           children: [
             ElevatedButton.icon(
@@ -16,7 +16,6 @@ class Add extends StatelessWidget {
               icon: const Icon(Icons.add_rounded),
               label: const Text('Add Item'),
             ),
-            const Spacer(),
             const Text(
               '— OR —',
               style: TextStyle(
@@ -24,7 +23,6 @@ class Add extends StatelessWidget {
                 color: Colors.black26,
               ),
             ),
-            const Spacer(),
             ElevatedButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.luggage_rounded),
