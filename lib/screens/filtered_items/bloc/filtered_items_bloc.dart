@@ -121,5 +121,19 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
         emit(FilteredItemsFailure('Failed to load items'));
       }
     });
+
+    on<FilteredItemsSearch>((event, emit) {
+      emit(FilteredItemsLoading());
+
+      var filtered = <CardData>[];
+      filtered.addAll(
+        _list.where((element) => element.title.contains(event.searchTerm)),
+      );
+      filtered.addAll(
+        _list.where((element) => element.location.contains(event.searchTerm)),
+      );
+
+      emit(FilteredItemsSuccess(filtered));
+    });
   }
 }

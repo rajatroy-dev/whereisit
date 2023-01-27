@@ -6,6 +6,7 @@ import 'package:whereisit/shared/intents/view_all.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
 import 'package:whereisit/shared/widgets/fullscreen_error/fullscreen_error.viewgroup.dart';
+import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
 class FilteredItems extends StatefulWidget {
   static const routeName = '/filtered-items';
@@ -50,7 +51,28 @@ class _FilteredItemsState extends State<FilteredItems> {
         }
         if (state is FilteredItemsSuccess) {
           return AppScaffold(
-            body: FullWidthCardList(list: state.filteredItems),
+            body: Column(
+              children: [
+                const SortFilter(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 5.0,
+                  ),
+                  child: TextFormField(
+                    onChanged: (value) =>
+                        BlocProvider.of<FilteredItemsBloc>(context).add(
+                      FilteredItemsSearch(value),
+                    ),
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Search . . .',
+                    ),
+                  ),
+                ),
+                Expanded(child: FullWidthCardList(list: state.filteredItems)),
+              ],
+            ),
           );
         } else if (state is FilteredItemsFailure) {
           return FullScreenError(errorMessage: state.errorMessage);
