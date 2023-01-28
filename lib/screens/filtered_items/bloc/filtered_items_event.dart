@@ -14,3 +14,9 @@ class FilteredItemsBy extends FilteredItemsEvent {
 
   FilteredItemsBy(this.filterBy);
 }
+
+class FilteredItemsSort extends FilteredItemsEvent {
+  final Chronology sortBy;
+
+  FilteredItemsSort(this.sortBy);
+}

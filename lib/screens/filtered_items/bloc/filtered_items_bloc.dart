@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/shared/enums/chronology.enum.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
 
 part 'filtered_items_event.dart';
@@ -16,6 +17,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 1",
       qty: 5,
       tags: ["tag1", "tag2"],
+      createdAt: "2022-12-03",
       isFavorite: true,
     ),
     CardData(
@@ -25,6 +27,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 2",
       qty: 6,
       tags: ["tag3", "tag4"],
+      createdAt: "2022-11-13",
     ),
     CardData(
       id: "3",
@@ -33,6 +36,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 3",
       qty: 7,
       tags: ["tag5", "tag6"],
+      createdAt: "2022-10-11",
       isFavorite: true,
     ),
     CardData(
@@ -42,6 +46,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 4",
       qty: 8,
       tags: ["tag1", "tag6"],
+      createdAt: "2022-09-05",
     ),
     CardData(
       id: "5",
@@ -50,6 +55,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 5",
       qty: 9,
       tags: ["tag2", "tag5"],
+      createdAt: "2022-08-15",
       isFavorite: false,
     ),
     CardData(
@@ -59,6 +65,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 6",
       qty: 1,
       tags: ["tag3", "tag4"],
+      createdAt: "2022-07-12",
     ),
     CardData(
       id: "7",
@@ -67,6 +74,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 7",
       qty: 2,
       tags: ["tag7", "tag8"],
+      createdAt: "2022-06-06",
     ),
     CardData(
       id: "8",
@@ -75,6 +83,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 8",
       qty: 3,
       tags: ["tag9", "tag10"],
+      createdAt: "2022-05-19",
     ),
     CardData(
       id: "9",
@@ -83,6 +92,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 9",
       qty: 4,
       tags: ["tag7", "tag10"],
+      createdAt: "2022-04-17",
       isFavorite: true,
     ),
     CardData(
@@ -92,8 +102,11 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
       location: "A random location 10",
       qty: 10,
       tags: ["tag8", "tag9"],
+      createdAt: "2022-03-20",
     ),
   ];
+
+  var filtered = <CardData>[];
 
   FilteredItemsBloc() : super(FilteredItemsInitial()) {
     on<FilteredItemsBy>((event, emit) {
@@ -106,16 +119,18 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
           if (null != element.isFavorite && element.isFavorite!) {
             filtered.add(
               CardData(
-                id: element.id,
-                imageSrc: element.imageSrc,
-                title: element.imageSrc,
-                location: element.imageSrc,
-                qty: element.qty,
-                tags: element.tags,
-              ),
+                  id: element.id,
+                  imageSrc: element.imageSrc,
+                  title: element.imageSrc,
+                  location: element.imageSrc,
+                  qty: element.qty,
+                  tags: element.tags,
+                  createdAt: element.createdAt,
+                  isFavorite: element.isFavorite ?? false),
             );
           }
         }
+
         emit(FilteredItemsSuccess(filtered));
       } else {
         emit(FilteredItemsFailure('Failed to load items'));
@@ -125,13 +140,50 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
     on<FilteredItemsSearch>((event, emit) {
       emit(FilteredItemsLoading());
 
-      var filtered = <CardData>[];
       filtered.addAll(
         _list.where((element) => element.title.contains(event.searchTerm)),
       );
       filtered.addAll(
         _list.where((element) => element.location.contains(event.searchTerm)),
       );
+
+      emit(FilteredItemsSuccess(filtered));
+    });
+
+    on<FilteredItemsSort>((event, emit) {
+      emit(FilteredItemsLoading());
+
+      if (event.sortBy == Chronology.newestFirst) {
+        filtered.sort((a, b) {
+          var aDate = DateTime.tryParse(a.createdAt);
+          var bDate = DateTime.tryParse(b.createdAt);
+
+          if (aDate == null && bDate != null) {
+            return -1;
+          } else if (aDate != null && bDate == null) {
+            return 1;
+          } else if (aDate == null && bDate == null) {
+            return 0;
+          } else {
+            return aDate!.compareTo(bDate!);
+          }
+        });
+      } else if (event.sortBy == Chronology.oldestFirst) {
+        filtered.sort((a, b) {
+          var aDate = DateTime.tryParse(a.createdAt);
+          var bDate = DateTime.tryParse(b.createdAt);
+
+          if (aDate == null && bDate != null) {
+            return 1;
+          } else if (aDate != null && bDate == null) {
+            return -1;
+          } else if (aDate == null && bDate == null) {
+            return 0;
+          } else {
+            return bDate!.compareTo(aDate!);
+          }
+        });
+      }
 
       emit(FilteredItemsSuccess(filtered));
     });

@@ -15,6 +15,7 @@ class CardData {
   final String location;
   final int qty;
   final List<String> tags;
+  final String createdAt;
   bool? isFavorite;
 
   CardData({
@@ -24,6 +25,7 @@ class CardData {
     required this.location,
     required this.qty,
     required this.tags,
+    required this.createdAt,
     this.isFavorite,
   });
 
@@ -34,6 +36,7 @@ class CardData {
         location: json["location"],
         qty: json["qty"],
         tags: List<String>.from(json["tags"].map((x) => x)),
+        createdAt: json["createdAt"],
         isFavorite: json.containsKey("isFavorite") ? true : false,
       );
 
@@ -44,6 +47,7 @@ class CardData {
         "location": location,
         "qty": qty,
         "tags": List<dynamic>.from(tags.map((x) => x)),
+        "createdAt": createdAt,
         "isFavorite": isFavorite ?? false,
       };
 }

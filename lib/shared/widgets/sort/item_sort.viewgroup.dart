@@ -18,7 +18,7 @@ class _ItemSortState extends State<ItemSort> {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: const Text('Lafayette'),
+            title: const Text('Not sorted'),
             leading: Radio<Chronology>(
               value: Chronology.oldestFirst,
               groupValue: _chronology,
@@ -26,7 +26,15 @@ class _ItemSortState extends State<ItemSort> {
             ),
           ),
           ListTile(
-            title: const Text('Thomas Jefferson'),
+            title: const Text('Oldest'),
+            leading: Radio<Chronology>(
+              value: Chronology.oldestFirst,
+              groupValue: _chronology,
+              onChanged: (Chronology? value) {},
+            ),
+          ),
+          ListTile(
+            title: const Text('Newest'),
             leading: Radio<Chronology>(
               value: Chronology.newestFirst,
               groupValue: _chronology,
