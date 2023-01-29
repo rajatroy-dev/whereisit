@@ -143,7 +143,9 @@ class _AllItemsState extends State<AllItems> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SortFilter(),
+        SortFilter(
+          sortHandler: () {},
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 10.0,

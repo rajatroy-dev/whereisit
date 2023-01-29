@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
+import 'package:whereisit/shared/enums/chronology.enum.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
 import 'package:whereisit/shared/intents/view_all.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
 import 'package:whereisit/shared/widgets/fullscreen_error/fullscreen_error.viewgroup.dart';
+import 'package:whereisit/shared/widgets/sort/item_sort.viewgroup.dart';
 import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
 class FilteredItems extends StatefulWidget {
@@ -18,6 +20,15 @@ class FilteredItems extends StatefulWidget {
 }
 
 class _FilteredItemsState extends State<FilteredItems> {
+  var showSortBy = false;
+  Chronology? chronology = Chronology.none;
+
+  handleSortToggle() {
+    setState(() {
+      showSortBy = !showSortBy;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
@@ -37,49 +48,63 @@ class _FilteredItemsState extends State<FilteredItems> {
     }
 
     if (!intent.isSuccess!) {
-      return const FullScreenError(errorMessage: 'Something Went Wrong!');
+      return const AppScaffold(
+        body: FullScreenError(errorMessage: 'Something Went Wrong!'),
+      );
     }
 
-    return BlocBuilder<FilteredItemsBloc, FilteredItemsState>(
-      builder: (context, state) {
-        if (state is FilteredItemsLoading) {
-          return const AppScaffold(
-            body: Center(
+    return AppScaffold(
+      body: BlocBuilder<FilteredItemsBloc, FilteredItemsState>(
+        builder: (context, state) {
+          if (state is FilteredItemsLoading) {
+            return const Center(
               child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        if (state is FilteredItemsSuccess) {
-          return AppScaffold(
-            body: Column(
+            );
+          }
+          if (state is FilteredItemsSuccess) {
+            return Stack(
               children: [
-                const SortFilter(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 5.0,
-                  ),
-                  child: TextFormField(
-                    onChanged: (value) =>
-                        BlocProvider.of<FilteredItemsBloc>(context).add(
-                      FilteredItemsSearch(value),
+                Column(
+                  children: [
+                    SortFilter(
+                      sortHandler: handleSortToggle,
                     ),
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Search . . .',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 5.0,
+                      ),
+                      child: TextFormField(
+                        onChanged: (value) =>
+                            BlocProvider.of<FilteredItemsBloc>(context).add(
+                          FilteredItemsSearch(value),
+                        ),
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Search . . .',
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                        child: FullWidthCardList(list: state.filteredItems)),
+                  ],
                 ),
-                Expanded(child: FullWidthCardList(list: state.filteredItems)),
+                if (showSortBy)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ItemSort(
+                      chronology: chronology,
+                    ),
+                  ),
               ],
-            ),
-          );
-        } else if (state is FilteredItemsFailure) {
-          return FullScreenError(errorMessage: state.errorMessage);
-        }
+            );
+          } else if (state is FilteredItemsFailure) {
+            return FullScreenError(errorMessage: state.errorMessage);
+          }
 
-        return const AppScaffold(body: SizedBox());
-      },
+          return const AppScaffold(body: SizedBox());
+        },
+      ),
     );
   }
 }

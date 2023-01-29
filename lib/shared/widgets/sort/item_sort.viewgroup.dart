@@ -1,44 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/shared/enums/chronology.enum.dart';
 
-class ItemSort extends StatefulWidget {
-  const ItemSort({Key? key}) : super(key: key);
+class ItemSort extends StatelessWidget {
+  final Chronology? chronology;
+  final void Function(Chronology?)? handleChange;
 
-  @override
-  State<ItemSort> createState() => _ItemSortState();
-}
-
-class _ItemSortState extends State<ItemSort> {
-  // ignore: prefer_final_fields
-  Chronology? _chronology = Chronology.newestFirst;
+  const ItemSort({
+    Key? key,
+    this.chronology,
+    this.handleChange,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      height: 170,
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           ListTile(
             title: const Text('Not sorted'),
             leading: Radio<Chronology>(
-              value: Chronology.oldestFirst,
-              groupValue: _chronology,
-              onChanged: (Chronology? value) {},
+              value: Chronology.none,
+              groupValue: chronology,
+              onChanged: handleChange,
             ),
           ),
           ListTile(
             title: const Text('Oldest'),
             leading: Radio<Chronology>(
               value: Chronology.oldestFirst,
-              groupValue: _chronology,
-              onChanged: (Chronology? value) {},
+              groupValue: chronology,
+              onChanged: handleChange,
             ),
           ),
           ListTile(
             title: const Text('Newest'),
             leading: Radio<Chronology>(
               value: Chronology.newestFirst,
-              groupValue: _chronology,
-              onChanged: (Chronology? value) {},
+              groupValue: chronology,
+              onChanged: handleChange,
             ),
           ),
         ],

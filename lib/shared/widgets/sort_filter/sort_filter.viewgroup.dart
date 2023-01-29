@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SortFilter extends StatelessWidget {
-  const SortFilter({Key? key}) : super(key: key);
+  final void Function() sortHandler;
+
+  const SortFilter({
+    Key? key,
+    required this.sortHandler,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class SortFilter extends StatelessWidget {
             Expanded(
               child: InkWell(
                 splashColor: Colors.purple[100],
-                onTap: () {},
+                onTap: sortHandler,
                 child: DefaultTextStyle(
                   style: const TextStyle(
                     color: Colors.purple,

@@ -142,7 +142,9 @@ class _FavoritesState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SortFilter(),
+        SortFilter(
+          sortHandler: () {},
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 10.0,
