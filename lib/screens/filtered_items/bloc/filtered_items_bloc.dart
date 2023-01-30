@@ -112,8 +112,6 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
     on<FilteredItemsBy>((event, emit) {
       emit(FilteredItemsLoading());
 
-      var filtered = <CardData>[];
-
       if (event.filterBy == Traits.favorites) {
         for (var element in _list) {
           if (null != element.isFavorite && element.isFavorite!) {
@@ -121,8 +119,8 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
               CardData(
                   id: element.id,
                   imageSrc: element.imageSrc,
-                  title: element.imageSrc,
-                  location: element.imageSrc,
+                  title: element.title,
+                  location: element.location,
                   qty: element.qty,
                   tags: element.tags,
                   createdAt: element.createdAt,

@@ -21,6 +21,7 @@ class ItemSort extends StatelessWidget {
           ListTile(
             title: const Text('Not sorted'),
             leading: Radio<Chronology>(
+              activeColor: Colors.purple,
               value: Chronology.none,
               groupValue: chronology,
               onChanged: handleChange,
@@ -29,6 +30,7 @@ class ItemSort extends StatelessWidget {
           ListTile(
             title: const Text('Oldest'),
             leading: Radio<Chronology>(
+              activeColor: Colors.purple,
               value: Chronology.oldestFirst,
               groupValue: chronology,
               onChanged: handleChange,
@@ -37,6 +39,7 @@ class ItemSort extends StatelessWidget {
           ListTile(
             title: const Text('Newest'),
             leading: Radio<Chronology>(
+              activeColor: Colors.purple,
               value: Chronology.newestFirst,
               groupValue: chronology,
               onChanged: handleChange,

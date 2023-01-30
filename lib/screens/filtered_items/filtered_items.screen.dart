@@ -29,6 +29,16 @@ class _FilteredItemsState extends State<FilteredItems> {
     });
   }
 
+  handleSortChange(Chronology? chronology) {
+    BlocProvider.of<FilteredItemsBloc>(context).add(
+      FilteredItemsSort(chronology!),
+    );
+
+    setState(() {
+      showSortBy = !showSortBy;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
@@ -94,6 +104,7 @@ class _FilteredItemsState extends State<FilteredItems> {
                     alignment: Alignment.bottomCenter,
                     child: ItemSort(
                       chronology: chronology,
+                      handleChange: handleSortChange,
                     ),
                   ),
               ],
