@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
@@ -57,6 +59,10 @@ class ItemsList extends StatelessWidget {
                   context,
                   FilteredItems.routeName,
                   arguments: navigateTo != Traits.none ? navigateTo : null,
+                ).then(
+                  (_) => BlocProvider.of<FilteredItemsBloc>(context).add(
+                    FilteredItemsClear(),
+                  ),
                 ),
                 child: const Text('View All'),
               ),

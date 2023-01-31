@@ -109,10 +109,12 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
   var filtered = <CardData>[];
 
   FilteredItemsBloc() : super(FilteredItemsInitial()) {
+    on<FilteredItemsClear>((event, emit) => filtered.clear());
+
     on<FilteredItemsBy>((event, emit) {
       emit(FilteredItemsLoading());
 
-      if (event.filterBy == Traits.favorites) {
+      if (event.filterBy == Traits.favorites && filtered.isEmpty) {
         for (var element in _list) {
           if (null != element.isFavorite && element.isFavorite!) {
             filtered.add(
@@ -131,7 +133,8 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
 
         emit(FilteredItemsSuccess(filtered));
       } else {
-        emit(FilteredItemsFailure('Failed to load items'));
+        emit(FilteredItemsSuccess(filtered));
+        // emit(FilteredItemsFailure('Failed to load items'));
       }
     });
 
@@ -163,7 +166,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
           } else if (aDate == null && bDate == null) {
             return 0;
           } else {
-            return aDate!.compareTo(bDate!);
+            return bDate!.compareTo(aDate!);
           }
         });
       } else if (event.sortBy == Chronology.oldestFirst) {
@@ -178,7 +181,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
           } else if (aDate == null && bDate == null) {
             return 0;
           } else {
-            return bDate!.compareTo(aDate!);
+            return aDate!.compareTo(bDate!);
           }
         });
       }
