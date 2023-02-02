@@ -19,7 +19,10 @@ class FullWidthCardContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FullWidthCardName(name: data.title),
+        FullWidthCardName(
+          name: data.title,
+          isFavorite: null == data.isFavorite ? false : data.isFavorite!,
+        ),
         FullWidthCardLocation(location: data.location),
         FullWidthCardQuantity(qty: data.qty.toString()),
         FullWidthCardTags(tags: data.tags),

@@ -48,7 +48,8 @@ class ItemCard extends StatelessWidget {
               ],
             ),
           ),
-          ItemFavoriteButton(id: data.id),
+          if (null != data.isFavorite && data.isFavorite!)
+            ItemFavoriteButton(id: data.id),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class FullWidthCardName extends StatelessWidget {
   final String name;
+  final bool isFavorite;
 
   const FullWidthCardName({
     Key? key,
     required this.name,
+    required this.isFavorite,
   }) : super(key: key);
 
   @override
@@ -25,13 +27,14 @@ class FullWidthCardName extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: const Icon(
-              Icons.favorite_rounded,
-              size: 18,
+          if (isFavorite)
+            GestureDetector(
+              onTap: () {},
+              child: const Icon(
+                Icons.favorite_rounded,
+                size: 18,
+              ),
             ),
-          ),
         ],
       ),
     );
