@@ -35,11 +35,13 @@ class TilesContainer extends StatelessWidget {
         firstRow.add(Tile(
           tileIcon: iconMap[list[i].type]!,
           tileName: list[i].type,
+          howMany: list[i].value,
         ));
       } else {
         secondRow.add(Tile(
           tileIcon: iconMap[list[i].type]!,
           tileName: list[i].type,
+          howMany: list[i].value,
         ));
       }
     }

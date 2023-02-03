@@ -12,20 +12,15 @@ class ItemFavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 24,
-      height: 24,
-      margin: const EdgeInsets.all(5.0),
-      child: FittedBox(
-        child: FloatingActionButton(
-          heroTag: key,
-          onPressed: () {},
-          backgroundColor: Colors.white,
-          child: const Icon(
-            Icons.favorite_rounded,
-            size: 42,
-            color: Colors.green,
-          ),
+    return const Padding(
+      padding: EdgeInsets.all(5.0),
+      child: CircleAvatar(
+        radius: 14,
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.favorite_rounded,
+          size: 20,
+          color: Colors.green,
         ),
       ),
     );

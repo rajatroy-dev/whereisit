@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class Tile extends StatelessWidget {
   final IconData tileIcon;
   final String tileName;
+  final int howMany;
 
   const Tile({
     Key? key,
     required this.tileIcon,
     required this.tileName,
+    required this.howMany,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class Tile extends StatelessWidget {
                 size: 40,
               ),
               Text(tileName),
+              Text(howMany.toString()),
             ],
           ),
         ),
