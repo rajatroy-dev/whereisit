@@ -29,6 +29,15 @@ class CardData {
     this.isFavorite,
   });
 
+  CardData.empty()
+      : id = '',
+        imageSrc = '',
+        title = '',
+        location = '',
+        qty = 0,
+        tags = [],
+        createdAt = '';
+
   factory CardData.fromJson(Map<String, dynamic> json) => CardData(
         id: json["id"],
         imageSrc: json["imageSrc"],

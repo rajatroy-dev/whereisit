@@ -47,10 +47,10 @@ class _FilteredItemsState extends State<FilteredItems> {
       traits: Traits.none,
     );
 
-    if (null != args) {
+    if (null != args && args is Traits) {
       intent = ViewAllIntent(
         isSuccess: true,
-        traits: args as Traits,
+        traits: args,
       );
       BlocProvider.of<FilteredItemsBloc>(context).add(
         FilteredItemsBy(intent.traits),

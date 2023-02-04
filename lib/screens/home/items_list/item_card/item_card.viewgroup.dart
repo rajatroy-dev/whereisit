@@ -7,6 +7,7 @@ import 'package:whereisit/screens/home/items_list/item_card/item_name.view.dart'
 import 'package:whereisit/screens/home/items_list/item_card/item_quantity.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_tags_list.viewgroup.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_thumbnail.view.dart';
+import 'package:whereisit/screens/item_details/item_details.screen.dart';
 
 class ItemCard extends StatelessWidget {
   final CardData data;
@@ -18,40 +19,47 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        ItemDetails.routeName,
+        arguments: data,
       ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          SizedBox(
-            width: 149,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ItemThumbnail(
-                  imgSrc: data.imageSrc,
-                ),
-                ItemName(
-                  name: data.title,
-                ),
-                ItemLocation(
-                  itemLocation: data.location,
-                ),
-                ItemQuantity(
-                  itemQuantity: data.qty,
-                ),
-                ItemTagsList(
-                  tags: data.tags,
-                )
-              ],
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            SizedBox(
+              width: 149,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ItemThumbnail(
+                    imgSrc: data.imageSrc,
+                  ),
+                  ItemName(
+                    name: data.title,
+                  ),
+                  ItemLocation(
+                    itemLocation: data.location,
+                  ),
+                  ItemQuantity(
+                    itemQuantity: data.qty,
+                  ),
+                  ItemTagsList(
+                    tags: data.tags,
+                  )
+                ],
+              ),
             ),
-          ),
-          if (null != data.isFavorite && data.isFavorite!)
-            ItemFavoriteButton(id: data.id),
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+            if (null != data.isFavorite && data.isFavorite!)
+              ItemFavoriteButton(id: data.id),
+          ],
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
