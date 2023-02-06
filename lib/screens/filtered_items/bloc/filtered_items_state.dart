@@ -8,7 +8,7 @@ class FilteredItemsInitial extends FilteredItemsState {}
 class FilteredItemsLoading extends FilteredItemsState {}
 
 class FilteredItemsSuccess extends FilteredItemsState {
-  final List<CardData> filteredItems;
+  final Map<String, dynamic> filteredItems;
 
   FilteredItemsSuccess(this.filteredItems);
 }

@@ -107,6 +107,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
   ];
 
   var filtered = <CardData>[];
+  var chronology = Chronology.none;
 
   FilteredItemsBloc() : super(FilteredItemsInitial()) {
     on<FilteredItemsClear>((event, emit) => filtered.clear());
@@ -131,9 +132,15 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
           }
         }
 
-        emit(FilteredItemsSuccess(filtered));
+        emit(FilteredItemsSuccess({
+          'data': filtered,
+          'sort': chronology,
+        }));
       } else {
-        emit(FilteredItemsSuccess(filtered));
+        emit(FilteredItemsSuccess({
+          'data': filtered,
+          'sort': chronology,
+        }));
         // emit(FilteredItemsFailure('Failed to load items'));
       }
     });
@@ -148,7 +155,7 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
         _list.where((element) => element.location.contains(event.searchTerm)),
       );
 
-      emit(FilteredItemsSuccess(filtered));
+      emit(FilteredItemsSuccess({'data': filtered}));
     });
 
     on<FilteredItemsSort>((event, emit) {
@@ -186,7 +193,12 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
         });
       }
 
-      emit(FilteredItemsSuccess(filtered));
+      chronology = event.sortBy;
+
+      emit(FilteredItemsSuccess({
+        'data': filtered,
+        'sort': event.sortBy,
+      }));
     });
   }
 }

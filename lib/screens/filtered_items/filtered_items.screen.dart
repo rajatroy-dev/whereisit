@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/shared/enums/chronology.enum.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
@@ -21,7 +22,6 @@ class FilteredItems extends StatefulWidget {
 
 class _FilteredItemsState extends State<FilteredItems> {
   var showSortBy = false;
-  Chronology? chronology = Chronology.none;
 
   handleSortToggle() {
     setState(() {
@@ -96,14 +96,17 @@ class _FilteredItemsState extends State<FilteredItems> {
                       ),
                     ),
                     Expanded(
-                        child: FullWidthCardList(list: state.filteredItems)),
+                      child: FullWidthCardList(
+                        list: state.filteredItems['data'] as List<CardData>,
+                      ),
+                    ),
                   ],
                 ),
                 if (showSortBy)
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: ItemSort(
-                      chronology: chronology,
+                      chronology: state.filteredItems['sort'],
                       handleChange: handleSortChange,
                     ),
                   ),
