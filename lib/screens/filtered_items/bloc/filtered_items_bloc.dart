@@ -176,6 +176,8 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
             return bDate!.compareTo(aDate!);
           }
         });
+
+        chronology = event.sortBy;
       } else if (event.sortBy == Chronology.oldestFirst) {
         filtered.sort((a, b) {
           var aDate = DateTime.tryParse(a.createdAt);
@@ -191,9 +193,9 @@ class FilteredItemsBloc extends Bloc<FilteredItemsEvent, FilteredItemsState> {
             return aDate!.compareTo(bDate!);
           }
         });
+        
+        chronology = event.sortBy;
       }
-
-      chronology = event.sortBy;
 
       emit(FilteredItemsSuccess({
         'data': filtered,
