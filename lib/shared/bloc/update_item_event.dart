@@ -8,3 +8,9 @@ class UpdateItemFavorite extends UpdateItemEvent {
 
   UpdateItemFavorite(this.itemData);
 }
+
+class UpdateItemAll extends UpdateItemEvent {
+  final CardData itemData;
+
+  UpdateItemAll(this.itemData);
+}

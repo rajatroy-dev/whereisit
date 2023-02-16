@@ -11,6 +11,12 @@ class UpdateItemFavoriteSuccess extends UpdateItemState {
   UpdateItemFavoriteSuccess(this.itemData);
 }
 
+class UpdateItemAllSuccess extends UpdateItemState {
+  final CardData itemData;
+
+  UpdateItemAllSuccess(this.itemData);
+}
+
 class UpdateItemFailure extends UpdateItemState {
   final String errorMsg;
 

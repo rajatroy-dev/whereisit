@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/screens/home/items_list/item_card/item_location.view.dart';
+import 'package:whereisit/screens/home/items_list/item_card/item_quantity.view.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/intents/Item_details.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
@@ -29,15 +32,49 @@ class _ItemDetailsState extends State<ItemDetails> {
     }
 
     return AppScaffold(
-      body: Column(
-        children: [
-          Text(intent.data.id),
-          Text(intent.data.imageSrc),
-          Text(intent.data.title),
-          Text(intent.data.location),
-          Text(intent.data.qty.toString()),
-          Text(intent.data.createdAt),
-        ],
+      action: AppBarAction.edit,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    intent.data.imageSrc.replaceAll('115', '300'),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                intent.data.title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ItemLocation(itemLocation: intent.data.location),
+            ItemQuantity(itemQuantity: intent.data.qty),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 5.0),
+                    child: Icon(Icons.today_rounded, size: 16.0),
+                  ),
+                  Text(intent.data.createdAt),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
