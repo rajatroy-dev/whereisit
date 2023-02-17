@@ -10,7 +10,7 @@ class UpdateItemFavorite extends UpdateItemEvent {
 }
 
 class UpdateItemAll extends UpdateItemEvent {
-  final CardData itemData;
+  final String id;
 
-  UpdateItemAll(this.itemData);
+  UpdateItemAll(this.id);
 }

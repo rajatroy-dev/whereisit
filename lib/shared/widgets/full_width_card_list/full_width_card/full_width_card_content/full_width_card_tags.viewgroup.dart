@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:whereisit/shared/widgets/pill_tag,view.dart';
+import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
 class FullWidthCardTags extends StatelessWidget {
   final List<String> tags;

@@ -117,7 +117,9 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
     });
 
     on<UpdateItemAll>((event, emit) {
-      var item = event.itemData;
+      var item = list.firstWhere(
+        (element) => element.id == event.id,
+      );
 
       for (var element in list) {
         if (element.id == item.id) {
