@@ -5,6 +5,8 @@ import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
 class EditItem extends StatefulWidget {
+  static const routeName = '/edit-item';
+
   const EditItem({Key? key}) : super(key: key);
 
   @override
