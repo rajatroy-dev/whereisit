@@ -17,6 +17,12 @@ class UpdateItemAllSuccess extends UpdateItemState {
   UpdateItemAllSuccess(this.itemData);
 }
 
+class UpdateItemNewSuccess extends UpdateItemState {
+  final CardData itemData;
+
+  UpdateItemNewSuccess(this.itemData);
+}
+
 class UpdateItemFailure extends UpdateItemState {
   final String errorMsg;
 

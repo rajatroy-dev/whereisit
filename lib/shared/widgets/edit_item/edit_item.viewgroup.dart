@@ -20,32 +20,41 @@ class _EditItemState extends State<EditItem> {
 
     if (args != null) {
       var routeArgs = args as RouteArguments;
-      if (routeArgs.hasParams) {
+      if (routeArgs.hasParams && routeArgs.params!.containsKey('id')) {
         BlocProvider.of<UpdateItemBloc>(context).add(
           UpdateItemAll(routeArgs.params!['id']!),
         );
       }
+      if (routeArgs.hasParams && routeArgs.params!.containsKey('image')) {
+        BlocProvider.of<UpdateItemBloc>(context).add(
+          UpdateItemNew(routeArgs.params!['image']!),
+        );
+      }
     }
 
-    return Wrap(
-      children: const [
-        PillTag(
-          title: '# This is a very large tag',
-          isShort: false,
-        ),
-        PillTag(
-          title: '# This is a large tag',
-          isShort: false,
-        ),
-        PillTag(
-          title: '# This is a large tag',
-          isShort: false,
-        ),
-        PillTag(
-          title: '# This is a large tag',
-          isShort: false,
-        ),
-      ],
+    return BlocBuilder<UpdateItemBloc, UpdateItemState>(
+      builder: (context, state) {
+        return Wrap(
+          children: const [
+            PillTag(
+              title: '# This is a very large tag',
+              isShort: false,
+            ),
+            PillTag(
+              title: '# This is a large tag',
+              isShort: false,
+            ),
+            PillTag(
+              title: '# This is a large tag',
+              isShort: false,
+            ),
+            PillTag(
+              title: '# This is a large tag',
+              isShort: false,
+            ),
+          ],
+        );
+      },
     );
   }
 }

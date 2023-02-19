@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
+import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/widgets/edit_item/edit_item.viewgroup.dart';
 
 class Add extends StatefulWidget {
@@ -25,18 +29,24 @@ class _AddState extends State<Add> {
     switch (choice) {
       case SourceChoice.gallery:
         var image = await picker.pickImage(source: ImageSource.gallery);
+        Directory tempDir = await getApplicationDocumentsDirectory();
+        var path = '${tempDir.path}/${image!.name}';
+        image.saveTo(path);
         Navigator.pushNamed(
           context,
           EditItem.routeName,
-          arguments: image,
+          arguments: RouteArguments(true, params: {'image': path}),
         );
         break;
       case SourceChoice.camera:
         var image = await picker.pickImage(source: ImageSource.camera);
+        Directory tempDir = await getApplicationDocumentsDirectory();
+        var path = '${tempDir.path}/${image!.name}';
+        image.saveTo(path);
         Navigator.pushNamed(
           context,
           EditItem.routeName,
-          arguments: image,
+          arguments: RouteArguments(true, params: {'image': path}),
         );
         break;
       case SourceChoice.none:

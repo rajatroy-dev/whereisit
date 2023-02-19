@@ -14,3 +14,9 @@ class UpdateItemAll extends UpdateItemEvent {
 
   UpdateItemAll(this.id);
 }
+
+class UpdateItemNew extends UpdateItemEvent {
+  final String image;
+
+  UpdateItemNew(this.image);
+}

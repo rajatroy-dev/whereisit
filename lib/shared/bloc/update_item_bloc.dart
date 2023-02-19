@@ -138,5 +138,20 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
 
       emit(UpdateItemFavoriteSuccess(item));
     });
+
+    on<UpdateItemNew>((event, emit) {
+      var item = CardData(
+        id: '',
+        title: '',
+        imageSrc: event.image,
+        location: '',
+        qty: 0,
+        tags: [],
+        createdAt: '',
+        isFavorite: false,
+      );
+
+      emit(UpdateItemFavoriteSuccess(item));
+    });
   }
 }
