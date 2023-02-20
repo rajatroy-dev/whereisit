@@ -35,7 +35,7 @@ class _AddState extends State<Add> {
         Navigator.pushNamed(
           context,
           EditItem.routeName,
-          arguments: RouteArguments(true, params: {'image': path}),
+          arguments: RouteArguments(true, params: {'image': image.name}),
         );
         break;
       case SourceChoice.camera:
@@ -46,7 +46,7 @@ class _AddState extends State<Add> {
         Navigator.pushNamed(
           context,
           EditItem.routeName,
-          arguments: RouteArguments(true, params: {'image': path}),
+          arguments: RouteArguments(true, params: {'image': image.name}),
         );
         break;
       case SourceChoice.none:

@@ -16,7 +16,7 @@ class UpdateItemAll extends UpdateItemEvent {
 }
 
 class UpdateItemNew extends UpdateItemEvent {
-  final String image;
+  final CardData itemData;
 
-  UpdateItemNew(this.image);
+  UpdateItemNew(this.itemData);
 }
