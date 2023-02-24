@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
-import 'package:whereisit/shared/widgets/edit_item/edit_item.viewgroup.dart';
+import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
 
 class Add extends StatefulWidget {
@@ -41,11 +41,15 @@ class _AddState extends State<Add> {
     switch (choice) {
       case SourceChoice.gallery:
         var image = await picker.pickImage(source: ImageSource.gallery);
-        await sendImagetoEdit(image!);
+        if (image != null) {
+          await sendImagetoEdit(image);
+        }
         break;
       case SourceChoice.camera:
         var image = await picker.pickImage(source: ImageSource.camera);
-        await sendImagetoEdit(image!);
+        if (image != null) {
+          await sendImagetoEdit(image);
+        }
         break;
       case SourceChoice.none:
         setState(() {
@@ -83,7 +87,7 @@ class _AddState extends State<Add> {
                   icon: const Icon(Icons.luggage_rounded),
                   label: const Text('Add Items'),
                 ),
-                const EditItem(),
+                // const EditItem(),
               ],
             ),
           ),
