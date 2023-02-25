@@ -11,6 +11,7 @@ import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
+import 'package:whereisit/shared/widgets/single_child_scroll_view_mod/single_child_scroll_view_mod.viewgroup.dart';
 
 class EditItem extends StatefulWidget {
   static const routeName = '/edit-item';
@@ -73,14 +74,16 @@ class _EditItemState extends State<EditItem> {
         );
       }
       if (routeArgs.hasParams && routeArgs.params!.containsKey('image')) {
-        setState(() {
-          imageName = routeArgs.params!['image']!;
+        getApplicationDocumentsDirectory().then((tempDir) {
+          setState(() {
+            imageName = '${tempDir.path}/${routeArgs.params!['image']!}';
+          });
         });
       }
     }
 
     return AppScaffold(
-      body: SingleChildScrollView(
+      body: SingleChildScrollViewMod(
         child: BlocBuilder<UpdateItemBloc, UpdateItemState>(
           builder: (context, state) {
             if (state is UpdateItemAllSuccess) {
@@ -114,6 +117,7 @@ class _EditItemState extends State<EditItem> {
                     children: [
                       HorizontalImageListContainer(
                         addImage: handleAddImage,
+                        images: [imageName],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

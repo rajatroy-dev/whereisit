@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontail_list_image/horizontal_list_image.viewgroup.dart';
 
 class HorizontalImageListContainer extends StatelessWidget {
+  final List<String> images;
   final void Function() addImage;
+
   const HorizontalImageListContainer({
     Key? key,
     required this.addImage,
+    required this.images,
   }) : super(key: key);
 
   @override
@@ -17,9 +20,9 @@ class HorizontalImageListContainer extends StatelessWidget {
           height: 280,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 5,
+            itemCount: images.length,
             itemBuilder: (context, index) {
-              return const HorizontalListImage();
+              return HorizontalListImage(image: images[index]);
             },
           ),
         ),
