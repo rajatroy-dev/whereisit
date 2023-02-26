@@ -12,12 +12,13 @@ class HorizontalListImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: Image.file(
-        File(image),
-        height: 115.0,
-        width: 115.0,
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.file(
+          File(image),
+        ),
       ),
     );
   }

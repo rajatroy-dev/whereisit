@@ -17,13 +17,16 @@ class HorizontalImageListContainer extends StatelessWidget {
       children: [
         const Text('Item Image(s)'),
         SizedBox(
-          height: 280,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: images.length,
-            itemBuilder: (context, index) {
-              return HorizontalListImage(image: images[index]);
-            },
+          height: 150,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return HorizontalListImage(image: images[index]);
+              },
+            ),
           ),
         ),
         ElevatedButton.icon(

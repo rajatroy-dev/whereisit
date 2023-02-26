@@ -25,7 +25,7 @@ class EditItem extends StatefulWidget {
 class _EditItemState extends State<EditItem> {
   final _formKey = GlobalKey<FormState>();
 
-  var imageName = '';
+  var imageList = <String>[];
   var showImageSourceChoice = false;
 
   handleAddImage() {
@@ -38,6 +38,12 @@ class _EditItemState extends State<EditItem> {
     Directory tempDir = await getApplicationDocumentsDirectory();
     var path = '${tempDir.path}/${image.name}';
     image.saveTo(path);
+    var temp = imageList;
+    temp.add(path);
+    setState(() {
+      imageList = temp;
+      showImageSourceChoice = false;
+    });
   }
 
   handleImageSourceSelection(SourceChoice choice) async {
@@ -73,10 +79,14 @@ class _EditItemState extends State<EditItem> {
           UpdateItemAll(routeArgs.params!['id']!),
         );
       }
-      if (routeArgs.hasParams && routeArgs.params!.containsKey('image')) {
+      if (routeArgs.hasParams &&
+          routeArgs.params!.containsKey('image') &&
+          imageList.isEmpty) {
+        var temp = imageList;
         getApplicationDocumentsDirectory().then((tempDir) {
+          temp.add('${tempDir.path}/${routeArgs.params!['image']!}');
           setState(() {
-            imageName = '${tempDir.path}/${routeArgs.params!['image']!}';
+            imageList = temp;
           });
         });
       }
@@ -113,44 +123,45 @@ class _EditItemState extends State<EditItem> {
               key: _formKey,
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      HorizontalImageListContainer(
-                        addImage: handleAddImage,
-                        images: [imageName],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                              isDense: true,
-                              contentPadding: EdgeInsets.all(10.0),
-                              labelText: "Item name",
-                              hintText: "Enter the name of the item"),
+                  if (imageList.isNotEmpty)
+                    Column(
+                      children: [
+                        HorizontalImageListContainer(
+                          addImage: handleAddImage,
+                          images: imageList,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data')),
-                              );
-                            }
-                          },
-                          child: const Text('Submit'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(10.0),
+                                labelText: "Item name",
+                                hintText: "Enter the name of the item"),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Processing Data')),
+                                );
+                              }
+                            },
+                            child: const Text('Submit'),
+                          ),
+                        ),
+                      ],
+                    ),
                   if (showImageSourceChoice)
                     ImageSourceChoicePopup(
                       handler: handleImageSourceSelection,
