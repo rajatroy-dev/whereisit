@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/shared/bloc/update_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
+import 'package:whereisit/shared/validators/input_validator.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
@@ -142,57 +144,21 @@ class _EditItemState extends State<EditItem> {
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: "Quantity",
-                                hintText: "How many items are you storing?",
-                              ),
-                            ),
+                          const TextInput(
+                            initialValue: '1',
+                            labelText: 'Quantity',
+                            hintText: 'How many items are you storing?',
+                            validator: InputValidator.quantity,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: "Name",
-                                hintText: "Name of the item",
-                              ),
-                            ),
+                          const TextInput(
+                            labelText: 'Name',
+                            hintText: 'Name of the item',
+                            validator: InputValidator.name,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: "Address",
-                                hintText: "Address where the item is stored",
-                              ),
-                            ),
+                          const TextInput(
+                            labelText: 'Address',
+                            hintText: 'Address where the item is stored"',
+                            validator: InputValidator.address,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
