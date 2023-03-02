@@ -157,42 +157,31 @@ class _EditItemState extends State<EditItem> {
                           ),
                           const TextInput(
                             labelText: 'Address',
-                            hintText: 'Address where the item is stored"',
+                            hintText: 'Address where the item is stored',
                             validator: InputValidator.address,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: "Property",
-                                hintText: "E.g., home, office, etc.",
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextButton.icon(
+                                  icon: const Icon(
+                                      Icons.add_location_alt_rounded),
+                                  onPressed: () {},
+                                  label:
+                                      const Text('Select a location from Maps'),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: "Room",
-                                hintText: "E.g., bedroom, livingroom, etc.",
-                              ),
-                            ),
+                          const TextInput(
+                            labelText: 'Property',
+                            hintText: 'E.g., home, office, etc.',
+                            validator: InputValidator.address,
+                          ),
+                          const TextInput(
+                            labelText: 'Room',
+                            hintText: 'E.g., bedroom, livingroom, etc.',
+                            validator: InputValidator.address,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
