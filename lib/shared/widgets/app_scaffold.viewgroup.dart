@@ -28,6 +28,16 @@ class AppScaffold extends StatelessWidget {
               onPressed: () {
                 // do something
               },
+            ),
+          if (action != null && action == AppBarAction.search)
+            IconButton(
+              icon: const Icon(
+                Icons.search_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                // do something
+              },
             )
         ],
       ),

@@ -1,3 +1,4 @@
 enum AppBarAction {
   edit,
+  search,
 }

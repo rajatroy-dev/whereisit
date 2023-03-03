@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/models/locations.model.dart' as locations;
 
@@ -37,6 +38,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      action: AppBarAction.search,
       body: GoogleMap(
         onMapCreated: _onMapCreated,
         initialCameraPosition: const CameraPosition(
