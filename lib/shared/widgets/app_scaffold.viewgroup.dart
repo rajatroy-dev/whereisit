@@ -17,7 +17,26 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('WhereIsIt'),
+        title: action != null && action == AppBarAction.search
+            ? const TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search location . . .',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            : const Text('WhereIsIt'),
+        automaticallyImplyLeading:
+            action != null && action == AppBarAction.search ? false : true,
+        centerTitle:
+            action != null && action == AppBarAction.search ? true : null,
         actions: <Widget>[
           if (action != null && action == AppBarAction.edit)
             IconButton(
@@ -32,7 +51,7 @@ class AppScaffold extends StatelessWidget {
           if (action != null && action == AppBarAction.search)
             IconButton(
               icon: const Icon(
-                Icons.search_rounded,
+                Icons.close_rounded,
                 color: Colors.white,
               ),
               onPressed: () {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
+import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
 class LocationSearchScreen extends StatefulWidget {
   const LocationSearchScreen({Key? key}) : super(key: key);
@@ -10,31 +12,8 @@ class LocationSearchScreen extends StatefulWidget {
 class _LocationSearchScreenState extends State<LocationSearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const TextField(
-          decoration: InputDecoration(
-            hintText: 'type in journal name...',
-            hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontStyle: FontStyle.italic,
-            ),
-            border: InputBorder.none,
-          ),
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          )
-        ],
-      ),
+    return AppScaffold(
+      action: AppBarAction.search,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
