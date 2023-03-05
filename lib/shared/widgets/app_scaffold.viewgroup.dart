@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final AppBarAction? action;
@@ -14,12 +14,21 @@ class AppScaffold extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  final textController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: action != null && action == AppBarAction.search
-            ? const TextField(
-                decoration: InputDecoration(
+        title: widget.action != null && widget.action == AppBarAction.search
+            ? TextField(
+                controller: textController,
+                onChanged: (value) {},
+                decoration: const InputDecoration(
                   hintText: 'Search location . . .',
                   hintStyle: TextStyle(
                     color: Colors.white,
@@ -28,17 +37,21 @@ class AppScaffold extends StatelessWidget {
                   ),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               )
             : const Text('WhereIsIt'),
         automaticallyImplyLeading:
-            action != null && action == AppBarAction.search ? false : true,
+            widget.action != null && widget.action == AppBarAction.search
+                ? false
+                : true,
         centerTitle:
-            action != null && action == AppBarAction.search ? true : null,
+            widget.action != null && widget.action == AppBarAction.search
+                ? true
+                : null,
         actions: <Widget>[
-          if (action != null && action == AppBarAction.edit)
+          if (widget.action != null && widget.action == AppBarAction.edit)
             IconButton(
               icon: const Icon(
                 Icons.edit_rounded,
@@ -48,7 +61,7 @@ class AppScaffold extends StatelessWidget {
                 // do something
               },
             ),
-          if (action != null && action == AppBarAction.search)
+          if (widget.action != null && widget.action == AppBarAction.search)
             IconButton(
               icon: const Icon(
                 Icons.close_rounded,
@@ -60,8 +73,8 @@ class AppScaffold extends StatelessWidget {
             )
         ],
       ),
-      body: body,
-      bottomNavigationBar: bottomNavigationBar,
+      body: widget.body,
+      bottomNavigationBar: widget.bottomNavigationBar,
     );
   }
 }
