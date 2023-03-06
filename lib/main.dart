@@ -10,7 +10,7 @@ import 'package:whereisit/screens/screens/add.dart';
 import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
 import 'package:whereisit/screens/screens/search.dart';
-import 'package:whereisit/shared/bloc/update_item_bloc.dart';
+import 'package:whereisit/shared/bloc/update_item/update_item_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';

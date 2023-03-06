@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 
 class AppScaffold extends StatefulWidget {
@@ -67,9 +69,9 @@ class _AppScaffoldState extends State<AppScaffold> {
                 Icons.close_rounded,
                 color: Colors.white,
               ),
-              onPressed: () {
-                // do something
-              },
+              onPressed: () => BlocProvider.of<LocationSearchBloc>(context).add(
+                LocationSearchClear(),
+              ),
             )
         ],
       ),

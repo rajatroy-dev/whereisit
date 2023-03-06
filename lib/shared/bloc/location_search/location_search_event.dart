@@ -8,3 +8,5 @@ class LocationSearchByKeyword extends LocationSearchEvent {
 
   LocationSearchByKeyword(this.location);
 }
+
+class LocationSearchClear extends LocationSearchEvent {}
