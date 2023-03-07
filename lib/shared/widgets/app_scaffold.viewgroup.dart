@@ -23,13 +23,30 @@ class _AppScaffoldState extends State<AppScaffold> {
   final textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Start listening to changes.
+    textController.addListener(
+      () => LocationSearchByKeyword(textController.text),
+    );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: widget.action != null && widget.action == AppBarAction.search
             ? TextField(
                 controller: textController,
-                onChanged: (value) {},
                 decoration: const InputDecoration(
                   hintText: 'Search location . . .',
                   hintStyle: TextStyle(
