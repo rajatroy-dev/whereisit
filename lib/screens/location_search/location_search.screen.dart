@@ -5,6 +5,8 @@ import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
 class LocationSearchScreen extends StatefulWidget {
+  static const routeName = '/location-search';
+
   const LocationSearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -26,7 +28,33 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
             return ListView.builder(
               itemCount: state.locationList.length,
               itemBuilder: ((context, index) {
-                return Text(state.locationList[index]);
+                return Flexible(
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(
+                      context,
+                      'the location address and coordinates',
+                    ),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      width: double.infinity,
+                      height: 75,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 5.0,
+                        ),
+                        child: Text(state.locationList[index]),
+                      ),
+                    ),
+                  ),
+                );
               }),
             );
           }

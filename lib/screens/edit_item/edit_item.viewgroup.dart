@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
-import 'package:whereisit/shared/bloc/update_item_bloc.dart';
+import 'package:whereisit/screens/location_search/location_search.screen.dart';
+import 'package:whereisit/shared/bloc/update_item/update_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/validators/input_validator.dart';
@@ -29,6 +30,8 @@ class _EditItemState extends State<EditItem> {
 
   var imageList = <String>[];
   var showImageSourceChoice = false;
+  var locationCoordinate = '';
+  var locationAddress = '';
 
   handleAddImage() {
     setState(() {
@@ -68,6 +71,14 @@ class _EditItemState extends State<EditItem> {
       default:
         break;
     }
+  }
+
+  extractAddressAndCoordinate(String value) {
+    var locationSplit = value.split('&');
+    setState(() {
+      locationAddress = locationSplit[0];
+      locationCoordinate = locationSplit[1];
+    });
   }
 
   @override
@@ -165,10 +176,19 @@ class _EditItemState extends State<EditItem> {
                               Expanded(
                                 child: TextButton.icon(
                                   icon: const Icon(
-                                      Icons.add_location_alt_rounded),
-                                  onPressed: () {},
-                                  label:
-                                      const Text('Select a location from Maps'),
+                                    Icons.add_location_alt_rounded,
+                                  ),
+                                  onPressed: () => Navigator.pushNamed(
+                                    context,
+                                    LocationSearchScreen.routeName,
+                                  ).then(
+                                    (value) => extractAddressAndCoordinate(
+                                        value as String),
+                                  ),
+                                  label: locationCoordinate.isEmpty
+                                      ? const Text(
+                                          'Select a location from Maps')
+                                      : Text(locationAddress),
                                 ),
                               ),
                             ],
