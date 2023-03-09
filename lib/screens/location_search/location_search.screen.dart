@@ -32,7 +32,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                   child: GestureDetector(
                     onTap: () => Navigator.pop(
                       context,
-                      'the location address and coordinates',
+                      'address=alsdalksd&coordinates=12.12,123.123',
                     ),
                     child: Container(
                       decoration: const BoxDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 
@@ -83,13 +84,24 @@ class _AppScaffoldState extends State<AppScaffold> {
           if (widget.action != null && widget.action == AppBarAction.search)
             IconButton(
               icon: const Icon(
+                Icons.search_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                LocationSearchScreen.routeName,
+              ),
+            ),
+          if (widget.action != null && widget.action == AppBarAction.clear)
+            IconButton(
+              icon: const Icon(
                 Icons.close_rounded,
                 color: Colors.white,
               ),
               onPressed: () => BlocProvider.of<LocationSearchBloc>(context).add(
                 LocationSearchClear(),
               ),
-            )
+            ),
         ],
       ),
       body: widget.body,

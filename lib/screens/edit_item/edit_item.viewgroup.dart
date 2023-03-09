@@ -27,11 +27,11 @@ class EditItem extends StatefulWidget {
 
 class _EditItemState extends State<EditItem> {
   final _formKey = GlobalKey<FormState>();
+  final _addressController = TextEditingController();
 
   var imageList = <String>[];
   var showImageSourceChoice = false;
-  var locationCoordinate = '';
-  var locationAddress = '';
+  var coordinates = '';
 
   handleAddImage() {
     setState(() {
@@ -74,11 +74,24 @@ class _EditItemState extends State<EditItem> {
   }
 
   extractAddressAndCoordinate(String value) {
-    var locationSplit = value.split('&');
-    setState(() {
-      locationAddress = locationSplit[0];
-      locationCoordinate = locationSplit[1];
-    });
+    // format: address=alsdalksd&coordinates=12.12,123.123
+    var locationDetails = value.split('&');
+
+    var temp = <String, String>{};
+    var firstKey = locationDetails[0].split('=');
+    temp[firstKey[0]] = firstKey[1];
+    var secondKey = locationDetails[1].split('=');
+    temp[secondKey[0]] = secondKey[1];
+
+    if (temp['address'] != null && temp['address']!.isNotEmpty) {
+      _addressController.text = temp['address']!;
+    }
+
+    if (temp['coordinates'] != null && temp['coordinates']!.isNotEmpty) {
+      setState(() {
+        coordinates = temp['coordinates']!;
+      });
+    }
   }
 
   @override
@@ -166,9 +179,12 @@ class _EditItemState extends State<EditItem> {
                             hintText: 'Name of the item',
                             validator: InputValidator.name,
                           ),
-                          const TextInput(
-                            labelText: 'Address',
-                            hintText: 'Address where the item is stored',
+                          TextFormField(
+                            controller: _addressController,
+                            decoration: const InputDecoration(
+                              hintText: 'Address where the item is stored',
+                              labelText: 'Address',
+                            ),
                             validator: InputValidator.address,
                           ),
                           Row(
@@ -183,12 +199,13 @@ class _EditItemState extends State<EditItem> {
                                     LocationSearchScreen.routeName,
                                   ).then(
                                     (value) => extractAddressAndCoordinate(
-                                        value as String),
+                                      value as String,
+                                    ),
                                   ),
-                                  label: locationCoordinate.isEmpty
+                                  label: coordinates.isEmpty
                                       ? const Text(
                                           'Select a location from Maps')
-                                      : Text(locationAddress),
+                                      : Text(coordinates),
                                 ),
                               ),
                             ],
