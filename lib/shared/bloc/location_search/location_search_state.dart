@@ -16,3 +16,9 @@ class LocationSearchFailure extends LocationSearchState {
 
   LocationSearchFailure(this.errorMessage);
 }
+
+class LocationSelectionSuccess extends LocationSearchState {
+  final String addressAndCoordinates;
+
+  LocationSelectionSuccess(this.addressAndCoordinates);
+}

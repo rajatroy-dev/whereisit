@@ -64,6 +64,5 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
         },
       ),
     );
-    ;
   }
 }

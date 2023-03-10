@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/models/locations.model.dart' as locations;
@@ -39,13 +41,27 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   Widget build(BuildContext context) {
     return AppScaffold(
       action: AppBarAction.search,
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(0, 0),
-          zoom: 2,
-        ),
-        markers: _markers.values.toSet(),
+      body: BlocBuilder<LocationSearchBloc, LocationSearchState>(
+        builder: (context, state) {
+          if (state is LocationSelectionSuccess) {
+            return GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(0, 0),
+                zoom: 2,
+              ),
+              markers: _markers.values.toSet(),
+            );
+          }
+          return GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(0, 0),
+              zoom: 2,
+            ),
+            markers: _markers.values.toSet(),
+          );
+        },
       ),
     );
   }

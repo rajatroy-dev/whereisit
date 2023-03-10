@@ -38,5 +38,9 @@ class LocationSearchBloc
       var temp = <String>[];
       emit(LocationSearchSuccess(temp));
     });
+
+    on<LocationSelected>((event, emit) {
+      emit(LocationSelectionSuccess(event.location));
+    });
   }
 }

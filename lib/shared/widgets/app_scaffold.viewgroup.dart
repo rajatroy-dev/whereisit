@@ -90,7 +90,7 @@ class _AppScaffoldState extends State<AppScaffold> {
               onPressed: () => Navigator.pushNamed(
                 context,
                 LocationSearchScreen.routeName,
-              ),
+              ).then((value) => LocationSelected(value as String)),
             ),
           if (widget.action != null && widget.action == AppBarAction.clear)
             IconButton(

@@ -10,3 +10,9 @@ class LocationSearchByKeyword extends LocationSearchEvent {
 }
 
 class LocationSearchClear extends LocationSearchEvent {}
+
+class LocationSelected extends LocationSearchEvent {
+  final String location;
+
+  LocationSelected(this.location);
+}

@@ -230,7 +230,8 @@ class _EditItemState extends State<EditItem> {
                                 if (_formKey.currentState!.validate()) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text('Processing Data')),
+                                      content: Text('Processing Data'),
+                                    ),
                                   );
                                 }
                               },
