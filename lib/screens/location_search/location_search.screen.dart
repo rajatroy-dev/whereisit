@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
-import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
 class LocationSearchScreen extends StatefulWidget {
@@ -17,7 +16,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      action: AppBarAction.search,
+      hasSearch: true,
       body: BlocBuilder<LocationSearchBloc, LocationSearchState>(
         builder: (context, state) {
           if (state is LocationSearchFailure) {

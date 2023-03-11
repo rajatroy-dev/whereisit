@@ -7,6 +7,7 @@ import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/models/locations.model.dart' as locations;
 
 class MapLocationSelector extends StatefulWidget {
+  static const routeName = '/location-map';
   const MapLocationSelector({Key? key}) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      action: AppBarAction.search,
+      action: AppBarAction.goToSearch,
       body: BlocBuilder<LocationSearchBloc, LocationSearchState>(
         builder: (context, state) {
           if (state is LocationSelectionSuccess) {

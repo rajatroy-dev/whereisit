@@ -5,15 +5,17 @@ import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart'
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 
 class AppScaffold extends StatefulWidget {
+  final AppBarAction? action;
   final Widget? body;
   final Widget? bottomNavigationBar;
-  final AppBarAction? action;
+  final bool? hasSearch;
 
   const AppScaffold({
     Key? key,
+    this.action,
     this.body,
     this.bottomNavigationBar,
-    this.action,
+    this.hasSearch,
   }) : super(key: key);
 
   @override
@@ -45,7 +47,7 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.action != null && widget.action == AppBarAction.search
+        title: widget.hasSearch != null && widget.hasSearch!
             ? TextField(
                 controller: textController,
                 decoration: const InputDecoration(
@@ -63,13 +65,9 @@ class _AppScaffoldState extends State<AppScaffold> {
               )
             : const Text('WhereIsIt'),
         automaticallyImplyLeading:
-            widget.action != null && widget.action == AppBarAction.search
-                ? false
-                : true,
+            widget.hasSearch != null && widget.hasSearch! ? false : true,
         centerTitle:
-            widget.action != null && widget.action == AppBarAction.search
-                ? true
-                : null,
+            widget.hasSearch != null && widget.hasSearch! ? true : null,
         actions: <Widget>[
           if (widget.action != null && widget.action == AppBarAction.edit)
             IconButton(
@@ -81,7 +79,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                 // do something
               },
             ),
-          if (widget.action != null && widget.action == AppBarAction.search)
+          if (widget.action != null && widget.action == AppBarAction.goToSearch)
             IconButton(
               icon: const Icon(
                 Icons.search_rounded,

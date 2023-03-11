@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
-import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/shared/bloc/update_item/update_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
@@ -13,6 +12,7 @@ import 'package:whereisit/shared/validators/input_validator.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
+import 'package:whereisit/shared/widgets/map_location_selector/map_location_selector.viewgroup.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 import 'package:whereisit/shared/widgets/single_child_scroll_view_mod/single_child_scroll_view_mod.viewgroup.dart';
 
@@ -196,7 +196,7 @@ class _EditItemState extends State<EditItem> {
                                   ),
                                   onPressed: () => Navigator.pushNamed(
                                     context,
-                                    LocationSearchScreen.routeName,
+                                    MapLocationSelector.routeName,
                                   ).then(
                                     (value) => extractAddressAndCoordinate(
                                       value as String,
