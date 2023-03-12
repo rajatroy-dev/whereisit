@@ -12,7 +12,7 @@ import 'package:whereisit/shared/validators/input_validator.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
-import 'package:whereisit/shared/widgets/map_location_selector/map_location_selector.viewgroup.dart';
+import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 import 'package:whereisit/shared/widgets/single_child_scroll_view_mod/single_child_scroll_view_mod.viewgroup.dart';
 
@@ -180,6 +180,7 @@ class _EditItemState extends State<EditItem> {
                             validator: InputValidator.name,
                           ),
                           TextFormField(
+                            maxLines: 5,
                             controller: _addressController,
                             decoration: const InputDecoration(
                               hintText: 'Address where the item is stored',

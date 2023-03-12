@@ -16,7 +16,7 @@ import 'package:whereisit/shared/bloc/update_item/update_item_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
-import 'package:whereisit/shared/widgets/map_location_selector/map_location_selector.viewgroup.dart';
+import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 
 void main() {
   runApp(const MyApp());
