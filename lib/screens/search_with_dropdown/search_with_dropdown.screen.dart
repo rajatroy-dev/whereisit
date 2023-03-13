@@ -11,7 +11,7 @@ class SearchWithDropdownScreen extends StatefulWidget {
 }
 
 class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
-  final _controller = TextEditingController();
+  final _textController = TextEditingController();
   final list = [
     'Alaskan Malamute',
     'Bohemian Shepherd',
@@ -40,7 +40,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
     ),
   );
 
-  InputDecoration _inputCrossDecoration() {
+  InputDecoration _inputClearDecoration() {
     return InputDecoration(
       border: const OutlineInputBorder(),
       hintText: 'Search . . .',
@@ -68,7 +68,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
       temp = temp.where((i) => i.toLowerCase().contains(value)).toList();
 
       setState(() {
-        decoration = _inputCrossDecoration();
+        decoration = _inputClearDecoration();
         showDropdown = true;
         filtered = temp;
       });
@@ -83,8 +83,8 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   }
 
   handleSuffixTap() {
-    if (_controller.text.isNotEmpty) {
-      _controller.clear();
+    if (_textController.text.isNotEmpty) {
+      _textController.clear();
       setState(() {
         decoration = _inputArrowDecoration();
         showDropdown = false;
@@ -108,10 +108,10 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                controller: _controller,
+                controller: _textController,
                 onChanged: handleInputChange,
-                decoration: _controller.text.isNotEmpty
-                    ? _inputCrossDecoration()
+                decoration: _textController.text.isNotEmpty
+                    ? _inputClearDecoration()
                     : _inputArrowDecoration(),
               ),
               if (showDropdown) DropdownList(list: filtered),

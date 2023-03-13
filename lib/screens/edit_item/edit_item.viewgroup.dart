@@ -119,40 +119,40 @@ class _EditItemState extends State<EditItem> {
     }
 
     return AppScaffold(
-      body: SingleChildScrollViewMod(
-        child: BlocBuilder<UpdateItemBloc, UpdateItemState>(
-          builder: (context, state) {
-            if (state is UpdateItemAllSuccess) {
-              return Wrap(
-                children: const [
-                  PillTag(
-                    title: '# This is a very large tag',
-                    isShort: false,
-                  ),
-                  PillTag(
-                    title: '# This is a large tag',
-                    isShort: false,
-                  ),
-                  PillTag(
-                    title: '# This is a large tag',
-                    isShort: false,
-                  ),
-                  PillTag(
-                    title: '# This is a large tag',
-                    isShort: false,
-                  ),
-                ],
-              );
-            }
+      body: Stack(
+        children: [
+          SingleChildScrollViewMod(
+            child: BlocBuilder<UpdateItemBloc, UpdateItemState>(
+              builder: (context, state) {
+                if (state is UpdateItemAllSuccess) {
+                  return Wrap(
+                    children: const [
+                      PillTag(
+                        title: '# This is a very large tag',
+                        isShort: false,
+                      ),
+                      PillTag(
+                        title: '# This is a large tag',
+                        isShort: false,
+                      ),
+                      PillTag(
+                        title: '# This is a large tag',
+                        isShort: false,
+                      ),
+                      PillTag(
+                        title: '# This is a large tag',
+                        isShort: false,
+                      ),
+                    ],
+                  );
+                }
 
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                child: Stack(
-                  children: [
-                    if (imageList.isNotEmpty)
-                      Column(
+                if (imageList.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           HorizontalImageListContainer(
@@ -179,14 +179,18 @@ class _EditItemState extends State<EditItem> {
                             hintText: 'Name of the item',
                             validator: InputValidator.name,
                           ),
-                          TextFormField(
-                            maxLines: 5,
-                            controller: _addressController,
-                            decoration: const InputDecoration(
-                              hintText: 'Address where the item is stored',
-                              labelText: 'Address',
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: TextFormField(
+                              maxLines: 5,
+                              controller: _addressController,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(10.0),
+                                hintText: 'Address where the item is stored',
+                                labelText: 'Address',
+                              ),
+                              validator: InputValidator.address,
                             ),
-                            validator: InputValidator.address,
                           ),
                           Row(
                             children: [
@@ -221,6 +225,61 @@ class _EditItemState extends State<EditItem> {
                             hintText: 'E.g., bedroom, livingroom, etc.',
                             validator: InputValidator.address,
                           ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Wrap(
+                              children: const [
+                                PillTag(
+                                  title: '#abcdef',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#ghijkl',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#mnopqr',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#stuvwx',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#abcdef',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#ghijkl',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#mnopqr',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#stuvwx',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#abcdef',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#ghijkl',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#mnopqr',
+                                  isShort: false,
+                                ),
+                                PillTag(
+                                  title: '#stuvwx',
+                                  isShort: false,
+                                ),
+                              ],
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: ElevatedButton(
@@ -241,16 +300,20 @@ class _EditItemState extends State<EditItem> {
                           ),
                         ],
                       ),
-                    if (showImageSourceChoice)
-                      ImageSourceChoicePopup(
-                        handler: handleImageSourceSelection,
-                      ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: Text('Something Went Wrong!'),
+                );
+              },
+            ),
+          ),
+          if (showImageSourceChoice)
+            ImageSourceChoicePopup(
+              handler: handleImageSourceSelection,
+            ),
+        ],
       ),
     );
   }
