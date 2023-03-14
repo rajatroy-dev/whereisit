@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
 
-part 'update_item_event.dart';
-part 'update_item_state.dart';
+part 'edit_item_event.dart';
+part 'edit_item_state.dart';
 
-class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
+class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var list = <CardData>[
     CardData(
       id: "1",
@@ -103,8 +103,21 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
     ),
   ];
 
-  UpdateItemBloc() : super(UpdateItemInitial()) {
-    on<UpdateItemFavorite>((event, emit) {
+  var newItem = CardData.empty();
+
+  var tags = <String>[
+    'abcdef',
+    'ghijkl',
+    'mnopqr',
+    'stuvwx',
+    'abcdef',
+    'ghijkl',
+    'mnopqr',
+    'stuvwx',
+  ];
+
+  EditItemBloc() : super(EditItemInitial()) {
+    on<EditItemFavorite>((event, emit) {
       var item = event.itemData;
 
       for (var element in list) {
@@ -113,10 +126,10 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
         }
       }
 
-      emit(UpdateItemFavoriteSuccess(item));
+      emit(EditItemFavoriteSuccess(item));
     });
 
-    on<UpdateItemAll>((event, emit) {
+    on<EditItemAll>((event, emit) {
       var item = list.firstWhere(
         (element) => element.id == event.id,
       );
@@ -136,10 +149,10 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
         }
       }
 
-      emit(UpdateItemFavoriteSuccess(item));
+      emit(EditItemFavoriteSuccess(item));
     });
 
-    on<UpdateItemNew>((event, emit) {
+    on<EditItemNew>((event, emit) {
       var item = CardData(
         id: event.itemData.id,
         title: event.itemData.title,
@@ -153,7 +166,15 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState> {
 
       list.add(item);
 
-      emit(UpdateItemFavoriteSuccess(item));
+      emit(EditItemNewSuccess(item));
     });
+
+    on<EditItemUpdateTags>(
+      (event, emit) {
+        tags.add(event.tag);
+
+        emit(EditItemUpdateTagSuccess(tags));
+      },
+    );
   }
 }

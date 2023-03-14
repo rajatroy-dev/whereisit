@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
-import 'package:whereisit/shared/bloc/update_item/update_item_bloc.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/validators/input_validator.dart';
@@ -101,8 +101,8 @@ class _EditItemState extends State<EditItem> {
     if (args != null) {
       var routeArgs = args as RouteArguments;
       if (routeArgs.hasParams && routeArgs.params!.containsKey('id')) {
-        BlocProvider.of<UpdateItemBloc>(context).add(
-          UpdateItemAll(routeArgs.params!['id']!),
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemAll(routeArgs.params!['id']!),
         );
       }
       if (routeArgs.hasParams &&
@@ -122,9 +122,9 @@ class _EditItemState extends State<EditItem> {
       body: Stack(
         children: [
           SingleChildScrollViewMod(
-            child: BlocBuilder<UpdateItemBloc, UpdateItemState>(
+            child: BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
-                if (state is UpdateItemAllSuccess) {
+                if (state is EditItemAllSuccess) {
                   return Wrap(
                     children: const [
                       PillTag(
@@ -279,6 +279,16 @@ class _EditItemState extends State<EditItem> {
                                 ),
                               ],
                             ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: handleAddImage,
+                                icon: const Icon(Icons.add_rounded),
+                                label: const Text('ADD MORE'),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
