@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/models/list_item.model.dart';
 
 class DropdownList extends StatelessWidget {
-  final List<String> list;
+  final List<ListItem> list;
+  final void Function(String) handleTap;
+  final void Function(String) handleSelect;
 
   const DropdownList({
     Key? key,
     required this.list,
+    required this.handleTap,
+    required this.handleSelect,
   }) : super(key: key);
 
   @override
@@ -26,12 +31,25 @@ class DropdownList extends StatelessWidget {
                   horizontal: 16.0,
                   vertical: 8.0,
                 ),
-                child: Text(
-                  list[index],
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+                child: list[index].isAddable
+                    ? GestureDetector(
+                        onTap: () => handleTap(list[index].value as String),
+                        child: Text(
+                          list[index].item,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () => handleSelect(list[index].item),
+                        child: Text(
+                          list[index].item,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
               );
             },
           ),

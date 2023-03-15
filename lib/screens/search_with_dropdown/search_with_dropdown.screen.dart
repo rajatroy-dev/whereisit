@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/models/list_item.model.dart';
 import 'package:whereisit/screens/search_with_dropdown/dropdown_list.view.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
 
 class SearchWithDropdownScreen extends StatefulWidget {
+  static const routeName = '/search-with-dropdown';
   const SearchWithDropdownScreen({Key? key}) : super(key: key);
 
   @override
@@ -11,18 +13,18 @@ class SearchWithDropdownScreen extends StatefulWidget {
 }
 
 class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
-  final _textController = TextEditingController();
-  final list = [
-    'Alaskan Malamute',
-    'Bohemian Shepherd',
-    'Cane Corso',
-    'Dobermann',
-    'English Mastiff',
-    'Finnish Hound',
-    'Great Dane'
+  final _controller = TextEditingController();
+  var list = [
+    ListItem(isAddable: false, item: 'Alaskan Malamute'),
+    ListItem(isAddable: false, item: 'Bohemian Shepherd'),
+    ListItem(isAddable: false, item: 'Cane Corso'),
+    ListItem(isAddable: false, item: 'Dobermann'),
+    ListItem(isAddable: false, item: 'English Mastiff'),
+    ListItem(isAddable: false, item: 'Finnish Hound'),
+    ListItem(isAddable: false, item: 'Great Dane'),
   ];
 
-  List<String> filtered = [];
+  List<ListItem> filtered = [];
   var showDropdown = false;
 
   @override
@@ -40,7 +42,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
     ),
   );
 
-  InputDecoration _inputClearDecoration() {
+  InputDecoration _inputCrossDecoration() {
     return InputDecoration(
       border: const OutlineInputBorder(),
       hintText: 'Search . . .',
@@ -65,10 +67,30 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   handleInputChange(String value) {
     if (value.isNotEmpty) {
       var temp = [...list];
-      temp = temp.where((i) => i.toLowerCase().contains(value)).toList();
+      var exact = false;
+
+      temp = temp.where((i) {
+        var iInLowerCase = i.item.toLowerCase();
+        var valueInLowerCase = value.toLowerCase();
+        if (!exact) {
+          exact = iInLowerCase == valueInLowerCase;
+        }
+        return iInLowerCase.contains(valueInLowerCase);
+      }).toList();
+
+      if (!exact) {
+        temp.insert(
+          0,
+          ListItem(
+            isAddable: true,
+            item: '+ Add "$value" to list',
+            value: value,
+          ),
+        );
+      }
 
       setState(() {
-        decoration = _inputClearDecoration();
+        decoration = _inputCrossDecoration();
         showDropdown = true;
         filtered = temp;
       });
@@ -83,8 +105,8 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   }
 
   handleSuffixTap() {
-    if (_textController.text.isNotEmpty) {
-      _textController.clear();
+    if (_controller.text.isNotEmpty) {
+      _controller.clear();
       setState(() {
         decoration = _inputArrowDecoration();
         showDropdown = false;
@@ -98,6 +120,24 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
     });
   }
 
+  handleAddToList(String value) {
+    var temp = [...list];
+    temp.insert(0, ListItem(isAddable: false, item: value));
+    setState(() {
+      list = temp;
+      filtered = list;
+      showDropdown = false;
+    });
+  }
+
+  handleSelect(String value) {
+    _controller.text = value;
+    setState(() {
+      filtered = list;
+      showDropdown = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -108,13 +148,18 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                controller: _textController,
+                controller: _controller,
                 onChanged: handleInputChange,
-                decoration: _textController.text.isNotEmpty
-                    ? _inputClearDecoration()
+                decoration: _controller.text.isNotEmpty
+                    ? _inputCrossDecoration()
                     : _inputArrowDecoration(),
               ),
-              if (showDropdown) DropdownList(list: filtered),
+              if (showDropdown)
+                DropdownList(
+                  list: filtered,
+                  handleTap: handleAddToList,
+                  handleSelect: handleSelect,
+                ),
             ],
           ),
         ),

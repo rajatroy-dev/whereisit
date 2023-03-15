@@ -51,11 +51,10 @@ class _AppScaffoldState extends State<AppScaffold> {
             ? TextField(
                 controller: textController,
                 decoration: const InputDecoration(
-                  hintText: 'Search location . . .',
+                  hintText: 'Search for a place',
                   hintStyle: TextStyle(
-                    color: Colors.white,
+                    color: Colors.white54,
                     fontSize: 18,
-                    fontStyle: FontStyle.italic,
                   ),
                   border: InputBorder.none,
                 ),
@@ -64,8 +63,6 @@ class _AppScaffoldState extends State<AppScaffold> {
                 ),
               )
             : const Text('WhereIsIt'),
-        automaticallyImplyLeading:
-            widget.hasSearch != null && widget.hasSearch! ? false : true,
         centerTitle:
             widget.hasSearch != null && widget.hasSearch! ? true : null,
         actions: <Widget>[
@@ -90,15 +87,18 @@ class _AppScaffoldState extends State<AppScaffold> {
                 LocationSearchScreen.routeName,
               ).then((value) => LocationSelected(value as String)),
             ),
-          if (widget.action != null && widget.action == AppBarAction.clear)
+          if (widget.hasSearch != null && widget.hasSearch!)
             IconButton(
               icon: const Icon(
                 Icons.close_rounded,
                 color: Colors.white,
               ),
-              onPressed: () => BlocProvider.of<LocationSearchBloc>(context).add(
-                LocationSearchClear(),
-              ),
+              onPressed: () {
+                textController.clear();
+                BlocProvider.of<LocationSearchBloc>(context).add(
+                  LocationSearchClear(),
+                );
+              },
             ),
         ],
       ),

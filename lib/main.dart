@@ -11,6 +11,7 @@ import 'package:whereisit/screens/screens/add.dart';
 import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
 import 'package:whereisit/screens/screens/search.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
               const LocationSearchScreen(),
           MapLocationSelector.routeName: (context) =>
               const MapLocationSelector(),
+          SearchWithDropdownScreen.routeName: (context) =>
+              const SearchWithDropdownScreen(),
         },
       ),
     );

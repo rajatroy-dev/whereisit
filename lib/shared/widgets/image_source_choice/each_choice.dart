@@ -25,7 +25,7 @@ class EachChoice extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              iconSize: 80,
+              iconSize: 50,
               onPressed: () => handler(choice),
               icon: choice == SourceChoice.gallery
                   ? const Icon(Icons.insert_photo_rounded)

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
@@ -284,7 +285,10 @@ class _EditItemState extends State<EditItem> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ElevatedButton.icon(
-                                onPressed: handleAddImage,
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  SearchWithDropdownScreen.routeName,
+                                ),
                                 icon: const Icon(Icons.add_rounded),
                                 label: const Text('ADD MORE'),
                               ),
