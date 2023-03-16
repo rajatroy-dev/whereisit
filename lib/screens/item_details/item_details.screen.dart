@@ -4,7 +4,7 @@ import 'package:whereisit/screens/home/items_list/item_card/item_location.view.d
 import 'package:whereisit/screens/home/items_list/item_card/item_quantity.view.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/intents/Item_details.intent.dart';
-import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class ItemDetails extends StatefulWidget {
   static const routeName = '/item-details';

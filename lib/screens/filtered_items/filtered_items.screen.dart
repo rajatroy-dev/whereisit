@@ -5,7 +5,7 @@ import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/shared/enums/chronology.enum.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
 import 'package:whereisit/shared/intents/view_all.intent.dart';
-import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
 import 'package:whereisit/shared/widgets/fullscreen_error/fullscreen_error.viewgroup.dart';
 import 'package:whereisit/shared/widgets/sort/item_sort.viewgroup.dart';

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/search_bar.view.dart';
 
 class AppScaffold extends StatefulWidget {
   final AppBarAction? action;
@@ -43,24 +44,22 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.dispose();
   }
 
+  handleLocationSearchClear() {
+    textController.clear();
+    BlocProvider.of<LocationSearchBloc>(context).add(
+      LocationSearchClear(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: widget.hasSearch != null && widget.hasSearch!
-            ? TextField(
+            ? ScaffoldSearchBar(
+                handleClear: handleLocationSearchClear,
+                searchHint: 'Search a place',
                 controller: textController,
-                decoration: const InputDecoration(
-                  hintText: 'Search for a place',
-                  hintStyle: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 18,
-                  ),
-                  border: InputBorder.none,
-                ),
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
               )
             : const Text('WhereIsIt'),
         centerTitle:
@@ -87,18 +86,16 @@ class _AppScaffoldState extends State<AppScaffold> {
                 LocationSearchScreen.routeName,
               ).then((value) => LocationSelected(value as String)),
             ),
-          if (widget.hasSearch != null && widget.hasSearch!)
+          if (widget.action != null && widget.action == AppBarAction.searchTag)
             IconButton(
               icon: const Icon(
-                Icons.close_rounded,
+                Icons.search_rounded,
                 color: Colors.white,
               ),
-              onPressed: () {
-                textController.clear();
-                BlocProvider.of<LocationSearchBloc>(context).add(
-                  LocationSearchClear(),
-                );
-              },
+              onPressed: () => Navigator.pushNamed(
+                context,
+                LocationSearchScreen.routeName,
+              ).then((value) => LocationSelected(value as String)),
             ),
         ],
       ),

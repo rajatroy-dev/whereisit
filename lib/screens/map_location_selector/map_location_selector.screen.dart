@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
-import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/models/locations.model.dart' as locations;
 
 class MapLocationSelector extends StatefulWidget {

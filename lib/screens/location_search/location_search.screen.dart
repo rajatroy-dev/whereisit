@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
-import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class LocationSearchScreen extends StatefulWidget {
   static const routeName = '/location-search';

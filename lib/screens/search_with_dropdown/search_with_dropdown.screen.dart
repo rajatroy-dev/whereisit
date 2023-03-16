@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/models/list_item.model.dart';
 import 'package:whereisit/screens/search_with_dropdown/dropdown_list.view.dart';
-import 'package:whereisit/shared/widgets/app_scaffold.viewgroup.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
+import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class SearchWithDropdownScreen extends StatefulWidget {
   static const routeName = '/search-with-dropdown';
@@ -141,6 +142,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      action: AppBarAction.searchTag,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
