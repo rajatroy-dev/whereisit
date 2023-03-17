@@ -3,4 +3,5 @@ enum AppBarAction {
   edit,
   goToSearch,
   searchTag,
+  searchLocation,
 }

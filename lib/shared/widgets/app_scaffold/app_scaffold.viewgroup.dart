@@ -9,14 +9,12 @@ class AppScaffold extends StatefulWidget {
   final AppBarAction? action;
   final Widget? body;
   final Widget? bottomNavigationBar;
-  final bool? hasSearch;
 
   const AppScaffold({
     Key? key,
     this.action,
     this.body,
     this.bottomNavigationBar,
-    this.hasSearch,
   }) : super(key: key);
 
   @override
@@ -51,19 +49,32 @@ class _AppScaffoldState extends State<AppScaffold> {
     );
   }
 
+  handleTagSearchClear() {}
+
+  _buildTitle() {
+    if (widget.action != null && widget.action == AppBarAction.searchLocation) {
+      return ScaffoldSearchBar(
+        handleClear: handleLocationSearchClear,
+        searchHint: 'Search places',
+        controller: textController,
+      );
+    } else if (widget.action != null &&
+        widget.action == AppBarAction.searchTag) {
+      return ScaffoldSearchBar(
+        handleClear: handleLocationSearchClear,
+        searchHint: 'Search tags',
+        controller: textController,
+      );
+    } else {
+      return const Text('WhereIsIt');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.hasSearch != null && widget.hasSearch!
-            ? ScaffoldSearchBar(
-                handleClear: handleLocationSearchClear,
-                searchHint: 'Search a place',
-                controller: textController,
-              )
-            : const Text('WhereIsIt'),
-        centerTitle:
-            widget.hasSearch != null && widget.hasSearch! ? true : null,
+        title: _buildTitle(),
         actions: <Widget>[
           if (widget.action != null && widget.action == AppBarAction.edit)
             IconButton(
@@ -76,17 +87,6 @@ class _AppScaffoldState extends State<AppScaffold> {
               },
             ),
           if (widget.action != null && widget.action == AppBarAction.goToSearch)
-            IconButton(
-              icon: const Icon(
-                Icons.search_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.pushNamed(
-                context,
-                LocationSearchScreen.routeName,
-              ).then((value) => LocationSelected(value as String)),
-            ),
-          if (widget.action != null && widget.action == AppBarAction.searchTag)
             IconButton(
               icon: const Icon(
                 Icons.search_rounded,

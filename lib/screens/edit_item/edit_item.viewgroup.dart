@@ -233,50 +233,62 @@ class _EditItemState extends State<EditItem> {
                                 PillTag(
                                   title: '#abcdef',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#ghijkl',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#mnopqr',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#stuvwx',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#abcdef',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#ghijkl',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#mnopqr',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#stuvwx',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#abcdef',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#ghijkl',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#mnopqr',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                                 PillTag(
                                   title: '#stuvwx',
                                   isShort: false,
+                                  hasDelete: true,
                                 ),
                               ],
                             ),
