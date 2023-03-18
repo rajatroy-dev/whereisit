@@ -21,8 +21,10 @@ class EditItemNew extends EditItemEvent {
   EditItemNew(this.itemData);
 }
 
-class EditItemUpdateTags extends EditItemEvent {
-  final String tag;
+class EditItemTagsInitial extends EditItemEvent {}
 
-  EditItemUpdateTags(this.tag);
+class EditItemToggleTag extends EditItemEvent {
+  final ListItem tag;
+
+  EditItemToggleTag(this.tag);
 }

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/models/list_item.model.dart';
 
 part 'edit_item_event.dart';
 part 'edit_item_state.dart';
@@ -105,15 +106,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var newItem = CardData.empty();
 
-  var tags = <String>[
-    'abcdef',
-    'ghijkl',
-    'mnopqr',
-    'stuvwx',
-    'abcdef',
-    'ghijkl',
-    'mnopqr',
-    'stuvwx',
+  var tags = <ListItem>[
+    ListItem(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
+    ListItem(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
+    ListItem(isSelected: false, isNew: false, item: 'Cane Corso'),
+    ListItem(isSelected: false, isNew: false, item: 'Dobermann'),
+    ListItem(isSelected: false, isNew: false, item: 'English Mastiff'),
+    ListItem(isSelected: false, isNew: false, item: 'Finnish Hound'),
+    ListItem(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
 
   EditItemBloc() : super(EditItemInitial()) {
@@ -169,11 +169,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemNewSuccess(item));
     });
 
-    on<EditItemUpdateTags>(
+    on<EditItemTagsInitial>(
+      (event, emit) => emit(
+        EditItemToggleTagSuccess(tags),
+      ),
+    );
+
+    on<EditItemToggleTag>(
       (event, emit) {
         tags.add(event.tag);
 
-        emit(EditItemUpdateTagSuccess(tags));
+        emit(EditItemToggleTagSuccess(tags));
       },
     );
   }

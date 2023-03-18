@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/list_item.model.dart';
 import 'package:whereisit/screens/search_with_dropdown/dropdown_list.view.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
@@ -16,13 +18,13 @@ class SearchWithDropdownScreen extends StatefulWidget {
 class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   final _controller = TextEditingController();
   var list = [
-    ListItem(isAddable: false, item: 'Alaskan Malamute'),
-    ListItem(isAddable: false, item: 'Bohemian Shepherd'),
-    ListItem(isAddable: false, item: 'Cane Corso'),
-    ListItem(isAddable: false, item: 'Dobermann'),
-    ListItem(isAddable: false, item: 'English Mastiff'),
-    ListItem(isAddable: false, item: 'Finnish Hound'),
-    ListItem(isAddable: false, item: 'Great Dane'),
+    ListItem(isNew: false, item: 'Alaskan Malamute'),
+    ListItem(isNew: false, item: 'Bohemian Shepherd'),
+    ListItem(isNew: false, item: 'Cane Corso'),
+    ListItem(isNew: false, item: 'Dobermann'),
+    ListItem(isNew: false, item: 'English Mastiff'),
+    ListItem(isNew: false, item: 'Finnish Hound'),
+    ListItem(isNew: false, item: 'Great Dane'),
   ];
 
   List<ListItem> filtered = [];
@@ -31,6 +33,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
   @override
   void initState() {
     filtered = list;
+    BlocProvider.of<EditItemBloc>(context).add(EditItemTagsInitial());
     super.initState();
   }
 
@@ -83,7 +86,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
         temp.insert(
           0,
           ListItem(
-            isAddable: true,
+            isNew: true,
             item: '+ Add "$value" to list',
             value: value,
           ),
@@ -123,7 +126,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
 
   handleAddToList(String value) {
     var temp = [...list];
-    temp.insert(0, ListItem(isAddable: false, item: value));
+    temp.insert(0, ListItem(isNew: false, item: value));
     setState(() {
       list = temp;
       filtered = list;
@@ -159,7 +162,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
               if (showDropdown)
                 DropdownList(
                   list: filtered,
-                  handleTap: handleAddToList,
+                  handleNew: handleAddToList,
                   handleSelect: handleSelect,
                 ),
             ],

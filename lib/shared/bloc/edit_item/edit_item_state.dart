@@ -23,10 +23,10 @@ class EditItemNewSuccess extends EditItemState {
   EditItemNewSuccess(this.itemData);
 }
 
-class EditItemUpdateTagSuccess extends EditItemState {
-  final List<String> tags;
+class EditItemToggleTagSuccess extends EditItemState {
+  final List<ListItem> tags;
 
-  EditItemUpdateTagSuccess(this.tags);
+  EditItemToggleTagSuccess(this.tags);
 }
 
 class EditItemFailure extends EditItemState {

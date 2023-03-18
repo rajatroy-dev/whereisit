@@ -30,7 +30,7 @@ class PillTag extends StatelessWidget {
               vertical: 5.0,
               horizontal: 8.0,
             ),
-            child: Container(
+            child: ConstrainedBox(
               constraints: isShort
                   ? const BoxConstraints(
                       maxWidth: 60,
