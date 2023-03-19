@@ -170,14 +170,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     });
 
     on<EditItemTagsInitial>(
-      (event, emit) => emit(
-        EditItemToggleTagSuccess(tags),
-      ),
+      (event, emit) => emit(EditItemToggleTagSuccess(tags)),
     );
 
     on<EditItemToggleTag>(
       (event, emit) {
-        tags.add(event.tag);
+        for (var element in tags) {
+          if (element.item == event.tag.item) {
+            element = ListItem(
+              isNew: event.tag.isNew,
+              item: event.tag.item,
+              isSelected: event.tag.isSelected,
+              value: event.tag.value,
+            );
+          }
+        }
 
         emit(EditItemToggleTagSuccess(tags));
       },

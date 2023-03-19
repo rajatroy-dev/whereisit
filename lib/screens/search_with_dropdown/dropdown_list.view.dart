@@ -4,13 +4,11 @@ import 'package:whereisit/models/list_item.model.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
 class DropdownList extends StatelessWidget {
-  final List<ListItem> list;
   final void Function(String) handleNew;
   final void Function(String) handleSelect;
 
   const DropdownList({
     Key? key,
-    required this.list,
     required this.handleNew,
     required this.handleSelect,
   }) : super(key: key);
@@ -28,46 +26,55 @@ class DropdownList extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(
-                    left: 8.0,
-                    right: 8.0,
                     bottom: 16.0,
                   ),
-                  child: list[index].isNew
-                      ? Row(
-                          children: [
-                            Checkbox(
-                              value: state.tags[index].isSelected,
-                              onChanged: (bool? value) {
-                                var temp = state.tags[index];
-                                state.tags[index] = ListItem(
-                                  isNew: temp.isNew,
-                                  item: temp.item,
-                                  isSelected: value,
-                                  value: temp.value,
-                                );
-                                EditItemToggleTag(state.tags[index]);
-                              },
-                            ),
-                            GestureDetector(
-                              onTap: () =>
-                                  handleNew(list[index].value as String),
-                              child: Text(
-                                list[index].item,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : GestureDetector(
-                          onTap: () => handleSelect(list[index].item),
+                  child: state.tags[index].isNew
+                      ? GestureDetector(
+                          onTap: () =>
+                              handleNew(state.tags[index].value as String),
                           child: Text(
-                            list[index].item,
+                            state.tags[index].item,
                             style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
+                        )
+                      : Row(
+                          children: [
+                            SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: Checkbox(
+                                value: state.tags[index].isSelected ?? false,
+                                onChanged: (bool? value) {
+                                  var tempList = state.tags;
+                                  var temp = tempList[index];
+                                  tempList[index] = ListItem(
+                                    isNew: temp.isNew,
+                                    item: temp.item,
+                                    isSelected: value,
+                                    value: temp.value,
+                                  );
+                                  BlocProvider.of<EditItemBloc>(context).add(
+                                    EditItemToggleTag(temp),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: GestureDetector(
+                                onTap: () =>
+                                    handleSelect(state.tags[index].item),
+                                child: Text(
+                                  state.tags[index].item,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                 );
               },
