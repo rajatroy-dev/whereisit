@@ -28,3 +28,9 @@ class EditItemToggleTag extends EditItemEvent {
 
   EditItemToggleTag(this.tag);
 }
+
+class EditItemUpdateTagCount extends EditItemEvent {
+  final int count;
+
+  EditItemUpdateTagCount(this.count);
+}

@@ -116,6 +116,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     ListItem(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
 
+  var selectedTagCount = 0;
+
   EditItemBloc() : super(EditItemInitial()) {
     on<EditItemFavorite>((event, emit) {
       var item = event.itemData;
@@ -180,13 +182,20 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             element = ListItem(
               isNew: event.tag.isNew,
               item: event.tag.item,
-              isSelected: event.tag.isSelected,
+              isSelected: event.tag.isSelected ?? false,
               value: event.tag.value,
             );
           }
         }
 
         emit(EditItemToggleTagSuccess(tags));
+      },
+    );
+
+    on<EditItemUpdateTagCount>(
+      (event, emit) {
+        event.count > 0 ? selectedTagCount++ : selectedTagCount--;
+        emit(EditItemSelectedTagsCountUpdateSuccess(selectedTagCount));
       },
     );
   }

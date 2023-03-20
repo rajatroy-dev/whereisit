@@ -29,6 +29,12 @@ class EditItemToggleTagSuccess extends EditItemState {
   EditItemToggleTagSuccess(this.tags);
 }
 
+class EditItemSelectedTagsCountUpdateSuccess extends EditItemState {
+  final int selectedTagCount;
+
+  EditItemSelectedTagsCountUpdateSuccess(this.selectedTagCount);
+}
+
 class EditItemFailure extends EditItemState {
   final String errorMsg;
 

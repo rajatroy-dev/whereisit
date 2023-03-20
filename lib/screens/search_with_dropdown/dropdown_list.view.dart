@@ -55,6 +55,21 @@ class DropdownList extends StatelessWidget {
                                     isSelected: value,
                                     value: temp.value,
                                   );
+
+                                  if (value != null) {
+                                    if (value) {
+                                      BlocProvider.of<EditItemBloc>(context)
+                                          .add(
+                                        EditItemUpdateTagCount(1),
+                                      );
+                                    } else {
+                                      BlocProvider.of<EditItemBloc>(context)
+                                          .add(
+                                        EditItemUpdateTagCount(-1),
+                                      );
+                                    }
+                                  }
+
                                   BlocProvider.of<EditItemBloc>(context).add(
                                     EditItemToggleTag(temp),
                                   );

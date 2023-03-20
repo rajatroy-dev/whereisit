@@ -134,6 +134,30 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              BlocBuilder<EditItemBloc, EditItemState>(
+                builder: (context, state) {
+                  if (state is EditItemSelectedTagsCountUpdateSuccess) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 8.0,
+                      ),
+                      child: Text(
+                        '${state.selectedTagCount.toString()} tags selected',
+                      ),
+                    );
+                  }
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 8.0,
+                    ),
+                    child: Text(
+                      '0 tag selected',
+                    ),
+                  );
+                },
+              ),
               TextField(
                 controller: _controller,
                 onChanged: handleInputChange,
