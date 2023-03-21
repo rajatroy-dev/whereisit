@@ -29,6 +29,12 @@ class EditItemToggleTagSuccess extends EditItemState {
   EditItemToggleTagSuccess(this.tags);
 }
 
+class EditItemSearchTagSuccess extends EditItemState {
+  final List<ListItem> tags;
+
+  EditItemSearchTagSuccess(this.tags);
+}
+
 class EditItemSelectedTagsCountUpdateSuccess extends EditItemState {
   final int selectedTagCount;
 

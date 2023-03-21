@@ -135,27 +135,21 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BlocBuilder<EditItemBloc, EditItemState>(
+                buildWhen: (_, currentState) =>
+                    currentState is EditItemSelectedTagsCountUpdateSuccess,
                 builder: (context, state) {
                   if (state is EditItemSelectedTagsCountUpdateSuccess) {
+                    var count = state.selectedTagCount;
+                    var tagOrtags = count <= 1 ? 'tag' : 'tags';
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 8.0,
                         horizontal: 8.0,
                       ),
-                      child: Text(
-                        '${state.selectedTagCount.toString()} tags selected',
-                      ),
+                      child: Text('${count.toString()} $tagOrtags selected'),
                     );
                   }
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 8.0,
-                    ),
-                    child: Text(
-                      '0 tag selected',
-                    ),
-                  );
+                  return const SizedBox();
                 },
               ),
               TextField(

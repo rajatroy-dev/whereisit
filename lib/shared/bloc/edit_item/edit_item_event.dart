@@ -23,6 +23,12 @@ class EditItemNew extends EditItemEvent {
 
 class EditItemTagsInitial extends EditItemEvent {}
 
+class EditItemTagSearch extends EditItemEvent {
+  final String tag;
+
+  EditItemTagSearch(this.tag);
+}
+
 class EditItemToggleTag extends EditItemEvent {
   final ListItem tag;
 

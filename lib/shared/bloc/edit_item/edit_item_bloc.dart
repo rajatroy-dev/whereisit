@@ -175,6 +175,35 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) => emit(EditItemToggleTagSuccess(tags)),
     );
 
+    on<EditItemTagSearch>(
+      (event, emit) {
+        var exists = false;
+        var temp = <ListItem>[];
+
+        for (var element in tags) {
+          var elementItemInLowerCase = element.item.toLowerCase();
+          var eventItemInLowerCase = event.tag.toLowerCase();
+          if (elementItemInLowerCase.contains(eventItemInLowerCase)) {
+            exists = true;
+            temp.add(element);
+          }
+        }
+
+        if (!exists) {
+          temp = [
+            ListItem(
+              isNew: true,
+              item: '+ Add "${event.tag}" to list',
+              isSelected: false,
+            ),
+            ...temp,
+          ];
+        }
+
+        emit(EditItemSearchTagSuccess(temp));
+      },
+    );
+
     on<EditItemToggleTag>(
       (event, emit) {
         for (var element in tags) {

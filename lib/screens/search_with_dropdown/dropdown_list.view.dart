@@ -94,6 +94,81 @@ class DropdownList extends StatelessWidget {
                 );
               },
             );
+          } else if (state is EditItemSearchTagSuccess) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.tags.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 16.0,
+                  ),
+                  child: state.tags[index].isNew
+                      ? GestureDetector(
+                          onTap: () =>
+                              handleNew(state.tags[index].value as String),
+                          child: Text(
+                            state.tags[index].item,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        )
+                      : Row(
+                          children: [
+                            SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: Checkbox(
+                                value: state.tags[index].isSelected ?? false,
+                                onChanged: (bool? value) {
+                                  var tempList = state.tags;
+                                  var temp = tempList[index];
+                                  tempList[index] = ListItem(
+                                    isNew: temp.isNew,
+                                    item: temp.item,
+                                    isSelected: value,
+                                    value: temp.value,
+                                  );
+
+                                  if (value != null) {
+                                    if (value) {
+                                      BlocProvider.of<EditItemBloc>(context)
+                                          .add(
+                                        EditItemUpdateTagCount(1),
+                                      );
+                                    } else {
+                                      BlocProvider.of<EditItemBloc>(context)
+                                          .add(
+                                        EditItemUpdateTagCount(-1),
+                                      );
+                                    }
+                                  }
+
+                                  BlocProvider.of<EditItemBloc>(context).add(
+                                    EditItemToggleTag(temp),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: GestureDetector(
+                                onTap: () =>
+                                    handleSelect(state.tags[index].item),
+                                child: Text(
+                                  state.tags[index].item,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                );
+              },
+            );
           }
           return const SizedBox();
         },
