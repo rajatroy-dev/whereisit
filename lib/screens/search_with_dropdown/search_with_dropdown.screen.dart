@@ -140,7 +140,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
                 builder: (context, state) {
                   if (state is EditItemSelectedTagsCountUpdateSuccess) {
                     var count = state.selectedTagCount;
-                    var tagOrtags = count <= 1 ? 'tag' : 'tags';
+                    var tagOrtags = count == 1 ? 'tag' : 'tags';
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 8.0,
@@ -151,13 +151,6 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
                   }
                   return const SizedBox();
                 },
-              ),
-              TextField(
-                controller: _controller,
-                onChanged: handleInputChange,
-                decoration: _controller.text.isNotEmpty
-                    ? _inputCrossDecoration()
-                    : _inputArrowDecoration(),
               ),
               DropdownList(
                 handleNew: handleAddToList,

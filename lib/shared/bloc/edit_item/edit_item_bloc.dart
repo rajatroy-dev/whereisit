@@ -118,6 +118,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var selectedTagCount = 0;
 
+  var selectedTags = <ListItem>[];
+
   EditItemBloc() : super(EditItemInitial()) {
     on<EditItemFavorite>((event, emit) {
       var item = event.itemData;
@@ -225,6 +227,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         event.count > 0 ? selectedTagCount++ : selectedTagCount--;
         emit(EditItemSelectedTagsCountUpdateSuccess(selectedTagCount));
+      },
+    );
+
+    on<EditItemTagsSelected>(
+      (event, emit) {
+        selectedTags = event.items;
+        emit(EditItemTagsSelectionSuccess(selectedTags));
       },
     );
   }

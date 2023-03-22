@@ -30,13 +30,16 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.initState();
 
     // Start listening to changes.
-    textController.addListener(
-      () => widget.action == AppBarAction.searchLocation
-          ? LocationSearchByKeyword(textController.text)
-          : BlocProvider.of<EditItemBloc>(context).add(
-              EditItemTagSearch(textController.text),
-            ),
-    );
+    textController.addListener(() {
+      if (widget.action == AppBarAction.searchLocation) {
+        LocationSearchByKeyword(textController.text);
+      }
+      if (widget.action == AppBarAction.searchTag) {
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemTagSearch(textController.text),
+        );
+      }
+    });
   }
 
   @override
@@ -101,6 +104,14 @@ class _AppScaffoldState extends State<AppScaffold> {
                 context,
                 LocationSearchScreen.routeName,
               ).then((value) => LocationSelected(value as String)),
+            ),
+          if (widget.action != null && widget.action == AppBarAction.searchTag)
+            IconButton(
+              icon: const Icon(
+                Icons.check_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pop(context),
             ),
         ],
       ),
