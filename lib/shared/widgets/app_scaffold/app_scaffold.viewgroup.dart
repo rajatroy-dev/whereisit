@@ -111,7 +111,12 @@ class _AppScaffoldState extends State<AppScaffold> {
                 Icons.check_rounded,
                 color: Colors.white,
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                BlocProvider.of<EditItemBloc>(context).add(
+                  EditItemTagsSelected(),
+                );
+                Navigator.pop(context);
+              },
             ),
         ],
       ),

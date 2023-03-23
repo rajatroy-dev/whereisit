@@ -3,6 +3,8 @@ part of 'edit_item_bloc.dart';
 @immutable
 abstract class EditItemEvent {}
 
+class EditItemLoadNew extends EditItemEvent {}
+
 class EditItemFavorite extends EditItemEvent {
   final CardData itemData;
 
@@ -41,8 +43,4 @@ class EditItemUpdateTagCount extends EditItemEvent {
   EditItemUpdateTagCount(this.count);
 }
 
-class EditItemTagsSelected extends EditItemEvent {
-  final List<ListItem> items;
-
-  EditItemTagsSelected(this.items);
-}
+class EditItemTagsSelected extends EditItemEvent {}
