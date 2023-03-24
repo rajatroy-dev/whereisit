@@ -88,6 +88,7 @@ class DBProvider {
     // The items stored will normally be categorized like books, electronics ...
     await db.execute('CREATE TABLE categories ('
         'id INTEGER PRIMARY KEY, '
+        'parent TEXT, '
         'name TEXT NOT NULL UNIQUE, '
         'created_by TEXT NOT NULL, '
         'created_at TEXT NOT NULL, '
