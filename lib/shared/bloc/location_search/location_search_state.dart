@@ -18,7 +18,7 @@ class LocationSearchFailure extends LocationSearchState {
 }
 
 class LocationSelectionSuccess extends LocationSearchState {
-  final String addressAndCoordinates;
+  final Map<String, String> addressAndCoordinates;
 
   LocationSelectionSuccess(this.addressAndCoordinates);
 }

@@ -146,6 +146,8 @@ class _EditItemState extends State<EditItem> {
                       imageSourceChoiceHandler: handleAddImage,
                       addressController: _addressController,
                     );
+                  } else {
+                    return const Center(child: Text('Something went wrong!'));
                   }
                 } else if (imageList.isNotEmpty) {
                   if (state is EditItemInitial) {
@@ -275,9 +277,7 @@ class _EditItemState extends State<EditItem> {
                     );
                   }
                 }
-                return const Center(
-                  child: Text('Something Went Wrong!'),
-                );
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ),

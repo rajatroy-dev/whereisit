@@ -20,6 +20,9 @@ class LocationSearchBloc
     '70081 Kunze Forges, Amanimouth, Delaware, 88948-3490',
   ];
 
+  var selectedAddress = '';
+  var selectedLocation = '';
+
   LocationSearchBloc() : super(LocationSearchInitial()) {
     on<LocationSearchByKeyword>((event, emit) {
       if (InputValidator.address(event.location) != null) {
@@ -40,7 +43,19 @@ class LocationSearchBloc
     });
 
     on<LocationSelected>((event, emit) {
-      emit(LocationSelectionSuccess(event.location));
+      // format: address=alsdalksd&coordinates=12.12,123.123
+      var locationDetails = event.location.split('&');
+
+      var temp = <String, String>{};
+      var firstKey = locationDetails[0].split('=');
+      temp[firstKey[0]] = firstKey[1];
+      var secondKey = locationDetails[1].split('=');
+      temp[secondKey[0]] = secondKey[1];
+
+      selectedAddress = temp['address']!;
+      selectedLocation = temp['coordinates']!;
+
+      emit(LocationSelectionSuccess(temp));
     });
   }
 }
