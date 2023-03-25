@@ -5,6 +5,12 @@ abstract class EditItemState {}
 
 class EditItemInitial extends EditItemState {}
 
+class AddItemInitial extends EditItemState {
+  final List<String> imageList;
+
+  AddItemInitial(this.imageList);
+}
+
 class EditItemFavoriteSuccess extends EditItemState {
   final CardData itemData;
 

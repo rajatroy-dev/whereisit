@@ -140,7 +140,14 @@ class _EditItemState extends State<EditItem> {
           SingleChildScrollViewMod(
             child: BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
-                if (imageList.isNotEmpty) {
+                if (state is AddItemInitial) {
+                  if (state.imageList.isNotEmpty) {
+                    return EditItemForm(
+                      imageSourceChoiceHandler: handleAddImage,
+                      addressController: _addressController,
+                    );
+                  }
+                } else if (imageList.isNotEmpty) {
                   if (state is EditItemInitial) {
                     return EditItemForm(
                       imageSourceChoiceHandler: handleAddImage,

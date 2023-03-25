@@ -17,6 +17,12 @@ class EditItemAll extends EditItemEvent {
   EditItemAll(this.id);
 }
 
+class AddItemFirstImage extends EditItemEvent {
+  final String image;
+
+  AddItemFirstImage(this.image);
+}
+
 class EditItemNew extends EditItemEvent {
   final CardData itemData;
 

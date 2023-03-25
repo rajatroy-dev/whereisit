@@ -104,6 +104,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     ),
   ];
 
+  var imageList = <String>[];
+
   var newItem = CardData.empty();
 
   var tags = <ListItem>[
@@ -179,6 +181,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagsInitial>(
       (event, emit) => emit(EditItemToggleTagSuccess(tags)),
+    );
+
+    on<AddItemFirstImage>(
+      (event, emit) {
+        imageList = [event.image];
+
+        emit(AddItemInitial(imageList));
+      },
     );
 
     on<EditItemTagSearch>(
