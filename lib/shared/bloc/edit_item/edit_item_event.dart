@@ -49,4 +49,8 @@ class EditItemUpdateTagCount extends EditItemEvent {
   EditItemUpdateTagCount(this.count);
 }
 
-class EditItemTagsSelected extends EditItemEvent {}
+class EditItemTagsSelected extends EditItemEvent {
+  final ListItem? tag;
+
+  EditItemTagsSelected({this.tag});
+}

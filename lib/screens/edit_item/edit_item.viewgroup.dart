@@ -149,133 +149,19 @@ class _EditItemState extends State<EditItem> {
                   } else {
                     return const Center(child: Text('Something went wrong!'));
                   }
-                } else if (imageList.isNotEmpty) {
-                  if (state is EditItemInitial) {
-                    return EditItemForm(
-                      imageSourceChoiceHandler: handleAddImage,
-                      addressController: _addressController,
-                    );
-                  } else if (state is EditItemTagsSelectionSuccess) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalImageListContainer(
-                              images: imageList,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: handleAddImage,
-                                  icon: const Icon(Icons.add_rounded),
-                                  label: const Text('ADD MORE'),
-                                ),
-                              ],
-                            ),
-                            const TextInput(
-                              initialValue: '1',
-                              labelText: 'Quantity',
-                              hintText: 'How many items are you storing?',
-                              validator: InputValidator.quantity,
-                            ),
-                            const TextInput(
-                              labelText: 'Name',
-                              hintText: 'Name of the item',
-                              validator: InputValidator.name,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: TextFormField(
-                                maxLines: 5,
-                                controller: _addressController,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  hintText: 'Address where the item is stored',
-                                  labelText: 'Address',
-                                ),
-                                validator: InputValidator.address,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextButton.icon(
-                                    icon: const Icon(
-                                      Icons.add_location_alt_rounded,
-                                    ),
-                                    onPressed: () => Navigator.pushNamed(
-                                      context,
-                                      MapLocationSelector.routeName,
-                                    ).then(
-                                      (value) => extractAddressAndCoordinate(
-                                        value as String,
-                                      ),
-                                    ),
-                                    label: coordinates.isEmpty
-                                        ? const Text(
-                                            'Select a location from Maps')
-                                        : Text(coordinates),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const TextInput(
-                              labelText: 'Property',
-                              hintText: 'E.g., home, office, etc.',
-                              validator: InputValidator.address,
-                            ),
-                            const TextInput(
-                              labelText: 'Room',
-                              hintText: 'E.g., bedroom, livingroom, etc.',
-                              validator: InputValidator.address,
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Wrap(
-                                children: _buildTagsList(state.items),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    SearchWithDropdownScreen.routeName,
-                                  ),
-                                  icon: const Icon(Icons.add_rounded),
-                                  label: const Text('ADD MORE'),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(48),
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Processing Data'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: const Text('SUBMIT'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
+                }
+                if (state is EditItemInitial) {
+                  return EditItemForm(
+                    imageSourceChoiceHandler: handleAddImage,
+                    addressController: _addressController,
+                  );
+                }
+
+                if (state is EditItemTagsSelectionSuccess) {
+                  return EditItemForm(
+                    imageSourceChoiceHandler: handleAddImage,
+                    addressController: _addressController,
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
               },

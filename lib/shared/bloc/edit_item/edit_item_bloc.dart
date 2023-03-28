@@ -122,6 +122,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var selectedTags = <ListItem>[];
 
+  _toggleTagSelection(dynamic event) {
+    if (event is EditItemToggleTag || event is EditItemTagsSelected) {
+      for (var element in tags) {
+        if (element.item == event.tag.item) {
+          element = ListItem(
+            isNew: event.tag.isNew,
+            item: event.tag.item,
+            isSelected: event.tag.isSelected ?? false,
+            value: event.tag.value,
+          );
+        }
+      }
+    }
+  }
+
   EditItemBloc() : super(EditItemInitial()) {
     on<EditItemLoadNew>((event, emit) {
       emit(EditItemInitial());
@@ -222,17 +237,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemToggleTag>(
       (event, emit) {
-        for (var element in tags) {
-          if (element.item == event.tag.item) {
-            element = ListItem(
-              isNew: event.tag.isNew,
-              item: event.tag.item,
-              isSelected: event.tag.isSelected ?? false,
-              value: event.tag.value,
-            );
-          }
-        }
-
+        _toggleTagSelection(event);
         emit(EditItemToggleTagSuccess(tags));
       },
     );
@@ -246,9 +251,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagsSelected>(
       (event, emit) {
-        for (var element in tags) {
-          if (element.isSelected != null && element.isSelected!) {
-            selectedTags.add(element);
+        if (event.tag != null) {
+          selectedTags.add(event.tag!);
+        } else {
+          for (var element in tags) {
+            if (element.isSelected != null && element.isSelected!) {
+              selectedTags.add(element);
+            }
           }
         }
         emit(EditItemTagsSelectionSuccess(selectedTags));
