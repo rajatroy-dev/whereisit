@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:whereisit/models/list_item.model.dart';
+import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/edit_item/edit_item_form/edit_item_form.viewgroup.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
@@ -97,7 +97,7 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
-  List<Widget> _buildTagsList(List<ListItem> tags) {
+  List<Widget> _buildTagsList(List<Tag> tags) {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
       pillTagsList.add(PillTag(
@@ -143,6 +143,7 @@ class _EditItemState extends State<EditItem> {
                 if (state is AddItemInitial) {
                   if (state.imageList.isNotEmpty) {
                     return EditItemForm(
+                      imageList: state.imageList,
                       imageSourceChoiceHandler: handleAddImage,
                       addressController: _addressController,
                     );
@@ -152,6 +153,7 @@ class _EditItemState extends State<EditItem> {
                 }
                 if (state is EditItemInitial) {
                   return EditItemForm(
+                    imageList: [],
                     imageSourceChoiceHandler: handleAddImage,
                     addressController: _addressController,
                   );
@@ -159,6 +161,7 @@ class _EditItemState extends State<EditItem> {
 
                 if (state is EditItemTagsSelectionSuccess) {
                   return EditItemForm(
+                    imageList: [],
                     imageSourceChoiceHandler: handleAddImage,
                     addressController: _addressController,
                   );

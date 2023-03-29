@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/list_item.model.dart';
+import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
@@ -12,7 +12,7 @@ import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
 class EditItemForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final _imageList = <String>[];
+  final List<String> imageList;
 
   final void Function() imageSourceChoiceHandler;
   final TextEditingController addressController;
@@ -21,9 +21,10 @@ class EditItemForm extends StatelessWidget {
     Key? key,
     required this.imageSourceChoiceHandler,
     required this.addressController,
+    required this.imageList,
   }) : super(key: key);
 
-  List<Widget> _buildTagsList(List<ListItem> tags) {
+  List<Widget> _buildTagsList(List<Tag> tags) {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
       pillTagsList.add(PillTag(
@@ -46,7 +47,7 @@ class EditItemForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HorizontalImageListContainer(
-              images: _imageList,
+              images: imageList,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

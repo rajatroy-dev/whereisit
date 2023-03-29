@@ -30,13 +30,13 @@ class EditItemNewSuccess extends EditItemState {
 }
 
 class EditItemToggleTagSuccess extends EditItemState {
-  final List<ListItem> tags;
+  final List<Tag> tags;
 
   EditItemToggleTagSuccess(this.tags);
 }
 
 class EditItemSearchTagSuccess extends EditItemState {
-  final List<ListItem> tags;
+  final List<Tag> tags;
 
   EditItemSearchTagSuccess(this.tags);
 }
@@ -54,7 +54,7 @@ class EditItemFailure extends EditItemState {
 }
 
 class EditItemTagsSelectionSuccess extends EditItemState {
-  final List<ListItem> items;
+  final List<Tag> items;
 
   EditItemTagsSelectionSuccess(this.items);
 }

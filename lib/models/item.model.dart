@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:whereisit/models/tag.model.dart';
+
 Item itemFromMap(String str) => Item.fromMap(json.decode(str));
 
 String itemToMap(Item data) => json.encode(data.toMap());
@@ -24,6 +26,8 @@ class Item {
     this.qr,
     required this.createdAt,
     required this.updatedAt,
+    this.uiTagsList,
+    this.uiImagesList,
   });
 
   int? id;
@@ -40,6 +44,27 @@ class Item {
   String? qr;
   final int createdAt;
   final int updatedAt;
+  List<Tag>? uiTagsList;
+  List<String>? uiImagesList;
+
+  factory Item.uiObj(Map<String, dynamic> json) => Item(
+        id: json["id"],
+        propertyId: json["property_id"],
+        roomId: json["room_id"],
+        categoryId: json["category_id"],
+        name: json["name"],
+        thumbnail: json["thumbnail"],
+        quantity: json["quantity"],
+        favorite: json["favorite"],
+        locationId: json["location_id"],
+        serial: json["serial"],
+        description: json["description"],
+        qr: json["qr"],
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
+        uiTagsList: json['uiTtagsList'],
+        uiImagesList: json['uiImagesList'],
+      );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(
         id: json["id"],

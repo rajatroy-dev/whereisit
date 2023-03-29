@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/list_item.model.dart';
+import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
 class DropdownList extends StatelessWidget {
@@ -38,7 +38,7 @@ class DropdownList extends StatelessWidget {
                           onChanged: (bool? value) {
                             var tempList = state.tags;
                             var temp = tempList[index];
-                            tempList[index] = ListItem(
+                            tempList[index] = Tag(
                               isNew: temp.isNew,
                               item: temp.item,
                               isSelected: value,
@@ -110,7 +110,7 @@ class DropdownList extends StatelessWidget {
                                 onChanged: (bool? value) {
                                   var tempList = state.tags;
                                   var temp = tempList[index];
-                                  tempList[index] = ListItem(
+                                  tempList[index] = Tag(
                                     isNew: temp.isNew,
                                     item: temp.item,
                                     isSelected: value,

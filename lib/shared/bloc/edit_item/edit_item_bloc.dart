@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/models/list_item.model.dart';
+import 'package:whereisit/models/tag.model.dart';
 
 part 'edit_item_event.dart';
 part 'edit_item_state.dart';
@@ -108,25 +108,25 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var newItem = CardData.empty();
 
-  var tags = <ListItem>[
-    ListItem(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
-    ListItem(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
-    ListItem(isSelected: false, isNew: false, item: 'Cane Corso'),
-    ListItem(isSelected: false, isNew: false, item: 'Dobermann'),
-    ListItem(isSelected: false, isNew: false, item: 'English Mastiff'),
-    ListItem(isSelected: false, isNew: false, item: 'Finnish Hound'),
-    ListItem(isSelected: false, isNew: false, item: 'Great Dane'),
+  var tags = <Tag>[
+    Tag(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
+    Tag(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
+    Tag(isSelected: false, isNew: false, item: 'Cane Corso'),
+    Tag(isSelected: false, isNew: false, item: 'Dobermann'),
+    Tag(isSelected: false, isNew: false, item: 'English Mastiff'),
+    Tag(isSelected: false, isNew: false, item: 'Finnish Hound'),
+    Tag(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
 
   var selectedTagCount = 0;
 
-  var selectedTags = <ListItem>[];
+  var selectedTags = <Tag>[];
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemToggleTag || event is EditItemTagsSelected) {
       for (var element in tags) {
         if (element.item == event.tag.item) {
-          element = ListItem(
+          element = Tag(
             isNew: event.tag.isNew,
             item: event.tag.item,
             isSelected: event.tag.isSelected ?? false,
@@ -209,7 +209,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagSearch>(
       (event, emit) {
         var exists = false;
-        var temp = <ListItem>[];
+        var temp = <Tag>[];
 
         for (var element in tags) {
           var elementItemInLowerCase = element.item.toLowerCase();
@@ -222,7 +222,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         if (!exists) {
           temp = [
-            ListItem(
+            Tag(
               isNew: true,
               item: '+ Add "${event.tag}" to list',
               isSelected: false,

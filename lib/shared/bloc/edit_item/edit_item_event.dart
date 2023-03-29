@@ -38,7 +38,7 @@ class EditItemTagSearch extends EditItemEvent {
 }
 
 class EditItemToggleTag extends EditItemEvent {
-  final ListItem tag;
+  final Tag tag;
 
   EditItemToggleTag(this.tag);
 }
@@ -50,7 +50,7 @@ class EditItemUpdateTagCount extends EditItemEvent {
 }
 
 class EditItemTagsSelected extends EditItemEvent {
-  final ListItem? tag;
+  final Tag? tag;
 
   EditItemTagsSelected({this.tag});
 }

@@ -1,29 +1,13 @@
-// To parse this JSON data, do
-//
-//     final tag = tagFromMap(jsonString);
-
-import 'dart:convert';
-
-Tag tagFromMap(String str) => Tag.fromMap(json.decode(str));
-
-String tagToMap(Tag data) => json.encode(data.toMap());
-
 class Tag {
   Tag({
-    this.id,
-    required this.name,
+    required this.isNew,
+    required this.item,
+    this.value,
+    this.isSelected,
   });
 
-  String? id;
-  final String name;
-
-  factory Tag.fromMap(Map<String, dynamic> json) => Tag(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "name": name,
-      };
+  final bool isNew;
+  final String item;
+  final String? value;
+  final bool? isSelected;
 }

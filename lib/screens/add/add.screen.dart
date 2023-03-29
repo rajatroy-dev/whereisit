@@ -29,12 +29,12 @@ class _AddState extends State<Add> {
   sendImagetoEdit(XFile image) async {
     Directory tempDir = await getApplicationDocumentsDirectory();
     var path = '${tempDir.path}/${image.name}';
-    image.saveTo(path);
+    await image.saveTo(path);
     Navigator.pushNamed(
       context,
       EditItem.routeName,
     );
-    BlocProvider.of<EditItemBloc>(context).add(AddItemFirstImage(image.name));
+    BlocProvider.of<EditItemBloc>(context).add(AddItemFirstImage(path));
     setState(() {
       showImageSourceChoice = false;
     });
