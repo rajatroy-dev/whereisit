@@ -6,9 +6,9 @@ abstract class EditItemState {}
 class EditItemInitial extends EditItemState {}
 
 class AddItemInitial extends EditItemState {
-  final List<String> imageList;
+  final Item item;
 
-  AddItemInitial(this.imageList);
+  AddItemInitial(this.item);
 }
 
 class EditItemFavoriteSuccess extends EditItemState {

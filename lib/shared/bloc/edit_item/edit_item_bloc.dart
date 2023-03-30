@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/models/item.model.dart';
 import 'package:whereisit/models/tag.model.dart';
 
 part 'edit_item_event.dart';
@@ -108,6 +109,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var newItem = CardData.empty();
 
+  var item = Item.forUi({
+    'uiTagsList': [],
+    'uiImagesList': [],
+  });
+
   var tags = <Tag>[
     Tag(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
     Tag(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
@@ -123,7 +129,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var selectedTags = <Tag>[];
 
   _toggleTagSelection(dynamic event) {
-    if (event is EditItemToggleTag || event is EditItemTagsSelected) {
+    if (event is EditItemToggleTag) {
       for (var element in tags) {
         if (element.item == event.tag.item) {
           element = Tag(
@@ -200,9 +206,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<AddItemFirstImage>(
       (event, emit) {
-        imageList = [event.image];
+        item.uiImagesList = [event.image];
 
-        emit(AddItemInitial(imageList));
+        emit(AddItemInitial(item));
       },
     );
 
@@ -260,6 +266,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             }
           }
         }
+        item.uiTagsList = selectedTags;
         emit(EditItemTagsSelectionSuccess(selectedTags));
       },
     );

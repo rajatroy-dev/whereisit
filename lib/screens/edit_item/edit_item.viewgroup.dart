@@ -141,9 +141,9 @@ class _EditItemState extends State<EditItem> {
             child: BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
                 if (state is AddItemInitial) {
-                  if (state.imageList.isNotEmpty) {
+                  if (state.item.uiImagesList!.isNotEmpty) {
                     return EditItemForm(
-                      imageList: state.imageList,
+                      imageList: state.item.uiImagesList!,
                       imageSourceChoiceHandler: handleAddImage,
                       addressController: _addressController,
                     );

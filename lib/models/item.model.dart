@@ -47,7 +47,7 @@ class Item {
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
 
-  factory Item.uiObj(Map<String, dynamic> json) => Item(
+  factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
         propertyId: json["property_id"],
         roomId: json["room_id"],
@@ -62,7 +62,7 @@ class Item {
         qr: json["qr"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
-        uiTagsList: json['uiTtagsList'],
+        uiTagsList: json['uiTagsList'],
         uiImagesList: json['uiImagesList'],
       );
 
