@@ -27,11 +27,13 @@ class EditItemForm extends StatelessWidget {
   List<Widget> _buildTagsList(List<Tag> tags) {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
-      pillTagsList.add(PillTag(
-        title: '#${element.item}',
-        isShort: false,
-        hasDelete: true,
-      ));
+      if (element.isSelected!) {
+        pillTagsList.add(PillTag(
+          title: '#${element.item}',
+          isShort: false,
+          hasDelete: true,
+        ));
+      }
     }
 
     return pillTagsList;

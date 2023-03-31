@@ -135,7 +135,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           element = Tag(
             isNew: event.tag.isNew,
             item: event.tag.item,
-            isSelected: event.tag.isSelected ?? false,
+            isSelected: event.tag.isSelected!,
             value: event.tag.value,
           );
         }
@@ -258,13 +258,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagsSelected>(
       (event, emit) {
         if (event.tag != null) {
-          selectedTags.add(event.tag!);
-        } else {
-          for (var element in tags) {
-            if (element.isSelected != null && element.isSelected!) {
-              selectedTags.add(element);
-            }
+          if (!item.uiTagsList!.contains(event.tag)) {
+            selectedTags.add(event.tag!);
           }
+        } else {
+          selectedTags = tags;
         }
         item.uiTagsList = selectedTags;
         emit(EditItemTagsSelectionSuccess(selectedTags));
