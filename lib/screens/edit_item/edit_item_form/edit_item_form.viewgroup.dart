@@ -24,7 +24,7 @@ class EditItemForm extends StatelessWidget {
     required this.imageList,
   }) : super(key: key);
 
-  List<Widget> _buildTagsList(List<Tag> tags) {
+  List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
       if (element.isSelected!) {
@@ -32,6 +32,9 @@ class EditItemForm extends StatelessWidget {
           title: '#${element.item}',
           isShort: false,
           hasDelete: true,
+          handleDelete: () => BlocProvider.of<EditItemBloc>(context).add(
+            EditItemTagRemove(element.item),
+          ),
         ));
       }
     }
@@ -139,7 +142,7 @@ class EditItemForm extends StatelessWidget {
                   return SizedBox(
                     width: double.infinity,
                     child: Wrap(
-                      children: _buildTagsList(state.items),
+                      children: _buildTagsList(state.items, context),
                     ),
                   );
                 }

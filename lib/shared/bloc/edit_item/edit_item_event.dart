@@ -29,7 +29,7 @@ class EditItemNew extends EditItemEvent {
   EditItemNew(this.itemData);
 }
 
-class EditItemTagsInitial extends EditItemEvent {}
+class EditItemTagInitial extends EditItemEvent {}
 
 class EditItemTagSearch extends EditItemEvent {
   final String tag;
@@ -37,16 +37,22 @@ class EditItemTagSearch extends EditItemEvent {
   EditItemTagSearch(this.tag);
 }
 
-class EditItemToggleTag extends EditItemEvent {
+class EditItemTagToggle extends EditItemEvent {
   final Tag tag;
 
-  EditItemToggleTag(this.tag);
+  EditItemTagToggle(this.tag);
 }
 
-class EditItemUpdateTagCount extends EditItemEvent {
+class EditItemTagRemove extends EditItemEvent {
+  final String item;
+
+  EditItemTagRemove(this.item);
+}
+
+class EditItemTagUpdateCount extends EditItemEvent {
   final int count;
 
-  EditItemUpdateTagCount(this.count);
+  EditItemTagUpdateCount(this.count);
 }
 
 class EditItemTagsSelected extends EditItemEvent {

@@ -129,7 +129,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var selectedTags = <Tag>[];
 
   _toggleTagSelection(dynamic event) {
-    if (event is EditItemToggleTag) {
+    if (event is EditItemTagToggle) {
       for (var element in tags) {
         if (element.item == event.tag.item) {
           element = Tag(
@@ -200,8 +200,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemNewSuccess(item));
     });
 
-    on<EditItemTagsInitial>(
-      (event, emit) => emit(EditItemToggleTagSuccess(tags)),
+    on<EditItemTagInitial>(
+      (event, emit) => emit(EditItemTagToggleSuccess(tags)),
     );
 
     on<AddItemFirstImage>(
@@ -237,21 +237,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           ];
         }
 
-        emit(EditItemSearchTagSuccess(temp));
+        emit(EditItemTagSearchSuccess(temp));
       },
     );
 
-    on<EditItemToggleTag>(
+    on<EditItemTagToggle>(
       (event, emit) {
         _toggleTagSelection(event);
-        emit(EditItemToggleTagSuccess(tags));
+        emit(EditItemTagToggleSuccess(tags));
       },
     );
 
-    on<EditItemUpdateTagCount>(
+    on<EditItemTagUpdateCount>(
       (event, emit) {
         event.count > 0 ? selectedTagCount++ : selectedTagCount--;
-        emit(EditItemSelectedTagsCountUpdateSuccess(selectedTagCount));
+        emit(EditItemTagsOnSelectionCountUpdateSuccess(selectedTagCount));
       },
     );
 
@@ -264,6 +264,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         } else {
           selectedTags = tags;
         }
+        item.uiTagsList = selectedTags;
+        emit(EditItemTagsSelectionSuccess(selectedTags));
+      },
+    );
+
+    on<EditItemTagRemove>(
+      (event, emit) {
+        int index = 0;
+        for (var i = 0; i < selectedTags.length; i++) {
+          if (selectedTags[i].item == event.item) {
+            index = i;
+            break;
+          }
+        }
+        selectedTags.removeAt(index);
         item.uiTagsList = selectedTags;
         emit(EditItemTagsSelectionSuccess(selectedTags));
       },

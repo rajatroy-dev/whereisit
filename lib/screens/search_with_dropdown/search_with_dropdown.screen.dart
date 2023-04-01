@@ -21,7 +21,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
 
   @override
   void initState() {
-    BlocProvider.of<EditItemBloc>(context).add(EditItemTagsInitial());
+    BlocProvider.of<EditItemBloc>(context).add(EditItemTagInitial());
     super.initState();
   }
 
@@ -136,9 +136,9 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
             children: [
               BlocBuilder<EditItemBloc, EditItemState>(
                 buildWhen: (_, currentState) =>
-                    currentState is EditItemSelectedTagsCountUpdateSuccess,
+                    currentState is EditItemTagsOnSelectionCountUpdateSuccess,
                 builder: (context, state) {
-                  if (state is EditItemSelectedTagsCountUpdateSuccess) {
+                  if (state is EditItemTagsOnSelectionCountUpdateSuccess) {
                     var count = state.selectedTagCount;
                     var tagOrtags = count == 1 ? 'tag' : 'tags';
                     return Padding(

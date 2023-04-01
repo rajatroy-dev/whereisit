@@ -4,13 +4,19 @@ class PillTag extends StatelessWidget {
   final String title;
   final bool isShort;
   final bool hasDelete;
+  final void Function()? handleDelete;
 
   const PillTag({
     Key? key,
     required this.title,
     this.isShort = true,
     this.hasDelete = false,
-  }) : super(key: key);
+    this.handleDelete,
+  })  : assert(
+          hasDelete && handleDelete == null,
+          'Delete option for PillTag was enabled but function was not provided!',
+        ),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +56,7 @@ class PillTag extends StatelessWidget {
           ),
           if (hasDelete)
             GestureDetector(
+              onTap: handleDelete,
               child: IntrinsicHeight(
                 child: Row(
                   children: const [

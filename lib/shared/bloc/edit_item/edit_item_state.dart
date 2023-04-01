@@ -29,22 +29,22 @@ class EditItemNewSuccess extends EditItemState {
   EditItemNewSuccess(this.itemData);
 }
 
-class EditItemToggleTagSuccess extends EditItemState {
+class EditItemTagToggleSuccess extends EditItemState {
   final List<Tag> tags;
 
-  EditItemToggleTagSuccess(this.tags);
+  EditItemTagToggleSuccess(this.tags);
 }
 
-class EditItemSearchTagSuccess extends EditItemState {
+class EditItemTagSearchSuccess extends EditItemState {
   final List<Tag> tags;
 
-  EditItemSearchTagSuccess(this.tags);
+  EditItemTagSearchSuccess(this.tags);
 }
 
-class EditItemSelectedTagsCountUpdateSuccess extends EditItemState {
+class EditItemTagsOnSelectionCountUpdateSuccess extends EditItemState {
   final int selectedTagCount;
 
-  EditItemSelectedTagsCountUpdateSuccess(this.selectedTagCount);
+  EditItemTagsOnSelectionCountUpdateSuccess(this.selectedTagCount);
 }
 
 class EditItemFailure extends EditItemState {

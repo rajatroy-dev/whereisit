@@ -19,7 +19,7 @@ class DropdownList extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16.0),
       child: BlocBuilder<EditItemBloc, EditItemState>(
         builder: (context, state) {
-          if (state is EditItemToggleTagSuccess) {
+          if (state is EditItemTagToggleSuccess) {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: state.tags.length,
@@ -48,17 +48,17 @@ class DropdownList extends StatelessWidget {
                             if (value != null) {
                               if (value) {
                                 BlocProvider.of<EditItemBloc>(context).add(
-                                  EditItemUpdateTagCount(1),
+                                  EditItemTagUpdateCount(1),
                                 );
                               } else {
                                 BlocProvider.of<EditItemBloc>(context).add(
-                                  EditItemUpdateTagCount(-1),
+                                  EditItemTagUpdateCount(-1),
                                 );
                               }
                             }
 
                             BlocProvider.of<EditItemBloc>(context).add(
-                              EditItemToggleTag(temp),
+                              EditItemTagToggle(temp),
                             );
                           },
                         ),
@@ -80,7 +80,7 @@ class DropdownList extends StatelessWidget {
                 );
               },
             );
-          } else if (state is EditItemSearchTagSuccess) {
+          } else if (state is EditItemTagSearchSuccess) {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: state.tags.length,
@@ -121,18 +121,18 @@ class DropdownList extends StatelessWidget {
                                     if (value) {
                                       BlocProvider.of<EditItemBloc>(context)
                                           .add(
-                                        EditItemUpdateTagCount(1),
+                                        EditItemTagUpdateCount(1),
                                       );
                                     } else {
                                       BlocProvider.of<EditItemBloc>(context)
                                           .add(
-                                        EditItemUpdateTagCount(-1),
+                                        EditItemTagUpdateCount(-1),
                                       );
                                     }
                                   }
 
                                   BlocProvider.of<EditItemBloc>(context).add(
-                                    EditItemToggleTag(temp),
+                                    EditItemTagToggle(temp),
                                   );
                                 },
                               ),
