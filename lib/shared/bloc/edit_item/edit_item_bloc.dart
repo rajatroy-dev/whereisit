@@ -126,11 +126,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var selectedTagCount = 0;
 
-  var selectedTags = <Tag>[];
+  var editedTags = <Tag>[];
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
-      for (var element in tags) {
+      for (var element in editedTags) {
         if (element.item == event.tag.item) {
           element = Tag(
             isNew: event.tag.isNew,
@@ -201,7 +201,27 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     });
 
     on<EditItemTagInitial>(
-      (event, emit) => emit(EditItemTagToggleSuccess(tags)),
+      // What are the cases?
+      // We have an original list of tags.
+      // This list will be displayed on first load.
+      // From second list onwards, the edited list of tags.
+      // So, now we have twlist of tags.
+      // Do, we need a third list that will contain only the selected list of tags?
+      // My answer is no.
+      (event, emit) {
+        if (editedTags.isEmpty) {
+          for (var element in tags) {
+            editedTags.add(
+              Tag(
+                  isNew: element.isNew,
+                  item: element.item,
+                  isSelected: element.isSelected,
+                  value: element.value),
+            );
+          }
+        }
+        emit(EditItemTagToggleSuccess(editedTags));
+      },
     );
 
     on<AddItemFirstImage>(
@@ -217,7 +237,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         var exists = false;
         var temp = <Tag>[];
 
-        for (var element in tags) {
+        for (var element in editedTags) {
           var elementItemInLowerCase = element.item.toLowerCase();
           var eventItemInLowerCase = event.tag.toLowerCase();
           if (elementItemInLowerCase.contains(eventItemInLowerCase)) {
@@ -244,7 +264,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagToggle>(
       (event, emit) {
         _toggleTagSelection(event);
-        emit(EditItemTagToggleSuccess(tags));
+        emit(EditItemTagToggleSuccess(editedTags));
       },
     );
 
@@ -257,30 +277,28 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagsSelected>(
       (event, emit) {
-        if (event.tag != null) {
-          if (!item.uiTagsList!.contains(event.tag)) {
-            selectedTags.add(event.tag!);
-          }
-        } else {
-          selectedTags = tags;
-        }
-        item.uiTagsList = selectedTags;
-        emit(EditItemTagsSelectionSuccess(selectedTags));
+        item.uiTagsList = editedTags;
+        emit(EditItemTagsSelectionSuccess(editedTags));
       },
     );
 
     on<EditItemTagRemove>(
       (event, emit) {
         int index = 0;
-        for (var i = 0; i < selectedTags.length; i++) {
-          if (selectedTags[i].item == event.item) {
+        for (var i = 0; i < editedTags.length; i++) {
+          if (editedTags[i].item == event.item) {
             index = i;
             break;
           }
         }
-        selectedTags.removeAt(index);
-        item.uiTagsList = selectedTags;
-        emit(EditItemTagsSelectionSuccess(selectedTags));
+        editedTags[index] = Tag(
+          isNew: editedTags[index].isNew,
+          item: editedTags[index].item,
+          isSelected: false,
+          value: editedTags[index].value,
+        );
+        item.uiTagsList = editedTags;
+        emit(EditItemTagsSelectionSuccess(editedTags));
       },
     );
   }

@@ -13,7 +13,8 @@ class PillTag extends StatelessWidget {
     this.hasDelete = false,
     this.handleDelete,
   })  : assert(
-          hasDelete && handleDelete == null,
+          (hasDelete && handleDelete != null) ||
+              (!hasDelete && handleDelete == null),
           'Delete option for PillTag was enabled but function was not provided!',
         ),
         super(key: key);
