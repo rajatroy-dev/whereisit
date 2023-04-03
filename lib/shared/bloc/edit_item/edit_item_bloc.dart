@@ -278,7 +278,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagsSelected>(
       (event, emit) {
         item.uiTagsList = editedTags;
-        emit(EditItemTagsSelectionSuccess(editedTags));
+        emit(EditItemTagsSelectionSuccess(item));
       },
     );
 
@@ -298,7 +298,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           value: editedTags[index].value,
         );
         item.uiTagsList = editedTags;
-        emit(EditItemTagsSelectionSuccess(editedTags));
+        emit(EditItemTagsSelectionSuccess(item));
       },
     );
   }

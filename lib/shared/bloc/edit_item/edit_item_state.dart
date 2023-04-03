@@ -54,7 +54,7 @@ class EditItemFailure extends EditItemState {
 }
 
 class EditItemTagsSelectionSuccess extends EditItemState {
-  final List<Tag> items;
+  final Item item;
 
-  EditItemTagsSelectionSuccess(this.items);
+  EditItemTagsSelectionSuccess(this.item);
 }

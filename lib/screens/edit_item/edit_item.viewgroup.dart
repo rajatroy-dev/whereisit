@@ -97,19 +97,6 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
-  List<Widget> _buildTagsList(List<Tag> tags) {
-    var pillTagsList = <Widget>[];
-    for (var element in tags) {
-      pillTagsList.add(PillTag(
-        title: '#${element.item}',
-        isShort: false,
-        hasDelete: true,
-      ));
-    }
-
-    return pillTagsList;
-  }
-
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
@@ -138,36 +125,9 @@ class _EditItemState extends State<EditItem> {
       body: Stack(
         children: [
           SingleChildScrollViewMod(
-            child: BlocBuilder<EditItemBloc, EditItemState>(
-              builder: (context, state) {
-                if (state is AddItemInitial) {
-                  if (state.item.uiImagesList!.isNotEmpty) {
-                    return EditItemForm(
-                      imageList: state.item.uiImagesList!,
-                      imageSourceChoiceHandler: handleAddImage,
-                      addressController: _addressController,
-                    );
-                  } else {
-                    return const Center(child: Text('Something went wrong!'));
-                  }
-                }
-                if (state is EditItemInitial) {
-                  return EditItemForm(
-                    imageList: [],
-                    imageSourceChoiceHandler: handleAddImage,
-                    addressController: _addressController,
-                  );
-                }
-
-                if (state is EditItemTagsSelectionSuccess) {
-                  return EditItemForm(
-                    imageList: [],
-                    imageSourceChoiceHandler: handleAddImage,
-                    addressController: _addressController,
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
+            child: EditItemForm(
+              imageSourceChoiceHandler: handleAddImage,
+              addressController: _addressController,
             ),
           ),
           if (showImageSourceChoice)

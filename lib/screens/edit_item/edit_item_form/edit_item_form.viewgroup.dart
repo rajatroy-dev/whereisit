@@ -12,7 +12,6 @@ import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
 class EditItemForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final List<String> imageList;
 
   final void Function() imageSourceChoiceHandler;
   final TextEditingController addressController;
@@ -21,7 +20,6 @@ class EditItemForm extends StatelessWidget {
     Key? key,
     required this.imageSourceChoiceHandler,
     required this.addressController,
-    required this.imageList,
   }) : super(key: key);
 
   List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
@@ -51,8 +49,24 @@ class EditItemForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HorizontalImageListContainer(
-              images: imageList,
+            BlocBuilder<EditItemBloc, EditItemState>(
+              buildWhen: (previous, current) =>
+                  current is AddItemInitial ||
+                  current is EditItemTagsSelectionSuccess,
+              builder: (context, state) {
+                var imagesList = <String>[];
+                if (state is AddItemInitial) {
+                  imagesList = state.item.uiImagesList!;
+                } else if (state is EditItemTagsSelectionSuccess) {
+                  imagesList = state.item.uiImagesList!;
+                }
+                if (imagesList.isNotEmpty) {
+                  return HorizontalImageListContainer(
+                    images: imagesList,
+                  );
+                }
+                return const Center(child: Text('Something Went Wrong!'));
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -142,7 +156,7 @@ class EditItemForm extends StatelessWidget {
                   return SizedBox(
                     width: double.infinity,
                     child: Wrap(
-                      children: _buildTagsList(state.items, context),
+                      children: _buildTagsList(state.item.uiTagsList!, context),
                     ),
                   );
                 }
