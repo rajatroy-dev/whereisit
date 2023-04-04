@@ -58,3 +58,9 @@ class EditItemTagsSelectionSuccess extends EditItemState {
 
   EditItemTagsSelectionSuccess(this.item);
 }
+
+class EditItemSubmitSuccess extends EditItemState {
+  final Item item;
+
+  EditItemSubmitSuccess(this.item);
+}

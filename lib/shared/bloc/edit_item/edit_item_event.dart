@@ -60,3 +60,9 @@ class EditItemTagsSelected extends EditItemEvent {
 
   EditItemTagsSelected({this.tag});
 }
+
+class EditItemSubmit extends EditItemEvent {
+  final Item item;
+
+  EditItemSubmit(this.item);
+}

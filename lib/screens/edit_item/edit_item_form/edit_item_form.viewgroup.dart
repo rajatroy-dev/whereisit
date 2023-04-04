@@ -15,11 +15,13 @@ class EditItemForm extends StatelessWidget {
 
   final void Function() imageSourceChoiceHandler;
   final TextEditingController addressController;
+  final TextEditingController nameController;
 
   EditItemForm({
     Key? key,
     required this.imageSourceChoiceHandler,
     required this.addressController,
+    required this.nameController,
   }) : super(key: key);
 
   List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
@@ -51,13 +53,12 @@ class EditItemForm extends StatelessWidget {
           children: [
             BlocBuilder<EditItemBloc, EditItemState>(
               buildWhen: (previous, current) =>
-                  current is AddItemInitial ||
-                  current is EditItemTagsSelectionSuccess,
+                  current is AddItemInitial || current is EditItemSubmitSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
                 if (state is AddItemInitial) {
                   imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemTagsSelectionSuccess) {
+                } else if (state is EditItemSubmitSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 if (imagesList.isNotEmpty) {
@@ -84,10 +85,19 @@ class EditItemForm extends StatelessWidget {
               hintText: 'How many items are you storing?',
               validator: InputValidator.quantity,
             ),
-            const TextInput(
-              labelText: 'Name',
-              hintText: 'Name of the item',
-              validator: InputValidator.name,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Focus(
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText: 'Name of the item',
+                    labelText: 'Name',
+                  ),
+                  validator: InputValidator.name,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -152,7 +162,7 @@ class EditItemForm extends StatelessWidget {
             ),
             BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
-                if (state is EditItemTagsSelectionSuccess) {
+                if (state is EditItemSubmitSuccess) {
                   return SizedBox(
                     width: double.infinity,
                     child: Wrap(

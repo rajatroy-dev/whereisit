@@ -31,10 +31,16 @@ class EditItem extends StatefulWidget {
 class _EditItemState extends State<EditItem> {
   final _formKey = GlobalKey<FormState>();
   final _addressController = TextEditingController();
+  final _nameController = TextEditingController();
 
   var imageList = <String>[];
   var showImageSourceChoice = false;
   var coordinates = '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   handleAddImage() {
     setState(() {
@@ -128,6 +134,7 @@ class _EditItemState extends State<EditItem> {
             child: EditItemForm(
               imageSourceChoiceHandler: handleAddImage,
               addressController: _addressController,
+              nameController: _nameController,
             ),
           ),
           if (showImageSourceChoice)

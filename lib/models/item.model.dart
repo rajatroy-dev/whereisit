@@ -26,6 +26,7 @@ class Item {
     this.qr,
     required this.createdAt,
     required this.updatedAt,
+    this.uiName,
     this.uiTagsList,
     this.uiImagesList,
   });
@@ -44,6 +45,7 @@ class Item {
   String? qr;
   final int createdAt;
   final int updatedAt;
+  String? uiName;
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
 
@@ -62,6 +64,7 @@ class Item {
         qr: json["qr"],
         createdAt: json["createdAt"] ?? 0,
         updatedAt: json["updatedAt"] ?? 0,
+        uiName: json['uiName'] ?? '',
         uiTagsList: json['uiTagsList'].cast<Tag>(),
         uiImagesList: json['uiImagesList'].cast<String>(),
       );
