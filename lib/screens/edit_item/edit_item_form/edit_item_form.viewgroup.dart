@@ -53,12 +53,13 @@ class EditItemForm extends StatelessWidget {
           children: [
             BlocBuilder<EditItemBloc, EditItemState>(
               buildWhen: (previous, current) =>
-                  current is AddItemInitial || current is EditItemSubmitSuccess,
+                  current is AddItemInitial ||
+                  current is EditItemTagsSelectionSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
                 if (state is AddItemInitial) {
                   imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemSubmitSuccess) {
+                } else if (state is EditItemTagsSelectionSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 if (imagesList.isNotEmpty) {
@@ -162,7 +163,7 @@ class EditItemForm extends StatelessWidget {
             ),
             BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
-                if (state is EditItemSubmitSuccess) {
+                if (state is EditItemTagsSelectionSuccess) {
                   return SizedBox(
                     width: double.infinity,
                     child: Wrap(

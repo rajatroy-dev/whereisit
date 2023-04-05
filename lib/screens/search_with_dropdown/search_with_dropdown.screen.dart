@@ -126,37 +126,45 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      action: AppBarAction.searchTag,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BlocBuilder<EditItemBloc, EditItemState>(
-                buildWhen: (_, currentState) =>
-                    currentState is EditItemTagsOnSelectionCountUpdateSuccess,
-                builder: (context, state) {
-                  if (state is EditItemTagsOnSelectionCountUpdateSuccess) {
-                    var count = state.selectedTagCount;
-                    var tagOrtags = count == 1 ? 'tag' : 'tags';
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8.0,
-                        horizontal: 8.0,
-                      ),
-                      child: Text('${count.toString()} $tagOrtags selected'),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
-              DropdownList(
-                handleNew: handleAddToList,
-                handleSelect: handleSelect,
-              ),
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemTagSelectIgnore(),
+        );
+        return true;
+      },
+      child: AppScaffold(
+        action: AppBarAction.searchTag,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<EditItemBloc, EditItemState>(
+                  buildWhen: (_, currentState) =>
+                      currentState is EditItemTagsOnSelectionCountUpdateSuccess,
+                  builder: (context, state) {
+                    if (state is EditItemTagsOnSelectionCountUpdateSuccess) {
+                      var count = state.selectedTagCount;
+                      var tagOrtags = count == 1 ? 'tag' : 'tags';
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 8.0,
+                        ),
+                        child: Text('${count.toString()} $tagOrtags selected'),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                DropdownList(
+                  handleNew: handleAddToList,
+                  handleSelect: handleSelect,
+                ),
+              ],
+            ),
           ),
         ),
       ),

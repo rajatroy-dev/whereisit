@@ -213,10 +213,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           for (var element in tags) {
             editedTags.add(
               Tag(
-                  isNew: element.isNew,
-                  item: element.item,
-                  isSelected: element.isSelected,
-                  value: element.value),
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
             );
           }
         }
@@ -278,7 +279,41 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagsSelected>(
       (event, emit) {
         item.uiTagsList = editedTags;
-        emit(EditItemSubmitSuccess(item));
+        emit(EditItemTagsSelectionSuccess(item));
+      },
+    );
+
+    on<EditItemTagSelectIgnore>(
+      (event, emit) {
+        editedTags = <Tag>[];
+        selectedTagCount = 0;
+        if (item.uiTagsList!.isEmpty) {
+          for (var element in tags) {
+            editedTags.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+          }
+        } else {
+          for (var element in item.uiTagsList!) {
+            if (element.isSelected != null && element.isSelected!) {
+              selectedTagCount++;
+            }
+            editedTags.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+          }
+        }
+        emit(EditItemTagsSelectionSuccess(item));
       },
     );
 
@@ -298,7 +333,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           value: editedTags[index].value,
         );
         item.uiTagsList = editedTags;
-        emit(EditItemSubmitSuccess(item));
+        emit(EditItemTagsSelectionSuccess(item));
       },
     );
 

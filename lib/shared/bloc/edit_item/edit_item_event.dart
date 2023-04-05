@@ -49,6 +49,10 @@ class EditItemTagRemove extends EditItemEvent {
   EditItemTagRemove(this.item);
 }
 
+class EditItemTagSelectIgnore extends EditItemEvent {
+  EditItemTagSelectIgnore();
+}
+
 class EditItemTagUpdateCount extends EditItemEvent {
   final int count;
 
