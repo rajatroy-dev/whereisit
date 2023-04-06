@@ -128,6 +128,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var editedTags = <Tag>[];
 
+  var tagsToHandleBack = <Tag>[];
+
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
       for (var element in editedTags) {
@@ -208,10 +210,19 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       // So, now we have twlist of tags.
       // Do, we need a third list that will contain only the selected list of tags?
       // My answer is no.
+      // But we might need a third list, for when back button is pressed.
       (event, emit) {
         if (editedTags.isEmpty) {
           for (var element in tags) {
             editedTags.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+            tagsToHandleBack.add(
               Tag(
                 isNew: element.isNew,
                 item: element.item,
@@ -279,6 +290,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagsSelected>(
       (event, emit) {
         item.uiTagsList = editedTags;
+        tagsToHandleBack = <Tag>[];
+        for (var element in editedTags) {
+          tagsToHandleBack.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+        }
         emit(EditItemTagsSelectionSuccess(item));
       },
     );
@@ -287,31 +309,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         editedTags = <Tag>[];
         selectedTagCount = 0;
-        if (item.uiTagsList!.isEmpty) {
-          for (var element in tags) {
-            editedTags.add(
-              Tag(
-                isNew: element.isNew,
-                item: element.item,
-                isSelected: element.isSelected,
-                value: element.value,
-              ),
-            );
+        for (var element in tagsToHandleBack) {
+          if (element.isSelected != null && element.isSelected!) {
+            selectedTagCount++;
           }
-        } else {
-          for (var element in item.uiTagsList!) {
-            if (element.isSelected != null && element.isSelected!) {
-              selectedTagCount++;
-            }
-            editedTags.add(
-              Tag(
-                isNew: element.isNew,
-                item: element.item,
-                isSelected: element.isSelected,
-                value: element.value,
-              ),
-            );
-          }
+          editedTags.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
         }
         emit(EditItemTagsSelectionSuccess(item));
       },
@@ -333,6 +342,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           value: editedTags[index].value,
         );
         item.uiTagsList = editedTags;
+        for (var element in editedTags) {
+          tagsToHandleBack.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+        }
+        selectedTagCount--;
         emit(EditItemTagsSelectionSuccess(item));
       },
     );
