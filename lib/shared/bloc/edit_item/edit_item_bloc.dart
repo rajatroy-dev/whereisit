@@ -128,7 +128,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var editedTags = <Tag>[];
 
-  var tagsToHandleBack = <Tag>[];
+  var tagsToHandleBackNavigation = <Tag>[];
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
@@ -222,7 +222,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
                 value: element.value,
               ),
             );
-            tagsToHandleBack.add(
+            tagsToHandleBackNavigation.add(
               Tag(
                 isNew: element.isNew,
                 item: element.item,
@@ -289,10 +289,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagsSelected>(
       (event, emit) {
-        item.uiTagsList = editedTags;
-        tagsToHandleBack = <Tag>[];
+        item.uiTagsList = <Tag>[];
+        tagsToHandleBackNavigation = <Tag>[];
         for (var element in editedTags) {
-          tagsToHandleBack.add(
+          tagsToHandleBackNavigation.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+          item.uiTagsList!.add(
             Tag(
               isNew: element.isNew,
               item: element.item,
@@ -309,7 +317,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         editedTags = <Tag>[];
         selectedTagCount = 0;
-        for (var element in tagsToHandleBack) {
+        for (var element in tagsToHandleBackNavigation) {
           if (element.isSelected != null && element.isSelected!) {
             selectedTagCount++;
           }
@@ -341,9 +349,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           isSelected: false,
           value: editedTags[index].value,
         );
-        item.uiTagsList = editedTags;
+        item.uiTagsList = <Tag>[];
+        tagsToHandleBackNavigation = <Tag>[];
         for (var element in editedTags) {
-          tagsToHandleBack.add(
+          tagsToHandleBackNavigation.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+          item.uiTagsList!.add(
             Tag(
               isNew: element.isNew,
               item: element.item,
