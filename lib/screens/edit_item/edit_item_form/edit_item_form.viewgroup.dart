@@ -54,12 +54,15 @@ class EditItemForm extends StatelessWidget {
             BlocBuilder<EditItemBloc, EditItemState>(
               buildWhen: (previous, current) =>
                   current is AddItemInitial ||
-                  current is EditItemTagsSelectionSuccess,
+                  current is EditItemTagsSelectionSuccess ||
+                  current is EditItemImageAddSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
                 if (state is AddItemInitial) {
                   imagesList = state.item.uiImagesList!;
                 } else if (state is EditItemTagsSelectionSuccess) {
+                  imagesList = state.item.uiImagesList!;
+                } else if (state is EditItemImageAddSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 if (imagesList.isNotEmpty) {

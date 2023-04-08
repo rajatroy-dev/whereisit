@@ -70,3 +70,9 @@ class EditItemSubmit extends EditItemEvent {
 
   EditItemSubmit(this.item);
 }
+
+class EditItemImageAdd extends EditItemEvent {
+  final String imagePath;
+
+  EditItemImageAdd(this.imagePath);
+}

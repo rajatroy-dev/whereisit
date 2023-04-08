@@ -64,3 +64,9 @@ class EditItemSubmitSuccess extends EditItemState {
 
   EditItemSubmitSuccess(this.item);
 }
+
+class EditItemImageAddSuccess extends EditItemState {
+  final Item item;
+
+  EditItemImageAddSuccess(this.item);
+}

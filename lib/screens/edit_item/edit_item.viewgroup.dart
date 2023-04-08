@@ -51,11 +51,9 @@ class _EditItemState extends State<EditItem> {
   saveImage(XFile image) async {
     Directory tempDir = await getApplicationDocumentsDirectory();
     var path = '${tempDir.path}/${image.name}';
-    image.saveTo(path);
-    var temp = imageList;
-    temp.add(path);
+    await image.saveTo(path);
+    BlocProvider.of<EditItemBloc>(context).add(EditItemImageAdd(path));
     setState(() {
-      imageList = temp;
       showImageSourceChoice = false;
     });
   }
