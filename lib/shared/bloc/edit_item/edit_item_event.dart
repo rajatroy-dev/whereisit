@@ -76,3 +76,9 @@ class EditItemImageAdd extends EditItemEvent {
 
   EditItemImageAdd(this.imagePath);
 }
+
+class EditItemImageRemove extends EditItemEvent {
+  final String imagePath;
+
+  EditItemImageRemove(this.imagePath);
+}

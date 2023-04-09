@@ -388,5 +388,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         emit(EditItemImageAddSuccess(item));
       },
     );
+
+    on<EditItemImageRemove>(
+      (event, emit) {
+        var temp = [...item.uiImagesList!];
+        temp.remove(event.imagePath);
+        item.uiImagesList = temp;
+
+        emit(EditItemImageRemoveSuccess(item));
+      },
+    );
   }
 }

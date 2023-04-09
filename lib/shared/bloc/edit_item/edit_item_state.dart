@@ -70,3 +70,9 @@ class EditItemImageAddSuccess extends EditItemState {
 
   EditItemImageAddSuccess(this.item);
 }
+
+class EditItemImageRemoveSuccess extends EditItemState {
+  final Item item;
+
+  EditItemImageRemoveSuccess(this.item);
+}

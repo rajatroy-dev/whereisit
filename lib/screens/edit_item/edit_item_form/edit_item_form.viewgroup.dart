@@ -55,7 +55,8 @@ class EditItemForm extends StatelessWidget {
               buildWhen: (previous, current) =>
                   current is AddItemInitial ||
                   current is EditItemTagsSelectionSuccess ||
-                  current is EditItemImageAddSuccess,
+                  current is EditItemImageAddSuccess ||
+                  current is EditItemImageRemoveSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
                 if (state is AddItemInitial) {
@@ -63,6 +64,8 @@ class EditItemForm extends StatelessWidget {
                 } else if (state is EditItemTagsSelectionSuccess) {
                   imagesList = state.item.uiImagesList!;
                 } else if (state is EditItemImageAddSuccess) {
+                  imagesList = state.item.uiImagesList!;
+                } else if (state is EditItemImageRemoveSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 if (imagesList.isNotEmpty) {
