@@ -239,6 +239,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<AddItemFirstImage>(
       (event, emit) {
         item.uiImagesList = [event.image];
+        item = Item.forUi({
+          'thumbnail': event.image,
+          'uiTagsList': [],
+          'uiImagesList': [],
+        });
 
         emit(AddItemInitial(item));
       },
@@ -384,6 +389,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemImageAdd>(
       (event, emit) {
         item.uiImagesList!.add(event.imagePath);
+        if (item.uiImagesList!.length == 1) {
+          item = Item.forUi({
+            'thumbnail': event.imagePath,
+            'uiTagsList': item.uiTagsList,
+            'uiImagesList': item.uiImagesList,
+          });
+        }
 
         emit(EditItemImageAddSuccess(item));
       },
@@ -393,7 +405,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         var temp = [...item.uiImagesList!];
         temp.remove(event.imagePath);
-        item.uiImagesList = temp;
+        if (temp.isEmpty) {
+          item = Item.forUi({
+            'thumbnail': '',
+            'uiTagsList': item.uiTagsList,
+            'uiImagesList': [],
+          });
+        } else {
+          item.uiImagesList = temp;
+        }
 
         emit(EditItemImageRemoveSuccess(item));
       },

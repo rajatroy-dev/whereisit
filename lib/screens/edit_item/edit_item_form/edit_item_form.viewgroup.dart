@@ -68,12 +68,9 @@ class EditItemForm extends StatelessWidget {
                 } else if (state is EditItemImageRemoveSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
-                if (imagesList.isNotEmpty) {
-                  return HorizontalImageListContainer(
-                    images: imagesList,
-                  );
-                }
-                return const Center(child: Text('Something Went Wrong!'));
+                return HorizontalImageListContainer(
+                  images: imagesList,
+                );
               },
             ),
             Row(
@@ -82,7 +79,7 @@ class EditItemForm extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: imageSourceChoiceHandler,
                   icon: const Icon(Icons.add_rounded),
-                  label: const Text('ADD MORE'),
+                  label: const Text('ADD IMAGE'),
                 ),
               ],
             ),

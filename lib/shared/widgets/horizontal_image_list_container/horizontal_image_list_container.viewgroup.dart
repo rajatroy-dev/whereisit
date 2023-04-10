@@ -11,15 +11,33 @@ class HorizontalImageListContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: images.length,
-        itemBuilder: (context, index) {
-          return HorizontalListImage(image: images[index]);
-        },
-      ),
-    );
+    return images.isEmpty
+        ? Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.purple),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+            ),
+            height: 150,
+            width: 150,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.camera_alt_rounded),
+                  Text('No image selected!'),
+                ],
+              ),
+            ),
+          )
+        : SizedBox(
+            height: 150,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return HorizontalListImage(image: images[index]);
+              },
+            ),
+          );
   }
 }
