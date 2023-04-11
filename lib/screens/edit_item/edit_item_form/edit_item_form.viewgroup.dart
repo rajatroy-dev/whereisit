@@ -186,7 +186,7 @@ class EditItemForm extends StatelessWidget {
                     SearchWithDropdownScreen.routeName,
                   ),
                   icon: const Icon(Icons.add_rounded),
-                  label: const Text('ADD MORE'),
+                  label: const Text('ADD TAGS'),
                 ),
               ],
             ),

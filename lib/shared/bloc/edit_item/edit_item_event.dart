@@ -37,6 +37,12 @@ class EditItemTagSearch extends EditItemEvent {
   EditItemTagSearch(this.tag);
 }
 
+class EditItemTagAdd extends EditItemEvent {
+  final String tag;
+
+  EditItemTagAdd(this.tag);
+}
+
 class EditItemTagToggle extends EditItemEvent {
   final Tag tag;
 

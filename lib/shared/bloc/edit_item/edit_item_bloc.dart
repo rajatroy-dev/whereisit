@@ -238,11 +238,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<AddItemFirstImage>(
       (event, emit) {
-        item.uiImagesList = [event.image];
         item = Item.forUi({
           'thumbnail': event.image,
           'uiTagsList': [],
-          'uiImagesList': [],
+          'uiImagesList': [event.image],
         });
 
         emit(AddItemInitial(item));
@@ -282,6 +281,33 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         _toggleTagSelection(event);
         emit(EditItemTagToggleSuccess(editedTags));
+      },
+    );
+
+    on<EditItemTagAdd>(
+      (event, emit) {
+        // Add to tags list
+        // Add to edited tags list. The item should be in selected state.
+        // Update tag count
+        // Clear search
+        // TODO: Handle tag remove after add
+
+        tags.add(
+          Tag(
+            isSelected: false,
+            isNew: false,
+            item: event.tag,
+          ),
+        );
+        editedTags.add(
+          Tag(
+            isSelected: true,
+            isNew: false,
+            item: event.tag,
+          ),
+        );
+        selectedTagCount++;
+        emit(EditItemTagAddSuccess(tags));
       },
     );
 

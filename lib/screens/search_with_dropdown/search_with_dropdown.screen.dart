@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/search_with_dropdown/dropdown_list.view.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
@@ -25,93 +24,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
     super.initState();
   }
 
-  InputDecoration decoration = InputDecoration(
-    border: const OutlineInputBorder(),
-    hintText: 'Search . . .',
-    suffixIcon: IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.arrow_drop_down_rounded),
-    ),
-  );
-
-  InputDecoration _inputCrossDecoration() {
-    return InputDecoration(
-      border: const OutlineInputBorder(),
-      hintText: 'Search . . .',
-      suffixIcon: IconButton(
-        onPressed: handleSuffixTap,
-        icon: const Icon(Icons.clear_rounded),
-      ),
-    );
-  }
-
-  InputDecoration _inputArrowDecoration() {
-    return InputDecoration(
-      border: const OutlineInputBorder(),
-      hintText: 'Search . . .',
-      suffixIcon: IconButton(
-        onPressed: handleSuffixTap,
-        icon: const Icon(Icons.arrow_drop_down_rounded),
-      ),
-    );
-  }
-
-  handleInputChange(String value) {
-    if (value.isNotEmpty) {
-      // var temp = [...list];
-      // var exact = false;
-
-      // temp = temp.where((i) {
-      //   var iInLowerCase = i.item.toLowerCase();
-      //   var valueInLowerCase = value.toLowerCase();
-      //   if (!exact) {
-      //     exact = iInLowerCase == valueInLowerCase;
-      //   }
-      //   return iInLowerCase.contains(valueInLowerCase);
-      // }).toList();
-
-      // if (!exact) {
-      //   temp.insert(
-      //     0,
-      //     ListItem(
-      //       isNew: true,
-      //       item: '+ Add "$value" to list',
-      //       value: value,
-      //     ),
-      //   );
-      // }
-
-      setState(() {
-        decoration = _inputCrossDecoration();
-        showDropdown = true;
-      });
-      return;
-    }
-
-    setState(() {
-      decoration = _inputArrowDecoration();
-      showDropdown = false;
-    });
-  }
-
-  handleSuffixTap() {
-    if (_controller.text.isNotEmpty) {
-      _controller.clear();
-      setState(() {
-        decoration = _inputArrowDecoration();
-        showDropdown = false;
-      });
-      return;
-    }
-
-    setState(() {
-      showDropdown = !showDropdown;
-    });
-  }
-
   handleAddToList(String value) {
-    // var temp = [...list];
-    // temp.insert(0, ListItem(isNew: false, item: value));
     setState(() {
       showDropdown = false;
     });

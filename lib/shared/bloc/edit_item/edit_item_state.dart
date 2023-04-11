@@ -41,6 +41,12 @@ class EditItemTagSearchSuccess extends EditItemState {
   EditItemTagSearchSuccess(this.tags);
 }
 
+class EditItemTagAddSuccess extends EditItemState {
+  final List<Tag> tags;
+
+  EditItemTagAddSuccess(this.tags);
+}
+
 class EditItemTagsOnSelectionCountUpdateSuccess extends EditItemState {
   final int selectedTagCount;
 
