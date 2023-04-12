@@ -92,7 +92,11 @@ class DropdownList extends StatelessWidget {
                   child: state.tags[index].isNew
                       ? GestureDetector(
                           onTap: () =>
-                              handleNew(state.tags[index].value as String),
+                              BlocProvider.of<EditItemBloc>(context).add(
+                            EditItemTagAdd(
+                              state.tags[index],
+                            ),
+                          ),
                           child: Text(
                             state.tags[index].item,
                             style: const TextStyle(

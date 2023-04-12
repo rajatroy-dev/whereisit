@@ -268,6 +268,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               isNew: true,
               item: '+ Add "${event.tag}" to list',
               isSelected: false,
+              value: event.tag,
             ),
             ...temp,
           ];
@@ -296,18 +297,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           Tag(
             isSelected: false,
             isNew: false,
-            item: event.tag,
+            item: event.tag.value!,
           ),
         );
-        editedTags.add(
-          Tag(
-            isSelected: true,
-            isNew: false,
-            item: event.tag,
-          ),
+        var selected = Tag(
+          isSelected: true,
+          isNew: false,
+          item: event.tag.value!,
         );
+        editedTags.add(selected);
         selectedTagCount++;
-        emit(EditItemTagAddSuccess(tags));
+        emit(EditItemTagToggleSuccess([selected]));
       },
     );
 
