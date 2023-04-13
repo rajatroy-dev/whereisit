@@ -405,6 +405,23 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
+    on<EditItemTagDelete>(
+      (event, emit) {
+        tags.removeWhere((element) => element.item == event.tag.item);
+        editedTags.removeWhere((element) => element.item == event.tag.item);
+        item.uiTagsList!.removeWhere(
+          (element) => element.item == event.tag.item,
+        );
+        tagsToHandleBackNavigation.removeWhere(
+          (element) => element.item == event.tag.item,
+        );
+        if (event.tag.isSelected != null && event.tag.isSelected!) {
+          selectedTagCount--;
+        }
+        emit(EditItemTagToggleSuccess(editedTags));
+      },
+    );
+
     on<EditItemSubmit>(
       (event, emit) {
         item = event.item;

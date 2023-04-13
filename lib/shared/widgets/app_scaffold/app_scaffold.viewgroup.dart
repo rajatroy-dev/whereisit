@@ -70,7 +70,7 @@ class _AppScaffoldState extends State<AppScaffold> {
         widget.action == AppBarAction.searchTag) {
       return ScaffoldSearchBar(
         handleClear: handleLocationSearchClear,
-        searchHint: 'Search tags',
+        searchHint: 'Search or add tags',
         controller: textController,
       );
     } else {

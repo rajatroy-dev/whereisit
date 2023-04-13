@@ -13,6 +13,51 @@ class DropdownList extends StatelessWidget {
     required this.handleSelect,
   }) : super(key: key);
 
+  Widget _alertDialog(BuildContext context, Tag tag) {
+    var deleteButton = TextButton(
+      onPressed: () {
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemTagDelete(tag),
+        );
+        Navigator.of(context).pop();
+      },
+      child: const Text("DELETE"),
+    );
+
+    var doNotDeleteButton = TextButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: const Text("DO NOT DELETE"),
+    );
+
+    return AlertDialog(
+      title: const Text('Are you sure?'),
+      content: RichText(
+        text: TextSpan(
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+          children: <TextSpan>[
+            const TextSpan(
+              text: 'Do you want to permanently delete the ',
+            ),
+            TextSpan(
+              text: '"${tag.item}"',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const TextSpan(text: ' tag?'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        doNotDeleteButton,
+        deleteButton,
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -63,16 +108,31 @@ class DropdownList extends StatelessWidget {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: GestureDetector(
-                          onTap: () => handleSelect(state.tags[index].item),
-                          child: Text(
-                            state.tags[index].item,
-                            style: const TextStyle(
-                              fontSize: 16,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: GestureDetector(
+                            onTap: () => handleSelect(state.tags[index].item),
+                            child: Text(
+                              state.tags[index].item,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) => _alertDialog(
+                            context,
+                            state.tags[index],
+                          ),
+                        ),
+                        icon: const Icon(
+                          Icons.delete_rounded,
+                          color: Colors.red,
                         ),
                       ),
                     ],
