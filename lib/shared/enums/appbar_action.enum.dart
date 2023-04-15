@@ -4,4 +4,5 @@ enum AppBarAction {
   goToSearch,
   searchTag,
   searchLocation,
+  addCategory,
 }

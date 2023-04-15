@@ -122,6 +122,20 @@ class _AppScaffoldState extends State<AppScaffold> {
                 Navigator.pop(context);
               },
             ),
+          if (widget.action != null &&
+              widget.action == AppBarAction.addCategory)
+            IconButton(
+              icon: const Icon(
+                Icons.add_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                BlocProvider.of<EditItemBloc>(context).add(
+                  EditItemTagsSelected(),
+                );
+                Navigator.pop(context);
+              },
+            ),
         ],
       ),
       body: widget.body,
