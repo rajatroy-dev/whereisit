@@ -76,3 +76,15 @@ class EditItemImageRemoveSuccess extends EditItemState {
 
   EditItemImageRemoveSuccess(this.item);
 }
+
+class EditItemCategoryAddSuccess extends EditItemState {
+  final Item item;
+
+  EditItemCategoryAddSuccess(this.item);
+}
+
+class EditItemSubCategoryAddSuccess extends EditItemState {
+  final Item item;
+
+  EditItemSubCategoryAddSuccess(this.item);
+}

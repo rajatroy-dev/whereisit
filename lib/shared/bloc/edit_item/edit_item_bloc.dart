@@ -112,6 +112,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var item = Item.forUi({
     'uiTagsList': [],
     'uiImagesList': [],
+    'uiCategoriesList': [],
+    'uiSubCategoriesList': [],
   });
 
   var tags = <Tag>[
@@ -123,6 +125,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     Tag(isSelected: false, isNew: false, item: 'Finnish Hound'),
     Tag(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
+
+  var categories = <String>[];
+
+  var subCategories = <String>[];
 
   var selectedTagCount = 0;
 
@@ -242,6 +248,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'thumbnail': event.image,
           'uiTagsList': [],
           'uiImagesList': [event.image],
+          'uiCategoriesList': [],
+          'uiSubCategoriesList': [],
         });
 
         emit(AddItemInitial(item));
@@ -437,6 +445,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'thumbnail': event.imagePath,
             'uiTagsList': item.uiTagsList,
             'uiImagesList': item.uiImagesList,
+            'uiCategoriesList': item.uiCategoriesList,
+            'uiSubCategoriesList': item.uiSubCategoriesList,
           });
         }
 
@@ -453,12 +463,30 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'thumbnail': '',
             'uiTagsList': item.uiTagsList,
             'uiImagesList': [],
+            'uiCategoriesList': item.uiCategoriesList,
+            'uiSubCategoriesList': item.uiSubCategoriesList,
           });
         } else {
           item.uiImagesList = temp;
         }
 
         emit(EditItemImageRemoveSuccess(item));
+      },
+    );
+
+    on<EditItemCategoryAdd>(
+      (event, emit) {
+        categories.add(event.category);
+
+        emit(EditItemCategoryAddSuccess(item));
+      },
+    );
+
+    on<EditItemSubCategoryAdd>(
+      (event, emit) {
+        subCategories.add(event.subCategory);
+
+        emit(EditItemCategoryAddSuccess(item));
       },
     );
   }
