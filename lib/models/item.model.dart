@@ -51,7 +51,7 @@ class Item {
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
   List<String>? uiCategoriesList;
-  List<String>? uiSubCategoriesList;
+  Map<String, List<String>>? uiSubCategoriesList;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -72,7 +72,8 @@ class Item {
         uiTagsList: json['uiTagsList'].cast<Tag>(),
         uiImagesList: json['uiImagesList'].cast<String>(),
         uiCategoriesList: json['uiCategoriesList'].cast<String>(),
-        uiSubCategoriesList: json['uiSubCategoriesList'].cast<String>(),
+        uiSubCategoriesList:
+            json['uiSubCategoriesList'].cast<Map<String, List<String>>>(),
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

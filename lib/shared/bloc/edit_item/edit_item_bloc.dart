@@ -125,16 +125,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     Tag(isSelected: false, isNew: false, item: 'Finnish Hound'),
     Tag(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
-
-  var categories = <String>[];
-
-  var subCategories = <String>[];
+  var editedTags = <Tag>[];
+  var tagsToHandleBackNavigation = <Tag>[];
 
   var selectedTagCount = 0;
 
-  var editedTags = <Tag>[];
-
-  var tagsToHandleBackNavigation = <Tag>[];
+  var categories = <String>[];
+  Map<String, List<String>> subCategories = {};
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
@@ -299,7 +296,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         // Add to edited tags list. The item should be in selected state.
         // Update tag count
         // Clear search
-        // TODO: Handle tag remove after add
+        // Handle tag remove after add
 
         tags.add(
           Tag(
@@ -483,8 +480,29 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     );
 
     on<EditItemSubCategoryAdd>(
+      // What are the cases?
+      // We have an original list of categories and subCategories.
+      // This list will be displayed on first load.
+      // From second list onwards, the edited list of categories and subcategories.
+      // So, now we have two list of categories and subcategories.
+      // But we might need a third list, for when back button is pressed.
       (event, emit) {
-        subCategories.add(event.subCategory);
+        var hasCategory = false;
+
+        hasCategory = categories.any(
+          (element) => element == event.subCategory.keys.first,
+        );
+
+        if (hasCategory && event.subCategory.length == 1) {
+          var key = event.subCategory.keys.first;
+          var value = event.subCategory.keys.first;
+
+          if (subCategories.containsKey(key)) {
+            subCategories[key]!.add(value);
+          } else {
+            subCategories[key] = [value];
+          }
+        }
 
         emit(EditItemCategoryAddSuccess(item));
       },
