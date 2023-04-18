@@ -131,7 +131,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var selectedTagCount = 0;
 
   var categories = <String>[];
+  var editedCategories = <String>[];
+  var categoriesToHandleBack = <String>[];
   Map<String, List<String>> subCategories = {};
+  Map<String, List<String>> editedSubCategories = {};
+  Map<String, List<String>> subCategoriesToHandleBack = {};
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
@@ -468,6 +472,41 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
 
         emit(EditItemImageRemoveSuccess(item));
+      },
+    );
+
+    on<EditItemCategoryInitial>(
+      (event, emit) {
+        if (editedCategories.isEmpty) {
+          for (var element in categories) {
+            editedCategories.add(element);
+            categoriesToHandleBack.add(element);
+          }
+        }
+        if (editedSubCategories.isEmpty) {
+          for (var element in subCategories.entries) {
+            editedSubCategories[element.key] = element.value;
+            subCategoriesToHandleBack[element.key] = element.value;
+          }
+        }
+
+        emit(EditItemCategoryAddSuccess(item));
+      },
+    );
+
+    on<EditItemCategoryEditIgnore>(
+      (event, emit) {
+        editedCategories = <String>[];
+        for (var element in categoriesToHandleBack) {
+          editedCategories.add(element);
+        }
+
+        editedSubCategories = {};
+        for (var element in subCategoriesToHandleBack.entries) {
+          editedSubCategories[element.key] = element.value;
+        }
+
+        emit(EditItemCategoryAddSuccess(item));
       },
     );
 

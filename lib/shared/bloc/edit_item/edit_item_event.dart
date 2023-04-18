@@ -95,6 +95,8 @@ class EditItemImageRemove extends EditItemEvent {
   EditItemImageRemove(this.imagePath);
 }
 
+class EditItemCategoryInitial extends EditItemEvent {}
+
 class EditItemCategoryAdd extends EditItemEvent {
   final String category;
 
@@ -106,3 +108,5 @@ class EditItemSubCategoryAdd extends EditItemEvent {
 
   EditItemSubCategoryAdd(this.subCategory);
 }
+
+class EditItemCategoryEditIgnore extends EditItemEvent {}
