@@ -88,3 +88,9 @@ class EditItemSubCategoryAddSuccess extends EditItemState {
 
   EditItemSubCategoryAddSuccess(this.item);
 }
+
+class EditItemCategorySelectSuccess extends EditItemState {
+  final String category;
+
+  EditItemCategorySelectSuccess(this.category);
+}

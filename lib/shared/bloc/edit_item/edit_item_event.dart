@@ -110,3 +110,15 @@ class EditItemSubCategoryAdd extends EditItemEvent {
 }
 
 class EditItemCategoryEditIgnore extends EditItemEvent {}
+
+class EditItemCategorySelect extends EditItemEvent {
+  final String category;
+
+  EditItemCategorySelect(this.category);
+}
+
+class EditItemSubcategorySelect extends EditItemEvent {
+  final String subCategory;
+
+  EditItemSubcategorySelect(this.subCategory);
+}

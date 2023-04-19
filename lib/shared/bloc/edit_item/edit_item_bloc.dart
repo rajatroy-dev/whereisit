@@ -131,11 +131,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var selectedTagCount = 0;
 
   var categories = <String>[];
-  var editedCategories = <String>[];
-  var categoriesToHandleBack = <String>[];
   Map<String, List<String>> subCategories = {};
-  Map<String, List<String>> editedSubCategories = {};
-  Map<String, List<String>> subCategoriesToHandleBack = {};
+
+  var selectedCategorySubCategory = '';
+  var stringtoHandleCategoryBack = '';
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
@@ -209,6 +208,20 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemNewSuccess(item));
     });
 
+    on<AddItemFirstImage>(
+      (event, emit) {
+        item = Item.forUi({
+          'thumbnail': event.image,
+          'uiTagsList': [],
+          'uiImagesList': [event.image],
+          'uiCategoriesList': [],
+          'uiSubCategoriesList': [],
+        });
+
+        emit(AddItemInitial(item));
+      },
+    );
+
     on<EditItemTagInitial>(
       // What are the cases?
       // We have an original list of tags.
@@ -240,20 +253,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           }
         }
         emit(EditItemTagToggleSuccess(editedTags));
-      },
-    );
-
-    on<AddItemFirstImage>(
-      (event, emit) {
-        item = Item.forUi({
-          'thumbnail': event.image,
-          'uiTagsList': [],
-          'uiImagesList': [event.image],
-          'uiCategoriesList': [],
-          'uiSubCategoriesList': [],
-        });
-
-        emit(AddItemInitial(item));
       },
     );
 
@@ -477,18 +476,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemCategoryInitial>(
       (event, emit) {
-        if (editedCategories.isEmpty) {
-          for (var element in categories) {
-            editedCategories.add(element);
-            categoriesToHandleBack.add(element);
-          }
-        }
-        if (editedSubCategories.isEmpty) {
-          for (var element in subCategories.entries) {
-            editedSubCategories[element.key] = element.value;
-            subCategoriesToHandleBack[element.key] = element.value;
-          }
-        }
+        stringtoHandleCategoryBack = selectedCategorySubCategory;
 
         emit(EditItemCategoryAddSuccess(item));
       },
@@ -496,17 +484,26 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemCategoryEditIgnore>(
       (event, emit) {
-        editedCategories = <String>[];
-        for (var element in categoriesToHandleBack) {
-          editedCategories.add(element);
-        }
-
-        editedSubCategories = {};
-        for (var element in subCategoriesToHandleBack.entries) {
-          editedSubCategories[element.key] = element.value;
-        }
+        selectedCategorySubCategory = stringtoHandleCategoryBack;
 
         emit(EditItemCategoryAddSuccess(item));
+      },
+    );
+
+    on<EditItemCategorySelect>(
+      (event, emit) {
+        selectedCategorySubCategory = event.category;
+
+        emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
+      },
+    );
+
+    on<EditItemSubcategorySelect>(
+      (event, emit) {
+        selectedCategorySubCategory =
+            '$selectedCategorySubCategory > ${event.subCategory}';
+
+        emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
       },
     );
 
