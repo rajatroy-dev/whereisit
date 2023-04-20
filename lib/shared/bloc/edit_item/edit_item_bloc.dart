@@ -543,5 +543,32 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         emit(EditItemCategoryAddSuccess(item));
       },
     );
+
+    on<EditItemCategoryUpdate>(
+      (event, emit) {
+        var res = event.category.split(',');
+        var index = int.parse(res[0]);
+        var newCategory = res[1];
+
+        categories[index] = newCategory;
+
+        emit(EditItemCategoryUpdateSuccess());
+      },
+    );
+
+    on<EditItemSubcategoryUpdate>(
+      (event, emit) {
+        var res = event.subCategory.split(',');
+        var index = int.parse(res[0]);
+        var category = res[1];
+        var subCategory = res[2];
+
+        if (subCategories.containsKey(category)) {
+          subCategories[category]![index] = subCategory;
+
+          emit(EditItemSubcategoryUpdateSuccess());
+        }
+      },
+    );
   }
 }

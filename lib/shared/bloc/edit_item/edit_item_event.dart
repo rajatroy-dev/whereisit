@@ -122,3 +122,15 @@ class EditItemSubcategorySelect extends EditItemEvent {
 
   EditItemSubcategorySelect(this.subCategory);
 }
+
+class EditItemCategoryUpdate extends EditItemEvent {
+  final String category;
+
+  EditItemCategoryUpdate(this.category);
+}
+
+class EditItemSubcategoryUpdate extends EditItemEvent {
+  final String subCategory;
+
+  EditItemSubcategoryUpdate(this.subCategory);
+}
