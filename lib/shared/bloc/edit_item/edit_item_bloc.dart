@@ -544,6 +544,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
+    on<EditItemCategoryUpdateIniital>(
+      (event, emit) => emit(EditItemCategoryUpdateInitialSuccess()),
+    );
+
     on<EditItemCategoryUpdate>(
       (event, emit) {
         var res = event.category.split(',');

@@ -78,6 +78,35 @@ class _AppScaffoldState extends State<AppScaffold> {
     }
   }
 
+  List<Widget> _actionsForCategoryScreen() {
+    return [
+      IconButton(
+        icon: const Icon(
+          Icons.add_rounded,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          BlocProvider.of<EditItemBloc>(context).add(
+            EditItemTagsSelected(),
+          );
+          Navigator.pop(context);
+        },
+      ),
+      IconButton(
+        icon: const Icon(
+          Icons.edit_rounded,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          BlocProvider.of<EditItemBloc>(context).add(
+            EditItemCategoryUpdateIniital(),
+          );
+          Navigator.pop(context);
+        },
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,18 +153,7 @@ class _AppScaffoldState extends State<AppScaffold> {
             ),
           if (widget.action != null &&
               widget.action == AppBarAction.addCategory)
-            IconButton(
-              icon: const Icon(
-                Icons.add_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                BlocProvider.of<EditItemBloc>(context).add(
-                  EditItemTagsSelected(),
-                );
-                Navigator.pop(context);
-              },
-            ),
+            ..._actionsForCategoryScreen()
         ],
       ),
       body: widget.body,
