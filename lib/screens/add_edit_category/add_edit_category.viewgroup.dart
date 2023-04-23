@@ -10,13 +10,13 @@ class AddEditCategoryScreen extends StatefulWidget {
 }
 
 class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
-  var subCategoriesList = <String, String>{
-    '0': '',
-    '1': '',
+  var categoryController = TextEditingController();
+  var subCategoriesList = <int, String>{
+    0: '',
+    1: '',
   };
 
-  ListView _buildListOfSubCategories() {
-    var listLength = subCategoriesList.length;
+  _handleChange(int index, String value) {
     var shouldAddNewfield = true;
     for (var element in subCategoriesList.entries) {
       if (element.value.isEmpty) {
@@ -26,26 +26,17 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     }
 
     if (shouldAddNewfield) {
-      return ListView.builder(
-        itemCount: subCategoriesList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == listLength) {
-            return TextFormField();
-          }
-          return TextFormField(
-            initialValue: subCategoriesList[index],
-          );
-        },
-      );
+      var temp = {...subCategoriesList};
+      temp[temp.length] = '';
+      setState(() {
+        subCategoriesList = temp;
+        subCategoriesList[index] = value;
+      });
+    } else {
+      setState(() {
+        subCategoriesList[index] = value;
+      });
     }
-    return ListView.builder(
-      itemCount: subCategoriesList.length,
-      itemBuilder: (context, index) {
-        return TextFormField(
-          initialValue: subCategoriesList[index],
-        );
-      },
-    );
   }
 
   @override
@@ -55,18 +46,20 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TextFormField(),
+            TextFormField(
+              controller: categoryController,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
-              child: _buildListOfSubCategories(),
-            ),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('+ Add more'),
-                ),
-              ],
+              child: ListView.builder(
+                itemCount: subCategoriesList.length,
+                itemBuilder: (context, index) {
+                  return TextFormField(
+                    initialValue: subCategoriesList[index],
+                    onChanged: (value) => _handleChange(index, value),
+                  );
+                },
+              ),
             ),
           ],
         ),
