@@ -99,7 +99,7 @@ class _AppScaffoldState extends State<AppScaffold> {
         ),
         onPressed: () {
           BlocProvider.of<EditItemBloc>(context).add(
-            EditItemCategoryUpdateIniital(),
+            EditItemCategoryUpdateInitial(),
           );
           Navigator.pop(context);
         },

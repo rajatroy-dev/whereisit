@@ -95,7 +95,11 @@ class EditItemCategorySelectSuccess extends EditItemState {
   EditItemCategorySelectSuccess(this.category);
 }
 
-class EditItemCategoryUpdateInitialSuccess extends EditItemState {}
+class EditItemCategoryUpdateInitialSuccess extends EditItemState {
+  final Map<String, List<String>>? subCategories;
+
+  EditItemCategoryUpdateInitialSuccess({this.subCategories});
+}
 
 class EditItemCategoryUpdateSuccess extends EditItemState {}
 

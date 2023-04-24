@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class AddEditCategoryScreen extends StatefulWidget {
+  static const routeName = '/add-edit-category';
+
   const AddEditCategoryScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,6 +19,12 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     0: '',
     1: '',
   };
+
+  _handleEditCateogry(String category) {
+    BlocProvider.of<EditItemBloc>(context).add(
+      EditItemCategoryUpdate(category),
+    );
+  }
 
   _handleChange(int index, String value) {
     var shouldAddNewfield = true;
@@ -41,6 +51,11 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments;
+    if (args != null) {
+      _handleEditCateogry(args as String);
+    }
+
     return AppScaffold(
       action: AppBarAction.addCategory,
       body: SingleChildScrollView(

@@ -123,7 +123,11 @@ class EditItemSubcategorySelect extends EditItemEvent {
   EditItemSubcategorySelect(this.subCategory);
 }
 
-class EditItemCategoryUpdateIniital extends EditItemEvent {}
+class EditItemCategoryUpdateInitial extends EditItemEvent {
+  final String? category;
+
+  EditItemCategoryUpdateInitial({this.category});
+}
 
 class EditItemCategoryUpdate extends EditItemEvent {
   final String category;
