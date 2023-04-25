@@ -184,9 +184,47 @@ class EditItemForm extends StatelessWidget {
                         ),
                         onPressed: () => Navigator.pushNamed(
                           context,
-                          CategorySubcategoryScreen.routeName,
+                          MapLocationSelector.routeName,
                         ),
                         label: const Text('Select a location from Maps'),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: BlocBuilder<EditItemBloc, EditItemState>(
+                    buildWhen: (_, current) =>
+                        current is EditItemCategoryAddSuccess ||
+                        current is EditItemCategoryUpdateSuccess ||
+                        current is EditItemSubcategoryAddSuccess ||
+                        current is EditItemSubcategoryUpdateSuccess,
+                    builder: (context, state) {
+                      if (state is LocationSelectionSuccess) {
+                        return TextButton.icon(
+                          icon: const Icon(
+                            Icons.add_location_alt_rounded,
+                          ),
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            MapLocationSelector.routeName,
+                          ),
+                          // TODO: Handle category & sub-category update after selection
+                          label: const Text('category > subcategory'),
+                        );
+                      }
+                      return TextButton.icon(
+                        icon: const Icon(
+                          Icons.add_rounded,
+                        ),
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          CategorySubcategoryScreen.routeName,
+                        ),
+                        label: const Text('Select a category'),
                       );
                     },
                   ),

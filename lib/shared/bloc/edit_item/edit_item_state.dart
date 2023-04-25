@@ -83,10 +83,10 @@ class EditItemCategoryAddSuccess extends EditItemState {
   EditItemCategoryAddSuccess(this.item);
 }
 
-class EditItemSubCategoryAddSuccess extends EditItemState {
+class EditItemSubcategoryAddSuccess extends EditItemState {
   final Item item;
 
-  EditItemSubCategoryAddSuccess(this.item);
+  EditItemSubcategoryAddSuccess(this.item);
 }
 
 class EditItemCategorySelectSuccess extends EditItemState {
