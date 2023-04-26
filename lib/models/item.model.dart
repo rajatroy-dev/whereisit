@@ -73,7 +73,7 @@ class Item {
         uiImagesList: json['uiImagesList'].cast<String>(),
         uiCategoriesList: json['uiCategoriesList'].cast<String>(),
         uiSubCategoriesList:
-            json['uiSubCategoriesList'].cast<Map<String, List<String>>>(),
+            Map<String, List<String>>.from(json['uiSubCategoriesList']),
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

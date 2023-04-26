@@ -113,7 +113,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     'uiTagsList': [],
     'uiImagesList': [],
     'uiCategoriesList': [],
-    'uiSubCategoriesList': [],
+    'uiSubCategoriesList': <String, List<String>>{},
   });
 
   var tags = <Tag>[
@@ -215,7 +215,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': [],
           'uiImagesList': [event.image],
           'uiCategoriesList': [],
-          'uiSubCategoriesList': [],
+          'uiSubCategoriesList': <String, List<String>>{},
         });
 
         emit(AddItemInitial(item));

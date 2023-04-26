@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/tag.model.dart';
+import 'package:whereisit/screens/add_edit_category/add_edit_category.viewgroup.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
@@ -158,44 +159,6 @@ class EditItemForm extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
-                    buildWhen: (_, current) =>
-                        current is LocationSelectionSuccess,
-                    builder: (context, state) {
-                      if (state is LocationSelectionSuccess) {
-                        addressController.text =
-                            state.addressAndCoordinates['address']!;
-                        return TextButton.icon(
-                          icon: const Icon(
-                            Icons.add_location_alt_rounded,
-                          ),
-                          onPressed: () => Navigator.pushNamed(
-                            context,
-                            MapLocationSelector.routeName,
-                          ),
-                          label: Text(
-                            state.addressAndCoordinates['coordinates']!,
-                          ),
-                        );
-                      }
-                      return TextButton.icon(
-                        icon: const Icon(
-                          Icons.add_location_alt_rounded,
-                        ),
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          MapLocationSelector.routeName,
-                        ),
-                        label: const Text('Select a location from Maps'),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
                   child: BlocBuilder<EditItemBloc, EditItemState>(
                     buildWhen: (_, current) =>
                         current is EditItemCategoryAddSuccess ||
@@ -210,7 +173,7 @@ class EditItemForm extends StatelessWidget {
                           ),
                           onPressed: () => Navigator.pushNamed(
                             context,
-                            MapLocationSelector.routeName,
+                            AddEditCategoryScreen.routeName,
                           ),
                           // TODO: Handle category & sub-category update after selection
                           label: const Text('category > subcategory'),

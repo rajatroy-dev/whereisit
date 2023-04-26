@@ -19,21 +19,24 @@ class _AccordionState extends State<Accordion> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 2,
+      ),
       child: Column(
         children: [
           // The title
-          ListTile(
-            title: Text(widget.title),
-            trailing: IconButton(
-              icon: Icon(
+          InkWell(
+            onTap: () {
+              setState(() {
+                _showContent = !_showContent;
+              });
+            },
+            child: ListTile(
+              title: Text(widget.title),
+              trailing: Icon(
                 _showContent ? Icons.arrow_drop_up : Icons.arrow_drop_down,
               ),
-              onPressed: () {
-                setState(() {
-                  _showContent = !_showContent;
-                });
-              },
             ),
           ),
           // Show or hide the content based on the state

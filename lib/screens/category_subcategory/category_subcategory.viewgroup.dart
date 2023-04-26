@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/screens/category_subcategory/accordian/accordian.view.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class CategorySubcategoryScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      action: AppBarAction.addCategory,
       body: Column(
         children: [
           SizedBox(

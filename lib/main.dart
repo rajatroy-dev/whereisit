@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
               const MapLocationSelector(),
           SearchWithDropdownScreen.routeName: (context) =>
               const SearchWithDropdownScreen(),
+          CategorySubcategoryScreen.routeName: (context) =>
+              const CategorySubcategoryScreen(),
         },
       ),
     );
