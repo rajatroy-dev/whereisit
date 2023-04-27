@@ -183,10 +183,15 @@ class EditItemForm extends StatelessWidget {
                         icon: const Icon(
                           Icons.add_rounded,
                         ),
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          CategorySubcategoryScreen.routeName,
-                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            CategorySubcategoryScreen.routeName,
+                          );
+                          BlocProvider.of<EditItemBloc>(context).add(
+                            EditItemCategoryLoad(),
+                          );
+                        },
                         label: const Text('Select a category'),
                       );
                     },

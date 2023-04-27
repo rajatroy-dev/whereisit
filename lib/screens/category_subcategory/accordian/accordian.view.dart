@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Accordion extends StatefulWidget {
   final String title;
-  final String content;
+  final List<String> content;
 
   const Accordion({Key? key, required this.title, required this.content})
       : super(key: key);
@@ -15,6 +15,15 @@ class Accordion extends StatefulWidget {
 class _AccordionState extends State<Accordion> {
   // Show or hide the content
   bool _showContent = false;
+
+  List<Widget> _buildList() {
+    var columnList = <Widget>[];
+    for (var element in widget.content) {
+      columnList.add(Text(element));
+    }
+
+    return columnList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,9 @@ class _AccordionState extends State<Accordion> {
               ? Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                  child: Text(widget.content),
+                  child: Column(
+                    children: _buildList(),
+                  ),
                 )
               : const SizedBox(),
         ],

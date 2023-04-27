@@ -130,8 +130,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var selectedTagCount = 0;
 
-  var categories = <String>[];
-  Map<String, List<String>> subCategories = {};
+  var categories = <String>['Clothes', 'Books'];
+  Map<String, List<String>> subCategories = {
+    'Clothes': ['Jeans', 'Shirts', 'T-Shirts'],
+    'Books': ['Science Fiction', 'Adventure', 'Romantic'],
+  };
 
   var selectedCategorySubCategory = '';
   var stringtoHandleCategoryBack = '';
@@ -474,11 +477,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
-    on<EditItemCategoryInitial>(
+    on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;
 
-        emit(EditItemCategoryAddSuccess(item));
+        emit(EditItemCategoryLoadSuccess(item));
       },
     );
 
