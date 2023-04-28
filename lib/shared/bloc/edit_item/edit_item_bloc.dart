@@ -480,6 +480,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiCategoriesList': categories,
+          'uiSubCategoriesList': subCategories,
+        });
 
         emit(EditItemCategoryLoadSuccess(item));
       },
