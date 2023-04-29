@@ -1,6 +1,8 @@
 // https://www.kindacode.com/article/how-to-create-accordions-in-flutter-without-plugins/
 // accordion.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
 class Accordion extends StatefulWidget {
   final String title;
@@ -16,10 +18,22 @@ class _AccordionState extends State<Accordion> {
   // Show or hide the content
   bool _showContent = false;
 
-  List<Widget> _buildList() {
+  List<Widget> _buildList(String category) {
     var columnList = <Widget>[];
     for (var element in widget.content) {
-      columnList.add(Text(element));
+      columnList.add(
+        InkWell(
+          onTap: () => BlocProvider.of<EditItemBloc>(context).add(
+            EditItemSubcategorySelect(element),
+          ),
+          child: Container(
+            width: double.infinity,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+            child: Text(element),
+          ),
+        ),
+      );
     }
 
     return columnList;
@@ -50,12 +64,8 @@ class _AccordionState extends State<Accordion> {
           ),
           // Show or hide the content based on the state
           _showContent
-              ? Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                  child: Column(
-                    children: _buildList(),
-                  ),
+              ? Column(
+                  children: _buildList(widget.title),
                 )
               : const SizedBox(),
         ],

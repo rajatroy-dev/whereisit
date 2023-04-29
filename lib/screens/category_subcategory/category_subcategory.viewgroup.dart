@@ -28,7 +28,6 @@ class CategorySubcategoryScreen extends StatelessWidget {
               },
             );
           }
-
           return const SizedBox();
         },
       ),
