@@ -14,7 +14,10 @@ class CategorySubcategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       action: AppBarAction.addCategory,
-      body: BlocBuilder<EditItemBloc, EditItemState>(
+      body: BlocConsumer<EditItemBloc, EditItemState>(
+        listenWhen: (previous, current) =>
+            current is EditItemCategorySelectSuccess,
+        listener: (context, state) => Navigator.pop(context),
         buildWhen: (previous, current) =>
             current is EditItemCategoryLoadSuccess,
         builder: (context, state) {

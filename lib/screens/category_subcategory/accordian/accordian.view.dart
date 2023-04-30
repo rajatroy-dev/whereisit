@@ -24,7 +24,7 @@ class _AccordionState extends State<Accordion> {
       columnList.add(
         InkWell(
           onTap: () => BlocProvider.of<EditItemBloc>(context).add(
-            EditItemSubcategorySelect(element),
+            EditItemSubcategorySelect({category: element}),
           ),
           child: Container(
             width: double.infinity,

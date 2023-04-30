@@ -510,13 +510,22 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemSubcategorySelect>(
       (event, emit) {
+        var category = '';
+        var subcategory = '';
+
+        for (var element in event.categorySubcategory.entries) {
+          category = element.key;
+          subcategory = element.value;
+          break;
+        }
+
         if (selectedCategorySubCategory.isNotEmpty) {
           selectedCategorySubCategory =
-              '$selectedCategorySubCategory > ${event.subCategory}';
+              '$selectedCategorySubCategory > $subcategory';
         } else {
-          selectedCategorySubCategory =
-              '${event.subCategory} > ${event.subCategory}';
+          selectedCategorySubCategory = '$category > $subcategory';
         }
+
         emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
       },
     );

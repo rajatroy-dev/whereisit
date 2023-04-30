@@ -118,9 +118,9 @@ class EditItemCategorySelect extends EditItemEvent {
 }
 
 class EditItemSubcategorySelect extends EditItemEvent {
-  final String subCategory;
+  final Map<String, String> categorySubcategory;
 
-  EditItemSubcategorySelect(this.subCategory);
+  EditItemSubcategorySelect(this.categorySubcategory);
 }
 
 class EditItemCategoryUpdateInitial extends EditItemEvent {
