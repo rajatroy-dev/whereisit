@@ -29,6 +29,7 @@ class Item {
     this.uiName,
     this.uiTagsList,
     this.uiImagesList,
+    this.uiSelectedCategory,
     this.uiCategoriesList,
     this.uiSubCategoriesList,
   });
@@ -50,6 +51,7 @@ class Item {
   String? uiName;
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
+  String? uiSelectedCategory;
   List<String>? uiCategoriesList;
   Map<String, List<String>>? uiSubCategoriesList;
 
@@ -71,6 +73,7 @@ class Item {
         uiName: json['uiName'] ?? '',
         uiTagsList: json['uiTagsList'].cast<Tag>(),
         uiImagesList: json['uiImagesList'].cast<String>(),
+        uiSelectedCategory: json['uiSelectedCategory'] as String,
         uiCategoriesList: json['uiCategoriesList'].cast<String>(),
         uiSubCategoriesList:
             Map<String, List<String>>.from(json['uiSubCategoriesList']),

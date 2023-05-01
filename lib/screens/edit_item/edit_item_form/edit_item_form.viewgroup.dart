@@ -161,22 +161,15 @@ class EditItemForm extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<EditItemBloc, EditItemState>(
                     buildWhen: (_, current) =>
-                        current is EditItemCategoryAddSuccess ||
-                        current is EditItemCategoryUpdateSuccess ||
-                        current is EditItemSubcategoryAddSuccess ||
-                        current is EditItemSubcategoryUpdateSuccess,
+                        current is EditItemCategorySelectSuccess,
                     builder: (context, state) {
-                      if (state is LocationSelectionSuccess) {
-                        return TextButton.icon(
-                          icon: const Icon(
-                            Icons.add_location_alt_rounded,
-                          ),
+                      if (state is EditItemCategorySelectSuccess) {
+                        return TextButton(
                           onPressed: () => Navigator.pushNamed(
                             context,
                             AddEditCategoryScreen.routeName,
                           ),
-                          // TODO: Handle category & sub-category update after selection
-                          label: const Text('category > subcategory'),
+                          child: Text('Category: ${state.category}'),
                         );
                       }
                       return TextButton.icon(

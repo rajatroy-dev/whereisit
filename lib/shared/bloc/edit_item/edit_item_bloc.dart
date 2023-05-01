@@ -112,6 +112,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var item = Item.forUi({
     'uiTagsList': [],
     'uiImagesList': [],
+    'uiSelectedCategory': '',
     'uiCategoriesList': [],
     'uiSubCategoriesList': <String, List<String>>{},
   });
@@ -217,6 +218,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'thumbnail': event.image,
           'uiTagsList': [],
           'uiImagesList': [event.image],
+          'uiSelectedCategory': '',
           'uiCategoriesList': [],
           'uiSubCategoriesList': <String, List<String>>{},
         });
@@ -448,6 +450,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'thumbnail': event.imagePath,
             'uiTagsList': item.uiTagsList,
             'uiImagesList': item.uiImagesList,
+            'uiSelectedCategory': item.uiSelectedCategory,
             'uiCategoriesList': item.uiCategoriesList,
             'uiSubCategoriesList': item.uiSubCategoriesList,
           });
@@ -466,6 +469,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'thumbnail': '',
             'uiTagsList': item.uiTagsList,
             'uiImagesList': [],
+            'uiSelectedCategory': item.uiSelectedCategory,
             'uiCategoriesList': item.uiCategoriesList,
             'uiSubCategoriesList': item.uiSubCategoriesList,
           });
@@ -484,6 +488,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'thumbnail': item.thumbnail,
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
           'uiCategoriesList': categories,
           'uiSubCategoriesList': subCategories,
         });
@@ -525,6 +530,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         } else {
           selectedCategorySubCategory = '$category > $subcategory';
         }
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': selectedCategorySubCategory,
+          'uiCategoriesList': item.uiCategoriesList,
+          'uiSubCategoriesList': item.uiSubCategoriesList,
+        });
 
         emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
       },
