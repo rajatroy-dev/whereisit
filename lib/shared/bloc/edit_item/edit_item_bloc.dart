@@ -509,7 +509,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         selectedCategorySubCategory = event.category;
 
-        emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': selectedCategorySubCategory,
+          'uiCategoriesList': item.uiCategoriesList,
+          'uiSubCategoriesList': item.uiSubCategoriesList,
+        });
+
+        emit(EditItemCategorySelectSuccess(item));
       },
     );
 
@@ -524,7 +533,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           break;
         }
 
-        if (selectedCategorySubCategory.isNotEmpty) {
+        if (selectedCategorySubCategory.isNotEmpty &&
+            !selectedCategorySubCategory.contains('>')) {
           selectedCategorySubCategory =
               '$selectedCategorySubCategory > $subcategory';
         } else {
@@ -540,7 +550,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiSubCategoriesList': item.uiSubCategoriesList,
         });
 
-        emit(EditItemCategorySelectSuccess(selectedCategorySubCategory));
+        emit(EditItemCategorySelectSuccess(item));
       },
     );
 

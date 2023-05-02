@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/tag.model.dart';
-import 'package:whereisit/screens/add_edit_category/add_edit_category.viewgroup.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
@@ -58,7 +57,8 @@ class EditItemForm extends StatelessWidget {
                   current is AddItemInitial ||
                   current is EditItemTagsSelectionSuccess ||
                   current is EditItemImageAddSuccess ||
-                  current is EditItemImageRemoveSuccess,
+                  current is EditItemImageRemoveSuccess ||
+                  current is EditItemCategorySelectSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
                 if (state is AddItemInitial) {
@@ -68,6 +68,8 @@ class EditItemForm extends StatelessWidget {
                 } else if (state is EditItemImageAddSuccess) {
                   imagesList = state.item.uiImagesList!;
                 } else if (state is EditItemImageRemoveSuccess) {
+                  imagesList = state.item.uiImagesList!;
+                } else if (state is EditItemCategorySelectSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 return HorizontalImageListContainer(
@@ -165,11 +167,18 @@ class EditItemForm extends StatelessWidget {
                     builder: (context, state) {
                       if (state is EditItemCategorySelectSuccess) {
                         return TextButton(
-                          onPressed: () => Navigator.pushNamed(
-                            context,
-                            AddEditCategoryScreen.routeName,
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              CategorySubcategoryScreen.routeName,
+                            );
+                            BlocProvider.of<EditItemBloc>(context).add(
+                              EditItemCategoryLoad(),
+                            );
+                          },
+                          child: Text(
+                            'Category: ${state.item.uiSelectedCategory}',
                           ),
-                          child: Text('Category: ${state.category}'),
                         );
                       }
                       return TextButton.icon(
