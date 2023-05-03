@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/add_edit_category/add_edit_category.viewgroup.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
               const SearchWithDropdownScreen(),
           CategorySubcategoryScreen.routeName: (context) =>
               const CategorySubcategoryScreen(),
+          AddEditCategoryScreen.routeName: (context) =>
+              const AddEditCategoryScreen(),
         },
       ),
     );

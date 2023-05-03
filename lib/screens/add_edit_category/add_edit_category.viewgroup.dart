@@ -20,6 +20,21 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     1: '',
   };
 
+  Widget _buildList() {
+    var columnList = <Widget>[];
+
+    for (var element in subCategoriesList.entries) {
+      columnList.add(TextFormField(
+        initialValue: subCategoriesList[element.key],
+        onChanged: (value) => _handleChange(element.key, value),
+      ));
+    }
+
+    return Column(
+      children: columnList,
+    );
+  }
+
   _handleEditCateogry(String category) {
     BlocProvider.of<EditItemBloc>(context).add(
       EditItemCategoryUpdate(category),
@@ -66,15 +81,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
-              child: ListView.builder(
-                itemCount: subCategoriesList.length,
-                itemBuilder: (context, index) {
-                  return TextFormField(
-                    initialValue: subCategoriesList[index],
-                    onChanged: (value) => _handleChange(index, value),
-                  );
-                },
-              ),
+              child: _buildList(),
             ),
           ],
         ),
