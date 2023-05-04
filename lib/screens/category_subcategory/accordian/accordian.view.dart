@@ -7,9 +7,14 @@ import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 class Accordion extends StatefulWidget {
   final String title;
   final List<String> content;
+  final bool? isEditable;
 
-  const Accordion({Key? key, required this.title, required this.content})
-      : super(key: key);
+  const Accordion({
+    Key? key,
+    required this.title,
+    required this.content,
+    this.isEditable,
+  }) : super(key: key);
   @override
   State<Accordion> createState() => _AccordionState();
 }
@@ -57,8 +62,22 @@ class _AccordionState extends State<Accordion> {
             },
             child: ListTile(
               title: Text(widget.title),
-              trailing: Icon(
-                _showContent ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              trailing: SizedBox(
+                width: 35.0,
+                child: Row(
+                  children: [
+                    if (widget.isEditable != null && widget.isEditable!)
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit_rounded),
+                      ),
+                    Icon(
+                      _showContent
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

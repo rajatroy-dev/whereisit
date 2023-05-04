@@ -19,7 +19,8 @@ class CategorySubcategoryScreen extends StatelessWidget {
             current is EditItemCategorySelectSuccess,
         listener: (context, state) => Navigator.pop(context),
         buildWhen: (previous, current) =>
-            current is EditItemCategoryLoadSuccess,
+            current is EditItemCategoryLoadSuccess ||
+            current is EditItemCategoryUpdateInitialSuccess,
         builder: (context, state) {
           if (state is EditItemCategoryLoadSuccess) {
             return ListView.builder(
@@ -31,6 +32,22 @@ class CategorySubcategoryScreen extends StatelessWidget {
               },
             );
           }
+
+          if (state is EditItemCategoryUpdateInitialSuccess) {
+            return ListView.builder(
+              itemCount: state.item.uiCategoriesList!.length,
+              itemBuilder: (context, index) {
+                var category = state.item.uiCategoriesList![index];
+                var subCategories = state.item.uiSubCategoriesList![category];
+                return Accordion(
+                  title: category,
+                  content: subCategories!,
+                  isEditable: true,
+                );
+              },
+            );
+          }
+
           return const SizedBox();
         },
       ),

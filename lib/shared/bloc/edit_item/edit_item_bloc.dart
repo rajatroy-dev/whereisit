@@ -595,11 +595,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         if (event.category != null && categories.contains(event.category)) {
           emit(
-            EditItemCategoryUpdateInitialSuccess(
-              subCategories: {
-                event.category!: subCategories[event.category]!,
-              },
-            ),
+            EditItemCategoryUpdateInitialSuccess(item),
           );
         }
       },
