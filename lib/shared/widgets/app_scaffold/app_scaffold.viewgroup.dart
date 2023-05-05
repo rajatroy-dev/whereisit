@@ -101,7 +101,10 @@ class _AppScaffoldState extends State<AppScaffold> {
           BlocProvider.of<EditItemBloc>(context).add(
             EditItemCategoryUpdateInitial(),
           );
-          Navigator.pushNamed(context, CategorySubcategoryScreen.routeName);
+          Navigator.pushReplacementNamed(
+            context,
+            CategorySubcategoryScreen.routeName,
+          );
         },
       ),
     ];
@@ -153,7 +156,21 @@ class _AppScaffoldState extends State<AppScaffold> {
             ),
           if (widget.action != null &&
               widget.action == AppBarAction.addCategory)
-            ..._actionsForCategoryScreen()
+            ..._actionsForCategoryScreen(),
+          if (widget.action != null &&
+              widget.action == AppBarAction.editCategory)
+            IconButton(
+              icon: const Icon(
+                Icons.check_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                BlocProvider.of<EditItemBloc>(context).add(
+                  EditItemTagsSelected(),
+                );
+                Navigator.pop(context);
+              },
+            ),
         ],
       ),
       body: widget.body,

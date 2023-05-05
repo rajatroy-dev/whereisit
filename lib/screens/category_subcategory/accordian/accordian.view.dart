@@ -35,7 +35,9 @@ class _AccordionState extends State<Accordion> {
             width: double.infinity,
             padding:
                 const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Text(element),
+            child: widget.isEditable != null && widget.isEditable!
+                ? TextFormField(initialValue: element)
+                : Text(element),
           ),
         ),
       );
@@ -61,23 +63,11 @@ class _AccordionState extends State<Accordion> {
               });
             },
             child: ListTile(
-              title: Text(widget.title),
-              trailing: SizedBox(
-                width: 35.0,
-                child: Row(
-                  children: [
-                    if (widget.isEditable != null && widget.isEditable!)
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit_rounded),
-                      ),
-                    Icon(
-                      _showContent
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                    ),
-                  ],
-                ),
+              title: widget.isEditable != null && widget.isEditable!
+                  ? TextFormField(initialValue: widget.title)
+                  : Text(widget.title),
+              trailing: Icon(
+                _showContent ? Icons.arrow_drop_up : Icons.arrow_drop_down,
               ),
             ),
           ),

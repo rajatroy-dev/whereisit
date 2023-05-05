@@ -12,29 +12,32 @@ class CategorySubcategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      action: AppBarAction.addCategory,
-      body: BlocConsumer<EditItemBloc, EditItemState>(
-        listenWhen: (previous, current) =>
-            current is EditItemCategorySelectSuccess,
-        listener: (context, state) => Navigator.pop(context),
-        buildWhen: (previous, current) =>
-            current is EditItemCategoryLoadSuccess ||
-            current is EditItemCategoryUpdateInitialSuccess,
-        builder: (context, state) {
-          if (state is EditItemCategoryLoadSuccess) {
-            return ListView.builder(
+    return BlocConsumer<EditItemBloc, EditItemState>(
+      listenWhen: (previous, current) =>
+          current is EditItemCategorySelectSuccess,
+      listener: (context, state) => Navigator.pop(context),
+      buildWhen: (previous, current) =>
+          current is EditItemCategoryLoadSuccess ||
+          current is EditItemCategoryUpdateInitialSuccess,
+      builder: (context, state) {
+        if (state is EditItemCategoryLoadSuccess) {
+          return AppScaffold(
+            action: AppBarAction.addCategory,
+            body: ListView.builder(
               itemCount: state.item.uiCategoriesList!.length,
               itemBuilder: (context, index) {
                 var category = state.item.uiCategoriesList![index];
                 var subCategories = state.item.uiSubCategoriesList![category];
                 return Accordion(title: category, content: subCategories!);
               },
-            );
-          }
+            ),
+          );
+        }
 
-          if (state is EditItemCategoryUpdateInitialSuccess) {
-            return ListView.builder(
+        if (state is EditItemCategoryUpdateInitialSuccess) {
+          return AppScaffold(
+            action: AppBarAction.editCategory,
+            body: ListView.builder(
               itemCount: state.item.uiCategoriesList!.length,
               itemBuilder: (context, index) {
                 var category = state.item.uiCategoriesList![index];
@@ -45,12 +48,12 @@ class CategorySubcategoryScreen extends StatelessWidget {
                   isEditable: true,
                 );
               },
-            );
-          }
+            ),
+          );
+        }
 
-          return const SizedBox();
-        },
-      ),
+        return const SizedBox();
+      },
     );
   }
 }
