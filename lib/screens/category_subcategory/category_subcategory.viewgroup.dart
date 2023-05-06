@@ -42,10 +42,13 @@ class CategorySubcategoryScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 var category = state.item.uiCategoriesList![index];
                 var subCategories = state.item.uiSubCategoriesList![category];
-                return Accordion(
-                  title: category,
-                  content: subCategories!,
-                  isEditable: true,
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Accordion(
+                    title: category,
+                    content: subCategories!,
+                    isEditable: true,
+                  ),
                 );
               },
             ),

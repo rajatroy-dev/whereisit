@@ -599,11 +599,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemCategoryUpdate>(
       (event, emit) {
-        var res = event.category.split(',');
-        var index = int.parse(res[0]);
-        var newCategory = res[1];
-
-        categories[index] = newCategory;
+        item = event.item;
 
         emit(EditItemCategoryUpdateSuccess());
       },

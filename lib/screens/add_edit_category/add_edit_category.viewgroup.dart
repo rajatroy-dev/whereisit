@@ -36,9 +36,9 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   }
 
   _handleEditCateogry(String category) {
-    BlocProvider.of<EditItemBloc>(context).add(
-      EditItemCategoryUpdate(category),
-    );
+    // BlocProvider.of<EditItemBloc>(context).add(
+    //   EditItemCategoryUpdate(category),
+    // );
   }
 
   _handleChange(int index, String value) {

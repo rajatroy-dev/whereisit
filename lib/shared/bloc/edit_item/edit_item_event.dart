@@ -130,9 +130,9 @@ class EditItemCategoryUpdateInitial extends EditItemEvent {
 }
 
 class EditItemCategoryUpdate extends EditItemEvent {
-  final String category;
+  final Item item;
 
-  EditItemCategoryUpdate(this.category);
+  EditItemCategoryUpdate(this.item);
 }
 
 class EditItemSubcategoryUpdate extends EditItemEvent {

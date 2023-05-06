@@ -25,19 +25,29 @@ class _AccordionState extends State<Accordion> {
 
   List<Widget> _buildList(String category) {
     var columnList = <Widget>[];
-    for (var element in widget.content) {
+    for (var index = 0; index < widget.content.length; index++) {
       columnList.add(
         InkWell(
           onTap: () => BlocProvider.of<EditItemBloc>(context).add(
-            EditItemSubcategorySelect({category: element}),
+            EditItemSubcategorySelect({category: widget.content[index]}),
           ),
           child: Container(
             width: double.infinity,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+            padding: const EdgeInsets.only(
+              top: 8.0,
+              right: 16.0,
+              bottom: 8.0,
+              left: 32.0,
+            ),
             child: widget.isEditable != null && widget.isEditable!
-                ? TextFormField(initialValue: element)
-                : Text(element),
+                ? TextFormField(
+                    initialValue: widget.content[index],
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: 'Sub category ${index + 1}',
+                    ),
+                  )
+                : Text(widget.content[index]),
           ),
         ),
       );
@@ -64,7 +74,16 @@ class _AccordionState extends State<Accordion> {
             },
             child: ListTile(
               title: widget.isEditable != null && widget.isEditable!
-                  ? TextFormField(initialValue: widget.title)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextFormField(
+                        initialValue: widget.title,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Category',
+                        ),
+                      ),
+                    )
                   : Text(widget.title),
               trailing: Icon(
                 _showContent ? Icons.arrow_drop_up : Icons.arrow_drop_down,
