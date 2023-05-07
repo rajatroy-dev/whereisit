@@ -107,6 +107,10 @@ class EditItemCategoryUpdateInitialSuccess extends EditItemState {
   EditItemCategoryUpdateInitialSuccess(this.item);
 }
 
+class EditItemCategoryChangeSuccess extends EditItemState {}
+
+class EditItemSubcategoryChangeSuccess extends EditItemState {}
+
 class EditItemCategoryUpdateSuccess extends EditItemState {}
 
 class EditItemSubcategoryUpdateSuccess extends EditItemState {}

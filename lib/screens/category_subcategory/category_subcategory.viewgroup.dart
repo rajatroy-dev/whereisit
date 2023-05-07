@@ -14,7 +14,8 @@ class CategorySubcategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<EditItemBloc, EditItemState>(
       listenWhen: (previous, current) =>
-          current is EditItemCategorySelectSuccess,
+          current is EditItemCategorySelectSuccess ||
+          current is EditItemCategoryUpdateSuccess,
       listener: (context, state) => Navigator.pop(context),
       buildWhen: (previous, current) =>
           current is EditItemCategoryLoadSuccess ||

@@ -137,6 +137,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     'Books': ['Science Fiction', 'Adventure', 'Romantic'],
   };
 
+  var editedCategory = <String, String>{};
+  var editedSubcategory = <String, List<String>>{};
+
   var selectedCategorySubCategory = '';
   var stringtoHandleCategoryBack = '';
 
@@ -597,9 +600,74 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
+    on<EditItemCategoryChange>(
+      (event, emit) {
+        var entry = event.newCategory.entries.first;
+        editedCategory[entry.key] = entry.value;
+
+        emit(EditItemCategoryChangeSuccess());
+      },
+    );
+
+    on<EditItemSubcategoryChange>(
+      (event, emit) {
+        var entry = event.newSubcategory.entries.first;
+        var afterSplit = entry.key.split(':');
+        var index = int.parse(afterSplit[0]);
+        var category = afterSplit[1];
+
+        editedSubcategory[category] = item.uiSubCategoriesList![category]!;
+        editedSubcategory[category]![index] = entry.value;
+
+        emit(EditItemCategoryChangeSuccess());
+      },
+    );
+
     on<EditItemCategoryUpdate>(
       (event, emit) {
-        item = event.item;
+        // If there is a category selected, edit it
+        var itemExistingCategory = '';
+        var toBeUpdatedItemCategory = '';
+        var splitItemCategorySubcategory = <String>[];
+        if (item.uiSelectedCategory != null) {
+          splitItemCategorySubcategory = item.uiSelectedCategory!.split('>');
+          itemExistingCategory = splitItemCategorySubcategory[0].trim();
+        }
+
+        if (editedCategory.isNotEmpty) {
+          for (var element in editedCategory.entries) {
+            var index = categories.indexWhere((item) => item == element.key);
+            categories[index] = element.value;
+            if (element.key == itemExistingCategory) {
+              toBeUpdatedItemCategory = element.value;
+            }
+          }
+        }
+
+        // If there is a subcategory selected, edit it
+        var itemExistingSubcategory = splitItemCategorySubcategory[1].trim();
+        var toBeUpdatedItemSubcategory = '';
+        var subCategoryIndex = -1;
+
+        if (editedSubcategory.isNotEmpty) {
+          for (var element in editedSubcategory.entries) {
+            // First get the index of exisiting selected subcategory if present
+            if (toBeUpdatedItemCategory.isNotEmpty && subCategoryIndex < 0) {
+              subCategoryIndex = subCategories[itemExistingCategory]!
+                  .indexWhere((item) => item == itemExistingSubcategory);
+              // Edit the selectedSubcategory
+              toBeUpdatedItemSubcategory = editedSubcategory[
+                  editedCategory[itemExistingCategory]]![subCategoryIndex];
+            }
+            // Then remove the key
+            subCategories.remove(element.key);
+            // Then add the new key with new value
+            subCategories[editedCategory[element.key]!] = element.value;
+          }
+        }
+
+        selectedCategorySubCategory =
+            '$toBeUpdatedItemCategory > $toBeUpdatedItemSubcategory';
 
         emit(EditItemCategoryUpdateSuccess());
       },

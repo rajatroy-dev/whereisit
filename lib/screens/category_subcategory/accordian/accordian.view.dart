@@ -41,13 +41,23 @@ class _AccordionState extends State<Accordion> {
             ),
             child: widget.isEditable != null && widget.isEditable!
                 ? TextFormField(
+                    onChanged: (value) {
+                      BlocProvider.of<EditItemBloc>(context).add(
+                        EditItemSubcategoryChange({
+                          '$index:$category': value,
+                        }),
+                      );
+                    },
                     initialValue: widget.content[index],
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelText: 'Sub category ${index + 1}',
                     ),
                   )
-                : Text(widget.content[index]),
+                : Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(widget.content[index]),
+                  ),
           ),
         ),
       );
@@ -77,6 +87,11 @@ class _AccordionState extends State<Accordion> {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TextFormField(
+                        onChanged: (value) {
+                          BlocProvider.of<EditItemBloc>(context).add(
+                            EditItemCategoryChange({widget.title: value}),
+                          );
+                        },
                         initialValue: widget.title,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),

@@ -129,11 +129,19 @@ class EditItemCategoryUpdateInitial extends EditItemEvent {
   EditItemCategoryUpdateInitial({this.category});
 }
 
-class EditItemCategoryUpdate extends EditItemEvent {
-  final Item item;
+class EditItemCategoryChange extends EditItemEvent {
+  final Map<String, String> newCategory;
 
-  EditItemCategoryUpdate(this.item);
+  EditItemCategoryChange(this.newCategory);
 }
+
+class EditItemSubcategoryChange extends EditItemEvent {
+  final Map<String, String> newSubcategory;
+
+  EditItemSubcategoryChange(this.newSubcategory);
+}
+
+class EditItemCategoryUpdate extends EditItemEvent {}
 
 class EditItemSubcategoryUpdate extends EditItemEvent {
   final String subCategory;
