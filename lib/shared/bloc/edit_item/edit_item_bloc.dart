@@ -616,7 +616,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         var index = int.parse(afterSplit[0]);
         var category = afterSplit[1];
 
-        editedSubcategory[category] = item.uiSubCategoriesList![category]!;
+        editedSubcategory[category] = [...item.uiSubCategoriesList![category]!];
         editedSubcategory[category]![index] = entry.value;
 
         emit(EditItemCategoryChangeSuccess());
@@ -629,23 +629,28 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         var itemExistingCategory = '';
         var toBeUpdatedItemCategory = '';
         var splitItemCategorySubcategory = <String>[];
-        if (item.uiSelectedCategory != null) {
+        if (item.uiSelectedCategory != null &&
+            item.uiSelectedCategory!.isNotEmpty) {
           splitItemCategorySubcategory = item.uiSelectedCategory!.split('>');
           itemExistingCategory = splitItemCategorySubcategory[0].trim();
         }
 
         if (editedCategory.isNotEmpty) {
           for (var element in editedCategory.entries) {
-            var index = categories.indexWhere((item) => item == element.key);
+            var index = categories.indexWhere((_item) => _item == element.key);
             categories[index] = element.value;
-            if (element.key == itemExistingCategory) {
+            if (itemExistingCategory.isNotEmpty &&
+                element.key == itemExistingCategory) {
               toBeUpdatedItemCategory = element.value;
             }
           }
         }
 
         // If there is a subcategory selected, edit it
-        var itemExistingSubcategory = splitItemCategorySubcategory[1].trim();
+        var itemExistingSubcategory = '';
+        if (splitItemCategorySubcategory.isNotEmpty) {
+          itemExistingSubcategory = splitItemCategorySubcategory[1].trim();
+        }
         var toBeUpdatedItemSubcategory = '';
         var subCategoryIndex = -1;
 
@@ -654,10 +659,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             // First get the index of exisiting selected subcategory if present
             if (toBeUpdatedItemCategory.isNotEmpty && subCategoryIndex < 0) {
               subCategoryIndex = subCategories[itemExistingCategory]!
-                  .indexWhere((item) => item == itemExistingSubcategory);
+                  .indexWhere((_item) => _item == itemExistingSubcategory);
               // Edit the selectedSubcategory
-              toBeUpdatedItemSubcategory = editedSubcategory[
-                  editedCategory[itemExistingCategory]]![subCategoryIndex];
+              toBeUpdatedItemSubcategory =
+                  editedSubcategory[itemExistingCategory]![subCategoryIndex];
             }
             // Then remove the key
             subCategories.remove(element.key);
@@ -668,6 +673,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         selectedCategorySubCategory =
             '$toBeUpdatedItemCategory > $toBeUpdatedItemSubcategory';
+
+        editedCategory = {};
+        editedSubcategory = {};
 
         emit(EditItemCategoryUpdateSuccess());
       },

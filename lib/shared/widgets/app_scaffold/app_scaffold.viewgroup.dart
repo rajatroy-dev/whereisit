@@ -168,7 +168,6 @@ class _AppScaffoldState extends State<AppScaffold> {
                 BlocProvider.of<EditItemBloc>(context).add(
                   EditItemCategoryUpdate(),
                 );
-                Navigator.pop(context);
               },
             ),
         ],
