@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/models/cat_subcat.model.dart';
 import 'package:whereisit/models/item.model.dart';
 import 'package:whereisit/models/tag.model.dart';
 
@@ -113,8 +114,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     'uiTagsList': [],
     'uiImagesList': [],
     'uiSelectedCategory': '',
-    'uiCategoriesList': [],
-    'uiSubCategoriesList': <String, List<String>>{},
   });
 
   var tags = <Tag>[
@@ -222,8 +221,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': [],
           'uiImagesList': [event.image],
           'uiSelectedCategory': '',
-          'uiCategoriesList': [],
-          'uiSubCategoriesList': <String, List<String>>{},
         });
 
         emit(AddItemInitial(item));
@@ -454,8 +451,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagsList': item.uiTagsList,
             'uiImagesList': item.uiImagesList,
             'uiSelectedCategory': item.uiSelectedCategory,
-            'uiCategoriesList': item.uiCategoriesList,
-            'uiSubCategoriesList': item.uiSubCategoriesList,
           });
         }
 
@@ -473,8 +468,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagsList': item.uiTagsList,
             'uiImagesList': [],
             'uiSelectedCategory': item.uiSelectedCategory,
-            'uiCategoriesList': item.uiCategoriesList,
-            'uiSubCategoriesList': item.uiSubCategoriesList,
           });
         } else {
           item.uiImagesList = temp;
@@ -487,14 +480,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': item.uiTagsList,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCategoriesList': categories,
-          'uiSubCategoriesList': subCategories,
-        });
+        var item = CatSubcat(
+          categories: categories,
+          subcategories: subCategories,
+        );
 
         emit(EditItemCategoryLoadSuccess(item));
       },
@@ -517,8 +506,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': selectedCategorySubCategory,
-          'uiCategoriesList': item.uiCategoriesList,
-          'uiSubCategoriesList': item.uiSubCategoriesList,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -549,8 +536,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': selectedCategorySubCategory,
-          'uiCategoriesList': item.uiCategoriesList,
-          'uiSubCategoriesList': item.uiSubCategoriesList,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -596,6 +581,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemCategoryUpdateInitial>(
       (event, emit) {
+        var item = CatSubcat(
+          categories: categories,
+          subcategories: subCategories,
+        );
         emit(EditItemCategoryUpdateInitialSuccess(item));
       },
     );
@@ -616,7 +605,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         var index = int.parse(afterSplit[0]);
         var category = afterSplit[1];
 
-        editedSubcategory[category] = [...item.uiSubCategoriesList![category]!];
+        editedSubcategory[category] = [...subCategories[category]!];
         editedSubcategory[category]![index] = entry.value;
 
         emit(EditItemCategoryChangeSuccess());
@@ -676,8 +665,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         editedCategory = {};
         editedSubcategory = {};
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': selectedCategorySubCategory,
+        });
 
-        emit(EditItemCategoryUpdateSuccess());
+        emit(EditItemCategoryUpdateSuccess(item));
       },
     );
 

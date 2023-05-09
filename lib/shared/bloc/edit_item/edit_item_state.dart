@@ -84,7 +84,7 @@ class EditItemCategoryAddSuccess extends EditItemState {
 }
 
 class EditItemCategoryLoadSuccess extends EditItemState {
-  final Item item;
+  final CatSubcat item;
 
   EditItemCategoryLoadSuccess(this.item);
 }
@@ -102,7 +102,7 @@ class EditItemCategorySelectSuccess extends EditItemState {
 }
 
 class EditItemCategoryUpdateInitialSuccess extends EditItemState {
-  final Item item;
+  final CatSubcat item;
 
   EditItemCategoryUpdateInitialSuccess(this.item);
 }
@@ -111,6 +111,10 @@ class EditItemCategoryChangeSuccess extends EditItemState {}
 
 class EditItemSubcategoryChangeSuccess extends EditItemState {}
 
-class EditItemCategoryUpdateSuccess extends EditItemState {}
+class EditItemCategoryUpdateSuccess extends EditItemState {
+  final Item item;
+
+  EditItemCategoryUpdateSuccess(this.item);
+}
 
 class EditItemSubcategoryUpdateSuccess extends EditItemState {}

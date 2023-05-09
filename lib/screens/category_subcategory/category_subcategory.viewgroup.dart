@@ -25,10 +25,10 @@ class CategorySubcategoryScreen extends StatelessWidget {
           return AppScaffold(
             action: AppBarAction.addCategory,
             body: ListView.builder(
-              itemCount: state.item.uiCategoriesList!.length,
+              itemCount: state.item.categories.length,
               itemBuilder: (context, index) {
-                var category = state.item.uiCategoriesList![index];
-                var subCategories = state.item.uiSubCategoriesList![category];
+                var category = state.item.categories[index];
+                var subCategories = state.item.subcategories[category];
                 return Accordion(title: category, content: subCategories!);
               },
             ),
@@ -39,10 +39,10 @@ class CategorySubcategoryScreen extends StatelessWidget {
           return AppScaffold(
             action: AppBarAction.editCategory,
             body: ListView.builder(
-              itemCount: state.item.uiCategoriesList!.length,
+              itemCount: state.item.categories.length,
               itemBuilder: (context, index) {
-                var category = state.item.uiCategoriesList![index];
-                var subCategories = state.item.uiSubCategoriesList![category];
+                var category = state.item.categories[index];
+                var subCategories = state.item.subcategories[category];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Accordion(

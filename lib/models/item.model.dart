@@ -30,8 +30,6 @@ class Item {
     this.uiTagsList,
     this.uiImagesList,
     this.uiSelectedCategory,
-    this.uiCategoriesList,
-    this.uiSubCategoriesList,
   });
 
   int? id;
@@ -52,8 +50,6 @@ class Item {
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
   String? uiSelectedCategory;
-  List<String>? uiCategoriesList;
-  Map<String, List<String>>? uiSubCategoriesList;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -74,9 +70,6 @@ class Item {
         uiTagsList: json['uiTagsList'].cast<Tag>(),
         uiImagesList: json['uiImagesList'].cast<String>(),
         uiSelectedCategory: json['uiSelectedCategory'] as String,
-        uiCategoriesList: json['uiCategoriesList'].cast<String>(),
-        uiSubCategoriesList:
-            Map<String, List<String>>.from(json['uiSubCategoriesList']),
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

@@ -163,9 +163,26 @@ class EditItemForm extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<EditItemBloc, EditItemState>(
                     buildWhen: (_, current) =>
-                        current is EditItemCategorySelectSuccess,
+                        current is EditItemCategorySelectSuccess ||
+                        current is EditItemCategoryUpdateSuccess,
                     builder: (context, state) {
                       if (state is EditItemCategorySelectSuccess) {
+                        return TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              CategorySubcategoryScreen.routeName,
+                            );
+                            BlocProvider.of<EditItemBloc>(context).add(
+                              EditItemCategoryLoad(),
+                            );
+                          },
+                          child: Text(
+                            'Category: ${state.item.uiSelectedCategory}',
+                          ),
+                        );
+                      }
+                      if (state is EditItemCategoryUpdateSuccess) {
                         return TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
