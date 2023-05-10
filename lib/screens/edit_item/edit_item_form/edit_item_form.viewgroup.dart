@@ -166,7 +166,9 @@ class EditItemForm extends StatelessWidget {
                         current is EditItemCategorySelectSuccess ||
                         current is EditItemCategoryUpdateSuccess,
                     builder: (context, state) {
-                      if (state is EditItemCategorySelectSuccess) {
+                      if (state is EditItemCategorySelectSuccess &&
+                          state.item.uiSelectedCategory != null &&
+                          state.item.uiSelectedCategory!.isNotEmpty) {
                         return TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
@@ -182,7 +184,9 @@ class EditItemForm extends StatelessWidget {
                           ),
                         );
                       }
-                      if (state is EditItemCategoryUpdateSuccess) {
+                      if (state is EditItemCategoryUpdateSuccess &&
+                          state.item.uiSelectedCategory != null &&
+                          state.item.uiSelectedCategory!.isNotEmpty) {
                         return TextButton(
                           onPressed: () {
                             Navigator.pushNamed(

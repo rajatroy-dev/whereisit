@@ -29,7 +29,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 var category = state.item.categories[index];
                 var subCategories = state.item.subcategories[category];
-                return Accordion(title: category, content: subCategories!);
+                return Accordion(title: category, content: subCategories ?? []);
               },
             ),
           );

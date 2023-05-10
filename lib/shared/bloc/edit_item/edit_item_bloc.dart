@@ -593,6 +593,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         var entry = event.newCategory.entries.first;
         editedCategory[entry.key] = entry.value;
+        editedSubcategory = {entry.key: subCategories[entry.key]!};
 
         emit(EditItemCategoryChangeSuccess());
       },
@@ -624,7 +625,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           itemExistingCategory = splitItemCategorySubcategory[0].trim();
         }
 
-        if (editedCategory.isNotEmpty) {
+        if (editedCategory.isEmpty && editedSubcategory.isNotEmpty) {
+          // handle only sub-category update
+          for (var element in editedSubcategory.entries) {
+            editedCategory[element.key] = element.key;
+          }
+        } else {
           for (var element in editedCategory.entries) {
             var index = categories.indexWhere((_item) => _item == element.key);
             categories[index] = element.value;
@@ -660,8 +666,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           }
         }
 
-        selectedCategorySubCategory =
-            '$toBeUpdatedItemCategory > $toBeUpdatedItemSubcategory';
+        if (toBeUpdatedItemCategory.isNotEmpty) {
+          selectedCategorySubCategory =
+              '$toBeUpdatedItemCategory > $toBeUpdatedItemSubcategory';
+        }
 
         editedCategory = {};
         editedSubcategory = {};
