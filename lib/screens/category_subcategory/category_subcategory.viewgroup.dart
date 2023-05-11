@@ -12,52 +12,67 @@ class CategorySubcategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EditItemBloc, EditItemState>(
-      listenWhen: (previous, current) =>
-          current is EditItemCategorySelectSuccess ||
-          current is EditItemCategoryUpdateSuccess,
-      listener: (context, state) => Navigator.pop(context),
-      buildWhen: (previous, current) =>
-          current is EditItemCategoryLoadSuccess ||
-          current is EditItemCategoryUpdateInitialSuccess,
-      builder: (context, state) {
-        if (state is EditItemCategoryLoadSuccess) {
-          return AppScaffold(
-            action: AppBarAction.addCategory,
-            body: ListView.builder(
-              itemCount: state.item.categories.length,
-              itemBuilder: (context, index) {
-                var category = state.item.categories[index];
-                var subCategories = state.item.subcategories[category];
-                return Accordion(title: category, content: subCategories ?? []);
-              },
-            ),
-          );
-        }
-
-        if (state is EditItemCategoryUpdateInitialSuccess) {
-          return AppScaffold(
-            action: AppBarAction.editCategory,
-            body: ListView.builder(
-              itemCount: state.item.categories.length,
-              itemBuilder: (context, index) {
-                var category = state.item.categories[index];
-                var subCategories = state.item.subcategories[category];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Accordion(
-                    title: category,
-                    content: subCategories!,
-                    isEditable: true,
-                  ),
-                );
-              },
-            ),
-          );
-        }
-
-        return const SizedBox();
+    return WillPopScope(
+      onWillPop: () async {
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemCategoryEditIgnore(),
+        );
+        return true;
       },
+      child: BlocConsumer<EditItemBloc, EditItemState>(
+        listenWhen: (previous, current) =>
+            current is EditItemCategorySelectSuccess ||
+            current is EditItemCategoryUpdateSuccess,
+        listener: (context, state) => Navigator.pop(context),
+        buildWhen: (previous, current) =>
+            current is EditItemCategoryLoadSuccess ||
+            current is EditItemCategoryUpdateInitialSuccess,
+        builder: (context, state) {
+          if (state is EditItemCategoryLoadSuccess) {
+            return AppScaffold(
+              action: AppBarAction.addCategory,
+              body: ListView.builder(
+                itemCount: state.item.categories.length,
+                itemBuilder: (context, index) {
+                  var category = state.item.categories[index];
+                  var subCategories = state.item.subcategories[category];
+                  return Accordion(
+                    title: category,
+                    content: subCategories ?? [],
+                    isOnlyCategory:
+                        subCategories == null || subCategories.isEmpty,
+                  );
+                },
+              ),
+            );
+          }
+
+          if (state is EditItemCategoryUpdateInitialSuccess) {
+            return AppScaffold(
+              action: AppBarAction.editCategory,
+              body: ListView.builder(
+                itemCount: state.item.categories.length,
+                itemBuilder: (context, index) {
+                  var category = state.item.categories[index];
+                  var subCategories = state.item.subcategories[category];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Accordion(
+                      title: category,
+                      content: subCategories ?? [],
+                      isEditable: true,
+                      isOnlyCategory:
+                          subCategories == null || subCategories.isEmpty,
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+
+          return const SizedBox();
+        },
+      ),
     );
   }
 }

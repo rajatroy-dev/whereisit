@@ -492,6 +492,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemCategoryEditIgnore>(
       (event, emit) {
         selectedCategorySubCategory = stringtoHandleCategoryBack;
+        editedCategory = {};
+        editedSubcategory = {};
 
         emit(EditItemCategoryAddSuccess(item));
       },

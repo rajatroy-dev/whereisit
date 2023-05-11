@@ -8,12 +8,14 @@ class Accordion extends StatefulWidget {
   final String title;
   final List<String> content;
   final bool? isEditable;
+  final bool? isOnlyCategory;
 
   const Accordion({
     Key? key,
     required this.title,
     required this.content,
     this.isEditable,
+    this.isOnlyCategory,
   }) : super(key: key);
   @override
   State<Accordion> createState() => _AccordionState();
@@ -83,26 +85,37 @@ class _AccordionState extends State<Accordion> {
               });
             },
             child: ListTile(
-              title: widget.isEditable != null && widget.isEditable!
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: TextFormField(
-                        onChanged: (value) {
-                          BlocProvider.of<EditItemBloc>(context).add(
-                            EditItemCategoryChange({widget.title: value}),
-                          );
-                        },
-                        initialValue: widget.title,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Category',
+              title: InkWell(
+                onTap: widget.isOnlyCategory != null && widget.isOnlyCategory!
+                    ? () => BlocProvider.of<EditItemBloc>(context).add(
+                          EditItemCategorySelect(widget.title),
+                        )
+                    : () {},
+                child: widget.isEditable != null && widget.isEditable!
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          onChanged: (value) {
+                            BlocProvider.of<EditItemBloc>(context).add(
+                              EditItemCategoryChange({widget.title: value}),
+                            );
+                          },
+                          initialValue: widget.title,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Category',
+                          ),
                         ),
-                      ),
-                    )
-                  : Text(widget.title),
-              trailing: Icon(
-                _showContent ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      )
+                    : Text(widget.title),
               ),
+              trailing: widget.isOnlyCategory == null && !widget.isOnlyCategory!
+                  ? Icon(
+                      _showContent
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                    )
+                  : const SizedBox(),
             ),
           ),
           // Show or hide the content based on the state
