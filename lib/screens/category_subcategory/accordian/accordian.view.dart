@@ -79,11 +79,13 @@ class _AccordionState extends State<Accordion> {
         children: [
           // The title
           InkWell(
-            onTap: () {
-              setState(() {
-                _showContent = !_showContent;
-              });
-            },
+            onTap: widget.isOnlyCategory == null || !widget.isOnlyCategory!
+                ? () {
+                    setState(() {
+                      _showContent = !_showContent;
+                    });
+                  }
+                : null,
             child: ListTile(
               title: InkWell(
                 onTap: widget.isOnlyCategory != null && widget.isOnlyCategory!
@@ -109,7 +111,7 @@ class _AccordionState extends State<Accordion> {
                       )
                     : Text(widget.title),
               ),
-              trailing: widget.isOnlyCategory == null && !widget.isOnlyCategory!
+              trailing: widget.isOnlyCategory == null || !widget.isOnlyCategory!
                   ? Icon(
                       _showContent
                           ? Icons.arrow_drop_up

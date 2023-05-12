@@ -130,10 +130,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var selectedTagCount = 0;
 
-  var categories = <String>['Clothes', 'Books'];
+  var categories = <String>['Clothes', 'Books', 'Miscellanous'];
   Map<String, List<String>> subCategories = {
     'Clothes': ['Jeans', 'Shirts', 'T-Shirts'],
     'Books': ['Science Fiction', 'Adventure', 'Romantic'],
+    'Miscellanous': [],
   };
 
   var editedCategory = <String, String>{};
@@ -595,7 +596,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         var entry = event.newCategory.entries.first;
         editedCategory[entry.key] = entry.value;
-        editedSubcategory = {entry.key: subCategories[entry.key]!};
+        editedSubcategory = {entry.key: subCategories[entry.key] ?? []};
 
         emit(EditItemCategoryChangeSuccess());
       },
@@ -645,14 +646,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         // If there is a subcategory selected, edit it
         var itemExistingSubcategory = '';
-        if (splitItemCategorySubcategory.isNotEmpty) {
+        if (splitItemCategorySubcategory.length > 1) {
           itemExistingSubcategory = splitItemCategorySubcategory[1].trim();
         }
         var toBeUpdatedItemSubcategory = '';
         var subCategoryIndex = -1;
 
-        if (editedSubcategory.isNotEmpty) {
-          for (var element in editedSubcategory.entries) {
+        for (var element in editedSubcategory.entries) {
+          if (element.value.isNotEmpty) {
             // First get the index of exisiting selected subcategory if present
             if (toBeUpdatedItemCategory.isNotEmpty && subCategoryIndex < 0) {
               subCategoryIndex = subCategories[itemExistingCategory]!
@@ -669,8 +670,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
 
         if (toBeUpdatedItemCategory.isNotEmpty) {
-          selectedCategorySubCategory =
-              '$toBeUpdatedItemCategory > $toBeUpdatedItemSubcategory';
+          selectedCategorySubCategory = toBeUpdatedItemCategory;
+        }
+        if (toBeUpdatedItemSubcategory.isNotEmpty) {
+          selectedCategorySubCategory = ' > $toBeUpdatedItemSubcategory';
         }
 
         editedCategory = {};
