@@ -526,13 +526,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           break;
         }
 
-        if (selectedCategorySubCategory.isNotEmpty &&
-            !selectedCategorySubCategory.contains('>')) {
-          selectedCategorySubCategory =
-              '$selectedCategorySubCategory > $subcategory';
-        } else {
-          selectedCategorySubCategory = '$category > $subcategory';
-        }
+        selectedCategorySubCategory = '$category > $subcategory';
 
         item = Item.forUi({
           'thumbnail': item.thumbnail,
@@ -596,7 +590,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         var entry = event.newCategory.entries.first;
         editedCategory[entry.key] = entry.value;
-        editedSubcategory = {entry.key: subCategories[entry.key] ?? []};
+        editedSubcategory[entry.key] = subCategories[entry.key] ?? [];
 
         emit(EditItemCategoryChangeSuccess());
       },
@@ -655,7 +649,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         for (var element in editedSubcategory.entries) {
           if (element.value.isNotEmpty) {
             // First get the index of exisiting selected subcategory if present
-            if (toBeUpdatedItemCategory.isNotEmpty && subCategoryIndex < 0) {
+            if (toBeUpdatedItemCategory.isNotEmpty &&
+                subCategoryIndex < 0 &&
+                subCategories[itemExistingCategory] != null &&
+                subCategories[itemExistingCategory]!.isNotEmpty) {
               subCategoryIndex = subCategories[itemExistingCategory]!
                   .indexWhere((_item) => _item == itemExistingSubcategory);
               // Edit the selectedSubcategory

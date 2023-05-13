@@ -77,40 +77,33 @@ class _AccordionState extends State<Accordion> {
       ),
       child: Column(
         children: [
-          // The title
           InkWell(
             onTap: widget.isOnlyCategory == null || !widget.isOnlyCategory!
-                ? () {
-                    setState(() {
+                ? () => setState(() {
                       _showContent = !_showContent;
-                    });
-                  }
-                : null,
+                    })
+                : () => BlocProvider.of<EditItemBloc>(context).add(
+                      EditItemCategorySelect(widget.title),
+                    ),
             child: ListTile(
-              title: InkWell(
-                onTap: widget.isOnlyCategory != null && widget.isOnlyCategory!
-                    ? () => BlocProvider.of<EditItemBloc>(context).add(
-                          EditItemCategorySelect(widget.title),
-                        )
-                    : () {},
-                child: widget.isEditable != null && widget.isEditable!
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: TextFormField(
-                          onChanged: (value) {
-                            BlocProvider.of<EditItemBloc>(context).add(
-                              EditItemCategoryChange({widget.title: value}),
-                            );
-                          },
-                          initialValue: widget.title,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Category',
-                          ),
+              // The title
+              title: widget.isEditable != null && widget.isEditable!
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          BlocProvider.of<EditItemBloc>(context).add(
+                            EditItemCategoryChange({widget.title: value}),
+                          );
+                        },
+                        initialValue: widget.title,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Category',
                         ),
-                      )
-                    : Text(widget.title),
-              ),
+                      ),
+                    )
+                  : Text(widget.title),
               trailing: widget.isOnlyCategory == null || !widget.isOnlyCategory!
                   ? Icon(
                       _showContent
