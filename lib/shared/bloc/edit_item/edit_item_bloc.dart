@@ -478,6 +478,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
+    on<EditItemCategoryNew>(
+      (event, emit) => emit(EditItemCategoryNewSuccess()),
+    );
+
     on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;

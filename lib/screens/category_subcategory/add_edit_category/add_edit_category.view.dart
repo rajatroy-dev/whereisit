@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
@@ -72,19 +70,23 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     }
 
     return AppScaffold(
-      action: AppBarAction.addCategory,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TextFormField(
-              controller: categoryController,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: _buildList(),
-            ),
-          ],
-        ),
+      body: DraggableScrollableSheet(
+        initialChildSize: .2,
+        minChildSize: .1,
+        maxChildSize: .6,
+        builder: (BuildContext context, ScrollController scrollController) {
+          return Column(
+            children: [
+              TextFormField(
+                controller: categoryController,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: _buildList(),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

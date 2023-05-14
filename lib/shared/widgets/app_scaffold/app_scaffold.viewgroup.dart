@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/screens/add_edit_category/add_edit_category.viewgroup.dart';
+import 'package:whereisit/screens/category_subcategory/add_edit_category/add_edit_category.view.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
@@ -87,9 +87,8 @@ class _AppScaffoldState extends State<AppScaffold> {
         ),
         onPressed: () {
           BlocProvider.of<EditItemBloc>(context).add(
-            EditItemTagsSelected(),
+            EditItemCategoryNew(),
           );
-          Navigator.pushNamed(context, AddEditCategoryScreen.routeName);
         },
       ),
       IconButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/category_subcategory/accordian/accordian.view.dart';
+import 'package:whereisit/screens/category_subcategory/add_edit_category/add_edit_category.view.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
@@ -26,6 +27,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
         listener: (context, state) => Navigator.pop(context),
         buildWhen: (previous, current) =>
             current is EditItemCategoryLoadSuccess ||
+            current is EditItemCategoryNewSuccess ||
             current is EditItemCategoryUpdateInitialSuccess,
         builder: (context, state) {
           if (state is EditItemCategoryLoadSuccess) {
@@ -68,6 +70,10 @@ class CategorySubcategoryScreen extends StatelessWidget {
                 },
               ),
             );
+          }
+
+          if (state is EditItemCategoryNewSuccess) {
+            return const AddEditCategoryScreen();
           }
 
           return const SizedBox();

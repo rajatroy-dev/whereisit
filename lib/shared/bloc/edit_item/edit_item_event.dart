@@ -95,6 +95,8 @@ class EditItemImageRemove extends EditItemEvent {
   EditItemImageRemove(this.imagePath);
 }
 
+class EditItemCategoryNew extends EditItemEvent {}
+
 class EditItemCategoryLoad extends EditItemEvent {}
 
 class EditItemCategoryAdd extends EditItemEvent {
