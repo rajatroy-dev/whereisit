@@ -33,18 +33,22 @@ class CategorySubcategoryScreen extends StatelessWidget {
           if (state is EditItemCategoryLoadSuccess) {
             return AppScaffold(
               action: AppBarAction.addCategory,
-              body: ListView.builder(
-                itemCount: state.item.categories.length,
-                itemBuilder: (context, index) {
-                  var category = state.item.categories[index];
-                  var subCategories = state.item.subcategories[category];
-                  return Accordion(
-                    title: category,
-                    content: subCategories ?? [],
-                    isOnlyCategory:
-                        subCategories == null || subCategories.isEmpty,
-                  );
-                },
+              body: Stack(
+                children: [
+                  ListView.builder(
+                    itemCount: state.item.categories.length,
+                    itemBuilder: (context, index) {
+                      var category = state.item.categories[index];
+                      var subCategories = state.item.subcategories[category];
+                      return Accordion(
+                        title: category,
+                        content: subCategories ?? [],
+                        isOnlyCategory:
+                            subCategories == null || subCategories.isEmpty,
+                      );
+                    },
+                  ),
+                ],
               ),
             );
           }
@@ -73,7 +77,27 @@ class CategorySubcategoryScreen extends StatelessWidget {
           }
 
           if (state is EditItemCategoryNewSuccess) {
-            return const AddEditCategoryScreen();
+            return AppScaffold(
+              action: AppBarAction.addCategory,
+              body: Stack(
+                children: [
+                  ListView.builder(
+                    itemCount: state.item.categories.length,
+                    itemBuilder: (context, index) {
+                      var category = state.item.categories[index];
+                      var subCategories = state.item.subcategories[category];
+                      return Accordion(
+                        title: category,
+                        content: subCategories ?? [],
+                        isOnlyCategory:
+                            subCategories == null || subCategories.isEmpty,
+                      );
+                    },
+                  ),
+                  const AddEditCategory(),
+                ],
+              ),
+            );
           }
 
           return const SizedBox();

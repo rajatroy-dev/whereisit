@@ -1,36 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/shared/enums/appbar_action.enum.dart';
-import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
-class AddEditCategoryScreen extends StatefulWidget {
+class AddEditCategory extends StatefulWidget {
   static const routeName = '/add-edit-category';
 
-  const AddEditCategoryScreen({Key? key}) : super(key: key);
+  const AddEditCategory({Key? key}) : super(key: key);
 
   @override
-  State<AddEditCategoryScreen> createState() => _AddEditCategoryScreenState();
+  State<AddEditCategory> createState() => _AddEditCategoryState();
 }
 
-class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
+class _AddEditCategoryState extends State<AddEditCategory> {
   var categoryController = TextEditingController();
   var subCategoriesList = <int, String>{
-    0: '',
     1: '',
+    2: '',
   };
 
-  Widget _buildList() {
-    var columnList = <Widget>[];
-
-    for (var element in subCategoriesList.entries) {
-      columnList.add(TextFormField(
-        initialValue: subCategoriesList[element.key],
-        onChanged: (value) => _handleChange(element.key, value),
-      ));
-    }
-
-    return Column(
-      children: columnList,
+  Widget _buildList(ScrollController scrollController) {
+    return Card(
+      elevation: 10,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 25.0,
+          horizontal: 20,
+        ),
+        child: ListView.builder(
+          controller: scrollController,
+          itemCount: subCategoriesList.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Category',
+                  ),
+                  controller: categoryController,
+                ),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Sub category $index',
+                ),
+                initialValue: subCategoriesList[index],
+                onChanged: (value) => _handleChange(index, value),
+              ),
+            );
+          },
+        ),
+      ),
     );
+
+    // var columnList = <Widget>[];
+
+    // for (var element in subCategoriesList.entries) {
+    //   columnList.add(TextFormField(
+    //     initialValue: subCategoriesList[element.key],
+    //     onChanged: (value) => _handleChange(element.key, value),
+    //   ));
+    // }
+
+    // return Column(
+    //   children: columnList,
+    // );
   }
 
   _handleEditCateogry(String category) {
@@ -69,25 +112,13 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
       _handleEditCateogry(args as String);
     }
 
-    return AppScaffold(
-      body: DraggableScrollableSheet(
-        initialChildSize: .2,
-        minChildSize: .1,
-        maxChildSize: .6,
-        builder: (BuildContext context, ScrollController scrollController) {
-          return Column(
-            children: [
-              TextFormField(
-                controller: categoryController,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: _buildList(),
-              ),
-            ],
-          );
-        },
-      ),
+    return DraggableScrollableSheet(
+      initialChildSize: .3,
+      minChildSize: .3,
+      maxChildSize: .6,
+      builder: (BuildContext context, ScrollController scrollController) {
+        return _buildList(scrollController);
+      },
     );
   }
 }

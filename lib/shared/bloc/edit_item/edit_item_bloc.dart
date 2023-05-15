@@ -478,9 +478,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
-    on<EditItemCategoryNew>(
-      (event, emit) => emit(EditItemCategoryNewSuccess()),
-    );
+    on<EditItemCategoryNew>((event, emit) {
+      var item = CatSubcat(
+        categories: categories,
+        subcategories: subCategories,
+      );
+
+      emit(EditItemCategoryNewSuccess(item));
+    });
 
     on<EditItemCategoryLoad>(
       (event, emit) {
