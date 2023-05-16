@@ -94,7 +94,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const AddEditCategory(),
+                  const AddCategory(),
                 ],
               ),
             );

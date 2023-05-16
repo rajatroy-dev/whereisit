@@ -1,22 +1,63 @@
 import 'package:flutter/material.dart';
 
-class AddEditCategory extends StatefulWidget {
+class AddCategory extends StatefulWidget {
   static const routeName = '/add-edit-category';
 
-  const AddEditCategory({Key? key}) : super(key: key);
+  const AddCategory({Key? key}) : super(key: key);
 
   @override
-  State<AddEditCategory> createState() => _AddEditCategoryState();
+  State<AddCategory> createState() => _AddCategoryState();
 }
 
-class _AddEditCategoryState extends State<AddEditCategory> {
+class _AddCategoryState extends State<AddCategory> {
   var categoryController = TextEditingController();
   var subCategoriesList = <int, String>{
+    0: '',
     1: '',
-    2: '',
   };
 
   Widget _buildList(ScrollController scrollController) {
+    var columnList = <Widget>[];
+
+    columnList.add(
+      Container(
+        height: 10,
+        width: 100,
+        decoration: const BoxDecoration(color: Colors.grey),
+      ),
+    );
+
+    columnList.add(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+        child: TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Category',
+          ),
+          controller: categoryController,
+        ),
+      ),
+    );
+
+    var index = 0;
+    for (var element in subCategoriesList.entries) {
+      columnList.add(
+        Padding(
+          padding: const EdgeInsets.only(left: 40.0, bottom: 20.0, right: 20.0),
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Sub category ${index + 1}',
+            ),
+            initialValue: subCategoriesList[element.key],
+            onChanged: (value) => _handleChange(element.key, value),
+          ),
+        ),
+      );
+      index++;
+    }
+
     return Card(
       elevation: 10,
       shape: const RoundedRectangleBorder(
@@ -25,61 +66,13 @@ class _AddEditCategoryState extends State<AddEditCategory> {
           topRight: Radius.circular(20),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 25.0,
-          horizontal: 20,
-        ),
-        child: ListView.builder(
-          controller: scrollController,
-          itemCount: subCategoriesList.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Category',
-                  ),
-                  controller: categoryController,
-                ),
-              );
-            }
-            return Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 20.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: 'Sub category $index',
-                ),
-                initialValue: subCategoriesList[index],
-                onChanged: (value) => _handleChange(index, value),
-              ),
-            );
-          },
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: columnList,
         ),
       ),
     );
-
-    // var columnList = <Widget>[];
-
-    // for (var element in subCategoriesList.entries) {
-    //   columnList.add(TextFormField(
-    //     initialValue: subCategoriesList[element.key],
-    //     onChanged: (value) => _handleChange(element.key, value),
-    //   ));
-    // }
-
-    // return Column(
-    //   children: columnList,
-    // );
-  }
-
-  _handleEditCateogry(String category) {
-    // BlocProvider.of<EditItemBloc>(context).add(
-    //   EditItemCategoryUpdate(category),
-    // );
   }
 
   _handleChange(int index, String value) {
@@ -107,14 +100,9 @@ class _AddEditCategoryState extends State<AddEditCategory> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    if (args != null) {
-      _handleEditCateogry(args as String);
-    }
-
     return DraggableScrollableSheet(
-      initialChildSize: .3,
-      minChildSize: .3,
+      initialChildSize: .4,
+      minChildSize: .4,
       maxChildSize: .6,
       builder: (BuildContext context, ScrollController scrollController) {
         return _buildList(scrollController);
