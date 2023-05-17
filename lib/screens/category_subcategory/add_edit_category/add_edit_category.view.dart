@@ -20,16 +20,13 @@ class _AddCategoryState extends State<AddCategory> {
     var columnList = <Widget>[];
 
     columnList.add(
-      Container(
-        height: 10,
-        width: 100,
-        decoration: const BoxDecoration(color: Colors.grey),
-      ),
-    );
-
-    columnList.add(
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+        padding: const EdgeInsets.only(
+          top: 60.0,
+          right: 20.0,
+          bottom: 25.0,
+          left: 20.0,
+        ),
         child: TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -66,11 +63,42 @@ class _AddCategoryState extends State<AddCategory> {
           topRight: Radius.circular(20),
         ),
       ),
-      child: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: columnList,
-        ),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: columnList,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.purple,
+                    child: IconButton(
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () {},
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.purple,
+                    child: IconButton(
+                      icon: const Icon(Icons.check_rounded),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
