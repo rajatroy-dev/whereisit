@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
 class AddCategory extends StatefulWidget {
   static const routeName = '/add-edit-category';
@@ -16,13 +18,26 @@ class _AddCategoryState extends State<AddCategory> {
     1: '',
   };
 
+  _handleSubmit() {
+    var payload = <String, List<String>>{};
+    var subCategories = <String>[];
+
+    for (var element in subCategoriesList.entries) {
+      subCategories.add(element.value);
+    }
+
+    payload[categoryController.text] = subCategories;
+
+    BlocProvider.of<EditItemBloc>(context).add(EditItemSubCategoryAdd(payload));
+  }
+
   Widget _buildList(ScrollController scrollController) {
     var columnList = <Widget>[];
 
     columnList.add(
       Padding(
         padding: const EdgeInsets.only(
-          top: 60.0,
+          top: 70.0,
           right: 20.0,
           bottom: 25.0,
           left: 20.0,
@@ -75,26 +90,30 @@ class _AddCategoryState extends State<AddCategory> {
             alignment: Alignment.topRight,
             child: Container(
               color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.purple,
-                    child: IconButton(
-                      icon: const Icon(Icons.close_rounded),
-                      onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.purple,
+                      child: IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () {},
+                      ),
                     ),
-                  ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.purple,
-                    child: IconButton(
-                      icon: const Icon(Icons.check_rounded),
-                      onPressed: () {},
+                    const SizedBox(width: 10),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.purple,
+                      child: IconButton(
+                        icon: const Icon(Icons.check_rounded),
+                        onPressed: () {},
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -129,9 +148,9 @@ class _AddCategoryState extends State<AddCategory> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: .4,
-      minChildSize: .4,
-      maxChildSize: .6,
+      initialChildSize: .3,
+      minChildSize: .3,
+      maxChildSize: .5,
       builder: (BuildContext context, ScrollController scrollController) {
         return _buildList(scrollController);
       },

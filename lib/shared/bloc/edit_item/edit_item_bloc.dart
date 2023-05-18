@@ -570,7 +570,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           (element) => element == event.subCategory.keys.first,
         );
 
-        if (hasCategory && event.subCategory.length == 1) {
+        if (!hasCategory) {
+          categories.add(event.subCategory.keys.first);
+        }
+
+        if (event.subCategory.length == 1 &&
+            event.subCategory.values.isNotEmpty) {
           var key = event.subCategory.keys.first;
           var value = event.subCategory.keys.first;
 

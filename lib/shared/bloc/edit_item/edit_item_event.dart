@@ -106,7 +106,7 @@ class EditItemCategoryAdd extends EditItemEvent {
 }
 
 class EditItemSubCategoryAdd extends EditItemEvent {
-  final Map<String, String> subCategory;
+  final Map<String, List<String>> subCategory;
 
   EditItemSubCategoryAdd(this.subCategory);
 }
