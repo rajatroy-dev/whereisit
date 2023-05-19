@@ -490,12 +490,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;
-        var item = CatSubcat(
+        var _item = CatSubcat(
           categories: categories,
           subcategories: subCategories,
         );
 
-        emit(EditItemCategoryLoadSuccess(item));
+        emit(EditItemCategoryLoadSuccess(_item));
       },
     );
 
@@ -556,37 +556,32 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       },
     );
 
-    on<EditItemSubCategoryAdd>(
-      // What are the cases?
-      // We have an original list of categories and subCategories.
-      // This list will be displayed on first load.
-      // From second list onwards, the edited list of categories and subcategories.
-      // So, now we have two list of categories and subcategories.
-      // But we might need a third list, for when back button is pressed.
+    on<EditItemSubcategoryAdd>(
       (event, emit) {
-        var hasCategory = false;
+        if (event.subCategory.length == 1) {
+          var hasCategory = false;
 
-        hasCategory = categories.any(
-          (element) => element == event.subCategory.keys.first,
-        );
+          hasCategory = categories.any(
+            (element) => element == event.subCategory.keys.first,
+          );
 
-        if (!hasCategory) {
-          categories.add(event.subCategory.keys.first);
-        }
-
-        if (event.subCategory.length == 1 &&
-            event.subCategory.values.isNotEmpty) {
-          var key = event.subCategory.keys.first;
-          var value = event.subCategory.keys.first;
-
-          if (subCategories.containsKey(key)) {
-            subCategories[key]!.add(value);
-          } else {
-            subCategories[key] = [value];
+          if (!hasCategory) {
+            categories.add(event.subCategory.keys.first);
           }
-        }
 
-        emit(EditItemCategoryAddSuccess(item));
+          if (event.subCategory.values.isNotEmpty) {
+            event.subCategory.forEach((key, value) {
+              subCategories[key] = value;
+            });
+          }
+
+          var _item = CatSubcat(
+            categories: categories,
+            subcategories: subCategories,
+          );
+
+          emit(EditItemCategoryLoadSuccess(_item));
+        }
       },
     );
 

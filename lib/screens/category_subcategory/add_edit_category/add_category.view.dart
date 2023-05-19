@@ -19,16 +19,22 @@ class _AddCategoryState extends State<AddCategory> {
   };
 
   _handleSubmit() {
+    if (categoryController.text.isEmpty) {
+      return;
+    }
+
     var payload = <String, List<String>>{};
     var subCategories = <String>[];
 
-    for (var element in subCategoriesList.entries) {
-      subCategories.add(element.value);
-    }
+    subCategoriesList.forEach((key, value) {
+      if (value.isNotEmpty) {
+        subCategories.add(value);
+      }
+    });
 
     payload[categoryController.text] = subCategories;
 
-    BlocProvider.of<EditItemBloc>(context).add(EditItemSubCategoryAdd(payload));
+    BlocProvider.of<EditItemBloc>(context).add(EditItemSubcategoryAdd(payload));
   }
 
   Widget _buildList(ScrollController scrollController) {
@@ -89,7 +95,13 @@ class _AddCategoryState extends State<AddCategory> {
           Align(
             alignment: Alignment.topRight,
             child: Container(
-              color: Colors.white,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                color: Colors.white,
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -100,7 +112,10 @@ class _AddCategoryState extends State<AddCategory> {
                       backgroundColor: Colors.purple,
                       child: IconButton(
                         icon: const Icon(Icons.close_rounded),
-                        onPressed: () {},
+                        onPressed: () =>
+                            BlocProvider.of<EditItemBloc>(context).add(
+                          EditItemCategoryLoad(),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -109,7 +124,7 @@ class _AddCategoryState extends State<AddCategory> {
                       backgroundColor: Colors.purple,
                       child: IconButton(
                         icon: const Icon(Icons.check_rounded),
-                        onPressed: () {},
+                        onPressed: _handleSubmit,
                       ),
                     ),
                   ],
@@ -148,9 +163,9 @@ class _AddCategoryState extends State<AddCategory> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: .3,
-      minChildSize: .3,
-      maxChildSize: .5,
+      initialChildSize: .6,
+      minChildSize: .6,
+      maxChildSize: .6,
       builder: (BuildContext context, ScrollController scrollController) {
         return _buildList(scrollController);
       },
