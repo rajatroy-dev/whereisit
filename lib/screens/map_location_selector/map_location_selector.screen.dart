@@ -17,24 +17,25 @@ class MapLocationSelector extends StatefulWidget {
 class _MapLocationSelectorState extends State<MapLocationSelector> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-  final Map<String, Marker> _markers = {};
+  List<Marker> _markers = <Marker>[
+    const Marker(
+      markerId: MarkerId('1'),
+      position: LatLng(-95.67127985317049, 37.05311669685229),
+    ),
+  ];
 
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final googleOffices = await locations.getGoogleOffices();
+  _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  _oncameraMove(CameraPosition pos) async {
     setState(() {
-      _markers.clear();
-      for (final office in googleOffices.offices) {
-        final marker = Marker(
-          markerId: MarkerId(office.name),
-          position: LatLng(office.lat, office.lng),
-          infoWindow: InfoWindow(
-            title: office.name,
-            snippet: office.address,
-          ),
-        );
-        _markers[office.name] = marker;
-      }
+      _markers = <Marker>[
+        Marker(
+          markerId: const MarkerId('1'),
+          position: LatLng(pos.target.latitude, pos.target.longitude),
+        ),
+      ];
     });
   }
 
@@ -49,18 +50,20 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
               onMapCreated: _onMapCreated,
               initialCameraPosition: const CameraPosition(
                 target: LatLng(0, 0),
-                zoom: 2,
+                zoom: 12,
               ),
-              markers: _markers.values.toSet(),
+              markers: Set<Marker>.of(_markers),
+              onCameraMove: _oncameraMove,
             );
           }
           return GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: const CameraPosition(
               target: LatLng(0, 0),
-              zoom: 2,
+              zoom: 12,
             ),
-            markers: _markers.values.toSet(),
+            markers: Set<Marker>.of(_markers),
+            onCameraMove: _oncameraMove,
           );
         },
       ),
