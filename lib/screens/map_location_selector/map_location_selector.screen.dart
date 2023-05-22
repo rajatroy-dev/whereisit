@@ -17,12 +17,15 @@ class MapLocationSelector extends StatefulWidget {
 
 class _MapLocationSelectorState extends State<MapLocationSelector> {
   late GoogleMapController mapController;
+  static const latitude = -95.67127985317049;
+  static const longitude = 37.05311669685229;
 
   var showMyLocationButton = false;
+  var currentLocationFound = false;
   List<Marker> _markers = <Marker>[
     const Marker(
       markerId: MarkerId('1'),
-      position: LatLng(-95.67127985317049, 37.05311669685229),
+      position: LatLng(latitude, longitude),
     ),
   ];
 
@@ -35,8 +38,35 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           if (granted) {
             Permission.location.status.then((status) {
               if (status != PermissionStatus.granted) {
-                [Permission.location].request();
+                [Permission.location].request().then((statuses) {
+                  if (statuses[Permission.location] ==
+                      PermissionStatus.granted) {
+                    setState(() {
+                      showMyLocationButton = true;
+                    });
+                  }
+                });
+              } else {
+                setState(() {
+                  showMyLocationButton = true;
+                });
               }
+            });
+          }
+        });
+      } else {
+        Permission.location.status.then((status) {
+          if (status != PermissionStatus.granted) {
+            [Permission.location].request().then((statuses) {
+              if (statuses[Permission.location] == PermissionStatus.granted) {
+                setState(() {
+                  showMyLocationButton = true;
+                });
+              }
+            });
+          } else {
+            setState(() {
+              showMyLocationButton = true;
             });
           }
         });
@@ -60,8 +90,9 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
     });
   }
 
-  void _currentLocation() async {
+  void _getCurrentLocation() async {
     try {
+      currentLocationFound = false;
       var location = location_manager.Location();
       location_manager.LocationData currentLocation =
           await location.getLocation();
@@ -87,6 +118,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
             ),
           ),
         ];
+        currentLocationFound = true;
       });
     } on Exception {
       return;
@@ -97,19 +129,23 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   Widget build(BuildContext context) {
     return AppScaffold(
       action: AppBarAction.goToSearch,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.purple,
-        onPressed: _currentLocation,
-        child: const Icon(Icons.my_location_outlined),
-      ),
+      floatingActionButton: showMyLocationButton
+          ? FloatingActionButton(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.purple,
+              onPressed: _getCurrentLocation,
+              child: currentLocationFound
+                  ? const Icon(Icons.my_location_outlined)
+                  : const Icon(Icons.location_searching_rounded),
+            )
+          : null,
       body: BlocBuilder<LocationSearchBloc, LocationSearchState>(
         builder: (context, state) {
           if (state is LocationSelectionSuccess) {
             return GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: const CameraPosition(
-                target: LatLng(0, 0),
+                target: LatLng(latitude, longitude),
                 zoom: 12,
               ),
               markers: Set<Marker>.of(_markers),
@@ -122,7 +158,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           return GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: const CameraPosition(
-              target: LatLng(0, 0),
+              target: LatLng(latitude, longitude),
               zoom: 12,
             ),
             markers: Set<Marker>.of(_markers),
