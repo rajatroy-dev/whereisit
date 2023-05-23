@@ -128,8 +128,6 @@ class EditItemForm extends StatelessWidget {
                         current is LocationSelectionSuccess,
                     builder: (context, state) {
                       if (state is LocationSelectionSuccess) {
-                        addressController.text =
-                            state.addressAndCoordinates['address']!;
                         return TextButton.icon(
                           icon: const Icon(
                             Icons.add_location_alt_rounded,
@@ -139,7 +137,8 @@ class EditItemForm extends StatelessWidget {
                             MapLocationSelector.routeName,
                           ),
                           label: Text(
-                            state.addressAndCoordinates['coordinates']!,
+                            '${state.coordinates['latitude']}, '
+                            '${state.coordinates['longitude']}',
                           ),
                         );
                       }

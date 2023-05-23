@@ -1,7 +1,7 @@
 enum AppBarAction {
   clear,
   edit,
-  goToSearch,
+  location,
   searchTag,
   searchLocation,
   addCategory,

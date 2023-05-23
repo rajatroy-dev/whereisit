@@ -126,21 +126,6 @@ class _AppScaffoldState extends State<AppScaffold> {
                 // do something
               },
             ),
-          if (widget.action != null && widget.action == AppBarAction.goToSearch)
-            IconButton(
-              icon: const Icon(
-                Icons.search_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.pushNamed(
-                context,
-                LocationSearchScreen.routeName,
-              ).then(
-                (value) => BlocProvider.of<LocationSearchBloc>(context).add(
-                  LocationSelected(value as String),
-                ),
-              ),
-            ),
           if (widget.action != null && widget.action == AppBarAction.searchTag)
             IconButton(
               icon: const Icon(
