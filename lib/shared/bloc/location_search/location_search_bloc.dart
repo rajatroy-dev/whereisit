@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/shared/validators/input_validator.dart';
@@ -23,24 +25,6 @@ class LocationSearchBloc
   var selectedLocation = '';
 
   LocationSearchBloc() : super(LocationSearchInitial()) {
-    on<LocationSearchByKeyword>((event, emit) {
-      if (InputValidator.address(event.location) != null) {
-        emit(LocationSearchFailure('Invalid Input!'));
-      } else {
-        var temp = locationList
-            .where(
-              (element) => element.contains(event.location),
-            )
-            .toList();
-        emit(LocationSearchSuccess(temp));
-      }
-    });
-
-    on<LocationSearchClear>((event, emit) {
-      var temp = <String>[];
-      emit(LocationSearchSuccess(temp));
-    });
-
     on<LocationSelected>((event, emit) {
       // format: address=alsdalksd&coordinates=12.12,123.123
       var locationDetails = event.location.split(',');
@@ -48,6 +32,11 @@ class LocationSearchBloc
       var temp = <String, String>{};
       temp['latitude'] = locationDetails[0].trim();
       temp['longitude'] = locationDetails[1].trim();
+
+      temp['latitude'] =
+          double.parse(temp['latitude']!).toStringAsFixed(2).toString();
+      temp['longitude'] =
+          double.parse(temp['longitude']!).toStringAsFixed(2).toString();
 
       selectedLocation = event.location;
 

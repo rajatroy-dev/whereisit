@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
-import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
-import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/scaffold_search_bar.view.dart';
 
@@ -34,9 +32,6 @@ class _AppScaffoldState extends State<AppScaffold> {
 
     // Start listening to changes.
     textController.addListener(() {
-      if (widget.action == AppBarAction.searchLocation) {
-        LocationSearchByKeyword(textController.text);
-      }
       if (widget.action == AppBarAction.searchTag) {
         BlocProvider.of<EditItemBloc>(context).add(
           EditItemTagSearch(textController.text),
@@ -53,24 +48,10 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.dispose();
   }
 
-  handleLocationSearchClear() {
-    textController.clear();
-    BlocProvider.of<LocationSearchBloc>(context).add(
-      LocationSearchClear(),
-    );
-  }
-
   _buildTitle() {
-    if (widget.action != null && widget.action == AppBarAction.searchLocation) {
+    if (widget.action != null && widget.action == AppBarAction.searchTag) {
       return ScaffoldSearchBar(
-        handleClear: handleLocationSearchClear,
-        searchHint: 'Search places',
-        controller: textController,
-      );
-    } else if (widget.action != null &&
-        widget.action == AppBarAction.searchTag) {
-      return ScaffoldSearchBar(
-        handleClear: handleLocationSearchClear,
+        handleClear: () => textController.clear(),
         searchHint: 'Search or add tags',
         controller: textController,
       );

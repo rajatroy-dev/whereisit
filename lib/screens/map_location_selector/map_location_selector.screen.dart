@@ -21,7 +21,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
 
   var showMyLocationButton = false;
   var currentLocationFound = false;
-  var myLocationButtonInitiated = false;
+  var initiatedByMyLocationButton = false;
   var coordinates = '';
   List<Marker> _markers = <Marker>[
     const Marker(
@@ -37,43 +37,32 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
         var loc = location_manager.Location();
         loc.requestService().then((granted) {
           if (granted) {
-            Permission.location.status.then((status) {
-              if (status != PermissionStatus.granted) {
-                [Permission.location].request().then((statuses) {
-                  if (statuses[Permission.location] ==
-                      PermissionStatus.granted) {
-                    setState(() {
-                      showMyLocationButton = true;
-                    });
-                  }
-                });
-              } else {
-                setState(() {
-                  showMyLocationButton = true;
-                });
-              }
-            });
+            _handlePermissionRequestAndLocationButtonDisplay();
           }
         });
       } else {
-        Permission.location.status.then((status) {
-          if (status != PermissionStatus.granted) {
-            [Permission.location].request().then((statuses) {
-              if (statuses[Permission.location] == PermissionStatus.granted) {
-                setState(() {
-                  showMyLocationButton = true;
-                });
-              }
-            });
-          } else {
+        _handlePermissionRequestAndLocationButtonDisplay();
+      }
+    });
+    super.initState();
+  }
+
+  _handlePermissionRequestAndLocationButtonDisplay() {
+    Permission.location.status.then((status) {
+      if (status != PermissionStatus.granted) {
+        [Permission.location].request().then((statuses) {
+          if (statuses[Permission.location] == PermissionStatus.granted) {
             setState(() {
               showMyLocationButton = true;
             });
           }
         });
+      } else {
+        setState(() {
+          showMyLocationButton = true;
+        });
       }
     });
-    super.initState();
   }
 
   _onMapCreated(GoogleMapController controller) {
@@ -94,10 +83,10 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   }
 
   _onCameraIdle() {
-    if (myLocationButtonInitiated) {
+    if (initiatedByMyLocationButton) {
       setState(() {
         currentLocationFound = true;
-        myLocationButtonInitiated = false;
+        initiatedByMyLocationButton = false;
       });
     }
   }
@@ -131,7 +120,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           ),
         ];
         currentLocationFound = true;
-        myLocationButtonInitiated = true;
+        initiatedByMyLocationButton = true;
       });
     } on Exception {
       return;
@@ -151,64 +140,37 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
                   : const Icon(Icons.location_searching_rounded),
             )
           : null,
-      body: BlocBuilder<LocationSearchBloc, LocationSearchState>(
-        builder: (context, state) {
-          if (state is LocationSelectionSuccess) {
-            return Stack(
-              children: [
-                GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(latitude, longitude),
-                    zoom: 12,
-                  ),
-                  markers: Set<Marker>.of(_markers),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  onCameraMove: _oncameraMove,
-                  onCameraIdle: _onCameraIdle,
-                  zoomControlsEnabled: false,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Select this location'),
-                ),
-              ],
-            );
-          }
-          return Stack(
-            children: [
-              GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(latitude, longitude),
-                  zoom: 12,
-                ),
-                markers: Set<Marker>.of(_markers),
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                onCameraMove: _oncameraMove,
-                onCameraIdle: _onCameraIdle,
-                zoomControlsEnabled: false,
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(latitude, longitude),
+              zoom: 12,
+            ),
+            markers: Set<Marker>.of(_markers),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            onCameraMove: _oncameraMove,
+            onCameraIdle: _onCameraIdle,
+            zoomControlsEnabled: false,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<LocationSearchBloc>(context).add(
+                    LocationSelected(coordinates),
+                  );
+                  Navigator.pop(context);
+                },
+                child: const Text('Select this location'),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<LocationSearchBloc>(context).add(
-                        LocationSelected(coordinates),
-                      );
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Select this location'),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
