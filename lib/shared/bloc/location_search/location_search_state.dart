@@ -5,16 +5,10 @@ abstract class LocationSearchState {}
 
 class LocationSearchInitial extends LocationSearchState {}
 
-class LocationSearchSuccess extends LocationSearchState {
-  final List<String> locationList;
+class LocationLoadSuccess extends LocationSearchState {
+  final String coordinates;
 
-  LocationSearchSuccess(this.locationList);
-}
-
-class LocationSearchFailure extends LocationSearchState {
-  final String errorMessage;
-
-  LocationSearchFailure(this.errorMessage);
+  LocationLoadSuccess(this.coordinates);
 }
 
 class LocationSelectionSuccess extends LocationSearchState {

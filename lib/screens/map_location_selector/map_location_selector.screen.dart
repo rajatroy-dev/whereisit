@@ -65,8 +65,23 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
     });
   }
 
-  _onMapCreated(GoogleMapController controller) {
+  _onMapCreated(GoogleMapController controller, String location) {
     mapController = controller;
+
+    if (location.isNotEmpty) {
+      var coordinates = location.split(',');
+      setState(() {
+        _markers = <Marker>[
+          Marker(
+            markerId: const MarkerId('1'),
+            position: LatLng(
+              double.parse(coordinates[0].trim()),
+              double.parse(coordinates[1].trim()),
+            ),
+          ),
+        ];
+      });
+    }
   }
 
   _oncameraMove(CameraPosition pos) async {
@@ -142,18 +157,41 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           : null,
       body: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(latitude, longitude),
-              zoom: 12,
-            ),
-            markers: Set<Marker>.of(_markers),
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            onCameraMove: _oncameraMove,
-            onCameraIdle: _onCameraIdle,
-            zoomControlsEnabled: false,
+          BlocBuilder<LocationSearchBloc, LocationSearchState>(
+            builder: (context, state) {
+              if (state is LocationLoadSuccess) {
+                return GoogleMap(
+                  onMapCreated: (GoogleMapController controller) {
+                    _onMapCreated(controller, state.coordinates);
+                  },
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(latitude, longitude),
+                    zoom: 12,
+                  ),
+                  markers: Set<Marker>.of(_markers),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  onCameraMove: _oncameraMove,
+                  onCameraIdle: _onCameraIdle,
+                  zoomControlsEnabled: false,
+                );
+              }
+              return GoogleMap(
+                onMapCreated: (GoogleMapController controller) {
+                  _onMapCreated(controller, '');
+                },
+                initialCameraPosition: const CameraPosition(
+                  target: LatLng(latitude, longitude),
+                  zoom: 12,
+                ),
+                markers: Set<Marker>.of(_markers),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                onCameraMove: _oncameraMove,
+                onCameraIdle: _onCameraIdle,
+                zoomControlsEnabled: false,
+              );
+            },
           ),
           Align(
             alignment: Alignment.bottomCenter,

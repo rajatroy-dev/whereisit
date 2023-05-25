@@ -25,6 +25,14 @@ class LocationSearchBloc
   var selectedLocation = '';
 
   LocationSearchBloc() : super(LocationSearchInitial()) {
+    on<LocationLoad>((event, emit) {
+      if (selectedLocation.isNotEmpty) {
+        emit(LocationLoadSuccess(selectedLocation));
+      } else {
+        emit(LocationLoadSuccess(''));
+      }
+    });
+
     on<LocationSelected>((event, emit) {
       // format: address=alsdalksd&coordinates=12.12,123.123
       var locationDetails = event.location.split(',');

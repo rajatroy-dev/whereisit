@@ -7,7 +7,6 @@ import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/item_details/item_details.screen.dart';
-import 'package:whereisit/screens/location_search/location_search.screen.dart';
 import 'package:whereisit/screens/screens/add.dart';
 import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
@@ -47,8 +46,6 @@ class MyApp extends StatelessWidget {
           FilteredItems.routeName: (context) => const FilteredItems(),
           ItemDetails.routeName: (context) => const ItemDetails(),
           EditItem.routeName: (context) => const EditItem(),
-          LocationSearchScreen.routeName: (context) =>
-              const LocationSearchScreen(),
           MapLocationSelector.routeName: (context) =>
               const MapLocationSelector(),
           SearchWithDropdownScreen.routeName: (context) =>
