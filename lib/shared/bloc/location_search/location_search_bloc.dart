@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
-import 'package:whereisit/shared/validators/input_validator.dart';
 
 part 'location_search_event.dart';
 part 'location_search_state.dart';
@@ -22,29 +20,17 @@ class LocationSearchBloc
     '70081 Kunze Forges, Amanimouth, Delaware, 88948-3490',
   ];
 
-  var selectedLocation = '';
+  LatLng selectedLocation = const LatLng(0, 0);
 
   LocationSearchBloc() : super(LocationSearchInitial()) {
     on<LocationLoad>((event, emit) {
-      if (selectedLocation.isNotEmpty) {
-        emit(LocationLoadSuccess(selectedLocation));
-      } else {
-        emit(LocationLoadSuccess(''));
-      }
+      emit(LocationLoadSuccess(selectedLocation));
     });
 
     on<LocationSelected>((event, emit) {
-      // format: address=alsdalksd&coordinates=12.12,123.123
-      var locationDetails = event.location.split(',');
-
       var temp = <String, String>{};
-      temp['latitude'] = locationDetails[0].trim();
-      temp['longitude'] = locationDetails[1].trim();
-
-      temp['latitude'] =
-          double.parse(temp['latitude']!).toStringAsFixed(2).toString();
-      temp['longitude'] =
-          double.parse(temp['longitude']!).toStringAsFixed(2).toString();
+      temp['latitude'] = event.location.latitude.toStringAsFixed(2);
+      temp['longitude'] = event.location.longitude.toStringAsFixed(2);
 
       selectedLocation = event.location;
 

@@ -6,7 +6,7 @@ abstract class LocationSearchEvent {}
 class LocationLoad extends LocationSearchEvent {}
 
 class LocationSelected extends LocationSearchEvent {
-  final String location;
+  final LatLng location;
 
   LocationSelected(this.location);
 }

@@ -6,7 +6,7 @@ abstract class LocationSearchState {}
 class LocationSearchInitial extends LocationSearchState {}
 
 class LocationLoadSuccess extends LocationSearchState {
-  final String coordinates;
+  final LatLng coordinates;
 
   LocationLoadSuccess(this.coordinates);
 }

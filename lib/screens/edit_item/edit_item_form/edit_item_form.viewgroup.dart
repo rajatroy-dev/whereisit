@@ -132,10 +132,15 @@ class EditItemForm extends StatelessWidget {
                           icon: const Icon(
                             Icons.add_location_alt_rounded,
                           ),
-                          onPressed: () => Navigator.pushNamed(
-                            context,
-                            MapLocationSelector.routeName,
-                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              MapLocationSelector.routeName,
+                            );
+                            BlocProvider.of<LocationSearchBloc>(context).add(
+                              LocationLoad(),
+                            );
+                          },
                           label: Text(
                             '${state.coordinates['latitude']}, '
                             '${state.coordinates['longitude']}',
@@ -146,10 +151,15 @@ class EditItemForm extends StatelessWidget {
                         icon: const Icon(
                           Icons.add_location_alt_rounded,
                         ),
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          MapLocationSelector.routeName,
-                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            MapLocationSelector.routeName,
+                          );
+                          BlocProvider.of<LocationSearchBloc>(context).add(
+                            LocationLoad(),
+                          );
+                        },
                         label: const Text('Select a location from Maps'),
                       );
                     },

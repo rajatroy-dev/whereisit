@@ -22,7 +22,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   var showMyLocationButton = false;
   var currentLocationFound = false;
   var initiatedByMyLocationButton = false;
-  var coordinates = '';
+  late LatLng coordinates;
   List<Marker> _markers = <Marker>[
     const Marker(
       markerId: MarkerId('1'),
@@ -65,19 +65,15 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
     });
   }
 
-  _onMapCreated(GoogleMapController controller, String location) {
+  _onMapCreated(GoogleMapController controller, LatLng location) {
     mapController = controller;
 
-    if (location.isNotEmpty) {
-      var coordinates = location.split(',');
+    if (location.latitude != 0 && location.longitude != 0) {
       setState(() {
         _markers = <Marker>[
           Marker(
             markerId: const MarkerId('1'),
-            position: LatLng(
-              double.parse(coordinates[0].trim()),
-              double.parse(coordinates[1].trim()),
-            ),
+            position: location,
           ),
         ];
       });
@@ -92,7 +88,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           position: LatLng(pos.target.latitude, pos.target.longitude),
         ),
       ];
-      coordinates = '${pos.target.latitude}, ${pos.target.longitude}';
+      coordinates = LatLng(pos.target.latitude, pos.target.longitude);
       currentLocationFound = false;
     });
   }
@@ -134,7 +130,6 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
             ),
           ),
         ];
-        currentLocationFound = true;
         initiatedByMyLocationButton = true;
       });
     } on Exception {
@@ -164,9 +159,9 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
                   onMapCreated: (GoogleMapController controller) {
                     _onMapCreated(controller, state.coordinates);
                   },
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(latitude, longitude),
-                    zoom: 12,
+                  initialCameraPosition: CameraPosition(
+                    target: state.coordinates,
+                    zoom: 17,
                   ),
                   markers: Set<Marker>.of(_markers),
                   myLocationEnabled: true,
@@ -178,7 +173,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
               }
               return GoogleMap(
                 onMapCreated: (GoogleMapController controller) {
-                  _onMapCreated(controller, '');
+                  _onMapCreated(controller, const LatLng(0, 0));
                 },
                 initialCameraPosition: const CameraPosition(
                   target: LatLng(latitude, longitude),
