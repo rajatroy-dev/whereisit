@@ -5,28 +5,28 @@ abstract class EditItemState {}
 
 class EditItemInitial extends EditItemState {}
 
-class AddItemInitial extends EditItemState {
+class EditItemNewInitial extends EditItemState {
   final Item item;
 
-  AddItemInitial(this.item);
+  EditItemNewInitial(this.item);
 }
 
-class EditItemFavoriteSuccess extends EditItemState {
+class EditItemFavoriteLabelSuccess extends EditItemState {
   final CardData itemData;
 
-  EditItemFavoriteSuccess(this.itemData);
+  EditItemFavoriteLabelSuccess(this.itemData);
 }
 
-class EditItemAllSuccess extends EditItemState {
+class EditItemExistingSuccess extends EditItemState {
   final CardData itemData;
 
-  EditItemAllSuccess(this.itemData);
+  EditItemExistingSuccess(this.itemData);
 }
 
-class EditItemNewSuccess extends EditItemState {
+class EditItemNewAddSuccess extends EditItemState {
   final CardData itemData;
 
-  EditItemNewSuccess(this.itemData);
+  EditItemNewAddSuccess(this.itemData);
 }
 
 class EditItemTagToggleSuccess extends EditItemState {

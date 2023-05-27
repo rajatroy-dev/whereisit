@@ -30,7 +30,7 @@ class _AddState extends State<Add> {
     Directory tempDir = await getApplicationDocumentsDirectory();
     var path = '${tempDir.path}/${image.name}';
     await image.saveTo(path);
-    BlocProvider.of<EditItemBloc>(context).add(AddItemFirstImage(path));
+    BlocProvider.of<EditItemBloc>(context).add(EditItemNewFirstImage(path));
     Navigator.pushNamed(
       context,
       EditItem.routeName,

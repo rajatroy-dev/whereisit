@@ -23,7 +23,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   var currentLocationFound = false;
   var initiatedByMyLocationButton = false;
   late LatLng coordinates;
-  List<Marker> _markers = <Marker>[
+  var _markers = <Marker>[
     const Marker(
       markerId: MarkerId('1'),
       position: LatLng(latitude, longitude),

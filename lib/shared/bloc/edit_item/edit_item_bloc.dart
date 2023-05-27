@@ -159,290 +159,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   EditItemBloc() : super(EditItemInitial()) {
-    on<EditItemLoadNew>((event, emit) {
-      emit(EditItemInitial());
-    });
-
-    on<EditItemFavorite>((event, emit) {
-      var item = event.itemData;
-
-      for (var element in list) {
-        if (element.id == item.id) {
-          element.isFavorite = item.isFavorite;
-        }
-      }
-
-      emit(EditItemFavoriteSuccess(item));
-    });
-
-    on<EditItemAll>((event, emit) {
-      var item = list.firstWhere(
-        (element) => element.id == event.id,
-      );
-
-      for (var element in list) {
-        if (element.id == item.id) {
-          element = CardData(
-            id: item.id,
-            title: item.title,
-            imageSrc: item.imageSrc,
-            location: item.location,
-            qty: item.qty,
-            tags: item.tags,
-            createdAt: item.createdAt,
-            isFavorite: item.isFavorite == null ? false : item.isFavorite!,
-          );
-        }
-      }
-
-      emit(EditItemFavoriteSuccess(item));
-    });
-
-    on<EditItemNew>((event, emit) {
-      var item = CardData(
-        id: event.itemData.id,
-        title: event.itemData.title,
-        imageSrc: event.itemData.imageSrc,
-        location: event.itemData.location,
-        qty: event.itemData.qty,
-        tags: event.itemData.tags,
-        createdAt: event.itemData.createdAt,
-        isFavorite: false,
-      );
-
-      list.add(item);
-
-      emit(EditItemNewSuccess(item));
-    });
-
-    on<AddItemFirstImage>(
-      (event, emit) {
-        item = Item.forUi({
-          'thumbnail': event.image,
-          'uiTagsList': [],
-          'uiImagesList': [event.image],
-          'uiSelectedCategory': '',
-        });
-
-        emit(AddItemInitial(item));
-      },
-    );
-
-    on<EditItemTagInitial>(
-      // What are the cases?
-      // We have an original list of tags.
-      // This list will be displayed on first load.
-      // From second list onwards, the edited list of tags.
-      // So, now we have twlist of tags.
-      // Do, we need a third list that will contain only the selected list of tags?
-      // My answer is no.
-      // But we might need a third list, for when back button is pressed.
-      (event, emit) {
-        if (editedTags.isEmpty) {
-          for (var element in tags) {
-            editedTags.add(
-              Tag(
-                isNew: element.isNew,
-                item: element.item,
-                isSelected: element.isSelected,
-                value: element.value,
-              ),
-            );
-            tagsToHandleBackNavigation.add(
-              Tag(
-                isNew: element.isNew,
-                item: element.item,
-                isSelected: element.isSelected,
-                value: element.value,
-              ),
-            );
-          }
-        }
-        emit(EditItemTagToggleSuccess(editedTags));
-      },
-    );
-
-    on<EditItemTagSearch>(
-      (event, emit) {
-        var exists = false;
-        var temp = <Tag>[];
-
-        for (var element in editedTags) {
-          var elementItemInLowerCase = element.item.toLowerCase();
-          var eventItemInLowerCase = event.tag.toLowerCase();
-          if (elementItemInLowerCase.contains(eventItemInLowerCase)) {
-            exists = true;
-            temp.add(element);
-          }
-        }
-
-        if (!exists) {
-          temp = [
-            Tag(
-              isNew: true,
-              item: '+ Add "${event.tag}" to list',
-              isSelected: false,
-              value: event.tag,
-            ),
-            ...temp,
-          ];
-        }
-
-        emit(EditItemTagSearchSuccess(temp));
-      },
-    );
-
-    on<EditItemTagToggle>(
-      (event, emit) {
-        _toggleTagSelection(event);
-        emit(EditItemTagToggleSuccess(editedTags));
-      },
-    );
-
-    on<EditItemTagAdd>(
-      (event, emit) {
-        // Add to tags list
-        // Add to edited tags list. The item should be in selected state.
-        // Update tag count
-        // Clear search
-        // Handle tag remove after add
-
-        tags.add(
-          Tag(
-            isSelected: false,
-            isNew: false,
-            item: event.tag.value!,
-          ),
-        );
-        var selected = Tag(
-          isSelected: true,
-          isNew: false,
-          item: event.tag.value!,
-        );
-        editedTags.add(selected);
-        selectedTagCount++;
-        emit(EditItemTagToggleSuccess([selected]));
-      },
-    );
-
-    on<EditItemTagUpdateCount>(
-      (event, emit) {
-        event.count > 0 ? selectedTagCount++ : selectedTagCount--;
-        emit(EditItemTagsOnSelectionCountUpdateSuccess(selectedTagCount));
-      },
-    );
-
-    on<EditItemTagsSelected>(
-      (event, emit) {
-        item.uiTagsList = <Tag>[];
-        tagsToHandleBackNavigation = <Tag>[];
-        for (var element in editedTags) {
-          tagsToHandleBackNavigation.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
-          item.uiTagsList!.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
-        }
-        emit(EditItemTagsSelectionSuccess(item));
-      },
-    );
-
-    on<EditItemTagSelectIgnore>(
-      (event, emit) {
-        editedTags = <Tag>[];
-        selectedTagCount = 0;
-        for (var element in tagsToHandleBackNavigation) {
-          if (element.isSelected != null && element.isSelected!) {
-            selectedTagCount++;
-          }
-          editedTags.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
-        }
-        emit(EditItemTagsSelectionSuccess(item));
-      },
-    );
-
-    on<EditItemTagRemove>(
-      (event, emit) {
-        int index = 0;
-        for (var i = 0; i < editedTags.length; i++) {
-          if (editedTags[i].item == event.item) {
-            index = i;
-            break;
-          }
-        }
-        editedTags[index] = Tag(
-          isNew: editedTags[index].isNew,
-          item: editedTags[index].item,
-          isSelected: false,
-          value: editedTags[index].value,
-        );
-        item.uiTagsList = <Tag>[];
-        tagsToHandleBackNavigation = <Tag>[];
-        for (var element in editedTags) {
-          tagsToHandleBackNavigation.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
-          item.uiTagsList!.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
-        }
-        selectedTagCount--;
-        emit(EditItemTagsSelectionSuccess(item));
-      },
-    );
-
-    on<EditItemTagDelete>(
-      (event, emit) {
-        tags.removeWhere((element) => element.item == event.tag.item);
-        editedTags.removeWhere((element) => element.item == event.tag.item);
-        item.uiTagsList!.removeWhere(
-          (element) => element.item == event.tag.item,
-        );
-        tagsToHandleBackNavigation.removeWhere(
-          (element) => element.item == event.tag.item,
-        );
-        if (event.tag.isSelected != null && event.tag.isSelected!) {
-          selectedTagCount--;
-        }
-        emit(EditItemTagToggleSuccess(editedTags));
-      },
-    );
-
-    on<EditItemSubmit>(
-      (event, emit) {
-        item = event.item;
-        emit(EditItemSubmitSuccess(item));
-      },
-    );
-
     on<EditItemImageAdd>(
       (event, emit) {
         item.uiImagesList!.add(event.imagePath);
@@ -475,6 +191,71 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
 
         emit(EditItemImageRemoveSuccess(item));
+      },
+    );
+
+    on<EditItemFavoriteLabel>((event, emit) {
+      var item = event.itemData;
+
+      for (var element in list) {
+        if (element.id == item.id) {
+          element.isFavorite = item.isFavorite;
+        }
+      }
+
+      emit(EditItemFavoriteLabelSuccess(item));
+    });
+
+    on<EditItemExisting>((event, emit) {
+      var item = list.firstWhere(
+        (element) => element.id == event.id,
+      );
+
+      for (var element in list) {
+        if (element.id == item.id) {
+          element = CardData(
+            id: item.id,
+            title: item.title,
+            imageSrc: item.imageSrc,
+            location: item.location,
+            qty: item.qty,
+            tags: item.tags,
+            createdAt: item.createdAt,
+            isFavorite: item.isFavorite == null ? false : item.isFavorite!,
+          );
+        }
+      }
+
+      emit(EditItemFavoriteLabelSuccess(item));
+    });
+
+    on<EditItemNewAdd>((event, emit) {
+      var item = CardData(
+        id: event.itemData.id,
+        title: event.itemData.title,
+        imageSrc: event.itemData.imageSrc,
+        location: event.itemData.location,
+        qty: event.itemData.qty,
+        tags: event.itemData.tags,
+        createdAt: event.itemData.createdAt,
+        isFavorite: false,
+      );
+
+      list.add(item);
+
+      emit(EditItemNewAddSuccess(item));
+    });
+
+    on<EditItemNewFirstImage>(
+      (event, emit) {
+        item = Item.forUi({
+          'thumbnail': event.image,
+          'uiTagsList': [],
+          'uiImagesList': [event.image],
+          'uiSelectedCategory': '',
+        });
+
+        emit(EditItemNewInitial(item));
       },
     );
 
@@ -707,6 +488,221 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
           emit(EditItemSubcategoryUpdateSuccess());
         }
+      },
+    );
+
+    on<EditItemTagInitial>(
+      // What are the cases?
+      // We have an original list of tags.
+      // This list will be displayed on first load.
+      // From second list onwards, the edited list of tags.
+      // So, now we have twlist of tags.
+      // Do, we need a third list that will contain only the selected list of tags?
+      // My answer is no.
+      // But we might need a third list, for when back button is pressed.
+      (event, emit) {
+        if (editedTags.isEmpty) {
+          for (var element in tags) {
+            editedTags.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+            tagsToHandleBackNavigation.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+          }
+        }
+        emit(EditItemTagToggleSuccess(editedTags));
+      },
+    );
+
+    on<EditItemTagSearch>(
+      (event, emit) {
+        var exists = false;
+        var temp = <Tag>[];
+
+        for (var element in editedTags) {
+          var elementItemInLowerCase = element.item.toLowerCase();
+          var eventItemInLowerCase = event.tag.toLowerCase();
+          if (elementItemInLowerCase.contains(eventItemInLowerCase)) {
+            exists = true;
+            temp.add(element);
+          }
+        }
+
+        if (!exists) {
+          temp = [
+            Tag(
+              isNew: true,
+              item: '+ Add "${event.tag}" to list',
+              isSelected: false,
+              value: event.tag,
+            ),
+            ...temp,
+          ];
+        }
+
+        emit(EditItemTagSearchSuccess(temp));
+      },
+    );
+
+    on<EditItemTagToggle>(
+      (event, emit) {
+        _toggleTagSelection(event);
+        emit(EditItemTagToggleSuccess(editedTags));
+      },
+    );
+
+    on<EditItemTagAdd>(
+      (event, emit) {
+        // Add to tags list
+        // Add to edited tags list. The item should be in selected state.
+        // Update tag count
+        // Clear search
+        // Handle tag remove after add
+
+        tags.add(
+          Tag(
+            isSelected: false,
+            isNew: false,
+            item: event.tag.value!,
+          ),
+        );
+        var selected = Tag(
+          isSelected: true,
+          isNew: false,
+          item: event.tag.value!,
+        );
+        editedTags.add(selected);
+        selectedTagCount++;
+        emit(EditItemTagToggleSuccess([selected]));
+      },
+    );
+
+    on<EditItemTagUpdateCount>(
+      (event, emit) {
+        event.count > 0 ? selectedTagCount++ : selectedTagCount--;
+        emit(EditItemTagsOnSelectionCountUpdateSuccess(selectedTagCount));
+      },
+    );
+
+    on<EditItemTagsSelected>(
+      (event, emit) {
+        item.uiTagsList = <Tag>[];
+        tagsToHandleBackNavigation = <Tag>[];
+        for (var element in editedTags) {
+          tagsToHandleBackNavigation.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+          item.uiTagsList!.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+        }
+        emit(EditItemTagsSelectionSuccess(item));
+      },
+    );
+
+    on<EditItemTagSelectIgnore>(
+      (event, emit) {
+        editedTags = <Tag>[];
+        selectedTagCount = 0;
+        for (var element in tagsToHandleBackNavigation) {
+          if (element.isSelected != null && element.isSelected!) {
+            selectedTagCount++;
+          }
+          editedTags.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+        }
+        emit(EditItemTagsSelectionSuccess(item));
+      },
+    );
+
+    on<EditItemTagRemove>(
+      (event, emit) {
+        int index = 0;
+        for (var i = 0; i < editedTags.length; i++) {
+          if (editedTags[i].item == event.item) {
+            index = i;
+            break;
+          }
+        }
+        editedTags[index] = Tag(
+          isNew: editedTags[index].isNew,
+          item: editedTags[index].item,
+          isSelected: false,
+          value: editedTags[index].value,
+        );
+        item.uiTagsList = <Tag>[];
+        tagsToHandleBackNavigation = <Tag>[];
+        for (var element in editedTags) {
+          tagsToHandleBackNavigation.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+          item.uiTagsList!.add(
+            Tag(
+              isNew: element.isNew,
+              item: element.item,
+              isSelected: element.isSelected,
+              value: element.value,
+            ),
+          );
+        }
+        selectedTagCount--;
+        emit(EditItemTagsSelectionSuccess(item));
+      },
+    );
+
+    on<EditItemTagDelete>(
+      (event, emit) {
+        tags.removeWhere((element) => element.item == event.tag.item);
+        editedTags.removeWhere((element) => element.item == event.tag.item);
+        item.uiTagsList!.removeWhere(
+          (element) => element.item == event.tag.item,
+        );
+        tagsToHandleBackNavigation.removeWhere(
+          (element) => element.item == event.tag.item,
+        );
+        if (event.tag.isSelected != null && event.tag.isSelected!) {
+          selectedTagCount--;
+        }
+        emit(EditItemTagToggleSuccess(editedTags));
+      },
+    );
+
+    on<EditItemSubmit>(
+      (event, emit) {
+        item = event.item;
+        emit(EditItemSubmitSuccess(item));
       },
     );
   }

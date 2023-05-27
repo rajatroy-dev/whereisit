@@ -3,30 +3,28 @@ part of 'edit_item_bloc.dart';
 @immutable
 abstract class EditItemEvent {}
 
-class EditItemLoadNew extends EditItemEvent {}
-
-class EditItemFavorite extends EditItemEvent {
+class EditItemFavoriteLabel extends EditItemEvent {
   final CardData itemData;
 
-  EditItemFavorite(this.itemData);
+  EditItemFavoriteLabel(this.itemData);
 }
 
-class EditItemAll extends EditItemEvent {
+class EditItemExisting extends EditItemEvent {
   final String id;
 
-  EditItemAll(this.id);
+  EditItemExisting(this.id);
 }
 
-class AddItemFirstImage extends EditItemEvent {
+class EditItemNewFirstImage extends EditItemEvent {
   final String image;
 
-  AddItemFirstImage(this.image);
+  EditItemNewFirstImage(this.image);
 }
 
-class EditItemNew extends EditItemEvent {
+class EditItemNewAdd extends EditItemEvent {
   final CardData itemData;
 
-  EditItemNew(this.itemData);
+  EditItemNewAdd(this.itemData);
 }
 
 class EditItemTagInitial extends EditItemEvent {}

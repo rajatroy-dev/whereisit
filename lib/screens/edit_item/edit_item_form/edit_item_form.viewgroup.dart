@@ -29,14 +29,16 @@ class EditItemForm extends StatelessWidget {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
       if (element.isSelected!) {
-        pillTagsList.add(PillTag(
-          title: '#${element.item}',
-          isShort: false,
-          hasDelete: true,
-          handleDelete: () => BlocProvider.of<EditItemBloc>(context).add(
-            EditItemTagRemove(element.item),
+        pillTagsList.add(
+          PillTag(
+            title: '#${element.item}',
+            isShort: false,
+            hasDelete: true,
+            handleDelete: () => BlocProvider.of<EditItemBloc>(context).add(
+              EditItemTagRemove(element.item),
+            ),
           ),
-        ));
+        );
       }
     }
 
@@ -54,14 +56,14 @@ class EditItemForm extends StatelessWidget {
           children: [
             BlocBuilder<EditItemBloc, EditItemState>(
               buildWhen: (previous, current) =>
-                  current is AddItemInitial ||
+                  current is EditItemNewInitial ||
                   current is EditItemTagsSelectionSuccess ||
                   current is EditItemImageAddSuccess ||
                   current is EditItemImageRemoveSuccess ||
                   current is EditItemCategorySelectSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
-                if (state is AddItemInitial) {
+                if (state is EditItemNewInitial) {
                   imagesList = state.item.uiImagesList!;
                 } else if (state is EditItemTagsSelectionSuccess) {
                   imagesList = state.item.uiImagesList!;

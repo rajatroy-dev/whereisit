@@ -31,13 +31,13 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.initState();
 
     // Start listening to changes.
-    textController.addListener(() {
-      if (widget.action == AppBarAction.searchTag) {
+    if (widget.action == AppBarAction.searchTag) {
+      textController.addListener(() {
         BlocProvider.of<EditItemBloc>(context).add(
           EditItemTagSearch(textController.text),
         );
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -104,7 +104,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                 color: Colors.white,
               ),
               onPressed: () {
-                // do something
+                // TODO: Go to item screen with item details to be edited
               },
             ),
           if (widget.action != null && widget.action == AppBarAction.searchTag)

@@ -109,7 +109,7 @@ class _EditItemState extends State<EditItem> {
       var routeArgs = args as RouteArguments;
       if (routeArgs.hasParams && routeArgs.params!.containsKey('id')) {
         BlocProvider.of<EditItemBloc>(context).add(
-          EditItemAll(routeArgs.params!['id']!),
+          EditItemExisting(routeArgs.params!['id']!),
         );
       }
       if (routeArgs.hasParams &&
