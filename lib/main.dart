@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/models/item.model.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
@@ -32,7 +33,15 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => FilteredItemsBloc()),
-        BlocProvider(create: (context) => EditItemBloc()),
+        BlocProvider(
+          create: (context) => EditItemBloc(
+            Item.forUi({
+              'uiTagsList': [],
+              'uiImagesList': [],
+              'uiSelectedCategory': '',
+            }),
+          ),
+        ),
         BlocProvider(create: (context) => LocationSearchBloc()),
       ],
       child: MaterialApp(

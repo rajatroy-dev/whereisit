@@ -158,7 +158,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     }
   }
 
-  EditItemBloc() : super(EditItemInitial()) {
+  EditItemBloc(Item item) : super(EditItemInitial(item)) {
     on<EditItemImageAdd>(
       (event, emit) {
         item.uiImagesList!.add(event.imagePath);
@@ -195,42 +195,43 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     );
 
     on<EditItemFavoriteLabel>((event, emit) {
-      var item = event.itemData;
+      var cardData = event.itemData;
 
       for (var element in list) {
-        if (element.id == item.id) {
-          element.isFavorite = item.isFavorite;
+        if (element.id == cardData.id) {
+          element.isFavorite = cardData.isFavorite;
         }
       }
 
-      emit(EditItemFavoriteLabelSuccess(item));
+      emit(EditItemFavoriteLabelSuccess(item, cardData));
     });
 
     on<EditItemExisting>((event, emit) {
-      var item = list.firstWhere(
+      var cardData = list.firstWhere(
         (element) => element.id == event.id,
       );
 
       for (var element in list) {
-        if (element.id == item.id) {
+        if (element.id == cardData.id) {
           element = CardData(
-            id: item.id,
-            title: item.title,
-            imageSrc: item.imageSrc,
-            location: item.location,
-            qty: item.qty,
-            tags: item.tags,
-            createdAt: item.createdAt,
-            isFavorite: item.isFavorite == null ? false : item.isFavorite!,
+            id: cardData.id,
+            title: cardData.title,
+            imageSrc: cardData.imageSrc,
+            location: cardData.location,
+            qty: cardData.qty,
+            tags: cardData.tags,
+            createdAt: cardData.createdAt,
+            isFavorite:
+                cardData.isFavorite == null ? false : cardData.isFavorite!,
           );
         }
       }
 
-      emit(EditItemFavoriteLabelSuccess(item));
+      emit(EditItemFavoriteLabelSuccess(item, cardData));
     });
 
     on<EditItemNewAdd>((event, emit) {
-      var item = CardData(
+      var cardData = CardData(
         id: event.itemData.id,
         title: event.itemData.title,
         imageSrc: event.itemData.imageSrc,
@@ -241,9 +242,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         isFavorite: false,
       );
 
-      list.add(item);
+      list.add(cardData);
 
-      emit(EditItemNewAddSuccess(item));
+      emit(EditItemNewAddSuccess(item, cardData));
     });
 
     on<EditItemNewFirstImage>(
@@ -260,23 +261,23 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     );
 
     on<EditItemCategoryNew>((event, emit) {
-      var item = CatSubcat(
+      var catSubcat = CatSubcat(
         categories: categories,
         subcategories: subCategories,
       );
 
-      emit(EditItemCategoryNewSuccess(item));
+      emit(EditItemCategoryNewSuccess(item, catSubcat));
     });
 
     on<EditItemCategoryLoad>(
       (event, emit) {
         stringtoHandleCategoryBack = selectedCategorySubCategory;
-        var _item = CatSubcat(
+        var catSubcat = CatSubcat(
           categories: categories,
           subcategories: subCategories,
         );
 
-        emit(EditItemCategoryLoadSuccess(_item));
+        emit(EditItemCategoryLoadSuccess(item, catSubcat));
       },
     );
 
@@ -356,23 +357,23 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             });
           }
 
-          var _item = CatSubcat(
+          var catSubcat = CatSubcat(
             categories: categories,
             subcategories: subCategories,
           );
 
-          emit(EditItemCategoryLoadSuccess(_item));
+          emit(EditItemCategoryLoadSuccess(item, catSubcat));
         }
       },
     );
 
     on<EditItemCategoryUpdateInitial>(
       (event, emit) {
-        var item = CatSubcat(
+        var catSubcat = CatSubcat(
           categories: categories,
           subcategories: subCategories,
         );
-        emit(EditItemCategoryUpdateInitialSuccess(item));
+        emit(EditItemCategoryUpdateInitialSuccess(item, catSubcat));
       },
     );
 
@@ -382,7 +383,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         editedCategory[entry.key] = entry.value;
         editedSubcategory[entry.key] = subCategories[entry.key] ?? [];
 
-        emit(EditItemCategoryChangeSuccess());
+        emit(EditItemCategoryChangeSuccess(item));
       },
     );
 
@@ -396,7 +397,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         editedSubcategory[category] = [...subCategories[category]!];
         editedSubcategory[category]![index] = entry.value;
 
-        emit(EditItemCategoryChangeSuccess());
+        emit(EditItemCategoryChangeSuccess(item));
       },
     );
 
@@ -486,7 +487,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         if (subCategories.containsKey(category)) {
           subCategories[category]![index] = subCategory;
 
-          emit(EditItemSubcategoryUpdateSuccess());
+          emit(EditItemSubcategoryUpdateSuccess(item));
         }
       },
     );
@@ -521,44 +522,44 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             );
           }
         }
-        emit(EditItemTagToggleSuccess(editedTags));
+        emit(EditItemTagToggleSuccess(item, editedTags));
       },
     );
 
     on<EditItemTagSearch>(
       (event, emit) {
         var exists = false;
-        var temp = <Tag>[];
+        var tempTags = <Tag>[];
 
         for (var element in editedTags) {
           var elementItemInLowerCase = element.item.toLowerCase();
           var eventItemInLowerCase = event.tag.toLowerCase();
           if (elementItemInLowerCase.contains(eventItemInLowerCase)) {
             exists = true;
-            temp.add(element);
+            tempTags.add(element);
           }
         }
 
         if (!exists) {
-          temp = [
+          tempTags = [
             Tag(
               isNew: true,
               item: '+ Add "${event.tag}" to list',
               isSelected: false,
               value: event.tag,
             ),
-            ...temp,
+            ...tempTags,
           ];
         }
 
-        emit(EditItemTagSearchSuccess(temp));
+        emit(EditItemTagSearchSuccess(item, tempTags));
       },
     );
 
     on<EditItemTagToggle>(
       (event, emit) {
         _toggleTagSelection(event);
-        emit(EditItemTagToggleSuccess(editedTags));
+        emit(EditItemTagToggleSuccess(item, editedTags));
       },
     );
 
@@ -577,21 +578,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             item: event.tag.value!,
           ),
         );
-        var selected = Tag(
+        var selectedTag = Tag(
           isSelected: true,
           isNew: false,
           item: event.tag.value!,
         );
-        editedTags.add(selected);
+        editedTags.add(selectedTag);
         selectedTagCount++;
-        emit(EditItemTagToggleSuccess([selected]));
+        emit(EditItemTagToggleSuccess(item, [selectedTag]));
       },
     );
 
     on<EditItemTagUpdateCount>(
       (event, emit) {
         event.count > 0 ? selectedTagCount++ : selectedTagCount--;
-        emit(EditItemTagsOnSelectionCountUpdateSuccess(selectedTagCount));
+        emit(EditItemTagsOnSelectionCountUpdateSuccess(item, selectedTagCount));
       },
     );
 
@@ -695,7 +696,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         if (event.tag.isSelected != null && event.tag.isSelected!) {
           selectedTagCount--;
         }
-        emit(EditItemTagToggleSuccess(editedTags));
+        emit(EditItemTagToggleSuccess(item, editedTags));
       },
     );
 

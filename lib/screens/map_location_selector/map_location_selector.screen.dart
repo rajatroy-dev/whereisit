@@ -173,7 +173,7 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
               }
               return GoogleMap(
                 onMapCreated: (GoogleMapController controller) {
-                  _onMapCreated(controller, const LatLng(0, 0));
+                  _onMapCreated(controller, const LatLng(latitude, longitude));
                 },
                 initialCameraPosition: const CameraPosition(
                   target: LatLng(latitude, longitude),

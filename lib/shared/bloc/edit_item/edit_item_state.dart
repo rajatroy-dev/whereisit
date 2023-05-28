@@ -1,126 +1,123 @@
 part of 'edit_item_bloc.dart';
 
 @immutable
-abstract class EditItemState {}
-
-class EditItemInitial extends EditItemState {}
-
-class EditItemNewInitial extends EditItemState {
+abstract class EditItemState {
   final Item item;
 
-  EditItemNewInitial(this.item);
+  const EditItemState(this.item);
+}
+
+class EditItemInitial extends EditItemState {
+  const EditItemInitial(Item item) : super(item);
+}
+
+class EditItemNewInitial extends EditItemState {
+  const EditItemNewInitial(Item item) : super(item);
 }
 
 class EditItemFavoriteLabelSuccess extends EditItemState {
-  final CardData itemData;
+  final CardData cardData;
 
-  EditItemFavoriteLabelSuccess(this.itemData);
+  const EditItemFavoriteLabelSuccess(Item item, this.cardData) : super(item);
 }
 
 class EditItemExistingSuccess extends EditItemState {
-  final CardData itemData;
+  final CardData cardData;
 
-  EditItemExistingSuccess(this.itemData);
+  const EditItemExistingSuccess(Item item, this.cardData) : super(item);
 }
 
 class EditItemNewAddSuccess extends EditItemState {
-  final CardData itemData;
+  final CardData cardData;
 
-  EditItemNewAddSuccess(this.itemData);
+  const EditItemNewAddSuccess(Item item, this.cardData) : super(item);
 }
 
 class EditItemTagToggleSuccess extends EditItemState {
   final List<Tag> tags;
 
-  EditItemTagToggleSuccess(this.tags);
+  const EditItemTagToggleSuccess(Item item, this.tags) : super(item);
 }
 
 class EditItemTagSearchSuccess extends EditItemState {
   final List<Tag> tags;
 
-  EditItemTagSearchSuccess(this.tags);
+  const EditItemTagSearchSuccess(Item item, this.tags) : super(item);
 }
 
 class EditItemTagsOnSelectionCountUpdateSuccess extends EditItemState {
   final int selectedTagCount;
 
-  EditItemTagsOnSelectionCountUpdateSuccess(this.selectedTagCount);
+  const EditItemTagsOnSelectionCountUpdateSuccess(
+      Item item, this.selectedTagCount)
+      : super(item);
 }
 
 class EditItemFailure extends EditItemState {
   final String errorMsg;
 
-  EditItemFailure(this.errorMsg);
+  const EditItemFailure(Item item, this.errorMsg) : super(item);
 }
 
 class EditItemTagsSelectionSuccess extends EditItemState {
-  final Item item;
-
-  EditItemTagsSelectionSuccess(this.item);
+  const EditItemTagsSelectionSuccess(Item item) : super(item);
 }
 
 class EditItemSubmitSuccess extends EditItemState {
-  final Item item;
-
-  EditItemSubmitSuccess(this.item);
+  const EditItemSubmitSuccess(Item item) : super(item);
 }
 
 class EditItemImageAddSuccess extends EditItemState {
-  final Item item;
-
-  EditItemImageAddSuccess(this.item);
+  const EditItemImageAddSuccess(Item item) : super(item);
 }
 
 class EditItemImageRemoveSuccess extends EditItemState {
-  final Item item;
-
-  EditItemImageRemoveSuccess(this.item);
+  const EditItemImageRemoveSuccess(Item item) : super(item);
 }
 
 class EditItemCategoryNewSuccess extends EditItemState {
-  final CatSubcat item;
+  final CatSubcat catSubcat;
 
-  EditItemCategoryNewSuccess(this.item);
+  const EditItemCategoryNewSuccess(Item item, this.catSubcat) : super(item);
 }
 
 class EditItemCategoryAddSuccess extends EditItemState {
-  final Item item;
-
-  EditItemCategoryAddSuccess(this.item);
+  const EditItemCategoryAddSuccess(Item item) : super(item);
 }
 
 class EditItemCategoryLoadSuccess extends EditItemState {
-  final CatSubcat item;
+  final CatSubcat catSubcat;
 
-  EditItemCategoryLoadSuccess(this.item);
+  const EditItemCategoryLoadSuccess(Item item, this.catSubcat) : super(item);
 }
 
 class EditItemSubcategoryAddSuccess extends EditItemState {
-  final Item item;
-
-  EditItemSubcategoryAddSuccess(this.item);
+  const EditItemSubcategoryAddSuccess(Item item) : super(item);
 }
 
 class EditItemCategorySelectSuccess extends EditItemState {
-  final Item item;
-
-  EditItemCategorySelectSuccess(this.item);
+  const EditItemCategorySelectSuccess(Item item) : super(item);
 }
 
 class EditItemCategoryUpdateInitialSuccess extends EditItemState {
-  final CatSubcat item;
+  final CatSubcat catSubcat;
 
-  EditItemCategoryUpdateInitialSuccess(this.item);
+  const EditItemCategoryUpdateInitialSuccess(Item item, this.catSubcat)
+      : super(item);
 }
 
-class EditItemCategoryChangeSuccess extends EditItemState {}
+class EditItemCategoryChangeSuccess extends EditItemState {
+  const EditItemCategoryChangeSuccess(Item item) : super(item);
+}
 
-class EditItemSubcategoryChangeSuccess extends EditItemState {}
+class EditItemSubcategoryChangeSuccess extends EditItemState {
+  const EditItemSubcategoryChangeSuccess(Item item) : super(item);
+}
 
 class EditItemCategoryUpdateSuccess extends EditItemState {
-  final Item item;
-
-  EditItemCategoryUpdateSuccess(this.item);
+  const EditItemCategoryUpdateSuccess(Item item) : super(item);
 }
 
-class EditItemSubcategoryUpdateSuccess extends EditItemState {}
+class EditItemSubcategoryUpdateSuccess extends EditItemState {
+  const EditItemSubcategoryUpdateSuccess(Item item) : super(item);
+}

@@ -63,15 +63,11 @@ class EditItemForm extends StatelessWidget {
                   current is EditItemCategorySelectSuccess,
               builder: (context, state) {
                 var imagesList = <String>[];
-                if (state is EditItemNewInitial) {
-                  imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemTagsSelectionSuccess) {
-                  imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemImageAddSuccess) {
-                  imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemImageRemoveSuccess) {
-                  imagesList = state.item.uiImagesList!;
-                } else if (state is EditItemCategorySelectSuccess) {
+                if (state is EditItemNewInitial ||
+                    state is EditItemTagsSelectionSuccess ||
+                    state is EditItemImageAddSuccess ||
+                    state is EditItemImageRemoveSuccess ||
+                    state is EditItemCategorySelectSuccess) {
                   imagesList = state.item.uiImagesList!;
                 }
                 return HorizontalImageListContainer(
