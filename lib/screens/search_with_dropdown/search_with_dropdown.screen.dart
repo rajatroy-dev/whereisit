@@ -59,7 +59,7 @@ class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
                       currentState is EditItemTagsOnSelectionCountUpdateSuccess,
                   builder: (context, state) {
                     if (state is EditItemTagsOnSelectionCountUpdateSuccess) {
-                      var count = state.selectedTagCount;
+                      var count = state.item.uiTagCount;
                       var tagOrtags = count == 1 ? 'tag' : 'tags';
                       return Padding(
                         padding: const EdgeInsets.symmetric(

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/models/cat_subcat.model.dart';
 import 'package:whereisit/models/tag.model.dart';
 
 Item itemFromMap(String str) => Item.fromMap(json.decode(str));
@@ -30,6 +32,10 @@ class Item {
     this.uiTagsList,
     this.uiImagesList,
     this.uiSelectedCategory,
+    this.uiCardData,
+    this.uiTagCount,
+    this.uiError,
+    this.uiCatSubcat,
   });
 
   int? id;
@@ -50,6 +56,10 @@ class Item {
   List<Tag>? uiTagsList;
   List<String>? uiImagesList;
   String? uiSelectedCategory;
+  CardData? uiCardData;
+  int? uiTagCount;
+  String? uiError;
+  CatSubcat? uiCatSubcat;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -70,6 +80,27 @@ class Item {
         uiTagsList: json['uiTagsList'].cast<Tag>(),
         uiImagesList: json['uiImagesList'].cast<String>(),
         uiSelectedCategory: json['uiSelectedCategory'] as String,
+        uiCardData: json['uiCardData'].cast<CardData>(),
+        uiTagCount: json['uiTagCount'].cast<int>(),
+        uiError: json['uiError'].cast<String>(),
+        uiCatSubcat: json['uiCatSubcat'].cast<CatSubcat>(),
+      );
+
+  factory Item.forProvider(Map<String, dynamic> json) => Item(
+        id: json["id"],
+        propertyId: json["property_id"],
+        roomId: json["room_id"],
+        categoryId: json["category_id"],
+        name: json["name"] ?? '',
+        thumbnail: json["thumbnail"] ?? '',
+        quantity: json["quantity"],
+        favorite: json["favorite"],
+        locationId: json["location_id"],
+        serial: json["serial"],
+        description: json["description"],
+        qr: json["qr"],
+        createdAt: json["createdAt"] ?? 0,
+        updatedAt: json["updatedAt"] ?? 0,
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

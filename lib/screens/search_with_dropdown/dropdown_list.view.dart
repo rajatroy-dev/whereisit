@@ -67,7 +67,7 @@ class DropdownList extends StatelessWidget {
           if (state is EditItemTagToggleSuccess) {
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: state.tags.length,
+              itemCount: state.item.uiTagsList!.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(
@@ -79,9 +79,10 @@ class DropdownList extends StatelessWidget {
                         height: 24,
                         width: 24,
                         child: Checkbox(
-                          value: state.tags[index].isSelected ?? false,
+                          value:
+                              state.item.uiTagsList![index].isSelected ?? false,
                           onChanged: (bool? value) {
-                            var tempList = state.tags;
+                            var tempList = state.item.uiTagsList!;
                             var temp = tempList[index];
                             tempList[index] = Tag(
                               isNew: temp.isNew,
@@ -112,9 +113,10 @@ class DropdownList extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: GestureDetector(
-                            onTap: () => handleSelect(state.tags[index].item),
+                            onTap: () => handleSelect(
+                                state.item.uiTagsList![index].item),
                             child: Text(
-                              state.tags[index].item,
+                              state.item.uiTagsList![index].item,
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -127,7 +129,7 @@ class DropdownList extends StatelessWidget {
                           context: context,
                           builder: (context) => _alertDialog(
                             context,
-                            state.tags[index],
+                            state.item.uiTagsList![index],
                           ),
                         ),
                         icon: const Icon(
@@ -143,22 +145,22 @@ class DropdownList extends StatelessWidget {
           } else if (state is EditItemTagSearchSuccess) {
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: state.tags.length,
+              itemCount: state.item.uiTagsList!.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(
                     bottom: 16.0,
                   ),
-                  child: state.tags[index].isNew
+                  child: state.item.uiTagsList![index].isNew
                       ? GestureDetector(
                           onTap: () =>
                               BlocProvider.of<EditItemBloc>(context).add(
                             EditItemTagAdd(
-                              state.tags[index],
+                              state.item.uiTagsList![index],
                             ),
                           ),
                           child: Text(
-                            state.tags[index].item,
+                            state.item.uiTagsList![index].item,
                             style: const TextStyle(
                               fontSize: 16,
                             ),
@@ -170,9 +172,11 @@ class DropdownList extends StatelessWidget {
                               height: 24,
                               width: 24,
                               child: Checkbox(
-                                value: state.tags[index].isSelected ?? false,
+                                value:
+                                    state.item.uiTagsList![index].isSelected ??
+                                        false,
                                 onChanged: (bool? value) {
-                                  var tempList = state.tags;
+                                  var tempList = state.item.uiTagsList!;
                                   var temp = tempList[index];
                                   tempList[index] = Tag(
                                     isNew: temp.isNew,
@@ -204,10 +208,10 @@ class DropdownList extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
                               child: GestureDetector(
-                                onTap: () =>
-                                    handleSelect(state.tags[index].item),
+                                onTap: () => handleSelect(
+                                    state.item.uiTagsList![index].item),
                                 child: Text(
-                                  state.tags[index].item,
+                                  state.item.uiTagsList![index].item,
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),

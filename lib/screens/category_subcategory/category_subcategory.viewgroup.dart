@@ -36,11 +36,11 @@ class CategorySubcategoryScreen extends StatelessWidget {
               body: Stack(
                 children: [
                   ListView.builder(
-                    itemCount: state.catSubcat.categories.length,
+                    itemCount: state.item.uiCatSubcat!.categories.length,
                     itemBuilder: (context, index) {
-                      var category = state.catSubcat.categories[index];
+                      var category = state.item.uiCatSubcat!.categories[index];
                       var subCategories =
-                          state.catSubcat.subcategories[category];
+                          state.item.uiCatSubcat!.subcategories[category];
                       return Accordion(
                         title: category,
                         content: subCategories ?? [],
@@ -58,10 +58,11 @@ class CategorySubcategoryScreen extends StatelessWidget {
             return AppScaffold(
               action: AppBarAction.editCategory,
               body: ListView.builder(
-                itemCount: state.catSubcat.categories.length,
+                itemCount: state.item.uiCatSubcat!.categories.length,
                 itemBuilder: (context, index) {
-                  var category = state.catSubcat.categories[index];
-                  var subCategories = state.catSubcat.subcategories[category];
+                  var category = state.item.uiCatSubcat!.categories[index];
+                  var subCategories =
+                      state.item.uiCatSubcat!.subcategories[category];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Accordion(
@@ -83,11 +84,11 @@ class CategorySubcategoryScreen extends StatelessWidget {
               body: Stack(
                 children: [
                   ListView.builder(
-                    itemCount: state.catSubcat.categories.length,
+                    itemCount: state.item.uiCatSubcat!.categories.length,
                     itemBuilder: (context, index) {
-                      var category = state.catSubcat.categories[index];
+                      var category = state.item.uiCatSubcat!.categories[index];
                       var subCategories =
-                          state.catSubcat.subcategories[category];
+                          state.item.uiCatSubcat!.subcategories[category];
                       return Accordion(
                         title: category,
                         content: subCategories ?? [],

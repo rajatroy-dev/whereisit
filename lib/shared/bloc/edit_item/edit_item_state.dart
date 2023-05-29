@@ -16,47 +16,31 @@ class EditItemNewInitial extends EditItemState {
 }
 
 class EditItemFavoriteLabelSuccess extends EditItemState {
-  final CardData cardData;
-
-  const EditItemFavoriteLabelSuccess(Item item, this.cardData) : super(item);
+  const EditItemFavoriteLabelSuccess(Item item) : super(item);
 }
 
 class EditItemExistingSuccess extends EditItemState {
-  final CardData cardData;
-
-  const EditItemExistingSuccess(Item item, this.cardData) : super(item);
+  const EditItemExistingSuccess(Item item) : super(item);
 }
 
 class EditItemNewAddSuccess extends EditItemState {
-  final CardData cardData;
-
-  const EditItemNewAddSuccess(Item item, this.cardData) : super(item);
+  const EditItemNewAddSuccess(Item item) : super(item);
 }
 
 class EditItemTagToggleSuccess extends EditItemState {
-  final List<Tag> tags;
-
-  const EditItemTagToggleSuccess(Item item, this.tags) : super(item);
+  const EditItemTagToggleSuccess(Item item) : super(item);
 }
 
 class EditItemTagSearchSuccess extends EditItemState {
-  final List<Tag> tags;
-
-  const EditItemTagSearchSuccess(Item item, this.tags) : super(item);
+  const EditItemTagSearchSuccess(Item item) : super(item);
 }
 
 class EditItemTagsOnSelectionCountUpdateSuccess extends EditItemState {
-  final int selectedTagCount;
-
-  const EditItemTagsOnSelectionCountUpdateSuccess(
-      Item item, this.selectedTagCount)
-      : super(item);
+  const EditItemTagsOnSelectionCountUpdateSuccess(Item item) : super(item);
 }
 
 class EditItemFailure extends EditItemState {
-  final String errorMsg;
-
-  const EditItemFailure(Item item, this.errorMsg) : super(item);
+  const EditItemFailure(Item item) : super(item);
 }
 
 class EditItemTagsSelectionSuccess extends EditItemState {
@@ -76,9 +60,7 @@ class EditItemImageRemoveSuccess extends EditItemState {
 }
 
 class EditItemCategoryNewSuccess extends EditItemState {
-  final CatSubcat catSubcat;
-
-  const EditItemCategoryNewSuccess(Item item, this.catSubcat) : super(item);
+  const EditItemCategoryNewSuccess(Item item) : super(item);
 }
 
 class EditItemCategoryAddSuccess extends EditItemState {
@@ -86,9 +68,7 @@ class EditItemCategoryAddSuccess extends EditItemState {
 }
 
 class EditItemCategoryLoadSuccess extends EditItemState {
-  final CatSubcat catSubcat;
-
-  const EditItemCategoryLoadSuccess(Item item, this.catSubcat) : super(item);
+  const EditItemCategoryLoadSuccess(Item item) : super(item);
 }
 
 class EditItemSubcategoryAddSuccess extends EditItemState {
@@ -100,10 +80,7 @@ class EditItemCategorySelectSuccess extends EditItemState {
 }
 
 class EditItemCategoryUpdateInitialSuccess extends EditItemState {
-  final CatSubcat catSubcat;
-
-  const EditItemCategoryUpdateInitialSuccess(Item item, this.catSubcat)
-      : super(item);
+  const EditItemCategoryUpdateInitialSuccess(Item item) : super(item);
 }
 
 class EditItemCategoryChangeSuccess extends EditItemState {

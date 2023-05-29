@@ -114,6 +114,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     'uiTagsList': [],
     'uiImagesList': [],
     'uiSelectedCategory': '',
+    'uiCardData': null,
+    'uiTagCount': 0,
+    'uiError': '',
+    'uiCatSubcat': null,
   });
 
   var tags = <Tag>[
@@ -203,7 +207,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
       }
 
-      emit(EditItemFavoriteLabelSuccess(item, cardData));
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': cardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+      });
+
+      emit(EditItemFavoriteLabelSuccess(item));
     });
 
     on<EditItemExisting>((event, emit) {
@@ -227,7 +242,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
       }
 
-      emit(EditItemFavoriteLabelSuccess(item, cardData));
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': cardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+      });
+
+      emit(EditItemFavoriteLabelSuccess(item));
     });
 
     on<EditItemNewAdd>((event, emit) {
@@ -244,7 +270,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
       list.add(cardData);
 
-      emit(EditItemNewAddSuccess(item, cardData));
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': cardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+      });
+
+      emit(EditItemNewAddSuccess(item));
     });
 
     on<EditItemNewFirstImage>(
@@ -266,7 +303,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         subcategories: subCategories,
       );
 
-      emit(EditItemCategoryNewSuccess(item, catSubcat));
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': catSubcat,
+      });
+
+      emit(EditItemCategoryNewSuccess(item));
     });
 
     on<EditItemCategoryLoad>(
@@ -277,7 +325,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           subcategories: subCategories,
         );
 
-        emit(EditItemCategoryLoadSuccess(item, catSubcat));
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': catSubcat,
+        });
+
+        emit(EditItemCategoryLoadSuccess(item));
       },
     );
 
@@ -362,7 +421,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             subcategories: subCategories,
           );
 
-          emit(EditItemCategoryLoadSuccess(item, catSubcat));
+          item = Item.forUi({
+            'thumbnail': item.thumbnail,
+            'uiTagsList': item.uiTagsList,
+            'uiImagesList': item.uiImagesList,
+            'uiSelectedCategory': item.uiSelectedCategory,
+            'uiCardData': item.uiCardData,
+            'uiTagCount': item.uiTagCount,
+            'uiError': item.uiError,
+            'uiCatSubcat': catSubcat,
+          });
+
+          emit(EditItemCategoryLoadSuccess(item));
         }
       },
     );
@@ -373,7 +443,19 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           categories: categories,
           subcategories: subCategories,
         );
-        emit(EditItemCategoryUpdateInitialSuccess(item, catSubcat));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': catSubcat,
+        });
+
+        emit(EditItemCategoryUpdateInitialSuccess(item));
       },
     );
 
@@ -522,7 +604,19 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             );
           }
         }
-        emit(EditItemTagToggleSuccess(item, editedTags));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': editedTags,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagToggleSuccess(item));
       },
     );
 
@@ -552,14 +646,37 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           ];
         }
 
-        emit(EditItemTagSearchSuccess(item, tempTags));
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': tempTags,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagSearchSuccess(item));
       },
     );
 
     on<EditItemTagToggle>(
       (event, emit) {
         _toggleTagSelection(event);
-        emit(EditItemTagToggleSuccess(item, editedTags));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': editedTags,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagToggleSuccess(item));
       },
     );
 
@@ -585,14 +702,38 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         );
         editedTags.add(selectedTag);
         selectedTagCount++;
-        emit(EditItemTagToggleSuccess(item, [selectedTag]));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': [selectedTag],
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagToggleSuccess(item));
       },
     );
 
     on<EditItemTagUpdateCount>(
       (event, emit) {
         event.count > 0 ? selectedTagCount++ : selectedTagCount--;
-        emit(EditItemTagsOnSelectionCountUpdateSuccess(item, selectedTagCount));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': item.uiTagsList,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': selectedTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagsOnSelectionCountUpdateSuccess(item));
       },
     );
 
@@ -696,7 +837,19 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         if (event.tag.isSelected != null && event.tag.isSelected!) {
           selectedTagCount--;
         }
-        emit(EditItemTagToggleSuccess(item, editedTags));
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': editedTags,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
+        emit(EditItemTagToggleSuccess(item));
       },
     );
 

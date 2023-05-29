@@ -34,13 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => FilteredItemsBloc()),
         BlocProvider(
-          create: (context) => EditItemBloc(
-            Item.forUi({
-              'uiTagsList': [],
-              'uiImagesList': [],
-              'uiSelectedCategory': '',
-            }),
-          ),
+          create: (context) => EditItemBloc(Item.forProvider({})),
         ),
         BlocProvider(create: (context) => LocationSearchBloc()),
       ],
