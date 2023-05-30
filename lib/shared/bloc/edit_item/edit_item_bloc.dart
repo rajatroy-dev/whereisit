@@ -110,16 +110,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var newItem = CardData.empty();
 
-  var item = Item.forUi({
-    'uiTagsList': [],
-    'uiImagesList': [],
-    'uiSelectedCategory': '',
-    'uiCardData': null,
-    'uiTagCount': 0,
-    'uiError': '',
-    'uiCatSubcat': null,
-  });
-
   var tags = <Tag>[
     Tag(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
     Tag(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
@@ -172,6 +162,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagsList': item.uiTagsList,
             'uiImagesList': item.uiImagesList,
             'uiSelectedCategory': item.uiSelectedCategory,
+            'uiCardData': item.uiCardData,
+            'uiTagCount': item.uiTagCount,
+            'uiError': item.uiError,
+            'uiCatSubcat': item.uiCatSubcat,
           });
         }
 
@@ -189,6 +183,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagsList': item.uiTagsList,
             'uiImagesList': [],
             'uiSelectedCategory': item.uiSelectedCategory,
+            'uiCardData': item.uiCardData,
+            'uiTagCount': item.uiTagCount,
+            'uiError': item.uiError,
+            'uiCatSubcat': item.uiCatSubcat,
           });
         } else {
           item.uiImagesList = temp;
@@ -291,6 +289,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': [],
           'uiImagesList': [event.image],
           'uiSelectedCategory': '',
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
         });
 
         emit(EditItemNewInitial(item));
@@ -359,6 +361,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': selectedCategorySubCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -553,6 +559,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': selectedCategorySubCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
         });
 
         emit(EditItemCategoryUpdateSuccess(item));

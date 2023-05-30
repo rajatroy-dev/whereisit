@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => FilteredItemsBloc()),
         BlocProvider(
-          create: (context) => EditItemBloc(Item.forProvider({})),
+          create: (context) => EditItemBloc(Item.forUi({})),
         ),
         BlocProvider(create: (context) => LocationSearchBloc()),
       ],
