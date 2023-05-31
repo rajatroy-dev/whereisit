@@ -76,22 +76,27 @@ class Item {
         qr: json["qr"],
         createdAt: json["createdAt"] ?? 0,
         updatedAt: json["updatedAt"] ?? 0,
-        uiName: '',
-        uiTagsList: [],
-        uiImagesList: [],
-        uiSelectedCategory: '',
-        uiCardData: CardData(
-          id: '',
-          imageSrc: '',
-          qty: 0,
-          location: '',
-          tags: [],
-          title: '',
-          createdAt: '',
-        ),
-        uiTagCount: 0,
-        uiError: '',
-        uiCatSubcat: CatSubcat(categories: [], subcategories: {}),
+        uiName: json['uiName'] ?? '',
+        uiTagsList: json['uiTagsList'] ?? [],
+        uiImagesList: json['uiImagesList'] ?? [],
+        uiSelectedCategory: json['uiSelectedCategory'] ?? '',
+        uiCardData: json['uiCardData'] ??
+            CardData(
+              id: '',
+              imageSrc: '',
+              qty: 0,
+              location: '',
+              tags: [],
+              title: '',
+              createdAt: '',
+            ),
+        uiTagCount: json['uiTagCount'] ?? 0,
+        uiError: json['uiError'] ?? '',
+        uiCatSubcat: json['uiCatSubcat'] ??
+            CatSubcat(
+              categories: [],
+              subcategories: {},
+            ),
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

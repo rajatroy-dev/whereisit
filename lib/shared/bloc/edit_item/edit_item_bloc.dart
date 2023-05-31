@@ -139,9 +139,20 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
+      var editedTagsCopy = <Tag>[];
       for (var element in editedTags) {
-        if (element.item == event.tag.item) {
-          element = Tag(
+        editedTagsCopy.add(
+          Tag(
+            isNew: element.isNew,
+            item: element.item,
+            value: element.value,
+            isSelected: element.isSelected,
+          ),
+        );
+      }
+      for (var i = 0; i < editedTagsCopy.length; i++) {
+        if (editedTagsCopy[i].item == event.tag.item) {
+          editedTags[i] = Tag(
             isNew: event.tag.isNew,
             item: event.tag.item,
             isSelected: event.tag.isSelected!,
@@ -286,7 +297,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         item = Item.forUi({
           'thumbnail': event.image,
-          'uiTagsList': [],
+          'uiTagsList': <Tag>[],
           'uiImagesList': [event.image],
           'uiSelectedCategory': '',
           'uiCardData': item.uiCardData,
@@ -790,6 +801,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             ),
           );
         }
+
+        item = Item.forUi({
+          'thumbnail': item.thumbnail,
+          'uiTagsList': editedTags,
+          'uiImagesList': item.uiImagesList,
+          'uiSelectedCategory': item.uiSelectedCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': selectedTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+        });
+
         emit(EditItemTagsSelectionSuccess(item));
       },
     );

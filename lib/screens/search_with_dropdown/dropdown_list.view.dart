@@ -90,6 +90,7 @@ class DropdownList extends StatelessWidget {
                               isSelected: value,
                               value: temp.value,
                             );
+                            temp = tempList[index];
 
                             if (value != null) {
                               if (value) {
@@ -184,6 +185,7 @@ class DropdownList extends StatelessWidget {
                                     isSelected: value,
                                     value: temp.value,
                                   );
+                                  temp = tempList[index];
 
                                   if (value != null) {
                                     if (value) {
