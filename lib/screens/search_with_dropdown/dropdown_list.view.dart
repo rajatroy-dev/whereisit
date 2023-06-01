@@ -207,17 +207,32 @@ class DropdownList extends StatelessWidget {
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: GestureDetector(
-                                onTap: () => handleSelect(
-                                    state.item.uiTagsList![index].item),
-                                child: Text(
-                                  state.item.uiTagsList![index].item,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: GestureDetector(
+                                  onTap: () => handleSelect(
+                                      state.item.uiTagsList![index].item),
+                                  child: Text(
+                                    state.item.uiTagsList![index].item,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) => _alertDialog(
+                                  context,
+                                  state.item.uiTagsList![index],
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.delete_rounded,
+                                color: Colors.red,
                               ),
                             ),
                           ],

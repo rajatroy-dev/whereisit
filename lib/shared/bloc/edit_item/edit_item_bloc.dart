@@ -137,6 +137,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var selectedCategorySubCategory = '';
   var stringtoHandleCategoryBack = '';
 
+  var filteredTagWithSearch = false;
+
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
       var editedTagsCopy = <Tag>[];
@@ -678,6 +680,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
         });
 
+        filteredTagWithSearch = true;
         emit(EditItemTagSearchSuccess(item));
       },
     );
@@ -688,7 +691,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         item = Item.forUi({
           'thumbnail': item.thumbnail,
-          'uiTagsList': editedTags,
+          'uiTagsList': filteredTagWithSearch ? [event.tag] : editedTags,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': item.uiSelectedCategory,
           'uiCardData': item.uiCardData,
@@ -698,6 +701,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         });
 
         emit(EditItemTagToggleSuccess(item));
+        filteredTagWithSearch = false;
       },
     );
 
@@ -736,6 +740,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         });
 
         emit(EditItemTagToggleSuccess(item));
+        filteredTagWithSearch = false;
       },
     );
 
@@ -785,6 +790,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     );
 
     on<EditItemTagSelectIgnore>(
+      // TODO: Bug fix - After search when I go back, the tags are not getting displayed
       (event, emit) {
         editedTags = <Tag>[];
         selectedTagCount = 0;
