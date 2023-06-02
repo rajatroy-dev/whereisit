@@ -33,23 +33,22 @@ class CategorySubcategoryScreen extends StatelessWidget {
           if (state is EditItemCategoryLoadSuccess) {
             return AppScaffold(
               action: AppBarAction.addCategory,
-              body: Stack(
-                children: [
-                  ListView.builder(
-                    itemCount: state.item.uiCatSubcat!.categories.length,
-                    itemBuilder: (context, index) {
-                      var category = state.item.uiCatSubcat!.categories[index];
-                      var subCategories =
-                          state.item.uiCatSubcat!.subcategories[category];
-                      return Accordion(
-                        title: category,
-                        content: subCategories ?? [],
-                        isOnlyCategory:
-                            subCategories == null || subCategories.isEmpty,
-                      );
-                    },
-                  ),
-                ],
+              body: ListView.builder(
+                itemCount: state.item.uiCatSubcat!.categories.length,
+                itemBuilder: (context, index) {
+                  var category = state.item.uiCatSubcat!.categories[index];
+                  var subCategories =
+                      state.item.uiCatSubcat!.subcategories[category];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Accordion(
+                      title: category,
+                      content: subCategories ?? [],
+                      isOnlyCategory:
+                          subCategories == null || subCategories.isEmpty,
+                    ),
+                  );
+                },
               ),
             );
           }

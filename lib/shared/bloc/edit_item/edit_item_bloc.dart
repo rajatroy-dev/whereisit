@@ -790,7 +790,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     );
 
     on<EditItemTagSelectIgnore>(
-      // TODO: Bug fix - After search when I go back, the tags are not getting displayed
       (event, emit) {
         editedTags = <Tag>[];
         selectedTagCount = 0;

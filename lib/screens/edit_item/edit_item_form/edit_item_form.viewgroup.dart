@@ -62,14 +62,7 @@ class EditItemForm extends StatelessWidget {
                   current is EditItemImageRemoveSuccess ||
                   current is EditItemCategorySelectSuccess,
               builder: (context, state) {
-                var imagesList = <String>[];
-                if (state is EditItemNewInitial ||
-                    state is EditItemTagsSelectionSuccess ||
-                    state is EditItemImageAddSuccess ||
-                    state is EditItemImageRemoveSuccess ||
-                    state is EditItemCategorySelectSuccess) {
-                  imagesList = state.item.uiImagesList!;
-                }
+                var imagesList = state.item.uiImagesList!;
                 return HorizontalImageListContainer(
                   images: imagesList,
                 );
@@ -122,8 +115,6 @@ class EditItemForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
-                    buildWhen: (_, current) =>
-                        current is LocationSelectionSuccess,
                     builder: (context, state) {
                       if (state is LocationSelectionSuccess) {
                         return TextButton.icon(
@@ -173,26 +164,7 @@ class EditItemForm extends StatelessWidget {
                         current is EditItemCategorySelectSuccess ||
                         current is EditItemCategoryUpdateSuccess,
                     builder: (context, state) {
-                      if (state is EditItemCategorySelectSuccess &&
-                          state.item.uiSelectedCategory != null &&
-                          state.item.uiSelectedCategory!.isNotEmpty) {
-                        return TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              CategorySubcategoryScreen.routeName,
-                            );
-                            BlocProvider.of<EditItemBloc>(context).add(
-                              EditItemCategoryLoad(),
-                            );
-                          },
-                          child: Text(
-                            'Category: ${state.item.uiSelectedCategory}',
-                          ),
-                        );
-                      }
-                      if (state is EditItemCategoryUpdateSuccess &&
-                          state.item.uiSelectedCategory != null &&
+                      if (state.item.uiSelectedCategory != null &&
                           state.item.uiSelectedCategory!.isNotEmpty) {
                         return TextButton(
                           onPressed: () {
@@ -240,16 +212,15 @@ class EditItemForm extends StatelessWidget {
               validator: InputValidator.address,
             ),
             BlocBuilder<EditItemBloc, EditItemState>(
+              buildWhen: (previous, current) =>
+                  current is EditItemTagsSelectionSuccess,
               builder: (context, state) {
-                if (state is EditItemTagsSelectionSuccess) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: Wrap(
-                      children: _buildTagsList(state.item.uiTagsList!, context),
-                    ),
-                  );
-                }
-                return const SizedBox();
+                return SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    children: _buildTagsList(state.item.uiTagsList!, context),
+                  ),
+                );
               },
             ),
             Row(
