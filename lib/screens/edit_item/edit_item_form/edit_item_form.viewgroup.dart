@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
-import 'package:whereisit/screens/edit_item/text_input/text_input.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
@@ -15,14 +14,16 @@ class EditItemForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   final void Function() imageSourceChoiceHandler;
-  final TextEditingController addressController;
-  final TextEditingController nameController;
+  final TextEditingController quantityController = TextEditingController()
+    ..text = '1';
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController propertyController = TextEditingController();
+  final TextEditingController roomController = TextEditingController();
 
   EditItemForm({
     Key? key,
     required this.imageSourceChoiceHandler,
-    required this.addressController,
-    required this.nameController,
   }) : super(key: key);
 
   List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
@@ -78,11 +79,19 @@ class EditItemForm extends StatelessWidget {
                 ),
               ],
             ),
-            const TextInput(
-              initialValue: '1',
-              labelText: 'Quantity',
-              hintText: 'How many items are you storing?',
-              validator: InputValidator.quantity,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Focus(
+                child: TextFormField(
+                  controller: quantityController,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText: 'How many items are you storing?',
+                    labelText: 'Quantity',
+                  ),
+                  validator: InputValidator.quantity,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -201,15 +210,29 @@ class EditItemForm extends StatelessWidget {
                 ),
               ],
             ),
-            const TextInput(
-              labelText: 'Property',
-              hintText: 'E.g., home, office, etc.',
-              validator: InputValidator.address,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextFormField(
+                controller: propertyController,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(10.0),
+                  hintText: 'E.g., home, office, etc.',
+                  labelText: 'Property',
+                ),
+                validator: InputValidator.address,
+              ),
             ),
-            const TextInput(
-              labelText: 'Room',
-              hintText: 'E.g., bedroom, livingroom, etc.',
-              validator: InputValidator.address,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextFormField(
+                controller: roomController,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(10.0),
+                  hintText: 'E.g., bedroom, livingroom, etc.',
+                  labelText: 'Room',
+                ),
+                validator: InputValidator.address,
+              ),
             ),
             BlocBuilder<EditItemBloc, EditItemState>(
               buildWhen: (previous, current) =>
@@ -223,18 +246,19 @@ class EditItemForm extends StatelessWidget {
                 );
               },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    SearchWithDropdownScreen.routeName,
-                  ),
-                  icon: const Icon(Icons.add_rounded),
-                  label: const Text('ADD TAGS'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
                 ),
-              ],
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  SearchWithDropdownScreen.routeName,
+                ),
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('ADD TAGS'),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
