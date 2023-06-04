@@ -76,9 +76,9 @@ class EditItemTagsSelected extends EditItemEvent {
 }
 
 class EditItemSubmit extends EditItemEvent {
-  final Item item;
+  final Map<String, String> textInput;
 
-  EditItemSubmit(this.item);
+  EditItemSubmit(this.textInput);
 }
 
 class EditItemImageAdd extends EditItemEvent {

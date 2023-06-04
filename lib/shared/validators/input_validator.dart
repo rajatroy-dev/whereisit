@@ -1,5 +1,7 @@
 class InputValidator {
-  static String? quantity(String? value) {
+  final addressRegex = RegExp(r'^[A-Za-z0-9 /,-]*$');
+
+  String? quantity(String? value) {
     if (value == null ||
         value.isEmpty ||
         double.tryParse(value) == null ||
@@ -9,18 +11,34 @@ class InputValidator {
     return null;
   }
 
-  static String? name(String? value) {
+  String? name(String? value) {
     var regex = RegExp(r'^[A-Za-z ]+$');
     if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-      return 'Invalid name';
+      return 'Name is required';
     }
     return null;
   }
 
-  static String? address(String? value) {
-    var regex = RegExp(r'^[A-Za-z0-9 /,-]+$');
-    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-      return 'Invalid name';
+  String? address(String? value) {
+    var regex = addressRegex;
+    if (value != null && !regex.hasMatch(value)) {
+      return 'Invalid address';
+    }
+    return null;
+  }
+
+  String? property(String? value) {
+    var regex = addressRegex;
+    if (value != null && !regex.hasMatch(value)) {
+      return 'Invalid property';
+    }
+    return null;
+  }
+
+  String? room(String? value) {
+    var regex = addressRegex;
+    if (value != null && !regex.hasMatch(value)) {
+      return 'Invalid room';
     }
     return null;
   }

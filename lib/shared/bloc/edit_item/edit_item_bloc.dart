@@ -893,7 +893,19 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemSubmit>(
       (event, emit) {
-        item = event.item;
+        // TODO: Handle save to Db
+
+        imageList = <String>[];
+        editedTags = <Tag>[];
+        tagsToHandleBackNavigation = <Tag>[];
+        selectedTagCount = 0;
+        editedCategory = <String, String>{};
+        editedSubcategory = <String, List<String>>{};
+        selectedCategorySubCategory = '';
+        stringtoHandleCategoryBack = '';
+        filteredTagWithSearch = false;
+        item = Item.forUi({});
+
         emit(EditItemSubmitSuccess(item));
       },
     );

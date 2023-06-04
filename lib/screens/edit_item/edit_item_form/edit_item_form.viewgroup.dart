@@ -14,12 +14,14 @@ class EditItemForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   final void Function() imageSourceChoiceHandler;
+
   final TextEditingController quantityController = TextEditingController()
     ..text = '1';
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController propertyController = TextEditingController();
   final TextEditingController roomController = TextEditingController();
+  final validator = InputValidator();
 
   EditItemForm({
     Key? key,
@@ -81,16 +83,14 @@ class EditItemForm extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Focus(
-                child: TextFormField(
-                  controller: quantityController,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    hintText: 'How many items are you storing?',
-                    labelText: 'Quantity',
-                  ),
-                  validator: InputValidator.quantity,
+              child: TextFormField(
+                controller: quantityController,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(10.0),
+                  hintText: 'How many items are you storing?',
+                  labelText: 'Quantity',
                 ),
+                validator: validator.quantity,
               ),
             ),
             Padding(
@@ -103,7 +103,7 @@ class EditItemForm extends StatelessWidget {
                     hintText: 'Name of the item',
                     labelText: 'Name',
                   ),
-                  validator: InputValidator.name,
+                  validator: validator.name,
                 ),
               ),
             ),
@@ -117,7 +117,7 @@ class EditItemForm extends StatelessWidget {
                   hintText: 'Address where the item is stored',
                   labelText: 'Address',
                 ),
-                validator: InputValidator.address,
+                validator: validator.address,
               ),
             ),
             Row(
@@ -219,7 +219,7 @@ class EditItemForm extends StatelessWidget {
                   hintText: 'E.g., home, office, etc.',
                   labelText: 'Property',
                 ),
-                validator: InputValidator.address,
+                validator: validator.property,
               ),
             ),
             Padding(
@@ -231,7 +231,7 @@ class EditItemForm extends StatelessWidget {
                   hintText: 'E.g., bedroom, livingroom, etc.',
                   labelText: 'Room',
                 ),
-                validator: InputValidator.address,
+                validator: validator.room,
               ),
             ),
             BlocBuilder<EditItemBloc, EditItemState>(
@@ -268,15 +268,32 @@ class EditItemForm extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Processing Data'),
-                      ),
+                    BlocProvider.of<EditItemBloc>(context).add(
+                      EditItemSubmit({
+                        'quantity': quantityController.text,
+                        'name': nameController.text,
+                        'address': addressController.text,
+                        'property': propertyController.text,
+                        'room': roomController.text,
+                      }),
                     );
                   }
                 },
                 child: const Text('SUBMIT'),
               ),
+            ),
+            BlocListener<EditItemBloc, EditItemState>(
+              listener: (context, state) {
+                if (state is EditItemSubmitSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Saved successfully'),
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
+              },
+              child: const SizedBox(),
             ),
           ],
         ),
