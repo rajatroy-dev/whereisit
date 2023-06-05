@@ -20,7 +20,10 @@ class LocationSearchBloc
     '70081 Kunze Forges, Amanimouth, Delaware, 88948-3490',
   ];
 
-  LatLng selectedLocation = const LatLng(0, 0);
+  LatLng selectedLocation = const LatLng(
+    -95.67127985317049,
+    37.05311669685229,
+  );
 
   LocationSearchBloc() : super(LocationSearchInitial()) {
     on<LocationLoad>((event, emit) {
@@ -35,6 +38,14 @@ class LocationSearchBloc
       selectedLocation = event.location;
 
       emit(LocationSelectionSuccess(temp));
+    });
+
+    on<LocationSelectIgnore>((event, emit) {
+      LatLng temp = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+      emit(LocationSearchIgnoreSuccess(temp));
     });
   }
 }

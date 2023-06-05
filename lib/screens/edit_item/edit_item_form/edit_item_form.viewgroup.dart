@@ -10,23 +10,42 @@ import 'package:whereisit/shared/validators/input_validator.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
-class EditItemForm extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-
+class EditItemForm extends StatefulWidget {
   final void Function() imageSourceChoiceHandler;
 
-  final TextEditingController quantityController = TextEditingController()
-    ..text = '1';
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController propertyController = TextEditingController();
-  final TextEditingController roomController = TextEditingController();
-  final validator = InputValidator();
-
-  EditItemForm({
+  const EditItemForm({
     Key? key,
     required this.imageSourceChoiceHandler,
   }) : super(key: key);
+
+  @override
+  State<EditItemForm> createState() => _EditItemFormState();
+}
+
+class _EditItemFormState extends State<EditItemForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  var textInput = {
+    'quantity': '1',
+    'name': '',
+    'address': '',
+    'property': '',
+    'room': '',
+  };
+  var isLocationSelected = false;
+
+  final TextEditingController quantityController = TextEditingController()
+    ..text = '1';
+
+  final TextEditingController nameController = TextEditingController();
+
+  final TextEditingController addressController = TextEditingController();
+
+  final TextEditingController propertyController = TextEditingController();
+
+  final TextEditingController roomController = TextEditingController();
+
+  final validator = InputValidator();
 
   List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
     var pillTagsList = <Widget>[];
@@ -75,7 +94,7 @@ class EditItemForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton.icon(
-                  onPressed: imageSourceChoiceHandler,
+                  onPressed: widget.imageSourceChoiceHandler,
                   icon: const Icon(Icons.add_rounded),
                   label: const Text('ADD IMAGE'),
                 ),
@@ -84,7 +103,10 @@ class EditItemForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextFormField(
-                controller: quantityController,
+                initialValue: textInput['quantity'],
+                onChanged: (value) => setState(() {
+                  textInput['quantity'] = value;
+                }),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(10.0),
                   hintText: 'How many items are you storing?',
@@ -97,7 +119,10 @@ class EditItemForm extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Focus(
                 child: TextFormField(
-                  controller: nameController,
+                  initialValue: textInput['name'],
+                  onChanged: (value) => setState(() {
+                    textInput['name'] = value;
+                  }),
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(10.0),
                     hintText: 'Name of the item',
@@ -111,7 +136,10 @@ class EditItemForm extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: TextFormField(
                 maxLines: 5,
-                controller: addressController,
+                initialValue: textInput['address'],
+                onChanged: (value) => setState(() {
+                  textInput['address'] = value;
+                }),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(10.0),
                   hintText: 'Address where the item is stored',
@@ -126,6 +154,7 @@ class EditItemForm extends StatelessWidget {
                   child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
                     builder: (context, state) {
                       if (state is LocationSelectionSuccess) {
+                        isLocationSelected = true;
                         return TextButton.icon(
                           icon: const Icon(
                             Icons.add_location_alt_rounded,
@@ -144,6 +173,44 @@ class EditItemForm extends StatelessWidget {
                             '${state.coordinates['longitude']}',
                           ),
                         );
+                      }
+                      if (state is LocationSearchIgnoreSuccess) {
+                        if (isLocationSelected) {
+                          return TextButton.icon(
+                            icon: const Icon(
+                              Icons.add_location_alt_rounded,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                MapLocationSelector.routeName,
+                              );
+                              BlocProvider.of<LocationSearchBloc>(context).add(
+                                LocationLoad(),
+                              );
+                            },
+                            label: Text(
+                              '${state.location.latitude}, '
+                              '${state.location.longitude}',
+                            ),
+                          );
+                        } else {
+                          return TextButton.icon(
+                            icon: const Icon(
+                              Icons.add_location_alt_rounded,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                MapLocationSelector.routeName,
+                              );
+                              BlocProvider.of<LocationSearchBloc>(context).add(
+                                LocationLoad(),
+                              );
+                            },
+                            label: const Text('Select a location from Maps'),
+                          );
+                        }
                       }
                       return TextButton.icon(
                         icon: const Icon(
@@ -213,7 +280,10 @@ class EditItemForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextFormField(
-                controller: propertyController,
+                initialValue: textInput['property'],
+                onChanged: (value) => setState(() {
+                  textInput['property'] = value;
+                }),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(10.0),
                   hintText: 'E.g., home, office, etc.',
@@ -225,7 +295,10 @@ class EditItemForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextFormField(
-                controller: roomController,
+                initialValue: textInput['room'],
+                onChanged: (value) => setState(() {
+                  textInput['room'] = value;
+                }),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(10.0),
                   hintText: 'E.g., bedroom, livingroom, etc.',
@@ -269,13 +342,7 @@ class EditItemForm extends StatelessWidget {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     BlocProvider.of<EditItemBloc>(context).add(
-                      EditItemSubmit({
-                        'quantity': quantityController.text,
-                        'name': nameController.text,
-                        'address': addressController.text,
-                        'property': propertyController.text,
-                        'room': roomController.text,
-                      }),
+                      EditItemSubmit(textInput),
                     );
                   }
                 },

@@ -5,6 +5,12 @@ abstract class LocationSearchState {}
 
 class LocationSearchInitial extends LocationSearchState {}
 
+class LocationSearchIgnoreSuccess extends LocationSearchState {
+  final LatLng location;
+
+  LocationSearchIgnoreSuccess(this.location);
+}
+
 class LocationLoadSuccess extends LocationSearchState {
   final LatLng coordinates;
 

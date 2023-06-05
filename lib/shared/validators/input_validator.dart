@@ -13,9 +13,13 @@ class InputValidator {
 
   String? name(String? value) {
     var regex = RegExp(r'^[A-Za-z ]+$');
-    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+    if (value == null || value.isEmpty) {
       return 'Name is required';
     }
+    if (!regex.hasMatch(value)) {
+      return 'Invalid name';
+    }
+
     return null;
   }
 

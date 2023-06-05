@@ -139,29 +139,54 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      floatingActionButton: showMyLocationButton
-          ? FloatingActionButton(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.purple,
-              onPressed: _getCurrentLocation,
-              child: currentLocationFound
-                  ? const Icon(Icons.my_location_outlined)
-                  : const Icon(Icons.location_searching_rounded),
-            )
-          : null,
-      body: Stack(
-        children: [
-          BlocBuilder<LocationSearchBloc, LocationSearchState>(
-            builder: (context, state) {
-              if (state is LocationLoadSuccess) {
+    return WillPopScope(
+      onWillPop: () async {
+        BlocProvider.of<LocationSearchBloc>(context).add(
+          LocationSelectIgnore(),
+        );
+
+        return true;
+      },
+      child: AppScaffold(
+        floatingActionButton: showMyLocationButton
+            ? FloatingActionButton(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.purple,
+                onPressed: _getCurrentLocation,
+                child: currentLocationFound
+                    ? const Icon(Icons.my_location_outlined)
+                    : const Icon(Icons.location_searching_rounded),
+              )
+            : null,
+        body: Stack(
+          children: [
+            BlocBuilder<LocationSearchBloc, LocationSearchState>(
+              builder: (context, state) {
+                if (state is LocationLoadSuccess) {
+                  return GoogleMap(
+                    onMapCreated: (GoogleMapController controller) {
+                      _onMapCreated(controller, state.coordinates);
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: state.coordinates,
+                      zoom: 17,
+                    ),
+                    markers: Set<Marker>.of(_markers),
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    onCameraMove: _oncameraMove,
+                    onCameraIdle: _onCameraIdle,
+                    zoomControlsEnabled: false,
+                  );
+                }
                 return GoogleMap(
                   onMapCreated: (GoogleMapController controller) {
-                    _onMapCreated(controller, state.coordinates);
+                    _onMapCreated(
+                        controller, const LatLng(latitude, longitude));
                   },
-                  initialCameraPosition: CameraPosition(
-                    target: state.coordinates,
-                    zoom: 17,
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(latitude, longitude),
+                    zoom: 12,
                   ),
                   markers: Set<Marker>.of(_markers),
                   myLocationEnabled: true,
@@ -170,40 +195,25 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
                   onCameraIdle: _onCameraIdle,
                   zoomControlsEnabled: false,
                 );
-              }
-              return GoogleMap(
-                onMapCreated: (GoogleMapController controller) {
-                  _onMapCreated(controller, const LatLng(latitude, longitude));
-                },
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(latitude, longitude),
-                  zoom: 12,
+              },
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<LocationSearchBloc>(context).add(
+                      LocationSelected(coordinates),
+                    );
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Select this location'),
                 ),
-                markers: Set<Marker>.of(_markers),
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                onCameraMove: _oncameraMove,
-                onCameraIdle: _onCameraIdle,
-                zoomControlsEnabled: false,
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<LocationSearchBloc>(context).add(
-                    LocationSelected(coordinates),
-                  );
-                  Navigator.pop(context);
-                },
-                child: const Text('Select this location'),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

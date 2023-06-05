@@ -5,6 +5,8 @@ abstract class LocationSearchEvent {}
 
 class LocationLoad extends LocationSearchEvent {}
 
+class LocationSelectIgnore extends LocationSearchEvent {}
+
 class LocationSelected extends LocationSearchEvent {
   final LatLng location;
 
