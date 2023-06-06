@@ -169,8 +169,8 @@ class _EditItemFormState extends State<EditItemForm> {
                             );
                           },
                           label: Text(
-                            '${state.coordinates['latitude']}, '
-                            '${state.coordinates['longitude']}',
+                            '${state.coordinates.latitude}, '
+                            '${state.coordinates.longitude}',
                           ),
                         );
                       }

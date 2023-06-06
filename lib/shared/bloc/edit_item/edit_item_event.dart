@@ -148,3 +148,13 @@ class EditItemSubcategoryUpdate extends EditItemEvent {
 
   EditItemSubcategoryUpdate(this.subCategory);
 }
+
+class EditItemLocationLoad extends EditItemEvent {}
+
+class EditItemLocationSelectIgnore extends EditItemEvent {}
+
+class EditItemLocationSelected extends EditItemEvent {
+  final LatLng location;
+
+  EditItemLocationSelected(this.location);
+}

@@ -31,21 +31,22 @@ class LocationSearchBloc
     });
 
     on<LocationSelected>((event, emit) {
-      var temp = <String, String>{};
-      temp['latitude'] = event.location.latitude.toStringAsFixed(2);
-      temp['longitude'] = event.location.longitude.toStringAsFixed(2);
-
       selectedLocation = event.location;
 
-      emit(LocationSelectionSuccess(temp));
-    });
-
-    on<LocationSelectIgnore>((event, emit) {
-      LatLng temp = LatLng(
+      LatLng coordinatesTwoDecimal = LatLng(
         double.parse(selectedLocation.latitude.toStringAsFixed(2)),
         double.parse(selectedLocation.longitude.toStringAsFixed(2)),
       );
-      emit(LocationSearchIgnoreSuccess(temp));
+
+      emit(LocationSelectionSuccess(coordinatesTwoDecimal));
+    });
+
+    on<LocationSelectIgnore>((event, emit) {
+      LatLng coordinatesTwoDecimal = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+      emit(LocationSearchIgnoreSuccess(coordinatesTwoDecimal));
     });
   }
 }

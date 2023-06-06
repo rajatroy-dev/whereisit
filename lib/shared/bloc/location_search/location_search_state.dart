@@ -18,7 +18,7 @@ class LocationLoadSuccess extends LocationSearchState {
 }
 
 class LocationSelectionSuccess extends LocationSearchState {
-  final Map<String, String> coordinates;
+  final LatLng coordinates;
 
   LocationSelectionSuccess(this.coordinates);
 }

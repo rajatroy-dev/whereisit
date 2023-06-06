@@ -98,3 +98,18 @@ class EditItemCategoryUpdateSuccess extends EditItemState {
 class EditItemSubcategoryUpdateSuccess extends EditItemState {
   const EditItemSubcategoryUpdateSuccess(Item item) : super(item);
 }
+
+class EditItemLocationLoadSuccess extends EditItemState {
+  // LocationLoadSuccess(this.coordinates);
+  const EditItemLocationLoadSuccess(Item item) : super(item);
+}
+
+class EditItemLocationSelectIgnoreSuccess extends EditItemState {
+  // LocationSearchIgnoreSuccess(this.location);
+  const EditItemLocationSelectIgnoreSuccess(Item item) : super(item);
+}
+
+class EditItemLocationSelectSuccess extends EditItemState {
+  // EditItemLocationSelectSuccess(this.coordinates);
+  const EditItemLocationSelectSuccess(Item item) : super(item);
+}

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/cat_subcat.model.dart';
@@ -138,6 +139,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   var stringtoHandleCategoryBack = '';
 
   var filteredTagWithSearch = false;
+
+  LatLng selectedLocation = const LatLng(
+    -95.67127985317049,
+    37.05311669685229,
+  );
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
@@ -909,5 +915,31 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         emit(EditItemSubmitSuccess(item));
       },
     );
+
+    on<EditItemLocationLoad>((event, emit) {
+      // emit(LocationLoadSuccess(selectedLocation));
+      emit(EditItemLocationLoadSuccess(item));
+    });
+
+    on<EditItemLocationSelectIgnore>((event, emit) {
+      LatLng coordinatesTwoDecimal = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+      // emit(LocationSearchIgnoreSuccess(coordinatesTwoDecimal));
+      emit(EditItemLocationSelectIgnoreSuccess(item));
+    });
+
+    on<EditItemLocationSelected>((event, emit) {
+      selectedLocation = event.location;
+
+      LatLng coordinatesTwoDecimal = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+
+      // emit(LocationSelectionSuccess(coordinatesTwoDecimal));
+      emit(EditItemLocationSelectSuccess(item));
+    });
   }
 }
