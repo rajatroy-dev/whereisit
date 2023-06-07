@@ -5,7 +5,6 @@ import 'package:whereisit/screens/category_subcategory/category_subcategory.view
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
-import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/validators/input_validator.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
@@ -151,9 +150,9 @@ class _EditItemFormState extends State<EditItemForm> {
             Row(
               children: [
                 Expanded(
-                  child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
+                  child: BlocBuilder<EditItemBloc, EditItemState>(
                     builder: (context, state) {
-                      if (state is LocationSelectionSuccess) {
+                      if (state is EditItemLocationSelectSuccess) {
                         isLocationSelected = true;
                         return TextButton.icon(
                           icon: const Icon(
@@ -164,17 +163,17 @@ class _EditItemFormState extends State<EditItemForm> {
                               context,
                               MapLocationSelector.routeName,
                             );
-                            BlocProvider.of<LocationSearchBloc>(context).add(
-                              LocationLoad(),
+                            BlocProvider.of<EditItemBloc>(context).add(
+                              EditItemLocationLoad(),
                             );
                           },
                           label: Text(
-                            '${state.coordinates.latitude}, '
-                            '${state.coordinates.longitude}',
+                            '${state.item.uiCoordinates?.latitude}, '
+                            '${state.item.uiCoordinates?.longitude}',
                           ),
                         );
                       }
-                      if (state is LocationSearchIgnoreSuccess) {
+                      if (state is EditItemLocationSelectIgnoreSuccess) {
                         if (isLocationSelected) {
                           return TextButton.icon(
                             icon: const Icon(
@@ -185,30 +184,14 @@ class _EditItemFormState extends State<EditItemForm> {
                                 context,
                                 MapLocationSelector.routeName,
                               );
-                              BlocProvider.of<LocationSearchBloc>(context).add(
-                                LocationLoad(),
+                              BlocProvider.of<EditItemBloc>(context).add(
+                                EditItemLocationLoad(),
                               );
                             },
                             label: Text(
-                              '${state.location.latitude}, '
-                              '${state.location.longitude}',
+                              '${state.item.uiCoordinates?.latitude}, '
+                              '${state.item.uiCoordinates?.longitude}',
                             ),
-                          );
-                        } else {
-                          return TextButton.icon(
-                            icon: const Icon(
-                              Icons.add_location_alt_rounded,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                MapLocationSelector.routeName,
-                              );
-                              BlocProvider.of<LocationSearchBloc>(context).add(
-                                LocationLoad(),
-                              );
-                            },
-                            label: const Text('Select a location from Maps'),
                           );
                         }
                       }
@@ -221,8 +204,8 @@ class _EditItemFormState extends State<EditItemForm> {
                             context,
                             MapLocationSelector.routeName,
                           );
-                          BlocProvider.of<LocationSearchBloc>(context).add(
-                            LocationLoad(),
+                          BlocProvider.of<EditItemBloc>(context).add(
+                            EditItemLocationLoad(),
                           );
                         },
                         label: const Text('Select a location from Maps'),

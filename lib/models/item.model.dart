@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/cat_subcat.model.dart';
 import 'package:whereisit/models/tag.model.dart';
@@ -36,6 +37,7 @@ class Item {
     this.uiTagCount,
     this.uiError,
     this.uiCatSubcat,
+    this.uiCoordinates,
   });
 
   int? id;
@@ -60,6 +62,7 @@ class Item {
   int? uiTagCount;
   String? uiError;
   CatSubcat? uiCatSubcat;
+  LatLng? uiCoordinates;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -96,6 +99,11 @@ class Item {
             CatSubcat(
               categories: [],
               subcategories: {},
+            ),
+        uiCoordinates: json['uiCoordinates'] ??
+            const LatLng(
+              -95.67127985317049,
+              37.05311669685229,
             ),
       );
 

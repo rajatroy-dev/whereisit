@@ -14,7 +14,6 @@ import 'package:whereisit/screens/screens/favorites.dart';
 import 'package:whereisit/screens/screens/search.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
-import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
@@ -36,7 +35,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => EditItemBloc(Item.forUi({})),
         ),
-        BlocProvider(create: (context) => LocationSearchBloc()),
       ],
       child: MaterialApp(
         title: 'WhereIsIt',

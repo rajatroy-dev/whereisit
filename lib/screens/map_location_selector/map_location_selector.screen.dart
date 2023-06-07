@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location_manager;
 import 'package:permission_handler/permission_handler.dart';
-import 'package:whereisit/shared/bloc/location_search/location_search_bloc.dart';
+import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
 class MapLocationSelector extends StatefulWidget {
   static const routeName = '/location-map';
+
   const MapLocationSelector({Key? key}) : super(key: key);
 
   @override
@@ -141,8 +142,8 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        BlocProvider.of<LocationSearchBloc>(context).add(
-          LocationSelectIgnore(),
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemLocationSelectIgnore(),
         );
 
         return true;
@@ -160,15 +161,15 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
             : null,
         body: Stack(
           children: [
-            BlocBuilder<LocationSearchBloc, LocationSearchState>(
+            BlocBuilder<EditItemBloc, EditItemState>(
               builder: (context, state) {
-                if (state is LocationLoadSuccess) {
+                if (state is EditItemLocationLoadSuccess) {
                   return GoogleMap(
                     onMapCreated: (GoogleMapController controller) {
-                      _onMapCreated(controller, state.coordinates);
+                      _onMapCreated(controller, state.item.uiCoordinates!);
                     },
                     initialCameraPosition: CameraPosition(
-                      target: state.coordinates,
+                      target: state.item.uiCoordinates!,
                       zoom: 17,
                     ),
                     markers: Set<Marker>.of(_markers),
@@ -203,8 +204,8 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    BlocProvider.of<LocationSearchBloc>(context).add(
-                      LocationSelected(coordinates),
+                    BlocProvider.of<EditItemBloc>(context).add(
+                      EditItemLocationSelected(coordinates),
                     );
                     Navigator.pop(context);
                   },

@@ -7,6 +7,7 @@ import 'package:whereisit/models/item.model.dart';
 import 'package:whereisit/models/tag.model.dart';
 
 part 'edit_item_event.dart';
+
 part 'edit_item_state.dart';
 
 class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
@@ -185,6 +186,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagCount': item.uiTagCount,
             'uiError': item.uiError,
             'uiCatSubcat': item.uiCatSubcat,
+            'uiCoordinates': item.uiCoordinates,
           });
         }
 
@@ -206,6 +208,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagCount': item.uiTagCount,
             'uiError': item.uiError,
             'uiCatSubcat': item.uiCatSubcat,
+            'uiCoordinates': item.uiCoordinates,
           });
         } else {
           item.uiImagesList = temp;
@@ -233,6 +236,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiTagCount': item.uiTagCount,
         'uiError': item.uiError,
         'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
       });
 
       emit(EditItemFavoriteLabelSuccess(item));
@@ -268,6 +272,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiTagCount': item.uiTagCount,
         'uiError': item.uiError,
         'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
       });
 
       emit(EditItemFavoriteLabelSuccess(item));
@@ -296,6 +301,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiTagCount': item.uiTagCount,
         'uiError': item.uiError,
         'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
       });
 
       emit(EditItemNewAddSuccess(item));
@@ -312,6 +318,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemNewInitial(item));
@@ -333,6 +340,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiTagCount': item.uiTagCount,
         'uiError': item.uiError,
         'uiCatSubcat': catSubcat,
+        'uiCoordinates': item.uiCoordinates,
       });
 
       emit(EditItemCategoryNewSuccess(item));
@@ -355,6 +363,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': catSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemCategoryLoadSuccess(item));
@@ -384,6 +393,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -408,6 +418,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagsList': item.uiTagsList,
           'uiImagesList': item.uiImagesList,
           'uiSelectedCategory': selectedCategorySubCategory,
+          'uiCardData': item.uiCardData,
+          'uiTagCount': item.uiTagCount,
+          'uiError': item.uiError,
+          'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -455,6 +470,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiTagCount': item.uiTagCount,
             'uiError': item.uiError,
             'uiCatSubcat': catSubcat,
+            'uiCoordinates': item.uiCoordinates,
           });
 
           emit(EditItemCategoryLoadSuccess(item));
@@ -478,6 +494,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': catSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemCategoryUpdateInitialSuccess(item));
@@ -582,6 +599,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemCategoryUpdateSuccess(item));
@@ -643,6 +661,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -684,6 +703,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         filteredTagWithSearch = true;
@@ -704,6 +724,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -743,6 +764,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -763,6 +785,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': selectedTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagsOnSelectionCountUpdateSuccess(item));
@@ -822,6 +845,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': selectedTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagsSelectionSuccess(item));
@@ -891,11 +915,61 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiTagCount': item.uiTagCount,
           'uiError': item.uiError,
           'uiCatSubcat': item.uiCatSubcat,
+          'uiCoordinates': item.uiCoordinates,
         });
 
         emit(EditItemTagToggleSuccess(item));
       },
     );
+
+    on<EditItemLocationLoad>((event, emit) {
+      // emit(LocationLoadSuccess(selectedLocation));
+      emit(EditItemLocationLoadSuccess(item));
+    });
+
+    on<EditItemLocationSelectIgnore>((event, emit) {
+      LatLng coordinatesTwoDecimal = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': coordinatesTwoDecimal,
+      });
+
+      emit(EditItemLocationSelectIgnoreSuccess(item));
+    });
+
+    on<EditItemLocationSelected>((event, emit) {
+      selectedLocation = event.location;
+
+      LatLng coordinatesTwoDecimal = LatLng(
+        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
+        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
+      );
+
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': coordinatesTwoDecimal,
+      });
+
+      emit(EditItemLocationSelectSuccess(item));
+    });
 
     on<EditItemSubmit>(
       (event, emit) {
@@ -915,31 +989,5 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         emit(EditItemSubmitSuccess(item));
       },
     );
-
-    on<EditItemLocationLoad>((event, emit) {
-      // emit(LocationLoadSuccess(selectedLocation));
-      emit(EditItemLocationLoadSuccess(item));
-    });
-
-    on<EditItemLocationSelectIgnore>((event, emit) {
-      LatLng coordinatesTwoDecimal = LatLng(
-        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
-        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
-      );
-      // emit(LocationSearchIgnoreSuccess(coordinatesTwoDecimal));
-      emit(EditItemLocationSelectIgnoreSuccess(item));
-    });
-
-    on<EditItemLocationSelected>((event, emit) {
-      selectedLocation = event.location;
-
-      LatLng coordinatesTwoDecimal = LatLng(
-        double.parse(selectedLocation.latitude.toStringAsFixed(2)),
-        double.parse(selectedLocation.longitude.toStringAsFixed(2)),
-      );
-
-      // emit(LocationSelectionSuccess(coordinatesTwoDecimal));
-      emit(EditItemLocationSelectSuccess(item));
-    });
   }
 }
