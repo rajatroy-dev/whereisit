@@ -19,6 +19,10 @@ class EditItemFavoriteLabelSuccess extends EditItemState {
   const EditItemFavoriteLabelSuccess(Item item) : super(item);
 }
 
+class EditItemLoadExistingSuccess extends EditItemState {
+  const EditItemLoadExistingSuccess(Item item) : super(item);
+}
+
 class EditItemExistingSuccess extends EditItemState {
   const EditItemExistingSuccess(Item item) : super(item);
 }

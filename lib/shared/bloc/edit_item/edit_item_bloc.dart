@@ -242,6 +242,38 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemFavoriteLabelSuccess(item));
     });
 
+    on<EditItemLoadExisting>(
+      (event, emit) {
+        var cardData = list.firstWhere(
+          (element) => element.id == event.id,
+          orElse: () => CardData.empty(),
+        );
+
+        if (cardData.id.isNotEmpty) {
+          item = Item.forUi({
+            'id': cardData.id,
+            'name': cardData.title,
+            'thumbnail': cardData.imageSrc,
+            'createdAt': cardData.createdAt,
+            'favorite':
+                cardData.isFavorite == null ? false : cardData.isFavorite!,
+            'uiTagsList': cardData.tags,
+            'uiImagesList': [
+              cardData.imageSrc,
+            ], // TODO: Handle imagesList, location, quantity
+            'uiSelectedCategory': item.uiSelectedCategory,
+            'uiCardData': cardData,
+            'uiTagCount': item.uiTagCount,
+            'uiError': item.uiError,
+            'uiCatSubcat': item.uiCatSubcat,
+            'uiCoordinates': item.uiCoordinates,
+          });
+
+          emit(EditItemLoadExistingSuccess(item));
+        }
+      },
+    );
+
     on<EditItemExisting>((event, emit) {
       var cardData = list.firstWhere(
         (element) => element.id == event.id,
@@ -262,18 +294,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           );
         }
       }
-
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': cardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-      });
 
       emit(EditItemFavoriteLabelSuccess(item));
     });
@@ -984,6 +1004,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedCategorySubCategory = '';
         stringtoHandleCategoryBack = '';
         filteredTagWithSearch = false;
+        selectedLocation = const LatLng(
+          -95.67127985317049,
+          37.05311669685229,
+        );
         item = Item.forUi({});
 
         emit(EditItemSubmitSuccess(item));

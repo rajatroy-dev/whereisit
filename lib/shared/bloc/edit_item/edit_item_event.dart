@@ -9,6 +9,12 @@ class EditItemFavoriteLabel extends EditItemEvent {
   EditItemFavoriteLabel(this.itemData);
 }
 
+class EditItemLoadExisting extends EditItemEvent {
+  final String id;
+
+  EditItemLoadExisting(this.id);
+}
+
 class EditItemExisting extends EditItemEvent {
   final String id;
 
