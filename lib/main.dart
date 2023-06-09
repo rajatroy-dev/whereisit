@@ -13,6 +13,7 @@ import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
 import 'package:whereisit/screens/screens/search.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
+import 'package:whereisit/screens/view_item/view_item.viewgroup.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           FilteredItems.routeName: (context) => const FilteredItems(),
           ItemDetails.routeName: (context) => const ItemDetails(),
           EditItem.routeName: (context) => const EditItem(),
+          ViewItemScreen.routeName: (context) => const ViewItemScreen(),
           MapLocationSelector.routeName: (context) =>
               const MapLocationSelector(),
           SearchWithDropdownScreen.routeName: (context) =>

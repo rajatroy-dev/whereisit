@@ -105,6 +105,7 @@ class Item {
               -95.67127985317049,
               37.05311669685229,
             ),
+        // TODO: Add field for address
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

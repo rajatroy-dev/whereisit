@@ -3,10 +3,12 @@ import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizon
 
 class HorizontalImageListContainer extends StatelessWidget {
   final List<String> images;
+  final bool isDeletable;
 
   const HorizontalImageListContainer({
     Key? key,
     required this.images,
+    this.isDeletable = true,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,10 @@ class HorizontalImageListContainer extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
               itemBuilder: (context, index) {
-                return HorizontalListImage(image: images[index]);
+                return HorizontalListImage(
+                  image: images[index],
+                  isDeletable: isDeletable,
+                );
               },
             ),
           );
