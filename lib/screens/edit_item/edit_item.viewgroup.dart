@@ -73,19 +73,18 @@ class _EditItemState extends State<EditItem> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
 
-    if (args != null) {
-      var routeArgs = args as RouteArguments;
-      if (routeArgs.hasParams && routeArgs.params!.containsKey('id')) {
+    if (args != null && args is RouteArguments) {
+      if (args.hasParams && args.params!.containsKey('id')) {
         BlocProvider.of<EditItemBloc>(context).add(
-          EditItemExisting(routeArgs.params!['id']!),
+          EditItemExisting(int.parse(args.params!['id']!)),
         );
       }
-      if (routeArgs.hasParams &&
-          routeArgs.params!.containsKey('image') &&
+      if (args.hasParams &&
+          args.params!.containsKey('image') &&
           imageList.isEmpty) {
         var temp = imageList;
         getApplicationDocumentsDirectory().then((tempDir) {
-          temp.add('${tempDir.path}/${routeArgs.params!['image']!}');
+          temp.add('${tempDir.path}/${args.params!['image']!}');
           setState(() {
             imageList = temp;
           });

@@ -276,7 +276,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemExisting>((event, emit) {
       var cardData = list.firstWhere(
-        (element) => element.id == event.id,
+        (element) => element.id == event.id.toString(),
       );
 
       for (var element in list) {

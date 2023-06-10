@@ -7,7 +7,8 @@ import 'package:whereisit/screens/home/items_list/item_card/item_name.view.dart'
 import 'package:whereisit/screens/home/items_list/item_card/item_quantity.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_tags_list.viewgroup.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_thumbnail.view.dart';
-import 'package:whereisit/screens/item_details/item_details.screen.dart';
+import 'package:whereisit/screens/view_item/view_item.viewgroup.dart';
+import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 
 class ItemCard extends StatelessWidget {
   final CardData data;
@@ -22,8 +23,13 @@ class ItemCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
-        ItemDetails.routeName,
-        arguments: data,
+        ViewItemScreen.routeName,
+        arguments: RouteArguments(
+          hasParams: true,
+          params: {
+            'id': data.id,
+          },
+        ),
       ),
       child: Card(
         shape: RoundedRectangleBorder(

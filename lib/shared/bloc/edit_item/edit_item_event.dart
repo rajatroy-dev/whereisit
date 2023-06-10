@@ -10,13 +10,13 @@ class EditItemFavoriteLabel extends EditItemEvent {
 }
 
 class EditItemLoadExisting extends EditItemEvent {
-  final String id;
+  final int id;
 
   EditItemLoadExisting(this.id);
 }
 
 class EditItemExisting extends EditItemEvent {
-  final String id;
+  final int id;
 
   EditItemExisting(this.id);
 }
