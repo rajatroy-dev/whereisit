@@ -33,72 +33,87 @@ class CategorySubcategoryScreen extends StatelessWidget {
           if (state is EditItemCategoryLoadSuccess) {
             return AppScaffold(
               action: AppBarAction.addCategory,
-              body: ListView.builder(
-                itemCount: state.item.uiCatSubcat!.categories.length,
-                itemBuilder: (context, index) {
-                  var category = state.item.uiCatSubcat!.categories[index];
-                  var subCategories =
-                      state.item.uiCatSubcat!.subcategories[category];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Accordion(
-                      title: category,
-                      content: subCategories ?? [],
-                      isOnlyCategory:
-                          subCategories == null || subCategories.isEmpty,
+              body: state.item.uiCatSubcat != null
+                  ? ListView.builder(
+                      itemCount: state.item.uiCatSubcat!.categories.length,
+                      itemBuilder: (context, index) {
+                        var category =
+                            state.item.uiCatSubcat!.categories[index];
+                        var subCategories =
+                            state.item.uiCatSubcat!.subcategories[category];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Accordion(
+                            title: category,
+                            content: subCategories ?? [],
+                            isOnlyCategory:
+                                subCategories == null || subCategories.isEmpty,
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('Something went wrong!'),
                     ),
-                  );
-                },
-              ),
             );
           }
 
           if (state is EditItemCategoryUpdateInitialSuccess) {
             return AppScaffold(
               action: AppBarAction.editCategory,
-              body: ListView.builder(
-                itemCount: state.item.uiCatSubcat!.categories.length,
-                itemBuilder: (context, index) {
-                  var category = state.item.uiCatSubcat!.categories[index];
-                  var subCategories =
-                      state.item.uiCatSubcat!.subcategories[category];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Accordion(
-                      title: category,
-                      content: subCategories ?? [],
-                      isEditable: true,
-                      isOnlyCategory:
-                          subCategories == null || subCategories.isEmpty,
+              body: state.item.uiCatSubcat != null
+                  ? ListView.builder(
+                      itemCount: state.item.uiCatSubcat!.categories.length,
+                      itemBuilder: (context, index) {
+                        var category =
+                            state.item.uiCatSubcat!.categories[index];
+                        var subCategories =
+                            state.item.uiCatSubcat!.subcategories[category];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Accordion(
+                            title: category,
+                            content: subCategories ?? [],
+                            isEditable: true,
+                            isOnlyCategory:
+                                subCategories == null || subCategories.isEmpty,
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('Something went wrong!'),
                     ),
-                  );
-                },
-              ),
             );
           }
 
           if (state is EditItemCategoryNewSuccess) {
             return AppScaffold(
               action: AppBarAction.addCategory,
-              body: Stack(
-                children: [
-                  ListView.builder(
-                    itemCount: state.item.uiCatSubcat!.categories.length,
-                    itemBuilder: (context, index) {
-                      var category = state.item.uiCatSubcat!.categories[index];
-                      var subCategories =
-                          state.item.uiCatSubcat!.subcategories[category];
-                      return Accordion(
-                        title: category,
-                        content: subCategories ?? [],
-                        isOnlyCategory:
-                            subCategories == null || subCategories.isEmpty,
-                      );
-                    },
-                  ),
-                  const AddCategory(),
-                ],
-              ),
+              body: state.item.uiCatSubcat != null
+                  ? Stack(
+                      children: [
+                        ListView.builder(
+                          itemCount: state.item.uiCatSubcat!.categories.length,
+                          itemBuilder: (context, index) {
+                            var category =
+                                state.item.uiCatSubcat!.categories[index];
+                            var subCategories =
+                                state.item.uiCatSubcat!.subcategories[category];
+                            return Accordion(
+                              title: category,
+                              content: subCategories ?? [],
+                              isOnlyCategory: subCategories == null ||
+                                  subCategories.isEmpty,
+                            );
+                          },
+                        ),
+                        const AddCategory(),
+                      ],
+                    )
+                  : const Center(
+                      child: Text('Something went wrong!'),
+                    ),
             );
           }
 

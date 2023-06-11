@@ -53,11 +53,11 @@ class _EditItemState extends State<EditItem> {
     switch (choice) {
       case SourceChoice.gallery:
         var image = await picker.pickImage(source: ImageSource.gallery);
-        await saveImage(image!);
+        if (image != null) await saveImage(image);
         break;
       case SourceChoice.camera:
         var image = await picker.pickImage(source: ImageSource.camera);
-        await saveImage(image!);
+        if (image != null) await saveImage(image);
         break;
       case SourceChoice.none:
         setState(() {
@@ -74,12 +74,15 @@ class _EditItemState extends State<EditItem> {
     final args = ModalRoute.of(context)!.settings.arguments;
 
     if (args != null && args is RouteArguments) {
-      if (args.hasParams && args.params!.containsKey('id')) {
+      if (args.hasParams &&
+          args.params != null &&
+          args.params!.containsKey('id')) {
         BlocProvider.of<EditItemBloc>(context).add(
           EditItemExisting(int.parse(args.params!['id']!)),
         );
       }
       if (args.hasParams &&
+          args.params != null &&
           args.params!.containsKey('image') &&
           imageList.isEmpty) {
         var temp = imageList;

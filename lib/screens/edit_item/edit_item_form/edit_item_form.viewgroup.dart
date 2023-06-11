@@ -46,10 +46,12 @@ class _EditItemFormState extends State<EditItemForm> {
 
   final validator = InputValidator();
 
-  List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
+  List<Widget> _buildTagsList(List<Tag>? tags, BuildContext context) {
+    var notNulltags = <Tag>[];
+    if (tags != null) notNulltags = tags;
     var pillTagsList = <Widget>[];
-    for (var element in tags) {
-      if (element.isSelected!) {
+    for (var element in notNulltags) {
+      if (element.isSelected != null && element.isSelected!) {
         pillTagsList.add(
           PillTag(
             title: '#${element.item}',
@@ -83,7 +85,9 @@ class _EditItemFormState extends State<EditItemForm> {
                   current is EditItemImageRemoveSuccess ||
                   current is EditItemCategorySelectSuccess,
               builder: (context, state) {
-                var imagesList = state.item.uiImagesList!;
+                var imagesList = state.item.uiImagesList != null
+                    ? state.item.uiImagesList!
+                    : <String>[];
                 return HorizontalImageListContainer(
                   images: imagesList,
                 );
@@ -297,7 +301,7 @@ class _EditItemFormState extends State<EditItemForm> {
                 return SizedBox(
                   width: double.infinity,
                   child: Wrap(
-                    children: _buildTagsList(state.item.uiTagsList!, context),
+                    children: _buildTagsList(state.item.uiTagsList, context),
                   ),
                 );
               },
