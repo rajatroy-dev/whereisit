@@ -37,44 +37,76 @@ class _HomeScreenState extends State<HomeScreen> {
           return SingleChildScrollView(
             child: Column(
               children: [
-                state.response.success['tiles']!
-                    ? TilesContainer(list: state.response.result['tiles']!)
-                    : ListError(errorMessage: state.response.error['tiles']!),
-                state.response.success['oldest_items']!
+                state.response.success['tiles'] != null &&
+                        state.response.success['tiles']!
+                    ? TilesContainer(
+                        list: state.response.result['tiles'] != null
+                            ? state.response.result['tiles']!
+                            : [],
+                      )
+                    : ListError(
+                        errorMessage: state.response.error['tiles'] != null
+                            ? state.response.error['tiles']!
+                            : 'Something went wrong!',
+                      ),
+                state.response.success['oldest_items'] != null &&
+                        state.response.success['oldest_items']!
                     ? ItemsList(
                         listTitle: 'Oldest Items',
-                        list: state.response.result['oldest_items']!,
+                        list: state.response.result['oldest_items'] != null
+                            ? state.response.result['oldest_items']!
+                            : [],
                         navigateTo: Traits.none,
                       )
                     : ListError(
-                        errorMessage: state.response.error['oldest_items']!,
+                        errorMessage:
+                            state.response.error['oldest_items'] != null
+                                ? state.response.error['oldest_items']!
+                                : 'Something went wrong!',
                       ),
-                state.response.success['favorites']!
+                state.response.success['favorites'] != null &&
+                        state.response.success['favorites']!
                     ? ItemsList(
                         listTitle: 'Favorites',
-                        list: state.response.result['favorites']!,
+                        list: state.response.result['favorites'] != null
+                            ? state.response.result['favorites']!
+                            : [],
                         navigateTo: Traits.favorites,
                       )
                     : ListError(
-                        errorMessage: state.response.error['favorites']!,
+                        errorMessage: state.response.error['favorites'] != null
+                            ? state.response.error['favorites']!
+                            : 'Something went wrong!',
                       ),
-                state.response.success['latest_items']!
+                state.response.success['latest_items'] != null &&
+                        state.response.success['latest_items']!
                     ? ItemsList(
                         listTitle: 'Latest Items',
-                        list: state.response.result['latest_items']!,
+                        list: state.response.result['latest_items']
+                            ? state.response.result['latest_items']!
+                            : [],
                         navigateTo: Traits.none,
                       )
                     : ListError(
-                        errorMessage: state.response.error['latest_items']!,
+                        errorMessage:
+                            state.response.error['latest_items'] != null
+                                ? state.response.error['latest_items']!
+                                : 'Something went wrong!',
                       ),
-                state.response.success['most_tagged']!
+                state.response.success['most_tagged'] != null &&
+                        state.response.success['most_tagged']!
                     ? ItemsList(
                         listTitle: 'Most Tagged',
-                        list: state.response.result['most_tagged']!,
+                        list: state.response.result['most_tagged'] != null
+                            ? state.response.result['most_tagged']!
+                            : [],
                         navigateTo: Traits.none,
                       )
                     : ListError(
-                        errorMessage: state.response.error['most_tagged']!,
+                        errorMessage:
+                            state.response.error['most_tagged'] != null
+                                ? state.response.error['most_tagged']!
+                                : 'Something went wrong!',
                       ),
               ],
             ),

@@ -30,13 +30,15 @@ class _FilteredItemsState extends State<FilteredItems> {
   }
 
   handleSortChange(Chronology? chronology) {
-    BlocProvider.of<FilteredItemsBloc>(context).add(
-      FilteredItemsSort(chronology!),
-    );
+    if (chronology != null) {
+      BlocProvider.of<FilteredItemsBloc>(context).add(
+        FilteredItemsSort(chronology),
+      );
 
-    setState(() {
-      showSortBy = !showSortBy;
-    });
+      setState(() {
+        showSortBy = !showSortBy;
+      });
+    }
   }
 
   @override
@@ -57,7 +59,7 @@ class _FilteredItemsState extends State<FilteredItems> {
       );
     }
 
-    if (!intent.isSuccess!) {
+    if (intent.isSuccess != null && !intent.isSuccess!) {
       return const AppScaffold(
         body: FullScreenError(errorMessage: 'Something Went Wrong!'),
       );
