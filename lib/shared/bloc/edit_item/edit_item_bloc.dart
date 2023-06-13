@@ -244,32 +244,29 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemLoadExisting>(
       (event, emit) {
-        var cardData = list.firstWhere(
-          (element) => element.id == event.id,
-          orElse: () => CardData.empty(),
-        );
+        for (var element in list) {
+          if (element.id == event.id.toString()) {
+            item = Item.forUi({
+              'id': element.id,
+              'name': element.title,
+              'thumbnail': element.imageSrc,
+              'createdAt': element.createdAt,
+              'favorite':
+                  element.isFavorite == null ? false : element.isFavorite!,
+              'uiTagsList': element.tags,
+              'uiImagesList': [
+                element.imageSrc,
+              ], // TODO: Handle imagesList, location, quantity
+              'uiSelectedCategory': item.uiSelectedCategory,
+              'uiCardData': element,
+              'uiTagCount': item.uiTagCount,
+              'uiError': item.uiError,
+              'uiCatSubcat': item.uiCatSubcat,
+              'uiCoordinates': item.uiCoordinates,
+            });
 
-        if (cardData.id.isNotEmpty) {
-          item = Item.forUi({
-            'id': cardData.id,
-            'name': cardData.title,
-            'thumbnail': cardData.imageSrc,
-            'createdAt': cardData.createdAt,
-            'favorite':
-                cardData.isFavorite == null ? false : cardData.isFavorite!,
-            'uiTagsList': cardData.tags,
-            'uiImagesList': [
-              cardData.imageSrc,
-            ], // TODO: Handle imagesList, location, quantity
-            'uiSelectedCategory': item.uiSelectedCategory,
-            'uiCardData': cardData,
-            'uiTagCount': item.uiTagCount,
-            'uiError': item.uiError,
-            'uiCatSubcat': item.uiCatSubcat,
-            'uiCoordinates': item.uiCoordinates,
-          });
-
-          emit(EditItemLoadExistingSuccess(item));
+            emit(EditItemLoadExistingSuccess(item));
+          }
         }
       },
     );

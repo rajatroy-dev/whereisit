@@ -50,59 +50,62 @@ class ViewItemScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: BlocBuilder<EditItemBloc, EditItemState>(
                   builder: (context, state) {
-                    var imagesList = state.item.uiImagesList ?? [];
-                    String coordinates = '';
-                    if (state.item.uiCoordinates != null) {
-                      coordinates =
-                          '${state.item.uiCoordinates!.latitude.toStringAsFixed(2)}, '
-                          '${state.item.uiCoordinates!.longitude.toStringAsFixed(2)}';
-                    }
+                    if (state is EditItemLoadExistingSuccess) {
+                      var imagesList = state.item.uiImagesList ?? [];
+                      String coordinates = '';
+                      if (state.item.uiCoordinates != null) {
+                        coordinates =
+                            '${state.item.uiCoordinates!.latitude.toStringAsFixed(2)}, '
+                            '${state.item.uiCoordinates!.longitude.toStringAsFixed(2)}';
+                      }
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        HorizontalImageListContainer(
-                          images: imagesList,
-                          isDeletable: false,
-                        ),
-                        state.item.quantity != null
-                            ? Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(state.item.quantity.toString()),
-                              )
-                            : const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(state.item.name),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            state.item.name,
-                          ), // TODO: Change after adding field for address
-                        ),
-                        if (coordinates.isNotEmpty)
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          HorizontalImageListContainer(
+                            images: imagesList,
+                            isDeletable: false,
+                          ),
+                          state.item.quantity != null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(state.item.quantity.toString()),
+                                )
+                              : const SizedBox(),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(coordinates),
+                            child: Text(state.item.name),
                           ),
-                        if (state.item.uiSelectedCategory != null)
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(state.item.uiSelectedCategory!),
+                            child: Text(
+                              state.item.name,
+                            ), // TODO: Change after adding field for address
                           ),
-                        // TODO: Handle property, room
-                        SizedBox(
-                          width: double.infinity,
-                          child: Wrap(
-                            children: _buildTagsList(
-                              state.item.uiTagsList ?? [],
-                              context,
+                          if (coordinates.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(coordinates),
+                            ),
+                          if (state.item.uiSelectedCategory != null)
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(state.item.uiSelectedCategory!),
+                            ),
+                          // TODO: Handle property, room
+                          SizedBox(
+                            width: double.infinity,
+                            child: Wrap(
+                              children: _buildTagsList(
+                                state.item.uiTagsList ?? [],
+                                context,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
+                        ],
+                      );
+                    }
+                    return const SizedBox();
                   },
                 ),
               ),
