@@ -114,8 +114,8 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           CameraPosition(
             bearing: 0,
             target: LatLng(
-              currentLocation.latitude!,
-              currentLocation.longitude!,
+              currentLocation.latitude ?? latitude,
+              currentLocation.longitude ?? longitude,
             ),
             zoom: 17.0,
           ),
@@ -126,8 +126,8 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
           Marker(
             markerId: const MarkerId('1'),
             position: LatLng(
-              currentLocation.latitude!,
-              currentLocation.longitude!,
+              currentLocation.latitude ?? latitude,
+              currentLocation.longitude ?? longitude,
             ),
           ),
         ];
@@ -166,10 +166,15 @@ class _MapLocationSelectorState extends State<MapLocationSelector> {
                 if (state is EditItemLocationLoadSuccess) {
                   return GoogleMap(
                     onMapCreated: (GoogleMapController controller) {
-                      _onMapCreated(controller, state.item.uiCoordinates!);
+                      _onMapCreated(
+                        controller,
+                        state.item.uiCoordinates ??
+                            const LatLng(latitude, longitude),
+                      );
                     },
                     initialCameraPosition: CameraPosition(
-                      target: state.item.uiCoordinates!,
+                      target: state.item.uiCoordinates ??
+                          const LatLng(latitude, longitude),
                       zoom: 17,
                     ),
                     markers: Set<Marker>.of(_markers),
