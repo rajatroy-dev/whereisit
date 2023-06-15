@@ -42,7 +42,7 @@ class EditItemTagSearch extends EditItemEvent {
 }
 
 class EditItemTagAdd extends EditItemEvent {
-  final Tag tag;
+  final Tag? tag;
 
   EditItemTagAdd(this.tag);
 }

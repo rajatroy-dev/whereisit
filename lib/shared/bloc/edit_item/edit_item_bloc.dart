@@ -164,7 +164,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           editedTags[i] = Tag(
             isNew: event.tag.isNew,
             item: event.tag.item,
-            isSelected: event.tag.isSelected!,
+            isSelected: event.tag.isSelected ?? false,
             value: event.tag.value,
           );
         }
@@ -175,8 +175,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   EditItemBloc(Item item) : super(EditItemInitial(item)) {
     on<EditItemImageAdd>(
       (event, emit) {
-        item.uiImagesList!.add(event.imagePath);
-        if (item.uiImagesList!.length == 1) {
+        if (item.uiImagesList != null) item.uiImagesList!.add(event.imagePath);
+        if (item.uiImagesList != null && item.uiImagesList!.length == 1) {
           item = Item.forUi({
             'thumbnail': event.imagePath,
             'uiTagsList': item.uiTagsList,
@@ -196,7 +196,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemImageRemove>(
       (event, emit) {
-        var temp = [...item.uiImagesList!];
+        var temp = <String>[];
+        if (item.uiImagesList != null) {
+          temp = [...item.uiImagesList!];
+        }
         temp.remove(event.imagePath);
         if (temp.isEmpty) {
           item = Item.forUi({
@@ -251,8 +254,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               'name': element.title,
               'thumbnail': element.imageSrc,
               'createdAt': element.createdAt,
-              'favorite':
-                  element.isFavorite == null ? false : element.isFavorite!,
+              'favorite': element.isFavorite ?? false,
               'uiTagsList': element.tags,
               'uiImagesList': [
                 element.imageSrc,
@@ -286,8 +288,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             qty: cardData.qty,
             tags: cardData.tags,
             createdAt: cardData.createdAt,
-            isFavorite:
-                cardData.isFavorite == null ? false : cardData.isFavorite!,
+            isFavorite: cardData.isFavorite ?? false,
           );
         }
       }
@@ -535,8 +536,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         var index = int.parse(afterSplit[0]);
         var category = afterSplit[1];
 
-        editedSubcategory[category] = [...subCategories[category]!];
-        editedSubcategory[category]![index] = entry.value;
+        editedSubcategory[category] = [...?subCategories[category]];
+        if (editedSubcategory[category] != null) {
+          editedSubcategory[category]![index] = entry.value;
+        }
 
         emit(EditItemCategoryChangeSuccess(item));
       },
@@ -588,13 +591,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               subCategoryIndex = subCategories[itemExistingCategory]!
                   .indexWhere((_item) => _item == itemExistingSubcategory);
               // Edit the selectedSubcategory
-              toBeUpdatedItemSubcategory =
-                  editedSubcategory[itemExistingCategory]![subCategoryIndex];
+              if (editedSubcategory[itemExistingCategory] != null) {
+                toBeUpdatedItemSubcategory =
+                    editedSubcategory[itemExistingCategory]![subCategoryIndex];
+              }
             }
             // Then remove the key
             subCategories.remove(element.key);
             // Then add the new key with new value
-            subCategories[editedCategory[element.key]!] = element.value;
+            if (editedCategory[element.key] != null) {
+              subCategories[editedCategory[element.key]!] = element.value;
+            }
           }
         }
 
@@ -761,13 +768,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           Tag(
             isSelected: false,
             isNew: false,
-            item: event.tag.value!,
+            item: event.tag != null && event.tag!.value != null
+                ? event.tag!.value!
+                : '',
           ),
         );
         var selectedTag = Tag(
           isSelected: true,
           isNew: false,
-          item: event.tag.value!,
+          item: event.tag != null && event.tag!.value != null
+              ? event.tag!.value!
+              : '',
         );
         editedTags.add(selectedTag);
         selectedTagCount++;
@@ -822,14 +833,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               value: element.value,
             ),
           );
-          item.uiTagsList!.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
+          if (item.uiTagsList != null) {
+            item.uiTagsList!.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+          }
         }
         emit(EditItemTagsSelectionSuccess(item));
       },
@@ -895,14 +908,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               value: element.value,
             ),
           );
-          item.uiTagsList!.add(
-            Tag(
-              isNew: element.isNew,
-              item: element.item,
-              isSelected: element.isSelected,
-              value: element.value,
-            ),
-          );
+          if (item.uiTagsList != null) {
+            item.uiTagsList!.add(
+              Tag(
+                isNew: element.isNew,
+                item: element.item,
+                isSelected: element.isSelected,
+                value: element.value,
+              ),
+            );
+          }
         }
         selectedTagCount--;
         emit(EditItemTagsSelectionSuccess(item));
@@ -913,9 +928,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         tags.removeWhere((element) => element.item == event.tag.item);
         editedTags.removeWhere((element) => element.item == event.tag.item);
-        item.uiTagsList!.removeWhere(
-          (element) => element.item == event.tag.item,
-        );
+        if (item.uiTagsList != null) {
+          item.uiTagsList!.removeWhere(
+            (element) => element.item == event.tag.item,
+          );
+        }
         tagsToHandleBackNavigation.removeWhere(
           (element) => element.item == event.tag.item,
         );

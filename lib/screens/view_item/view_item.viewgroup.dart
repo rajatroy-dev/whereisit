@@ -16,7 +16,7 @@ class ViewItemScreen extends StatelessWidget {
   List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
     var pillTagsList = <Widget>[];
     for (var element in tags) {
-      if (element.isSelected!) {
+      if (element.isSelected != null && element.isSelected!) {
         pillTagsList.add(
           PillTag(
             title: '#${element.item}',
@@ -37,7 +37,11 @@ class ViewItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments;
 
-    if (args != null && args is RouteArguments && args.hasParams) {
+    if (args != null &&
+        args is RouteArguments &&
+        args.hasParams &&
+        args.params != null &&
+        args.params!.containsKey('id')) {
       BlocProvider.of<EditItemBloc>(context).add(EditItemLoadExisting(
         int.parse(args.params!['id']!),
       ));
