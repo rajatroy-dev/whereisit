@@ -4,6 +4,7 @@ import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
+import 'package:whereisit/shared/methods/build_tags_list.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
 import 'package:whereisit/shared/widgets/pill_tag.view.dart';
@@ -11,27 +12,9 @@ import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 class ViewItemScreen extends StatelessWidget {
   static const routeName = '/view-item';
 
-  const ViewItemScreen({Key? key}) : super(key: key);
+  ViewItemScreen({Key? key}) : super(key: key);
 
-  List<Widget> _buildTagsList(List<Tag> tags, BuildContext context) {
-    var pillTagsList = <Widget>[];
-    for (var element in tags) {
-      if (element.isSelected != null && element.isSelected!) {
-        pillTagsList.add(
-          PillTag(
-            title: '#${element.item}',
-            isShort: false,
-            hasDelete: true,
-            handleDelete: () => BlocProvider.of<EditItemBloc>(context).add(
-              EditItemTagRemove(element.item),
-            ),
-          ),
-        );
-      }
-    }
-
-    return pillTagsList;
-  }
+  final _sm = SharedMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +83,7 @@ class ViewItemScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Wrap(
-                              children: _buildTagsList(
+                              children: _sm.buildTagsList(
                                 state.item.uiTagsList ?? [],
                                 context,
                               ),

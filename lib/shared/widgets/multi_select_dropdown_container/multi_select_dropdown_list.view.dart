@@ -45,7 +45,7 @@ class MultiSelectDropdownList extends StatelessWidget {
                           Checkbox(
                             value: list[index].isSelected,
                             onChanged: (bool? value) {
-                              checkboxHandler(index, value!);
+                              if (value != null) checkboxHandler(index, value);
                             },
                           ),
                           Text(list[index].value),

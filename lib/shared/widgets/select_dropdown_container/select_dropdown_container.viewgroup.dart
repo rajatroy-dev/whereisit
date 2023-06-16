@@ -43,9 +43,11 @@ class _SelectDropdownContainerState extends State<SelectDropdownContainer> {
   }
 
   void _handleSelect(String? value) {
-    setState(() {
-      _selectedItemCopy = value!;
-    });
+    if (value != null) {
+      setState(() {
+        _selectedItemCopy = value;
+      });
+    }
   }
 
   void _handleDropdownOk() {

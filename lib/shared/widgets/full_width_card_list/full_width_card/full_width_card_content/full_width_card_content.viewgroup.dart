@@ -21,7 +21,7 @@ class FullWidthCardContent extends StatelessWidget {
       children: [
         FullWidthCardName(
           name: data.title,
-          isFavorite: null == data.isFavorite ? false : data.isFavorite!,
+          isFavorite: data.isFavorite ?? false,
         ),
         FullWidthCardLocation(location: data.location),
         FullWidthCardQuantity(qty: data.qty.toString()),
