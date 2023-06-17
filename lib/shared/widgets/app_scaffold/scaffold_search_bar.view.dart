@@ -23,6 +23,7 @@ class ScaffoldSearchBar extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
+          autofocus: true,
           controller: controller,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.search),

@@ -11,10 +11,11 @@ import 'package:whereisit/screens/item_details/item_details.screen.dart';
 import 'package:whereisit/screens/screens/add.dart';
 import 'package:whereisit/screens/screens/all_items.dart';
 import 'package:whereisit/screens/screens/favorites.dart';
-import 'package:whereisit/screens/screens/search.dart';
+import 'package:whereisit/screens/search/search.screen.dart';
 import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
-import 'package:whereisit/screens/view_item/view_item.viewgroup.dart';
+import 'package:whereisit/screens/view_item/view_item.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
+import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/bottom_nav_bar/bottom_nav_bar.view.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
           FilteredItems.routeName: (context) => const FilteredItems(),
           ItemDetails.routeName: (context) => const ItemDetails(),
           EditItem.routeName: (context) => const EditItem(),
-          ViewItemScreen.routeName: (context) => const ViewItemScreen(),
+          ViewItemScreen.routeName: (context) => ViewItemScreen(),
           MapLocationSelector.routeName: (context) =>
               const MapLocationSelector(),
           SearchWithDropdownScreen.routeName: (context) =>
@@ -88,6 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      action: _screens.elementAt(_selectedIndex) is SearchScreen
+          ? AppBarAction.searchItem
+          : null,
       body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,

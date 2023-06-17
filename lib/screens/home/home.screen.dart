@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         state.response.success['latest_items']!
                     ? ItemsList(
                         listTitle: 'Latest Items',
-                        list: state.response.result['latest_items']
+                        list: state.response.result['latest_items'] != null
                             ? state.response.result['latest_items']!
                             : [],
                         navigateTo: Traits.none,

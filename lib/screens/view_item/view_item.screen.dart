@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/methods/build_tags_list.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 import 'package:whereisit/shared/widgets/horizontal_image_list_container/horizontal_image_list_container.viewgroup.dart';
-import 'package:whereisit/shared/widgets/pill_tag.view.dart';
 
 class ViewItemScreen extends StatelessWidget {
   static const routeName = '/view-item';

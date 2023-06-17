@@ -1,6 +1,7 @@
 enum AppBarAction {
-  edit,
-  searchTag,
   addCategory,
+  edit,
   editCategory,
+  searchItem,
+  searchTag,
 }

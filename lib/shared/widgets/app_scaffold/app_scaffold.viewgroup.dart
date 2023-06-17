@@ -55,6 +55,13 @@ class _AppScaffoldState extends State<AppScaffold> {
         searchHint: 'Search or add tags',
         controller: textController,
       );
+    } else if (widget.action != null &&
+        widget.action == AppBarAction.searchItem) {
+      return ScaffoldSearchBar(
+        handleClear: () => textController.clear(),
+        searchHint: 'Search items',
+        controller: textController,
+      );
     } else {
       return const Text('WhereIsIt');
     }
