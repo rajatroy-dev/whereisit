@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/item.model.dart';
+import 'package:whereisit/screens/add/add.screen.dart';
+import 'package:whereisit/screens/all_items/all_items.screen.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
+import 'package:whereisit/screens/favorites/favorites.screen.dart';
 
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/item_details/item_details.screen.dart';
-import 'package:whereisit/screens/screens/add.dart';
-import 'package:whereisit/screens/screens/all_items.dart';
-import 'package:whereisit/screens/screens/favorites.dart';
-import 'package:whereisit/screens/search/search.screen.dart';
-import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
+import 'package:whereisit/screens/search_items/search_items.screen.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.viewgroup.dart';
 import 'package:whereisit/screens/view_item/view_item.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
@@ -52,8 +52,7 @@ class MyApp extends StatelessWidget {
           ViewItemScreen.routeName: (context) => ViewItemScreen(),
           MapLocationSelector.routeName: (context) =>
               const MapLocationSelector(),
-          SearchWithDropdownScreen.routeName: (context) =>
-              const SearchWithDropdownScreen(),
+          SearchWithDropdown.routeName: (context) => const SearchWithDropdown(),
           CategorySubcategoryScreen.routeName: (context) =>
               const CategorySubcategoryScreen(),
         },
@@ -81,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _screens = <Widget>[
     HomeScreen(key: ValueKey('Home Screen')),
     FavoritesScreen(key: ValueKey('Favorites Screen')),
-    SearchScreen(key: ValueKey('Search Screen')),
+    SearchItemsScreen(key: ValueKey('Search Screen')),
     AllItemsScreen(key: ValueKey('All Items Screen')),
     AddScreen(key: ValueKey('Add Screen')),
   ];
@@ -89,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      action: _screens.elementAt(_selectedIndex) is SearchScreen
+      action: _screens.elementAt(_selectedIndex) is SearchItemsScreen
           ? AppBarAction.searchItem
           : null,
       body: _screens.elementAt(_selectedIndex),

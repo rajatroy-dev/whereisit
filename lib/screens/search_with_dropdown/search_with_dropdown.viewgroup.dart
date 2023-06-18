@@ -5,16 +5,15 @@ import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
-class SearchWithDropdownScreen extends StatefulWidget {
+class SearchWithDropdown extends StatefulWidget {
   static const routeName = '/search-with-dropdown';
-  const SearchWithDropdownScreen({Key? key}) : super(key: key);
+  const SearchWithDropdown({Key? key}) : super(key: key);
 
   @override
-  State<SearchWithDropdownScreen> createState() =>
-      _SearchWithDropdownScreenState();
+  State<SearchWithDropdown> createState() => _SearchWithDropdownState();
 }
 
-class _SearchWithDropdownScreenState extends State<SearchWithDropdownScreen> {
+class _SearchWithDropdownState extends State<SearchWithDropdown> {
   final _controller = TextEditingController();
   var showDropdown = false;
 

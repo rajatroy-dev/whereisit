@@ -4,16 +4,16 @@ import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
 import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
-class AllItems extends StatefulWidget {
-  const AllItems({
+class AllItemsScreen extends StatefulWidget {
+  const AllItemsScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AllItems> createState() => _AllItemsState();
+  State<AllItemsScreen> createState() => _AllItemsScreenState();
 }
 
-class _AllItemsState extends State<AllItems> {
+class _AllItemsScreenState extends State<AllItemsScreen> {
   final list = <CardData>[
     CardData(
       id: "1",
@@ -113,7 +113,7 @@ class _AllItemsState extends State<AllItems> {
 
   late bool isLoading;
   late List<CardData> filtered;
-  _AllItemsState() {
+  _AllItemsScreenState() {
     filtered = list;
     isLoading = false;
   }

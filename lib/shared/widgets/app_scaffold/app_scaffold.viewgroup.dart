@@ -31,11 +31,16 @@ class _AppScaffoldState extends State<AppScaffold> {
     super.initState();
 
     // Start listening to changes.
-    if (widget.action == AppBarAction.searchTag) {
+    if (widget.action != null && widget.action == AppBarAction.searchTag) {
       textController.addListener(() {
         BlocProvider.of<EditItemBloc>(context).add(
           EditItemTagSearch(textController.text),
         );
+      });
+    } else if (widget.action != null &&
+        widget.action == AppBarAction.searchItem) {
+      textController.addListener(() {
+        // TODO: Add Bloc for searching items
       });
     }
   }

@@ -4,16 +4,16 @@ import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
 import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
-class Favorites extends StatefulWidget {
-  const Favorites({
+class FavoritesScreen extends StatefulWidget {
+  const FavoritesScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Favorites> createState() => _FavoritesState();
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class _FavoritesScreenState extends State<FavoritesScreen> {
   final list = <CardData>[
     CardData(
       id: "1",
@@ -113,7 +113,7 @@ class _FavoritesState extends State<Favorites> {
 
   late bool isLoading;
   late List<CardData> filtered;
-  _FavoritesState() {
+  _FavoritesScreenState() {
     filtered = list;
     isLoading = false;
   }

@@ -6,18 +6,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
-import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
 
-class Add extends StatefulWidget {
-  const Add({Key? key}) : super(key: key);
+class AddScreen extends StatefulWidget {
+  const AddScreen({Key? key}) : super(key: key);
 
   @override
-  State<Add> createState() => _AddState();
+  State<AddScreen> createState() => _AddScreenState();
 }
 
-class _AddState extends State<Add> {
+class _AddScreenState extends State<AddScreen> {
   var showImageSourceChoice = false;
 
   handleAddImage() {
