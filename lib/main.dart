@@ -5,14 +5,13 @@ import 'package:whereisit/screens/add/add.screen.dart';
 import 'package:whereisit/screens/all_items/all_items.screen.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/favorites/favorites.screen.dart';
-
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/item_details/item_details.screen.dart';
 import 'package:whereisit/screens/search_items/search_items.screen.dart';
-import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.viewgroup.dart';
+import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
 import 'package:whereisit/screens/view_item/view_item.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
