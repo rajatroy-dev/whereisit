@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/swd_tag_handler/tag_dropdown_list.view.dart';
+import 'package:whereisit/screens/search_items/bloc/search_items_bloc.dart';
 
-class SwdTagHandler extends StatefulWidget {
-  const SwdTagHandler({Key? key}) : super(key: key);
+class SwdItemListHandler extends StatefulWidget {
+  const SwdItemListHandler({Key? key}) : super(key: key);
 
   @override
-  State<SwdTagHandler> createState() => _SwdTagHandlerState();
+  State<SwdItemListHandler> createState() => _SwdItemListHandlerState();
 }
 
-class _SwdTagHandlerState extends State<SwdTagHandler> {
+class _SwdItemListHandlerState extends State<SwdItemListHandler> {
   final _controller = TextEditingController();
   var showDropdown = false;
 
@@ -35,7 +34,7 @@ class _SwdTagHandlerState extends State<SwdTagHandler> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BlocBuilder<EditItemBloc, EditItemState>(
+            BlocBuilder<SearchItemsBloc, SearchItemsState>(
               buildWhen: (_, currentState) =>
                   currentState is EditItemTagsOnSelectionCountUpdateSuccess,
               builder: (context, state) {

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/tag.model.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
-class DropdownList extends StatelessWidget {
+class TagDropdownList extends StatelessWidget {
   final void Function(String) handleNew;
   final void Function(String) handleSelect;
 
-  const DropdownList({
+  const TagDropdownList({
     Key? key,
     required this.handleNew,
     required this.handleSelect,
