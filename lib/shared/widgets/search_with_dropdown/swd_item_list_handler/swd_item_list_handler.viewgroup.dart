@@ -35,10 +35,8 @@ class _SwdItemListHandlerState extends State<SwdItemListHandler> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BlocBuilder<SearchItemsBloc, SearchItemsState>(
-              buildWhen: (_, currentState) =>
-                  currentState is EditItemTagsOnSelectionCountUpdateSuccess,
               builder: (context, state) {
-                if (state is EditItemTagsOnSelectionCountUpdateSuccess) {
+                if (state is SearchItemsTextFilterSuccess) {
                   var count = state.item.uiTagCount;
                   var tagOrtags = count == 1 ? 'tag' : 'tags';
                   return Padding(
