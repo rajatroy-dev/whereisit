@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class FullWidthCardLocation extends StatelessWidget {
-  final String location;
+class FullWidthCardAddress extends StatelessWidget {
+  final String address;
 
-  const FullWidthCardLocation({
+  const FullWidthCardAddress({
     Key? key,
-    required this.location,
+    required this.address,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class FullWidthCardLocation extends StatelessWidget {
             padding: EdgeInsets.only(right: 5.0),
             child: Icon(Icons.location_on_rounded, size: 16.0),
           ),
-          Text(location),
+          Text(address),
         ],
       ),
     );

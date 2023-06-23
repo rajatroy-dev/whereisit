@@ -31,31 +31,30 @@ class _SwdItemListHandlerState extends State<SwdItemListHandler> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<SearchItemsBloc, SearchItemsState>(
-              builder: (context, state) {
-                if (state is SearchItemsTextFilterSuccess) {
-                  var count = state.item.uiTagCount;
-                  var tagOrtags = count == 1 ? 'tag' : 'tags';
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 8.0,
-                    ),
-                    child: Text('${count.toString()} $tagOrtags selected'),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-            TagDropdownList(
-              handleNew: handleAddToList,
-              handleSelect: handleSelect,
-            ),
-          ],
+        child: BlocBuilder<SearchItemsBloc, SearchItemsState>(
+          builder: (context, state) {
+            if (state is SearchItemsTextFilterSuccess) {
+              return SingleChildScrollView(
+                // TODO: Dosplay fullwidth card list
+                child: const SizedBox(),
+              );
+            }
+            if (state is SearchItemsLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return const Center(
+              child: Text('Something went wrong!'),
+            );
+          },
         ),
+        //   TagDropdownList(
+        //     handleNew: handleAddToList,
+        //     handleSelect: handleSelect,
+        //   ),
+        // ],
+        // ),
       ),
     );
   }
