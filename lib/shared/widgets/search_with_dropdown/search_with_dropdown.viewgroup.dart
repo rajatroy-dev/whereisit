@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/search_type.enum.dart';
+import 'package:whereisit/shared/widgets/search_with_dropdown/swd_item_list_handler/swd_item_list_handler.viewgroup.dart';
 import 'package:whereisit/shared/widgets/search_with_dropdown/swd_tag_handler/swd_tag_handler.viewgroup.dart';
 
 class SearchWithDropdown extends StatefulWidget {
@@ -30,7 +31,12 @@ class _SearchWithDropdownState extends State<SearchWithDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: SwdItemHandler
-    return const SwdTagHandler();
+    if (widget.searchType == SearchType.searchTag) {
+      return const SwdTagHandler();
+    } else if (widget.searchType == SearchType.searchTag) {
+      return const SwdItemListHandler();
+    }
+
+    return const Center(child: Text('Something went wrong!'));
   }
 }

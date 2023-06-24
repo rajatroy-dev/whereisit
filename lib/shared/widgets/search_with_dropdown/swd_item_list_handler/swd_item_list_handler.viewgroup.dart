@@ -10,52 +10,34 @@ class SwdItemListHandler extends StatefulWidget {
 }
 
 class _SwdItemListHandlerState extends State<SwdItemListHandler> {
-  final _controller = TextEditingController();
-  var showDropdown = false;
-
-  handleAddToList(String value) {
-    setState(() {
-      showDropdown = false;
-    });
-  }
-
-  handleSelect(String value) {
-    _controller.text = value;
-    setState(() {
-      showDropdown = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: BlocBuilder<SearchItemsBloc, SearchItemsState>(
-          builder: (context, state) {
-            if (state is SearchItemsTextFilterSuccess) {
-              return SingleChildScrollView(
-                // TODO: Dosplay fullwidth card list
-                child: const SizedBox(),
-              );
-            }
-            if (state is SearchItemsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return const Center(
-              child: Text('Something went wrong!'),
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: BlocBuilder<SearchItemsBloc, SearchItemsState>(
+        builder: (context, state) {
+          if (state is SearchItemsTextFilterSuccess) {
+            return SingleChildScrollView(
+              // TODO: Dosplay fullwidth card list
+              child: const SizedBox(),
             );
-          },
-        ),
-        //   TagDropdownList(
-        //     handleNew: handleAddToList,
-        //     handleSelect: handleSelect,
-        //   ),
-        // ],
-        // ),
+          }
+          if (state is SearchItemsLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return const Center(
+            child: Text('Something went wrong!'),
+          );
+        },
       ),
+      //   TagDropdownList(
+      //     handleNew: handleAddToList,
+      //     handleSelect: handleSelect,
+      //   ),
+      // ],
+      // ),
     );
   }
 }
