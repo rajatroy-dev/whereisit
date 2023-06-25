@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/search_items/bloc/search_items_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/search_type.enum.dart';
 import 'package:whereisit/shared/widgets/search_with_dropdown/swd_item_list_handler/swd_item_list_handler.viewgroup.dart';
@@ -24,6 +25,9 @@ class _SearchWithDropdownState extends State<SearchWithDropdown> {
   void initState() {
     if (widget.searchType == SearchType.searchTag) {
       BlocProvider.of<EditItemBloc>(context).add(EditItemTagInitial());
+    }
+    if (widget.searchType == SearchType.searchTag) {
+      BlocProvider.of<SearchItemsBloc>(context).add(SearchItemsLoad());
     }
     // TODO: Handle Initialization of SearchItem
     super.initState();

@@ -1,24 +1,26 @@
 part of 'search_items_bloc.dart';
 
 @immutable
-abstract class SearchItemsState {
-  final CardData item;
+abstract class SearchItemsState {}
 
-  const SearchItemsState(this.item);
-}
+class SearchItemsInitial extends SearchItemsState {}
 
-class SearchItemsInitial extends SearchItemsState {
-  const SearchItemsInitial(CardData item) : super(item);
-}
+class SearchItemsLoading extends SearchItemsState {}
 
-class SearchItemsLoading extends SearchItemsState {
-  const SearchItemsLoading(CardData item) : super(item);
+class SearchItemsLoadSuccess extends SearchItemsState {
+  final List<CardData> item;
+
+  SearchItemsLoadSuccess(this.item);
 }
 
 class SearchItemsTextFilterSuccess extends SearchItemsState {
-  const SearchItemsTextFilterSuccess(CardData item) : super(item);
+  final List<CardData> item;
+
+  SearchItemsTextFilterSuccess(this.item);
 }
 
 class SearchItemsTextFilterFailure extends SearchItemsState {
-  const SearchItemsTextFilterFailure(CardData item) : super(item);
+  final String errorMsg;
+
+  SearchItemsTextFilterFailure(this.errorMsg);
 }

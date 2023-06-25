@@ -16,9 +16,15 @@ class _SwdItemListHandlerState extends State<SwdItemListHandler> {
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<SearchItemsBloc, SearchItemsState>(
         builder: (context, state) {
-          if (state is SearchItemsTextFilterSuccess) {
+          if (state is SearchItemsLoadSuccess) {
             return SingleChildScrollView(
               // TODO: Dosplay fullwidth card list
+              child: const SizedBox(),
+            );
+          }
+          if (state is SearchItemsTextFilterSuccess) {
+            return SingleChildScrollView(
+              // TODO: Dosplay fullwidth card filtered list
               child: const SizedBox(),
             );
           }
