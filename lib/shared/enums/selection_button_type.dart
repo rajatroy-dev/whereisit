@@ -1,0 +1,4 @@
+enum SelectionButtonType {
+  category,
+  location,
+}

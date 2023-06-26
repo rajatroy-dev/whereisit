@@ -106,12 +106,6 @@ class SearchItemsBloc extends Bloc<SearchItemsEvent, SearchItemsState> {
   List<CardData> filtered = [];
 
   SearchItemsBloc() : super(SearchItemsInitial()) {
-    on<SearchItemsLoad>((event, emit) {
-      emit(SearchItemsLoading());
-
-      emit(SearchItemsLoadSuccess(list));
-    });
-
     on<SearchItemsTextFilter>((event, emit) {
       emit(SearchItemsLoading());
       var data = event.searchString;

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/source_choice.enum.dart';
-import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
+import 'package:whereisit/screens/edit_item/edit_item.screen.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
 
 class AddScreen extends StatefulWidget {

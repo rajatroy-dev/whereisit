@@ -7,12 +7,6 @@ class SearchItemsInitial extends SearchItemsState {}
 
 class SearchItemsLoading extends SearchItemsState {}
 
-class SearchItemsLoadSuccess extends SearchItemsState {
-  final List<CardData> item;
-
-  SearchItemsLoadSuccess(this.item);
-}
-
 class SearchItemsTextFilterSuccess extends SearchItemsState {
   final List<CardData> item;
 

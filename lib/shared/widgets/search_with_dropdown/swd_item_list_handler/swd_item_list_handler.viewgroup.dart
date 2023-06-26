@@ -16,16 +16,15 @@ class _SwdItemListHandlerState extends State<SwdItemListHandler> {
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<SearchItemsBloc, SearchItemsState>(
         builder: (context, state) {
-          if (state is SearchItemsLoadSuccess) {
-            return SingleChildScrollView(
-              // TODO: Dosplay fullwidth card list
-              child: const SizedBox(),
-            );
-          }
           if (state is SearchItemsTextFilterSuccess) {
             return SingleChildScrollView(
               // TODO: Dosplay fullwidth card filtered list
               child: const SizedBox(),
+            );
+          }
+          if (state is SearchItemsTextFilterFailure) {
+            return const Center(
+              child: Text('Something went wrong!'),
             );
           }
           if (state is SearchItemsLoading) {
@@ -34,16 +33,10 @@ class _SwdItemListHandlerState extends State<SwdItemListHandler> {
             );
           }
           return const Center(
-            child: Text('Something went wrong!'),
+            child: Text('Type to search for an item!'),
           );
         },
       ),
-      //   TagDropdownList(
-      //     handleNew: handleAddToList,
-      //     handleSelect: handleSelect,
-      //   ),
-      // ],
-      // ),
     );
   }
 }

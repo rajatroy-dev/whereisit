@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/screens/edit_item/edit_item.viewgroup.dart';
+import 'package:whereisit/screens/edit_item/edit_item.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/methods/build_tags_list.dart';
