@@ -5,7 +5,16 @@ import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/selection_button_type.dart';
 
 class SelectionButton extends StatelessWidget {
-  const SelectionButton({Key? key}) : super(key: key);
+  final BuildContext context;
+  final EditItemState state;
+  final SelectionButtonType buttonType;
+
+  const SelectionButton({
+    Key? key,
+    required this.context,
+    required this.state,
+    required this.buttonType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +23,13 @@ class SelectionButton extends StatelessWidget {
         "buildWhen": (_, current) =>
             current is EditItemCategorySelectSuccess ||
             current is EditItemCategoryUpdateSuccess,
-        "stateEvaluationCondition": state.item.uiSelectedCategory != null &&
-            state.item.uiSelectedCategory!.isNotEmpty,
+        "stateEvaluationCondition": {
+          "success": state.item.uiSelectedCategory != null &&
+              state.item.uiSelectedCategory!.isNotEmpty,
+          "failure": null,
+          "ignore": null,
+        },
+        "selectedButtonText": 'Category: ${state.item.uiSelectedCategory}',
         "unSelectedButtonText": 'Select a category',
         "unSelectedButtonIcon": Icons.add_rounded,
         "onButtonPressed": () {
@@ -27,6 +41,30 @@ class SelectionButton extends StatelessWidget {
             EditItemCategoryLoad(),
           );
         },
+        "stateEvaluation": state.item.uiSelectedCategory != null &&
+            state.item.uiSelectedCategory!.isNotEmpty,
+      },
+      SelectionButtonType.location: {
+        "buildWhen": null,
+        "stateEvaluationCondition": {
+          "success": state is EditItemLocationSelectSuccess,
+          "ignore": state is EditItemLocationSelectIgnoreSuccess,
+          "failure": null,
+        },
+        "selectedButtonText": 'Category: ${state.item.uiSelectedCategory}',
+        "unSelectedButtonText": 'Select a category',
+        "unSelectedButtonIcon": Icons.add_rounded,
+        "onButtonPressed": () {
+          Navigator.pushNamed(
+            context,
+            CategorySubcategoryScreen.routeName,
+          );
+          BlocProvider.of<EditItemBloc>(context).add(
+            EditItemCategoryLoad(),
+          );
+        },
+        "stateEvaluation": state.item.uiSelectedCategory != null &&
+            state.item.uiSelectedCategory!.isNotEmpty,
       }
     };
 
@@ -34,28 +72,23 @@ class SelectionButton extends StatelessWidget {
       children: [
         Expanded(
           child: BlocBuilder<EditItemBloc, EditItemState>(
-            buildWhen: buttonType[SelectionButtonType.category]["buildWhen"],
+            buildWhen: buttonType[buttonType]["buildWhen"],
             builder: (context, state) {
-              if (state.item.uiSelectedCategory != null &&
-                  state.item.uiSelectedCategory!.isNotEmpty) {
+              if (buttonType[buttonType]["stateEvaluation"]["success"]) {
                 return TextButton(
-                  onPressed: buttonType[SelectionButtonType.category]
-                      ["onButtonPressed"],
+                  onPressed: buttonType[buttonType]["onButtonPressed"],
                   child: Text(
-                    'Category: ${state.item.uiSelectedCategory}',
+                    buttonType[buttonType]["selectedButtonText"],
                   ),
                 );
               }
               return TextButton.icon(
                 icon: Icon(
-                  buttonType[SelectionButtonType.category]
-                      ["unSelectedButtonIcon"],
+                  buttonType[buttonType]["unSelectedButtonIcon"],
                 ),
-                onPressed: buttonType[SelectionButtonType.category]
-                    ["onButtonPressed"],
+                onPressed: buttonType[buttonType]["onButtonPressed"],
                 label: Text(
-                  buttonType[SelectionButtonType.category]
-                      ["unSelectedButtonText"],
+                  buttonType[buttonType]["unSelectedButtonText"],
                 ),
               );
             },
