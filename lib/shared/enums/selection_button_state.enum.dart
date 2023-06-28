@@ -1,0 +1,4 @@
+enum SelectionButtonState {
+  selected,
+  unselected,
+}
