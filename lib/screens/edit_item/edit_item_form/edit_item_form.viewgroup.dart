@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
+import 'package:whereisit/screens/edit_item/edit_item_form/selection_button/selection_button.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
+import 'package:whereisit/shared/enums/selection_button_state.enum.dart';
+import 'package:whereisit/shared/enums/selection_button_type.enum.dart';
 import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/methods/build_tags_list.dart';
@@ -136,61 +139,25 @@ class _EditItemFormState extends State<EditItemForm> {
                     builder: (context, state) {
                       if (state is EditItemLocationSelectSuccess) {
                         isLocationSelected = true;
-                        return TextButton.icon(
-                          icon: const Icon(
-                            Icons.add_location_alt_rounded,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              MapLocationSelector.routeName,
-                            );
-                            BlocProvider.of<EditItemBloc>(context).add(
-                              EditItemLocationLoad(),
-                            );
-                          },
-                          label: Text(
-                            '${state.item.uiCoordinates?.latitude}, '
-                            '${state.item.uiCoordinates?.longitude}',
-                          ),
+                        return SelectionButton(
+                          buttonType: SelectionButtonType.location,
+                          buttonState: SelectionButtonState.hasValue,
+                          buttonText: '${state.item.uiCoordinates?.latitude}, '
+                              '${state.item.uiCoordinates?.longitude}',
                         );
                       }
-                      if (state is EditItemLocationSelectIgnoreSuccess) {
-                        if (isLocationSelected) {
-                          return TextButton.icon(
-                            icon: const Icon(
-                              Icons.add_location_alt_rounded,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                MapLocationSelector.routeName,
-                              );
-                              BlocProvider.of<EditItemBloc>(context).add(
-                                EditItemLocationLoad(),
-                              );
-                            },
-                            label: Text(
-                              '${state.item.uiCoordinates?.latitude}, '
+                      if (state is EditItemLocationSelectIgnoreSuccess &&
+                          isLocationSelected) {
+                        return SelectionButton(
+                          buttonType: SelectionButtonType.location,
+                          buttonState: SelectionButtonState.hasValue,
+                          buttonText: '${state.item.uiCoordinates?.latitude}, '
                               '${state.item.uiCoordinates?.longitude}',
-                            ),
-                          );
-                        }
+                        );
                       }
-                      return TextButton.icon(
-                        icon: const Icon(
-                          Icons.add_location_alt_rounded,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            MapLocationSelector.routeName,
-                          );
-                          BlocProvider.of<EditItemBloc>(context).add(
-                            EditItemLocationLoad(),
-                          );
-                        },
-                        label: const Text('Select a location from Maps'),
+                      return SelectionButton(
+                        buttonType: SelectionButtonType.location,
+                        buttonState: SelectionButtonState.noValue,
                       );
                     },
                   ),
@@ -207,35 +174,15 @@ class _EditItemFormState extends State<EditItemForm> {
                     builder: (context, state) {
                       if (state.item.uiSelectedCategory != null &&
                           state.item.uiSelectedCategory!.isNotEmpty) {
-                        return TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              CategorySubcategoryScreen.routeName,
-                            );
-                            BlocProvider.of<EditItemBloc>(context).add(
-                              EditItemCategoryLoad(),
-                            );
-                          },
-                          child: Text(
-                            'Category: ${state.item.uiSelectedCategory}',
-                          ),
+                        return SelectionButton(
+                          buttonType: SelectionButtonType.category,
+                          buttonState: SelectionButtonState.hasValue,
+                          buttonText: '${state.item.uiSelectedCategory}',
                         );
                       }
-                      return TextButton.icon(
-                        icon: const Icon(
-                          Icons.add_rounded,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            CategorySubcategoryScreen.routeName,
-                          );
-                          BlocProvider.of<EditItemBloc>(context).add(
-                            EditItemCategoryLoad(),
-                          );
-                        },
-                        label: const Text('Select a category'),
+                      return SelectionButton(
+                        buttonType: SelectionButtonType.category,
+                        buttonState: SelectionButtonState.noValue,
                       );
                     },
                   ),

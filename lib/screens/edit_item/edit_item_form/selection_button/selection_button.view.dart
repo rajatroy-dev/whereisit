@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
+import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/selection_button_state.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_type.enum.dart';
@@ -15,15 +16,19 @@ class SelectionButton extends StatelessWidget {
     required this.buttonType,
     required this.buttonState,
     this.buttonText,
-  }) : super(key: key);
+  })  : assert(
+          buttonState == SelectionButtonState.hasValue && buttonText == null,
+          'Button state is selected but button text was not provided!',
+        ),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final buttonType = <SelectionButtonType, dynamic>{
+    final buttons = <SelectionButtonType, dynamic>{
       SelectionButtonType.category: {
-        "selectedButtonText": 'Category: $buttonText',
-        "label": 'Select a category',
-        "icon": Icons.add_rounded,
+        "selectedLabel": 'Category: $buttonText',
+        "unselectedLabel": 'Select a category',
+        "icon": Icons.category_rounded,
         "onPressed": () {
           Navigator.pushNamed(
             context,
@@ -35,29 +40,31 @@ class SelectionButton extends StatelessWidget {
         },
       },
       SelectionButtonType.location: {
-        "selectedButtonText": 'Category: $buttonText',
-        "unSelectedButtonText": 'Select a category',
-        "unSelectedButtonIcon": Icons.add_rounded,
+        "selectedLabel": '$buttonText',
+        "unSelectedLabel": 'Select a location from Maps',
+        "icon": Icons.add_location_alt_rounded,
         "onPressed": () {
           Navigator.pushNamed(
             context,
-            CategorySubcategoryScreen.routeName,
+            MapLocationSelector.routeName,
           );
           BlocProvider.of<EditItemBloc>(context).add(
-            EditItemCategoryLoad(),
+            EditItemLocationLoad(),
           );
         },
       }
     };
 
     return TextButton.icon(
-      icon: Icon(
-        buttonType[buttonType]["unSelectedButtonIcon"],
-      ),
-      onPressed: buttonType[buttonType]["onPressed"],
-      label: Text(
-        buttonType[buttonType]["unSelectedButtonText"],
-      ),
+      icon: Icon(buttons[buttonType]["icon"]),
+      onPressed: buttons[buttonType]["onPressed"],
+      label: buttonState == SelectionButtonState.noValue
+          ? Text(
+              buttons[buttonType]["unSelectedLabel"],
+            )
+          : Text(
+              buttons[buttonType]["selectedLabel"],
+            ),
     );
   }
 }
