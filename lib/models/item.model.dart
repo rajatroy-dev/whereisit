@@ -38,6 +38,7 @@ class Item {
     this.uiError,
     this.uiCatSubcat,
     this.uiCoordinates,
+    this.uiSearchedAddresses,
   });
 
   int? id;
@@ -63,6 +64,7 @@ class Item {
   String? uiError;
   CatSubcat? uiCatSubcat;
   LatLng? uiCoordinates;
+  List<String>? uiSearchedAddresses;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -105,6 +107,7 @@ class Item {
               -95.67127985317049,
               37.05311669685229,
             ),
+        uiSearchedAddresses: json['uiSearchedAddresses'] ?? [],
         // TODO: Add field for address
       );
 

@@ -117,3 +117,7 @@ class EditItemLocationSelectSuccess extends EditItemState {
   // EditItemLocationSelectSuccess(this.coordinates);
   const EditItemLocationSelectSuccess(Item item) : super(item);
 }
+
+class EditItemAddressSearchSuccess extends EditItemState {
+  const EditItemAddressSearchSuccess(Item item) : super(item);
+}

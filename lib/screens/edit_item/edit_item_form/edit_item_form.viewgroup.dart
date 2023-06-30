@@ -137,7 +137,8 @@ class _EditItemFormState extends State<EditItemForm> {
                 Expanded(
                   child: BlocBuilder<EditItemBloc, EditItemState>(
                     builder: (context, state) {
-                      if (state is EditItemLocationSelectSuccess) {
+                      if (state is EditItemLocationSelectSuccess &&
+                          state.item.uiCoordinates != null) {
                         isLocationSelected = true;
                         return SelectionButton(
                           buttonType: SelectionButtonType.location,
@@ -147,7 +148,8 @@ class _EditItemFormState extends State<EditItemForm> {
                         );
                       }
                       if (state is EditItemLocationSelectIgnoreSuccess &&
-                          isLocationSelected) {
+                          isLocationSelected &&
+                          state.item.uiCoordinates != null) {
                         return SelectionButton(
                           buttonType: SelectionButtonType.location,
                           buttonState: SelectionButtonState.hasValue,
