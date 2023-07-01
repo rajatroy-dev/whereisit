@@ -38,9 +38,11 @@ class _AppScaffoldState extends State<AppScaffold> {
         );
       });
     } else if (widget.action != null &&
-        widget.action == AppBarAction.searchItem) {
+        widget.action == AppBarAction.searchAddress) {
       textController.addListener(() {
-        // TODO: Add Bloc for searching items
+        BlocProvider.of<EditItemBloc>(context).add(
+          EditItemAddressSearch(textController.text),
+        );
       });
     }
   }
@@ -65,6 +67,13 @@ class _AppScaffoldState extends State<AppScaffold> {
       return ScaffoldSearchBar(
         handleClear: () => textController.clear(),
         searchHint: 'Search items',
+        controller: textController,
+      );
+    } else if (widget.action != null &&
+        widget.action == AppBarAction.searchAddress) {
+      return ScaffoldSearchBar(
+        handleClear: () => textController.clear(),
+        searchHint: 'Search addresses',
         controller: textController,
       );
     } else {
