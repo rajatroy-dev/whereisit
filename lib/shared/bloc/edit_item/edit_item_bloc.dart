@@ -1052,6 +1052,23 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemAddressSearchSuccess(item));
     });
 
+    on<EditItemAddressSelect>((event, emit) {
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': event.address,
+      });
+
+      emit(EditItemAddressSelectionSuccess(item));
+    });
+
     on<EditItemSubmit>(
       (event, emit) {
         // TODO: Handle save to Db

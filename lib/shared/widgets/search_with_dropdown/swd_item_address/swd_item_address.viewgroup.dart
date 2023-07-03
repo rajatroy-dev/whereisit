@@ -24,6 +24,9 @@ class _SwdItemAddressState extends State<SwdItemAddress> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(addresses[index]),
                   ),
                 );

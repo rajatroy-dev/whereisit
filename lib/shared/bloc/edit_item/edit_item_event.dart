@@ -170,3 +170,9 @@ class EditItemAddressSearch extends EditItemEvent {
 
   EditItemAddressSearch(this.searchString);
 }
+
+class EditItemAddressSelect extends EditItemEvent {
+  final String address;
+
+  EditItemAddressSelect(this.address);
+}

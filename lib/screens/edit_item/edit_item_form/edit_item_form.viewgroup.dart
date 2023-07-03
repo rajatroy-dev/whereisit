@@ -116,20 +116,31 @@ class _EditItemFormState extends State<EditItemForm> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextFormField(
-                maxLines: 5,
-                initialValue: textInput['address'],
-                onChanged: (value) => setState(() {
-                  textInput['address'] = value;
-                }),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(10.0),
-                  hintText: 'Address where the item is stored',
-                  labelText: 'Address',
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, routeName),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: BlocBuilder<EditItemBloc, EditItemState>(
+                  builder: (context, state) {
+                    var initialValue = textInput['address'];
+                    if (state is EditItemAddressSelectionSuccess) {
+                      initialValue = state.item.uiAddress;
+                    }
+                    return TextFormField(
+                      maxLines: 5,
+                      initialValue: initialValue,
+                      onChanged: (value) => setState(() {
+                        textInput['address'] = value;
+                      }),
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        hintText: 'Address where the item is stored',
+                        labelText: 'Address',
+                      ),
+                      validator: _validator.address,
+                    );
+                  },
                 ),
-                validator: _validator.address,
               ),
             ),
             Row(
