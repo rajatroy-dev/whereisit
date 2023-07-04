@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/edit_item/edit_item_form/selection_button/selection_button.view.dart';
 import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
+import 'package:whereisit/shared/enums/search_type.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_state.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_type.enum.dart';
 import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
@@ -117,7 +118,11 @@ class _EditItemFormState extends State<EditItemForm> {
               ),
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, routeName),
+              onTap: () => Navigator.pushNamed(
+                context,
+                SearchWithDropdown.routeName,
+                arguments: SearchType.searchAddress,
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: BlocBuilder<EditItemBloc, EditItemState>(
@@ -129,9 +134,6 @@ class _EditItemFormState extends State<EditItemForm> {
                     return TextFormField(
                       maxLines: 5,
                       initialValue: initialValue,
-                      onChanged: (value) => setState(() {
-                        textInput['address'] = value;
-                      }),
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
                         hintText: 'Address where the item is stored',

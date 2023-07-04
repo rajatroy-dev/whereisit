@@ -12,6 +12,7 @@ class SwdItemAddress extends StatefulWidget {
 class _SwdItemAddressState extends State<SwdItemAddress> {
   @override
   Widget build(BuildContext context) {
+    // TODO: Handle new address
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<EditItemBloc, EditItemState>(
