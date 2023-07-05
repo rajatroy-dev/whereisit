@@ -17,7 +17,8 @@ class _SwdItemAddressState extends State<SwdItemAddress> {
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<EditItemBloc, EditItemState>(
         builder: (context, state) {
-          if (state is EditItemAddressSearchSuccess) {
+          if (state is EditItemAddressLoadSuccess ||
+              state is EditItemAddressSearchSuccess) {
             var addresses = state.item.uiSearchedAddresses ?? <String>[];
             return ListView.builder(
               itemCount: addresses.length,
@@ -26,6 +27,9 @@ class _SwdItemAddressState extends State<SwdItemAddress> {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: GestureDetector(
                     onTap: () {
+                      BlocProvider.of<EditItemBloc>(context).add(
+                        EditItemAddressSelect(addresses[index]),
+                      );
                       Navigator.pop(context);
                     },
                     child: Text(addresses[index]),

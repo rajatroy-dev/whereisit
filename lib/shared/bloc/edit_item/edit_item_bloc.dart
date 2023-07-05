@@ -188,6 +188,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCatSubcat': item.uiCatSubcat,
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
+            'uiAddress': item.uiAddress,
           });
         }
 
@@ -214,6 +215,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCatSubcat': item.uiCatSubcat,
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
+            'uiAddress': item.uiAddress,
           });
         } else {
           item.uiImagesList = temp;
@@ -243,6 +245,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemFavoriteLabelSuccess(item));
@@ -269,6 +272,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               'uiCatSubcat': item.uiCatSubcat,
               'uiCoordinates': item.uiCoordinates,
               'uiSearchedAddresses': item.uiSearchedAddresses,
+              'uiAddress': item.uiAddress,
             });
 
             emit(EditItemLoadExistingSuccess(item));
@@ -325,6 +329,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemNewAddSuccess(item));
@@ -343,6 +348,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemNewInitial(item));
@@ -366,6 +372,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': catSubcat,
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemCategoryNewSuccess(item));
@@ -390,6 +397,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': catSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemCategoryLoadSuccess(item));
@@ -421,6 +429,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -451,6 +460,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -500,6 +510,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCatSubcat': catSubcat,
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
+            'uiAddress': item.uiAddress,
           });
 
           emit(EditItemCategoryLoadSuccess(item));
@@ -525,6 +536,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': catSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemCategoryUpdateInitialSuccess(item));
@@ -637,6 +649,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemCategoryUpdateSuccess(item));
@@ -700,6 +713,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -743,6 +757,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         filteredTagWithSearch = true;
@@ -765,6 +780,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -810,6 +826,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -832,6 +849,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagsOnSelectionCountUpdateSuccess(item));
@@ -895,6 +913,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagsSelectionSuccess(item));
@@ -970,6 +989,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCatSubcat': item.uiCatSubcat,
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
+          'uiAddress': item.uiAddress,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -998,6 +1018,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': coordinatesTwoDecimal,
         'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemLocationSelectIgnoreSuccess(item));
@@ -1022,9 +1043,34 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': coordinatesTwoDecimal,
         'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemLocationSelectSuccess(item));
+    });
+
+    on<EditItemAddressLoad>((event, emit) {
+      var addresses = <String>[];
+
+      for (var element in list) {
+        addresses.add(element.location);
+      }
+
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': addresses,
+        'uiAddress': item.uiAddress,
+      });
+
+      emit(EditItemAddressLoadSuccess(item));
     });
 
     on<EditItemAddressSearch>((event, emit) {
@@ -1047,6 +1093,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': filtered,
+        'uiAddress': item.uiAddress,
       });
 
       emit(EditItemAddressSearchSuccess(item));
@@ -1063,7 +1110,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiError': item.uiError,
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': event.address,
+        'uiSearchedAddresses': [],
+        'uiAddress': event.address,
       });
 
       emit(EditItemAddressSelectionSuccess(item));

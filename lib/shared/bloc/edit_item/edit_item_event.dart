@@ -165,6 +165,8 @@ class EditItemLocationSelected extends EditItemEvent {
   EditItemLocationSelected(this.location);
 }
 
+class EditItemAddressLoad extends EditItemEvent {}
+
 class EditItemAddressSearch extends EditItemEvent {
   final String searchString;
 

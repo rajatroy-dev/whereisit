@@ -26,7 +26,7 @@ class _SearchTagsScreenState extends State<SearchTagsScreen> {
       },
       child: const AppScaffold(
         action: AppBarAction.searchTag,
-        body: SearchWithDropdown(searchType: SearchType.searchTag),
+        body: SearchWithDropdown(),
       ),
     );
   }
