@@ -1082,6 +1082,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
       }
 
+      // TODO: Handle Back button
       item = Item.forUi({
         'thumbnail': item.thumbnail,
         'uiTagsList': item.uiTagsList,
@@ -1093,7 +1094,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCatSubcat': item.uiCatSubcat,
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': filtered,
-        'uiAddress': item.uiAddress,
+        'uiAddress': filtered.isEmpty
+            ? '+ Add ${event.searchString} to list'
+            : item.uiAddress,
       });
 
       emit(EditItemAddressSearchSuccess(item));

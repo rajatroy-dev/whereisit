@@ -12,7 +12,6 @@ class SwdItemAddress extends StatefulWidget {
 class _SwdItemAddressState extends State<SwdItemAddress> {
   @override
   Widget build(BuildContext context) {
-    // TODO: Handle new address
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<EditItemBloc, EditItemState>(
@@ -20,6 +19,23 @@ class _SwdItemAddressState extends State<SwdItemAddress> {
           if (state is EditItemAddressLoadSuccess ||
               state is EditItemAddressSearchSuccess) {
             var addresses = state.item.uiSearchedAddresses ?? <String>[];
+            var newAddress = state.item.uiAddress ?? '';
+
+            if (addresses.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 5.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    BlocProvider.of<EditItemBloc>(context).add(
+                      EditItemAddressSelect(newAddress),
+                    );
+                  },
+                  child: Text(newAddress),
+                ),
+              );
+            }
+
             return ListView.builder(
               itemCount: addresses.length,
               itemBuilder: (context, index) {
@@ -27,10 +43,10 @@ class _SwdItemAddressState extends State<SwdItemAddress> {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: GestureDetector(
                     onTap: () {
+                      Navigator.pop(context);
                       BlocProvider.of<EditItemBloc>(context).add(
                         EditItemAddressSelect(addresses[index]),
                       );
-                      Navigator.pop(context);
                     },
                     child: Text(addresses[index]),
                   ),
