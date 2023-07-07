@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/enums/search_type.enum.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
@@ -26,7 +26,7 @@ class _SearchTagsScreenState extends State<SearchTagsScreen> {
       },
       child: const AppScaffold(
         action: AppBarAction.searchTag,
-        body: SearchWithDropdown(),
+        body: SearchWithDropdownScreen(),
       ),
     );
   }

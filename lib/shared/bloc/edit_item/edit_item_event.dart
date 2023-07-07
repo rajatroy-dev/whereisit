@@ -178,3 +178,5 @@ class EditItemAddressSelect extends EditItemEvent {
 
   EditItemAddressSelect(this.address);
 }
+
+class EditItemAddressSelectIgnore extends EditItemEvent {}

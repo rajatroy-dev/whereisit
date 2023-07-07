@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 
 class SearchItemsScreen extends StatelessWidget {
   static const routeName = '/search-items';
@@ -12,7 +12,7 @@ class SearchItemsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const AppScaffold(
       action: AppBarAction.searchItem,
-      body: SearchWithDropdown(),
+      body: SearchWithDropdownScreen(),
     );
   }
 }

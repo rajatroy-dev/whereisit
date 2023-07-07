@@ -6,7 +6,7 @@ import 'package:whereisit/screens/map_location_selector/map_location_selector.sc
 import 'package:whereisit/shared/enums/search_type.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_state.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_type.enum.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/search_with_dropdown.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/methods/build_tags_list.dart';
 import 'package:whereisit/shared/validators/input_validator.dart';
@@ -120,7 +120,7 @@ class _EditItemFormState extends State<EditItemForm> {
             GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
-                SearchWithDropdown.routeName,
+                SearchWithDropdownScreen.routeName,
                 arguments: SearchType.searchAddress,
               ),
               child: Padding(
@@ -257,7 +257,7 @@ class _EditItemFormState extends State<EditItemForm> {
                 ),
                 onPressed: () => Navigator.pushNamed(
                   context,
-                  SearchWithDropdown.routeName,
+                  SearchWithDropdownScreen.routeName,
                 ),
                 icon: const Icon(Icons.add_rounded),
                 label: const Text('ADD TAGS'),

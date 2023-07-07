@@ -11,6 +11,7 @@ import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/item_details/item_details.screen.dart';
 import 'package:whereisit/screens/search_items/search_items.screen.dart';
+import 'package:whereisit/screens/search_with_dropdown/search_with_dropdown.screen.dart';
 import 'package:whereisit/screens/view_item/view_item.screen.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
           SearchItemsScreen.routeName: (context) => const SearchItemsScreen(),
           CategorySubcategoryScreen.routeName: (context) =>
               const CategorySubcategoryScreen(),
+          SearchWithDropdownScreen.routeName: (context) =>
+              const SearchWithDropdownScreen(),
         },
       ),
     );

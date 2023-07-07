@@ -129,3 +129,7 @@ class EditItemAddressSearchSuccess extends EditItemState {
 class EditItemAddressSelectionSuccess extends EditItemState {
   const EditItemAddressSelectionSuccess(Item item) : super(item);
 }
+
+class EditItemAddressSelectIgnoreSuccess extends EditItemState {
+  const EditItemAddressSelectIgnoreSuccess(Item item) : super(item);
+}

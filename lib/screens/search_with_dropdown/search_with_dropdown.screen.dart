@@ -4,14 +4,14 @@ import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/enums/search_type.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/swd_item_address/swd_item_address.viewgroup.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/swd_item_list_handler/swd_item_list_handler.viewgroup.dart';
-import 'package:whereisit/shared/widgets/search_with_dropdown/swd_tag_handler/swd_tag_handler.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/swd_item_address/swd_item_address.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/swd_item_list_handler/swd_item_list_handler.viewgroup.dart';
+import 'package:whereisit/screens/search_with_dropdown/swd_tag_handler/swd_tag_handler.viewgroup.dart';
 
-class SearchWithDropdown extends StatelessWidget {
+class SearchWithDropdownScreen extends StatelessWidget {
   static const routeName = '/search-with-dropdown';
 
-  const SearchWithDropdown({Key? key}) : super(key: key);
+  const SearchWithDropdownScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,17 @@ class SearchWithDropdown extends StatelessWidget {
     }
 
     if (searchType == SearchType.searchAddress) {
-      return const AppScaffold(
-        action: AppBarAction.searchItem,
-        body: SwdItemAddress(),
+      return WillPopScope(
+        onWillPop: () async {
+          BlocProvider.of<EditItemBloc>(context).add(
+            EditItemAddressSelectIgnore(),
+          );
+          return true;
+        },
+        child: const AppScaffold(
+          action: AppBarAction.searchItem,
+          body: SwdItemAddress(),
+        ),
       );
     } else if (searchType == SearchType.searchItem) {
       return const AppScaffold(
@@ -34,9 +42,17 @@ class SearchWithDropdown extends StatelessWidget {
       );
     } else if (searchType == SearchType.searchTag) {
       BlocProvider.of<EditItemBloc>(context).add(EditItemTagInitial());
-      return const AppScaffold(
-        action: AppBarAction.searchTag,
-        body: SwdTagHandler(),
+      return WillPopScope(
+        onWillPop: () async {
+          BlocProvider.of<EditItemBloc>(context).add(
+            EditItemTagSelectIgnore(),
+          );
+          return true;
+        },
+        child: const AppScaffold(
+          action: AppBarAction.searchTag,
+          body: SwdTagHandler(),
+        ),
       );
     }
 
