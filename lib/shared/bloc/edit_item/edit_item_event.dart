@@ -180,3 +180,19 @@ class EditItemAddressSelect extends EditItemEvent {
 }
 
 class EditItemAddressSelectIgnore extends EditItemEvent {}
+
+class EditItemPropertyLoad extends EditItemEvent {}
+
+class EditItemPropertySearch extends EditItemEvent {
+  final String searchString;
+
+  EditItemPropertySearch(this.searchString);
+}
+
+class EditItemPropertySelect extends EditItemEvent {
+  final String address;
+
+  EditItemPropertySelect(this.address);
+}
+
+class EditItemPropertySelectIgnore extends EditItemEvent {}

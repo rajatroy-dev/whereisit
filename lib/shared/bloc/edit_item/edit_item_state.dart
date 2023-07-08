@@ -133,3 +133,19 @@ class EditItemAddressSelectionSuccess extends EditItemState {
 class EditItemAddressSelectIgnoreSuccess extends EditItemState {
   const EditItemAddressSelectIgnoreSuccess(Item item) : super(item);
 }
+
+class EditItemPropertyLoadSuccess extends EditItemState {
+  const EditItemPropertyLoadSuccess(Item item) : super(item);
+}
+
+class EditItemPropertySearchSuccess extends EditItemState {
+  const EditItemPropertySearchSuccess(Item item) : super(item);
+}
+
+class EditItemPropertySelectionSuccess extends EditItemState {
+  const EditItemPropertySelectionSuccess(Item item) : super(item);
+}
+
+class EditItemPropertySelectIgnoreSuccess extends EditItemState {
+  const EditItemPropertySelectIgnoreSuccess(Item item) : super(item);
+}
