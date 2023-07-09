@@ -40,6 +40,8 @@ class Item {
     this.uiCoordinates,
     this.uiSearchedAddresses,
     this.uiAddress,
+    this.uiSearchedProperties,
+    this.uiProperty,
   });
 
   int? id;
@@ -67,6 +69,8 @@ class Item {
   LatLng? uiCoordinates;
   List<String>? uiSearchedAddresses;
   String? uiAddress;
+  List<String>? uiSearchedProperties;
+  String? uiProperty;
 
   factory Item.forUi(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -111,6 +115,8 @@ class Item {
             ),
         uiSearchedAddresses: json['uiSearchedAddresses'] ?? [],
         uiAddress: json['uiAddress'] ?? '',
+        uiSearchedProperties: json['uiSearchedProperties'] ?? [],
+        uiProperty: json['uiProperty'] ?? '',
       );
 
   factory Item.fromMap(Map<String, dynamic> json) => Item(

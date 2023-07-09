@@ -56,28 +56,33 @@ class _AppScaffoldState extends State<AppScaffold> {
   }
 
   _buildTitle() {
-    if (widget.action != null && widget.action == AppBarAction.searchTag) {
-      return ScaffoldSearchBar(
-        handleClear: () => textController.clear(),
-        searchHint: 'Search or add tags',
-        controller: textController,
-      );
-    } else if (widget.action != null &&
-        widget.action == AppBarAction.searchItem) {
-      return ScaffoldSearchBar(
-        handleClear: () => textController.clear(),
-        searchHint: 'Search items',
-        controller: textController,
-      );
-    } else if (widget.action != null &&
-        widget.action == AppBarAction.searchAddress) {
-      return ScaffoldSearchBar(
-        handleClear: () => textController.clear(),
-        searchHint: 'Search addresses',
-        controller: textController,
-      );
-    } else {
-      return const Text('WhereIsIt');
+    switch (widget.action) {
+      case AppBarAction.searchTag:
+        return ScaffoldSearchBar(
+          handleClear: () => textController.clear(),
+          searchHint: 'Search or add tags',
+          controller: textController,
+        );
+      case AppBarAction.searchItem:
+        return ScaffoldSearchBar(
+          handleClear: () => textController.clear(),
+          searchHint: 'Search items',
+          controller: textController,
+        );
+      case AppBarAction.searchAddress:
+        return ScaffoldSearchBar(
+          handleClear: () => textController.clear(),
+          searchHint: 'Search addresses',
+          controller: textController,
+        );
+      case AppBarAction.searchProperty:
+        return ScaffoldSearchBar(
+          handleClear: () => textController.clear(),
+          searchHint: 'Search properties',
+          controller: textController,
+        );
+      default:
+        return const Text('WhereIsIt');
     }
   }
 

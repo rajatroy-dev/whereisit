@@ -2,37 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
-// Stateful widget renders ListView efficiently
-class SwdItemProperty extends StatefulWidget {
-  const SwdItemProperty({Key? key}) : super(key: key);
+class SwdItemAddressHandler extends StatefulWidget {
+  const SwdItemAddressHandler({Key? key}) : super(key: key);
 
   @override
-  State<SwdItemProperty> createState() => _SwdItemPropertyState();
+  State<SwdItemAddressHandler> createState() => _SwdItemAddressHandlerState();
 }
 
-class _SwdItemPropertyState extends State<SwdItemProperty> {
+class _SwdItemAddressHandlerState extends State<SwdItemAddressHandler> {
+  // TODO: Handle edit
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: BlocBuilder<EditItemBloc, EditItemState>(
         builder: (context, state) {
-          if (state is EditItemPropertyLoadSuccess ||
-              state is EditItemPropertySearchSuccess) {
-            var properties = state.item.uiSearchedProperties ?? <String>[];
-            var newProperty = state.item.uiProperty ?? '';
+          if (state is EditItemAddressLoadSuccess ||
+              state is EditItemAddressSearchSuccess) {
+            var addresses = state.item.uiSearchedAddresses ?? <String>[];
+            var newAddress = state.item.uiAddress ?? '';
 
-            if (properties.isEmpty) {
+            if (addresses.isEmpty) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                     BlocProvider.of<EditItemBloc>(context).add(
-                      EditItemPropertySelect(newProperty),
+                      EditItemAddressSelect(newAddress),
                     );
                   },
-                  child: Text(newProperty),
+                  child: Text(newAddress),
                 ),
               );
             }
@@ -46,7 +46,7 @@ class _SwdItemPropertyState extends State<SwdItemProperty> {
                     onTap: () {
                       Navigator.pop(context);
                       BlocProvider.of<EditItemBloc>(context).add(
-                        EditItemPropertySelect(addresses[index]),
+                        EditItemAddressSelect(addresses[index]),
                       );
                     },
                     child: Text(addresses[index]),
@@ -55,7 +55,7 @@ class _SwdItemPropertyState extends State<SwdItemProperty> {
               },
             );
           }
-          return const Text("No properties to display!");
+          return const Text("No addresses to display!");
         },
       ),
     );
