@@ -190,9 +190,9 @@ class EditItemPropertySearch extends EditItemEvent {
 }
 
 class EditItemPropertySelect extends EditItemEvent {
-  final String address;
+  final String property;
 
-  EditItemPropertySelect(this.address);
+  EditItemPropertySelect(this.property);
 }
 
 class EditItemPropertySelectIgnore extends EditItemEvent {}

@@ -189,6 +189,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
             'uiAddress': item.uiAddress,
+            'uiSearchedProperties': item.uiSearchedProperties,
+            'uiProperty': item.uiProperty,
           });
         }
 
@@ -216,6 +218,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
             'uiAddress': item.uiAddress,
+            'uiSearchedProperties': item.uiSearchedProperties,
+            'uiProperty': item.uiProperty,
           });
         } else {
           item.uiImagesList = temp;
@@ -246,6 +250,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemFavoriteLabelSuccess(item));
@@ -273,6 +279,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               'uiCoordinates': item.uiCoordinates,
               'uiSearchedAddresses': item.uiSearchedAddresses,
               'uiAddress': item.uiAddress,
+              'uiSearchedProperties': item.uiSearchedProperties,
+              'uiProperty': item.uiProperty,
             });
 
             emit(EditItemLoadExistingSuccess(item));
@@ -330,6 +338,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemNewAddSuccess(item));
@@ -349,6 +359,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemNewInitial(item));
@@ -373,6 +385,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': item.uiSearchedAddresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemCategoryNewSuccess(item));
@@ -398,6 +412,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemCategoryLoadSuccess(item));
@@ -430,6 +446,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -461,6 +479,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemCategorySelectSuccess(item));
@@ -511,6 +531,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             'uiCoordinates': item.uiCoordinates,
             'uiSearchedAddresses': item.uiSearchedAddresses,
             'uiAddress': item.uiAddress,
+            'uiSearchedProperties': item.uiSearchedProperties,
+            'uiProperty': item.uiProperty,
           });
 
           emit(EditItemCategoryLoadSuccess(item));
@@ -537,6 +559,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemCategoryUpdateInitialSuccess(item));
@@ -650,6 +674,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemCategoryUpdateSuccess(item));
@@ -714,6 +740,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -758,6 +786,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         filteredTagWithSearch = true;
@@ -781,6 +811,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -827,6 +859,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -850,6 +884,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagsOnSelectionCountUpdateSuccess(item));
@@ -914,6 +950,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagsSelectionSuccess(item));
@@ -990,6 +1028,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           'uiCoordinates': item.uiCoordinates,
           'uiSearchedAddresses': item.uiSearchedAddresses,
           'uiAddress': item.uiAddress,
+          'uiSearchedProperties': item.uiSearchedProperties,
+          'uiProperty': item.uiProperty,
         });
 
         emit(EditItemTagToggleSuccess(item));
@@ -1019,6 +1059,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': coordinatesTwoDecimal,
         'uiSearchedAddresses': item.uiSearchedAddresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemLocationSelectIgnoreSuccess(item));
@@ -1044,6 +1086,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': coordinatesTwoDecimal,
         'uiSearchedAddresses': item.uiSearchedAddresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemLocationSelectSuccess(item));
@@ -1068,6 +1112,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': addresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemAddressLoadSuccess(item));
@@ -1097,6 +1143,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiAddress': filtered.isEmpty
             ? '+ Add ${event.searchString} to list'
             : item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemAddressSearchSuccess(item));
@@ -1115,6 +1163,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': [],
         'uiAddress': event.address,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemAddressSelectionSuccess(item));
@@ -1139,9 +1189,106 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         'uiCoordinates': item.uiCoordinates,
         'uiSearchedAddresses': addresses,
         'uiAddress': item.uiAddress,
+        'uiSearchedProperties': item.uiSearchedProperties,
+        'uiProperty': item.uiProperty,
       });
 
       emit(EditItemAddressSelectIgnoreSuccess(item));
+    });
+
+    on<EditItemPropertyLoad>((event, emit) {
+      var properties = <String>[];
+
+      // TODO: Handle property
+
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
+        'uiSearchedProperties': properties,
+        'uiProperty': item.uiProperty,
+      });
+
+      emit(EditItemPropertyLoadSuccess(item));
+    });
+
+    on<EditItemPropertySearch>((event, emit) {
+      var filtered = <String>[];
+
+      // TODO: Handle property filter
+
+      // TODO: Handle Back button
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
+        'uiSearchedProperties': filtered,
+        'uiProperty': filtered.isEmpty
+            ? '+ Add ${event.searchString} to list'
+            : item.uiAddress,
+      });
+
+      emit(EditItemPropertySearchSuccess(item));
+    });
+
+    on<EditItemPropertySelect>((event, emit) {
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
+        'uiSearchedProperties': [],
+        'uiProperty': event.property,
+      });
+
+      emit(EditItemPropertySelectionSuccess(item));
+    });
+
+    on<EditItemPropertySelectIgnore>((event, emit) {
+      var properties = <String>[];
+
+      // TODO: Handle Property
+
+      item = Item.forUi({
+        'thumbnail': item.thumbnail,
+        'uiTagsList': item.uiTagsList,
+        'uiImagesList': item.uiImagesList,
+        'uiSelectedCategory': item.uiSelectedCategory,
+        'uiCardData': item.uiCardData,
+        'uiTagCount': item.uiTagCount,
+        'uiError': item.uiError,
+        'uiCatSubcat': item.uiCatSubcat,
+        'uiCoordinates': item.uiCoordinates,
+        'uiSearchedAddresses': item.uiSearchedAddresses,
+        'uiAddress': item.uiAddress,
+        'uiSearchedProperties': properties,
+        'uiProperty': item.uiProperty,
+      });
+
+      emit(EditItemPropertySelectIgnoreSuccess(item));
     });
 
     on<EditItemSubmit>(

@@ -206,17 +206,22 @@ class _EditItemFormState extends State<EditItemForm> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: TextFormField(
-                initialValue: textInput['property'],
-                onChanged: (value) => setState(() {
-                  textInput['property'] = value;
-                }),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(10.0),
-                  hintText: 'E.g., home, office, etc.',
-                  labelText: 'Property',
-                ),
-                validator: _validator.property,
+              child: BlocBuilder<EditItemBloc, EditItemState>(
+                builder: (context, state) {
+                  var initialValue = textInput['property'];
+                  if (state is EditItemPropertySelectionSuccess) {
+                    initialValue = state.item.uiProperty;
+                  }
+                  return TextFormField(
+                    initialValue: initialValue,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10.0),
+                      hintText: 'E.g., home, office, etc.',
+                      labelText: 'Property',
+                    ),
+                    validator: _validator.property,
+                  );
+                },
               ),
             ),
             Padding(
