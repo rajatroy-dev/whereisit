@@ -88,12 +88,14 @@ class EditItemSubmit extends EditItemEvent {
 }
 
 class EditItemImageAdd extends EditItemEvent {
+  static const name = 'EditItemImageAdd';
   final String imagePath;
 
   EditItemImageAdd(this.imagePath);
 }
 
 class EditItemImageRemove extends EditItemEvent {
+  static const name = 'EditItemImageRemove';
   final String imagePath;
 
   EditItemImageRemove(this.imagePath);

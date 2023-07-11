@@ -172,27 +172,53 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     }
   }
 
+  _buildItem(String event, Item item, List params) {
+    Map<String, dynamic> itemParams = {
+      'thumbnail': item.thumbnail,
+      'uiTagsList': item.uiTagsList,
+      'uiImagesList': item.uiImagesList,
+      'uiSelectedCategory': item.uiSelectedCategory,
+      'uiCardData': item.uiCardData,
+      'uiTagCount': item.uiTagCount,
+      'uiError': item.uiError,
+      'uiCatSubcat': item.uiCatSubcat,
+      'uiCoordinates': item.uiCoordinates,
+      'uiSearchedAddresses': item.uiSearchedAddresses,
+      'uiAddress': item.uiAddress,
+      'uiSearchedProperties': item.uiSearchedProperties,
+      'uiProperty': item.uiProperty,
+    };
+
+    switch (event) {
+      case EditItemImageAdd.name:
+        if (item.uiImagesList != null && item.uiImagesList!.isNotEmpty) {
+          itemParams['uiImagesList'].add(params[0]);
+        }
+        if (item.uiImagesList != null) {
+          itemParams['thumbnail'] = params[0];
+          itemParams['uiImagesList'].add(params[0]);
+        }
+        break;
+      case EditItemImageRemove.name:
+        if (params.length == 2) {
+          itemParams['thumbnail'] = params[0];
+          itemParams['uiImagesList'] = params[1];
+        }
+        if (params.length == 1) {
+          itemParams['uiImagesList'] = params[0];
+        }
+        break;
+      default:
+        return;
+    }
+
+    return Item.forUi(itemParams);
+  }
+
   EditItemBloc(Item item) : super(EditItemInitial(item)) {
     on<EditItemImageAdd>(
       (event, emit) {
-        if (item.uiImagesList != null) item.uiImagesList!.add(event.imagePath);
-        if (item.uiImagesList != null && item.uiImagesList!.length == 1) {
-          item = Item.forUi({
-            'thumbnail': event.imagePath,
-            'uiTagsList': item.uiTagsList,
-            'uiImagesList': item.uiImagesList,
-            'uiSelectedCategory': item.uiSelectedCategory,
-            'uiCardData': item.uiCardData,
-            'uiTagCount': item.uiTagCount,
-            'uiError': item.uiError,
-            'uiCatSubcat': item.uiCatSubcat,
-            'uiCoordinates': item.uiCoordinates,
-            'uiSearchedAddresses': item.uiSearchedAddresses,
-            'uiAddress': item.uiAddress,
-            'uiSearchedProperties': item.uiSearchedProperties,
-            'uiProperty': item.uiProperty,
-          });
-        }
+        item = _buildItem(EditItemImageAdd.name, item, [event.imagePath]);
 
         emit(EditItemImageAddSuccess(item));
       },
@@ -206,23 +232,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
         temp.remove(event.imagePath);
         if (temp.isEmpty) {
-          item = Item.forUi({
-            'thumbnail': '',
-            'uiTagsList': item.uiTagsList,
-            'uiImagesList': [],
-            'uiSelectedCategory': item.uiSelectedCategory,
-            'uiCardData': item.uiCardData,
-            'uiTagCount': item.uiTagCount,
-            'uiError': item.uiError,
-            'uiCatSubcat': item.uiCatSubcat,
-            'uiCoordinates': item.uiCoordinates,
-            'uiSearchedAddresses': item.uiSearchedAddresses,
-            'uiAddress': item.uiAddress,
-            'uiSearchedProperties': item.uiSearchedProperties,
-            'uiProperty': item.uiProperty,
-          });
+          item = _buildItem(EditItemImageRemove.name, item, ['', []]);
         } else {
-          item.uiImagesList = temp;
+          item = _buildItem(EditItemImageRemove.name, item, [temp]);
         }
 
         emit(EditItemImageRemoveSuccess(item));
