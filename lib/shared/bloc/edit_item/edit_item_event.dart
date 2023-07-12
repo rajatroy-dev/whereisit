@@ -4,18 +4,21 @@ part of 'edit_item_bloc.dart';
 abstract class EditItemEvent {}
 
 class EditItemFavoriteLabel extends EditItemEvent {
+  static const name = 'EditItemFavoriteLabel';
   final CardData itemData;
 
   EditItemFavoriteLabel(this.itemData);
 }
 
 class EditItemLoadExisting extends EditItemEvent {
+  static const name = 'EditItemLoadExisting';
   final int id;
 
   EditItemLoadExisting(this.id);
 }
 
 class EditItemExisting extends EditItemEvent {
+  static const name = 'EditItemExisting';
   final int id;
 
   EditItemExisting(this.id);

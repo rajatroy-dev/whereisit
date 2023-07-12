@@ -208,6 +208,22 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           itemParams['uiImagesList'] = params[0];
         }
         break;
+      case EditItemFavoriteLabel.name:
+        itemParams['uiCardData'] = params[0];
+        break;
+      case EditItemLoadExisting.name:
+        itemParams['id'] = params[0];
+        itemParams['name'] = params[1];
+        itemParams['thumbnail'] = params[2];
+        itemParams['createdAt'] = params[3];
+        itemParams['favorite'] = params[4];
+        itemParams['uiTagsList'] = params[5];
+        itemParams['uiImagesList'] = params[6];
+        itemParams['uiCardData'] = params[7];
+        break;
+      case EditItemExisting.name:
+        itemParams['uiCardData'] = params[0];
+        break;
       default:
         return;
     }
@@ -250,21 +266,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         }
       }
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': cardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemFavoriteLabel.name, item, [cardData]);
 
       emit(EditItemFavoriteLabelSuccess(item));
     });
@@ -273,27 +275,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         for (var element in list) {
           if (element.id == event.id.toString()) {
-            item = Item.forUi({
-              'id': element.id,
-              'name': element.title,
-              'thumbnail': element.imageSrc,
-              'createdAt': element.createdAt,
-              'favorite': element.isFavorite ?? false,
-              'uiTagsList': element.tags,
-              'uiImagesList': [
+            item = _buildItem(
+              EditItemLoadExisting.name,
+              item,
+              // TODO: Handle imagesList, location, quantity
+              [
+                element.id,
+                element.title,
                 element.imageSrc,
-              ], // TODO: Handle imagesList, location, quantity
-              'uiSelectedCategory': item.uiSelectedCategory,
-              'uiCardData': element,
-              'uiTagCount': item.uiTagCount,
-              'uiError': item.uiError,
-              'uiCatSubcat': item.uiCatSubcat,
-              'uiCoordinates': item.uiCoordinates,
-              'uiSearchedAddresses': item.uiSearchedAddresses,
-              'uiAddress': item.uiAddress,
-              'uiSearchedProperties': item.uiSearchedProperties,
-              'uiProperty': item.uiProperty,
-            });
+                element.createdAt,
+                element.isFavorite ?? false,
+                element.tags,
+                [element.imageSrc],
+                element,
+              ],
+            );
 
             emit(EditItemLoadExistingSuccess(item));
           }
@@ -318,6 +314,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             createdAt: cardData.createdAt,
             isFavorite: cardData.isFavorite ?? false,
           );
+          item = _buildItem(EditItemExisting.name, item, [element]);
         }
       }
 
