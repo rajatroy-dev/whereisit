@@ -224,6 +224,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       case EditItemExisting.name:
         itemParams['uiCardData'] = params[0];
         break;
+      case EditItemNewAdd.name:
+        itemParams['uiCardData'] = params[0];
+        break;
+      case EditItemNewFirstImage.name:
+        itemParams['thumbnail'] = params[0];
+        itemParams['uiTagsList'] = <Tag>[];
+        itemParams['uiImagesList'] = params;
+        itemParams['uiSelectedCategory'] = '';
+        break;
+      case EditItemCategoryNew.name:
+        itemParams['uiCatSubcat'] = params[0];
+        break;
       default:
         return;
     }
@@ -335,42 +347,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
       list.add(cardData);
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': cardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemNewAdd.name, item, [cardData]);
 
       emit(EditItemNewAddSuccess(item));
     });
 
     on<EditItemNewFirstImage>(
       (event, emit) {
-        item = Item.forUi({
-          'thumbnail': event.image,
-          'uiTagsList': <Tag>[],
-          'uiImagesList': [event.image],
-          'uiSelectedCategory': '',
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(EditItemNewFirstImage.name, item, [event.image]);
 
         emit(EditItemNewInitial(item));
       },
@@ -382,21 +366,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         subcategories: subCategories,
       );
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': catSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemCategoryNew.name, item, [catSubcat]);
 
       emit(EditItemCategoryNewSuccess(item));
     });

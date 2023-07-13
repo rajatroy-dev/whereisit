@@ -25,12 +25,14 @@ class EditItemExisting extends EditItemEvent {
 }
 
 class EditItemNewFirstImage extends EditItemEvent {
+  static const name = 'EditItemNewFirstImage';
   final String image;
 
   EditItemNewFirstImage(this.image);
 }
 
 class EditItemNewAdd extends EditItemEvent {
+  static const name = 'EditItemNewAdd';
   final CardData itemData;
 
   EditItemNewAdd(this.itemData);
@@ -104,7 +106,9 @@ class EditItemImageRemove extends EditItemEvent {
   EditItemImageRemove(this.imagePath);
 }
 
-class EditItemCategoryNew extends EditItemEvent {}
+class EditItemCategoryNew extends EditItemEvent {
+  static const name = 'EditItemCategoryNew';
+}
 
 class EditItemCategoryLoad extends EditItemEvent {}
 
