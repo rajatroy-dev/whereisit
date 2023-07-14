@@ -110,7 +110,9 @@ class EditItemCategoryNew extends EditItemEvent {
   static const name = 'EditItemCategoryNew';
 }
 
-class EditItemCategoryLoad extends EditItemEvent {}
+class EditItemCategoryLoad extends EditItemEvent {
+  static const name = 'EditItemCategoryLoad';
+}
 
 class EditItemCategoryAdd extends EditItemEvent {
   final String category;
@@ -127,12 +129,14 @@ class EditItemSubcategoryAdd extends EditItemEvent {
 class EditItemCategoryEditIgnore extends EditItemEvent {}
 
 class EditItemCategorySelect extends EditItemEvent {
+  static const name = 'EditItemCategorySelect';
   final String category;
 
   EditItemCategorySelect(this.category);
 }
 
 class EditItemSubcategorySelect extends EditItemEvent {
+  static const name = 'EditItemSubcategorySelect';
   final Map<String, String> categorySubcategory;
 
   EditItemSubcategorySelect(this.categorySubcategory);

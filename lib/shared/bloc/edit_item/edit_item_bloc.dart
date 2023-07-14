@@ -236,6 +236,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       case EditItemCategoryNew.name:
         itemParams['uiCatSubcat'] = params[0];
         break;
+      case EditItemCategoryLoad.name:
+        itemParams['uiCatSubcat'] = params[0];
+        break;
+      case EditItemCategorySelect.name:
+        itemParams['uiSelectedCategory'] = params[0];
+        break;
+      case EditItemSubcategorySelect.name:
+        itemParams['uiSelectedCategory'] = params[0];
+        break;
       default:
         return;
     }
@@ -379,21 +388,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           subcategories: subCategories,
         );
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': item.uiTagsList,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': catSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(EditItemCategoryLoad.name, item, [catSubcat]);
 
         emit(EditItemCategoryLoadSuccess(item));
       },
@@ -413,21 +408,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         selectedCategorySubCategory = event.category;
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': item.uiTagsList,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': selectedCategorySubCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(
+          EditItemCategorySelect.name,
+          item,
+          [selectedCategorySubCategory],
+        );
 
         emit(EditItemCategorySelectSuccess(item));
       },
@@ -446,21 +431,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         selectedCategorySubCategory = '$category > $subcategory';
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': item.uiTagsList,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': selectedCategorySubCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(
+          EditItemSubcategorySelect.name,
+          item,
+          [selectedCategorySubCategory],
+        );
 
         emit(EditItemCategorySelectSuccess(item));
       },
