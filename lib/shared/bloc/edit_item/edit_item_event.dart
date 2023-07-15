@@ -121,6 +121,7 @@ class EditItemCategoryAdd extends EditItemEvent {
 }
 
 class EditItemSubcategoryAdd extends EditItemEvent {
+  static const name = 'EditItemSubcategoryAdd';
   final Map<String, List<String>> subCategory;
 
   EditItemSubcategoryAdd(this.subCategory);
@@ -143,6 +144,7 @@ class EditItemSubcategorySelect extends EditItemEvent {
 }
 
 class EditItemCategoryUpdateInitial extends EditItemEvent {
+  static const name = 'EditItemCategoryUpdateInitial';
   final String? category;
 
   EditItemCategoryUpdateInitial({this.category});
@@ -160,7 +162,9 @@ class EditItemSubcategoryChange extends EditItemEvent {
   EditItemSubcategoryChange(this.newSubcategory);
 }
 
-class EditItemCategoryUpdate extends EditItemEvent {}
+class EditItemCategoryUpdate extends EditItemEvent {
+  static const name = 'EditItemCategoryUpdate';
+}
 
 class EditItemSubcategoryUpdate extends EditItemEvent {
   final String subCategory;
