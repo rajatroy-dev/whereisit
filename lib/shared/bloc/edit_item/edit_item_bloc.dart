@@ -254,6 +254,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       case EditItemCategoryUpdate.name:
         itemParams['uiSelectedCategory'] = params[0];
         break;
+      case EditItemTagInitial.name:
+        itemParams['uiTagsList'] = params[0];
+        break;
+      case EditItemTagSearch.name:
+        itemParams['uiTagsList'] = params[0];
+        break;
+      case EditItemTagToggle.name:
+        itemParams['uiTagsList'] = params[0];
+        break;
       default:
         return;
     }
@@ -658,21 +667,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           }
         }
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': editedTags,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(EditItemTagInitial.name, item, [editedTags]);
 
         emit(EditItemTagToggleSuccess(item));
       },
@@ -704,21 +699,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           ];
         }
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': tempTags,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(EditItemTagSearch.name, item, [tempTags]);
 
         filteredTagWithSearch = true;
         emit(EditItemTagSearchSuccess(item));
@@ -729,21 +710,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       (event, emit) {
         _toggleTagSelection(event);
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': filteredTagWithSearch ? [event.tag] : editedTags,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(
+          EditItemTagToggle.name,
+          item,
+          [
+            filteredTagWithSearch ? [event.tag] : editedTags,
+          ],
+        );
 
         emit(EditItemTagToggleSuccess(item));
         filteredTagWithSearch = false;

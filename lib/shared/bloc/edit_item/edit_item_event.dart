@@ -38,9 +38,12 @@ class EditItemNewAdd extends EditItemEvent {
   EditItemNewAdd(this.itemData);
 }
 
-class EditItemTagInitial extends EditItemEvent {}
+class EditItemTagInitial extends EditItemEvent {
+  static const name = 'EditItemTagInitial';
+}
 
 class EditItemTagSearch extends EditItemEvent {
+  static const name = 'EditItemTagSearch';
   final String tag;
 
   EditItemTagSearch(this.tag);
@@ -53,6 +56,7 @@ class EditItemTagAdd extends EditItemEvent {
 }
 
 class EditItemTagToggle extends EditItemEvent {
+  static const name = 'EditItemTagToggle';
   final Tag tag;
 
   EditItemTagToggle(this.tag);
