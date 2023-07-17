@@ -50,6 +50,7 @@ class EditItemTagSearch extends EditItemEvent {
 }
 
 class EditItemTagAdd extends EditItemEvent {
+  static const name = 'EditItemTagAdd';
   final Tag? tag;
 
   EditItemTagAdd(this.tag);
@@ -75,10 +76,12 @@ class EditItemTagDelete extends EditItemEvent {
 }
 
 class EditItemTagSelectIgnore extends EditItemEvent {
+  static const name = 'EditItemTagSelectIgnore';
   EditItemTagSelectIgnore();
 }
 
 class EditItemTagUpdateCount extends EditItemEvent {
+  static const name = 'EditItemTagUpdateCount';
   final int count;
 
   EditItemTagUpdateCount(this.count);
