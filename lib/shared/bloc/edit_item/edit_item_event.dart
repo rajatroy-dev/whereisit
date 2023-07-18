@@ -70,6 +70,7 @@ class EditItemTagRemove extends EditItemEvent {
 }
 
 class EditItemTagDelete extends EditItemEvent {
+  static const name = 'EditItemTagDelete';
   final Tag tag;
 
   EditItemTagDelete(this.tag);
@@ -181,9 +182,12 @@ class EditItemSubcategoryUpdate extends EditItemEvent {
 
 class EditItemLocationLoad extends EditItemEvent {}
 
-class EditItemLocationSelectIgnore extends EditItemEvent {}
+class EditItemLocationSelectIgnore extends EditItemEvent {
+  static const name = 'EditItemLocationSelectIgnore';
+}
 
 class EditItemLocationSelected extends EditItemEvent {
+  static const name = 'EditItemLocationSelected';
   final LatLng location;
 
   EditItemLocationSelected(this.location);

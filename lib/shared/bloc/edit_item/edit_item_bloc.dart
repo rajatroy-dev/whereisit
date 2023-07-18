@@ -273,6 +273,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         itemParams['uiTagsList'] = params[0];
         itemParams['uiTagCount'] = params[1];
         break;
+      case EditItemTagDelete.name:
+        itemParams['uiTagsList'] = params[0];
+        break;
+      case EditItemLocationSelectIgnore.name:
+        itemParams['uiCoordinates'] = params[0];
+        break;
+      case EditItemLocationSelected.name:
+        itemParams['uiCoordinates'] = params[0];
+        break;
       default:
         return;
     }
@@ -901,21 +910,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           selectedTagCount--;
         }
 
-        item = Item.forUi({
-          'thumbnail': item.thumbnail,
-          'uiTagsList': editedTags,
-          'uiImagesList': item.uiImagesList,
-          'uiSelectedCategory': item.uiSelectedCategory,
-          'uiCardData': item.uiCardData,
-          'uiTagCount': item.uiTagCount,
-          'uiError': item.uiError,
-          'uiCatSubcat': item.uiCatSubcat,
-          'uiCoordinates': item.uiCoordinates,
-          'uiSearchedAddresses': item.uiSearchedAddresses,
-          'uiAddress': item.uiAddress,
-          'uiSearchedProperties': item.uiSearchedProperties,
-          'uiProperty': item.uiProperty,
-        });
+        item = _buildItem(EditItemTagDelete.name, item, [editedTags]);
 
         emit(EditItemTagToggleSuccess(item));
       },
@@ -932,21 +927,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         double.parse(selectedLocation.longitude.toStringAsFixed(2)),
       );
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': coordinatesTwoDecimal,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(
+        EditItemLocationSelectIgnore.name,
+        item,
+        [coordinatesTwoDecimal],
+      );
 
       emit(EditItemLocationSelectIgnoreSuccess(item));
     });
@@ -959,21 +944,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         double.parse(selectedLocation.longitude.toStringAsFixed(2)),
       );
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': coordinatesTwoDecimal,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(
+        EditItemLocationSelected.name,
+        item,
+        [coordinatesTwoDecimal],
+      );
 
       emit(EditItemLocationSelectSuccess(item));
     });
