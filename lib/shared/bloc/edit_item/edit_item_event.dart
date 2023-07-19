@@ -193,15 +193,19 @@ class EditItemLocationSelected extends EditItemEvent {
   EditItemLocationSelected(this.location);
 }
 
-class EditItemAddressLoad extends EditItemEvent {}
+class EditItemAddressLoad extends EditItemEvent {
+  static const name = 'EditItemAddressLoad';
+}
 
 class EditItemAddressSearch extends EditItemEvent {
+  static const name = 'EditItemAddressSearch';
   final String searchString;
 
   EditItemAddressSearch(this.searchString);
 }
 
 class EditItemAddressSelect extends EditItemEvent {
+  static const name = 'EditItemAddressSelect';
   final String address;
 
   EditItemAddressSelect(this.address);
