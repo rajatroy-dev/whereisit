@@ -211,11 +211,16 @@ class EditItemAddressSelect extends EditItemEvent {
   EditItemAddressSelect(this.address);
 }
 
-class EditItemAddressSelectIgnore extends EditItemEvent {}
+class EditItemAddressSelectIgnore extends EditItemEvent {
+  static const name = 'EditItemAddressSelectIgnore';
+}
 
-class EditItemPropertyLoad extends EditItemEvent {}
+class EditItemPropertyLoad extends EditItemEvent {
+  static const name = 'EditItemPropertyLoad';
+}
 
 class EditItemPropertySearch extends EditItemEvent {
+  static const name = 'EditItemPropertySearch';
   final String searchString;
 
   EditItemPropertySearch(this.searchString);

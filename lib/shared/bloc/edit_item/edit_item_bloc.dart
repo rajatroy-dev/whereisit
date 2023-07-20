@@ -293,6 +293,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         itemParams['uiSearchedAddresses'] = params[0];
         itemParams['uiAddress'] = params[1];
         break;
+      case EditItemAddressSelectIgnore.name:
+        itemParams['uiSearchedAddresses'] = params[0];
+        break;
+      case EditItemPropertyLoad.name:
+        itemParams['uiSearchedProperties'] = params[0];
+        break;
+      case EditItemPropertySearch.name:
+        itemParams['uiSearchedProperties'] = params[0];
+        itemParams['uiProperty'] = params[1];
+        break;
       default:
         return;
     }
@@ -1013,21 +1023,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         addresses.add(element.location);
       }
 
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': addresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': item.uiSearchedProperties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemAddressSelectIgnore.name, item, [addresses]);
 
       emit(EditItemAddressSelectIgnoreSuccess(item));
     });
@@ -1036,22 +1032,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       var properties = <String>[];
 
       // TODO: Handle property
-
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': properties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemPropertyLoad.name, item, [properties]);
 
       emit(EditItemPropertyLoadSuccess(item));
     });
@@ -1062,23 +1043,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       // TODO: Handle property filter
 
       // TODO: Handle Back button
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': filtered,
-        'uiProperty': filtered.isEmpty
-            ? '+ Add ${event.searchString} to list'
-            : item.uiAddress,
-      });
+      item = _buildItem(
+        EditItemPropertySearch.name,
+        item,
+        [
+          filtered,
+          filtered.isEmpty
+              ? '+ Add ${event.searchString} to list'
+              : item.uiAddress,
+        ],
+      );
 
       emit(EditItemPropertySearchSuccess(item));
     });
