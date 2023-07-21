@@ -227,9 +227,12 @@ class EditItemPropertySearch extends EditItemEvent {
 }
 
 class EditItemPropertySelect extends EditItemEvent {
+  static const name = 'EditItemPropertySelect';
   final String property;
 
   EditItemPropertySelect(this.property);
 }
 
-class EditItemPropertySelectIgnore extends EditItemEvent {}
+class EditItemPropertySelectIgnore extends EditItemEvent {
+  static const name = 'EditItemPropertySelectIgnore';
+}

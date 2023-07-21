@@ -1,13 +1,13 @@
 enum Status { loading, completed, error }
 
-class DBResponse<T> {
+class DatabaseResponse<T> {
   Status status;
   T? data;
   String? message;
 
-  DBResponse.loading(this.message) : status = Status.loading;
-  DBResponse.completed(this.data) : status = Status.completed;
-  DBResponse.error(this.message) : status = Status.error;
+  DatabaseResponse.loading(this.message) : status = Status.loading;
+  DatabaseResponse.completed(this.data) : status = Status.completed;
+  DatabaseResponse.error(this.message) : status = Status.error;
 
   @override
   String toString() {

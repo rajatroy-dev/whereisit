@@ -4,28 +4,25 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DBProvider {
-  DBProvider._();
-  static final DBProvider _dbProvider = DBProvider._();
+class DatabaseProvider {
+  static late Database _database;
 
-  static get instance => _dbProvider;
-
-  static Database? _db;
-  Future<Database?> get db async {
-    if (_db != null) {
-      return _db;
+  static Future<Database> get database async {
+    // ignore: unnecessary_null_comparison
+    if (_database != null) {
+      return _database;
     }
 
-    _db = await _initDb();
-    return _db;
+    _database = await _initDatabase();
+    return _database;
   }
 
-  static _initDb() async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, 'whereisit.db');
+  static Future<Database> _initDatabase() async {
+    final databasePath = await getDatabasesPath();
+    final pathToDatabase = join(databasePath, 'whereisit.db');
 
     var openDb = await openDatabase(
-      path,
+      pathToDatabase,
       onCreate: _onCreate,
       onConfigure: _onConfigure,
     );

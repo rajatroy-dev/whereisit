@@ -303,6 +303,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         itemParams['uiSearchedProperties'] = params[0];
         itemParams['uiProperty'] = params[1];
         break;
+      case EditItemPropertySelect.name:
+        itemParams['uiSearchedProperties'] = params[0];
+        itemParams['uiProperty'] = params[1];
+        break;
+      case EditItemPropertySelectIgnore.name:
+        itemParams['uiSearchedProperties'] = params[0];
+        break;
       default:
         return;
     }
@@ -1058,21 +1065,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     });
 
     on<EditItemPropertySelect>((event, emit) {
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': [],
-        'uiProperty': event.property,
-      });
+      item = _buildItem(
+        EditItemPropertySelect.name,
+        item,
+        [[], event.property],
+      );
 
       emit(EditItemPropertySelectionSuccess(item));
     });
@@ -1081,22 +1078,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       var properties = <String>[];
 
       // TODO: Handle Property
-
-      item = Item.forUi({
-        'thumbnail': item.thumbnail,
-        'uiTagsList': item.uiTagsList,
-        'uiImagesList': item.uiImagesList,
-        'uiSelectedCategory': item.uiSelectedCategory,
-        'uiCardData': item.uiCardData,
-        'uiTagCount': item.uiTagCount,
-        'uiError': item.uiError,
-        'uiCatSubcat': item.uiCatSubcat,
-        'uiCoordinates': item.uiCoordinates,
-        'uiSearchedAddresses': item.uiSearchedAddresses,
-        'uiAddress': item.uiAddress,
-        'uiSearchedProperties': properties,
-        'uiProperty': item.uiProperty,
-      });
+      item = _buildItem(EditItemPropertySelectIgnore.name, item, [properties]);
 
       emit(EditItemPropertySelectIgnoreSuccess(item));
     });
