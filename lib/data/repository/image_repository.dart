@@ -1,5 +1,5 @@
 import '../dao/image_dao.dart';
-import '../models/image.model.dart';
+import '../../models/image.model.dart';
 
 class ImageRepository {
   final dao = ImageDao();

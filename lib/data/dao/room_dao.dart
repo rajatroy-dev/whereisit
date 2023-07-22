@@ -1,17 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/room.model.dart';
+import '../database.dart';
+import '../../models/room.model.dart';
 
 class RoomDao {
   Future<int> insert(Room room) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.insert('properties', room.toMap());
   }
 
   Future<Room> findById(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
       'properties',
@@ -21,7 +19,7 @@ class RoomDao {
   }
 
   Future<List<Room>> findAll() async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     var res = await db.query('properties');
     List<Room> list =
@@ -31,7 +29,7 @@ class RoomDao {
   }
 
   Future<int> update(Room room) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.update(
       'properties',
@@ -42,7 +40,7 @@ class RoomDao {
   }
 
   Future<int> delete(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.delete(
       'properties',

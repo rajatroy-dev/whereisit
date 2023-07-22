@@ -1,5 +1,5 @@
 import '../dao/property_dao.dart';
-import '../models/property.model.dart';
+import '../../models/property.model.dart';
 
 class PropertyRepository {
   final dao = PropertyDao();

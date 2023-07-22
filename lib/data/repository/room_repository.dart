@@ -1,5 +1,5 @@
 import '../dao/room_dao.dart';
-import '../models/room.model.dart';
+import '../../models/room.model.dart';
 
 class RoomRepository {
   final dao = RoomDao();

@@ -1,17 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/tag_dao.model.dart';
+import '../database.dart';
+import '../../models/tag_dao.model.dart';
 
 class TagDao {
   Future<int> insert(TagModel tag) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.insert('tags', tag.toMap());
   }
 
   Future<TagModel> findById(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
       'tags',
@@ -21,7 +19,7 @@ class TagDao {
   }
 
   Future<List<TagModel>> findAll() async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     var res = await db.query('tags');
     List<TagModel> list =
@@ -31,7 +29,7 @@ class TagDao {
   }
 
   Future<int> update(TagModel tag) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.update(
       'tags',
@@ -42,7 +40,7 @@ class TagDao {
   }
 
   Future<int> delete(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.delete(
       'tags',

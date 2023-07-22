@@ -1,17 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/category.model.dart';
+import '../database.dart';
+import '../../models/category.model.dart';
 
 class CategoryDao {
   Future<int> insert(Category category) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.insert('categories', category.toMap());
   }
 
   Future<Category> findById(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
       'categories',
@@ -21,7 +19,7 @@ class CategoryDao {
   }
 
   Future<List<Category>> findAll() async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     var res = await db.query('categories');
     List<Category> list =
@@ -31,7 +29,7 @@ class CategoryDao {
   }
 
   Future<int> update(Category category) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.update(
       'categories',
@@ -42,7 +40,7 @@ class CategoryDao {
   }
 
   Future<int> delete(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.delete(
       'categories',

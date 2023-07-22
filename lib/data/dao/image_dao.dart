@@ -1,17 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/image.model.dart';
+import '../database.dart';
+import '../../models/image.model.dart';
 
 class ImageDao {
   Future<int> insert(Image image) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.insert('images', image.toMap());
   }
 
   Future<Image> findById(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
       'images',
@@ -21,7 +19,7 @@ class ImageDao {
   }
 
   Future<List<Image>> findAll() async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     var res = await db.query('images');
     List<Image> list =
@@ -31,7 +29,7 @@ class ImageDao {
   }
 
   Future<int> update(Image image) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.update(
       'images',
@@ -42,7 +40,7 @@ class ImageDao {
   }
 
   Future<int> delete(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.delete(
       'images',

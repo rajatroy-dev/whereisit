@@ -3,27 +3,29 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 
 import 'base.dart';
-import '../db/db_response.dart';
+import '../data/db_response.dart';
 import '../models/image.model.dart';
-import '../repository/image_repository.dart';
+import '../data/repository/image_repository.dart';
 
 class ImageBloc implements Bloc {
-  final _imageController = StreamController<DBResponse<Image>>.broadcast();
+  final _imageController =
+      StreamController<DatabaseResponse<Image>>.broadcast();
 
   get stream => _imageController.stream;
 
   Future<void> addImage(Image image) async {
     _imageController.sink
-        .add(DBResponse.loading('Inserting image to db . . .'));
+        .add(DatabaseResponse.loading('Inserting image to db . . .'));
 
     var imageRepo = ImageRepository();
     try {
       int imageId = await imageRepo.insert(image);
       image.id = imageId;
-      _imageController.sink.add(DBResponse.completed(image));
+      _imageController.sink.add(DatabaseResponse.completed(image));
     } on DatabaseException catch (e) {
       if (e.isUniqueConstraintError()) {
-        _imageController.sink.add(DBResponse.error('Image already exists!'));
+        _imageController.sink
+            .add(DatabaseResponse.error('Image already exists!'));
       }
     }
   }

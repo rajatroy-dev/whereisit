@@ -1,11 +1,9 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/display_item.model.dart';
+import '../database.dart';
+import '../../models/display_item.model.dart';
 
 class DisplayItemDao {
   Future<DisplayItem> findByItemId(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
         'SELECT '

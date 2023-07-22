@@ -1,17 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/location.model.dart';
+import '../database.dart';
+import '../../models/location.model.dart';
 
 class LocationDao {
   Future<int> insert(Location location) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.insert('locations', location.toMap());
   }
 
   Future<Location> findById(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
       'locations',
@@ -21,7 +19,7 @@ class LocationDao {
   }
 
   Future<List<Location>> findAll() async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     var res = await db.query('locations');
     List<Location> list =
@@ -31,7 +29,7 @@ class LocationDao {
   }
 
   Future<int> update(Location location) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.update(
       'locations',
@@ -42,7 +40,7 @@ class LocationDao {
   }
 
   Future<int> delete(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return db.delete(
       'locations',

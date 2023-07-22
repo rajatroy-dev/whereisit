@@ -1,11 +1,9 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../db/db_provider.dart';
-import '../models/display_tag.model.dart';
+import '../database.dart';
+import '../../models/display_tag.model.dart';
 
 class DisplayTagDao {
   Future<List<DisplayTag>> findByItemId(int id) async {
-    Database db = await DBProvider.instance.db;
+    final db = await DatabaseProvider.database;
 
     return await db.query(
         'SELECT '
