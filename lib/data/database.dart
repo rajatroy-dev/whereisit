@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
@@ -36,7 +33,7 @@ class DatabaseProvider {
 
   static Future<void> _onCreate(Database db, int version) async {
     // users
-    db.execute('CREATE TABLE users ('
+    await db.execute('CREATE TABLE users ('
         'id INTEGER PRIMARY KEY, '
         'name TEXT NOT NULL, '
         'username TEXT NOT NULL UNIQUE, '
@@ -45,6 +42,23 @@ class DatabaseProvider {
         'updated_by TEXT NOT NULL, '
         'updated_at TEXT NOT NULL'
         ');');
+
+    DateTime now = DateTime.now();
+    String isoDate = now.toIso8601String();
+    await db.execute('INSERT INTO users '
+        '(name, '
+        'username, '
+        'created_by, '
+        'created_at, '
+        'updated_by, '
+        'updated_at) '
+        'VALUES '
+        '(\'System\', '
+        'system, '
+        'system, '
+        '$isoDate, '
+        'system, '
+        '$isoDate);');
 
     // location is like a geographical location
     // It will have an address
@@ -75,6 +89,7 @@ class DatabaseProvider {
     // Room exists in a property
     await db.execute('CREATE TABLE rooms ('
         'id INTEGER PRIMARY KEY, '
+        'property_id INTEGER REFERENCES properties(id) ON DELETE RESTRICT, '
         'name TEXT NOT NULL, '
         'created_by TEXT NOT NULL, '
         'created_at TEXT NOT NULL, '
@@ -85,7 +100,7 @@ class DatabaseProvider {
     // The items stored will normally be categorized like books, electronics ...
     await db.execute('CREATE TABLE categories ('
         'id INTEGER PRIMARY KEY, '
-        'parent TEXT, '
+        'parent_category TEXT, '
         'name TEXT NOT NULL UNIQUE, '
         'created_by TEXT NOT NULL, '
         'created_at TEXT NOT NULL, '
@@ -93,8 +108,6 @@ class DatabaseProvider {
         'updated_at TEXT NOT NULL'
         ');');
 
-    DateTime now = DateTime.now();
-    String isoDate = now.toIso8601String();
     await db.execute('INSERT INTO categories '
         '(name, '
         'created_by, '

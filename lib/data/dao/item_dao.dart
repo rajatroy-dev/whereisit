@@ -2,37 +2,57 @@ import '../database.dart';
 import '../../models/item.model.dart';
 
 class ItemDao {
+  static const String table = 'items';
+
   Future<int> insert(Item item) async {
     final db = await DatabaseProvider.database;
+    final now = DateTime.now();
 
-    return await db.insert('items', item.toMap());
+    item = item.copyWith(
+      createdAt: now,
+      updatedAt: now,
+      // TODO: Currently we are only considering system user
+      createdBy: 'system',
+      updatedBy: 'system',
+    );
+
+    return await db.insert(table, item.toMap());
   }
 
   Future<Item> findById(int id) async {
     final db = await DatabaseProvider.database;
 
     return await db.query(
-      'items',
+      table,
       where: 'id = ?',
       whereArgs: [id],
+      limit: 1,
     ) as Item;
   }
 
   Future<List<Item>> findAll() async {
     final db = await DatabaseProvider.database;
 
-    var res = await db.query('items');
-    List<Item> list =
-        res.isNotEmpty ? res.map((e) => Item.fromMap(e)).toList() : [];
+    var res = await db.query(table);
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
 
     return list;
   }
 
   Future<int> update(Item item) async {
     final db = await DatabaseProvider.database;
+    final now = DateTime.now();
 
-    return db.update(
-      'items',
+    item = item.copyWith(
+      // TODO: Currently we are only considering system user
+      updatedAt: now,
+    );
+
+    return await db.update(
+      table,
       item.toMap(),
       where: 'id = ?',
       whereArgs: [item.id],
@@ -42,8 +62,8 @@ class ItemDao {
   Future<int> delete(int id) async {
     final db = await DatabaseProvider.database;
 
-    return db.delete(
-      'items',
+    return await db.delete(
+      table,
       where: 'id = ?',
       whereArgs: [id],
     );
