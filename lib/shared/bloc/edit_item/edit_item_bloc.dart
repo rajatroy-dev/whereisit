@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/cat_subcat.model.dart';
 import 'package:whereisit/models/item.model.dart';
-import 'package:whereisit/models/tag.model.dart';
+import 'package:whereisit/models/ui_tag.model.dart';
 
 part 'edit_item_event.dart';
 
@@ -112,17 +112,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   var newItem = CardData.empty();
 
-  var tags = <Tag>[
-    Tag(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
-    Tag(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
-    Tag(isSelected: false, isNew: false, item: 'Cane Corso'),
-    Tag(isSelected: false, isNew: false, item: 'Dobermann'),
-    Tag(isSelected: false, isNew: false, item: 'English Mastiff'),
-    Tag(isSelected: false, isNew: false, item: 'Finnish Hound'),
-    Tag(isSelected: false, isNew: false, item: 'Great Dane'),
+  var tags = <UiTag>[
+    UiTag(isSelected: false, isNew: false, item: 'Alaskan Malamute'),
+    UiTag(isSelected: false, isNew: false, item: 'Bohemian Shepherd'),
+    UiTag(isSelected: false, isNew: false, item: 'Cane Corso'),
+    UiTag(isSelected: false, isNew: false, item: 'Dobermann'),
+    UiTag(isSelected: false, isNew: false, item: 'English Mastiff'),
+    UiTag(isSelected: false, isNew: false, item: 'Finnish Hound'),
+    UiTag(isSelected: false, isNew: false, item: 'Great Dane'),
   ];
-  var editedTags = <Tag>[];
-  var tagsToHandleBackNavigation = <Tag>[];
+  var editedTags = <UiTag>[];
+  var tagsToHandleBackNavigation = <UiTag>[];
 
   var selectedTagCount = 0;
 
@@ -148,10 +148,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   _toggleTagSelection(dynamic event) {
     if (event is EditItemTagToggle) {
-      var editedTagsCopy = <Tag>[];
+      var editedTagsCopy = <UiTag>[];
       for (var element in editedTags) {
         editedTagsCopy.add(
-          Tag(
+          UiTag(
             isNew: element.isNew,
             item: element.item,
             value: element.value,
@@ -161,7 +161,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       }
       for (var i = 0; i < editedTagsCopy.length; i++) {
         if (editedTagsCopy[i].item == event.tag.item) {
-          editedTags[i] = Tag(
+          editedTags[i] = UiTag(
             isNew: event.tag.isNew,
             item: event.tag.item,
             isSelected: event.tag.isSelected ?? false,
@@ -229,7 +229,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         break;
       case EditItemNewFirstImage.name:
         itemParams['thumbnail'] = params[0];
-        itemParams['uiTagsList'] = <Tag>[];
+        itemParams['uiTagsList'] = <UiTag>[];
         itemParams['uiImagesList'] = params;
         itemParams['uiSelectedCategory'] = '';
         break;
@@ -696,7 +696,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         if (editedTags.isEmpty) {
           for (var element in tags) {
             editedTags.add(
-              Tag(
+              UiTag(
                 isNew: element.isNew,
                 item: element.item,
                 isSelected: element.isSelected,
@@ -704,7 +704,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
               ),
             );
             tagsToHandleBackNavigation.add(
-              Tag(
+              UiTag(
                 isNew: element.isNew,
                 item: element.item,
                 isSelected: element.isSelected,
@@ -723,7 +723,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<EditItemTagSearch>(
       (event, emit) {
         var exists = false;
-        var tempTags = <Tag>[];
+        var tempTags = <UiTag>[];
 
         for (var element in editedTags) {
           var elementItemInLowerCase = element.item.toLowerCase();
@@ -736,7 +736,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
         if (!exists) {
           tempTags = [
-            Tag(
+            UiTag(
               isNew: true,
               item: '+ Add "${event.tag}" to list',
               isSelected: false,
@@ -779,7 +779,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         // Handle tag remove after add
 
         tags.add(
-          Tag(
+          UiTag(
             isSelected: false,
             isNew: false,
             item: event.tag != null && event.tag!.value != null
@@ -787,7 +787,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
                 : '',
           ),
         );
-        var selectedTag = Tag(
+        var selectedTag = UiTag(
           isSelected: true,
           isNew: false,
           item: event.tag != null && event.tag!.value != null
@@ -826,11 +826,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagsSelected>(
       (event, emit) {
-        item.uiTagsList = <Tag>[];
-        tagsToHandleBackNavigation = <Tag>[];
+        item.uiTagsList = <UiTag>[];
+        tagsToHandleBackNavigation = <UiTag>[];
         for (var element in editedTags) {
           tagsToHandleBackNavigation.add(
-            Tag(
+            UiTag(
               isNew: element.isNew,
               item: element.item,
               isSelected: element.isSelected,
@@ -839,7 +839,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           );
           if (item.uiTagsList != null) {
             item.uiTagsList!.add(
-              Tag(
+              UiTag(
                 isNew: element.isNew,
                 item: element.item,
                 isSelected: element.isSelected,
@@ -854,14 +854,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemTagSelectIgnore>(
       (event, emit) {
-        editedTags = <Tag>[];
+        editedTags = <UiTag>[];
         selectedTagCount = 0;
         for (var element in tagsToHandleBackNavigation) {
           if (element.isSelected != null && element.isSelected!) {
             selectedTagCount++;
           }
           editedTags.add(
-            Tag(
+            UiTag(
               isNew: element.isNew,
               item: element.item,
               isSelected: element.isSelected,
@@ -889,17 +889,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
             break;
           }
         }
-        editedTags[index] = Tag(
+        editedTags[index] = UiTag(
           isNew: editedTags[index].isNew,
           item: editedTags[index].item,
           isSelected: false,
           value: editedTags[index].value,
         );
-        item.uiTagsList = <Tag>[];
-        tagsToHandleBackNavigation = <Tag>[];
+        item.uiTagsList = <UiTag>[];
+        tagsToHandleBackNavigation = <UiTag>[];
         for (var element in editedTags) {
           tagsToHandleBackNavigation.add(
-            Tag(
+            UiTag(
               isNew: element.isNew,
               item: element.item,
               isSelected: element.isSelected,
@@ -908,7 +908,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           );
           if (item.uiTagsList != null) {
             item.uiTagsList!.add(
-              Tag(
+              UiTag(
                 isNew: element.isNew,
                 item: element.item,
                 isSelected: element.isSelected,
@@ -1088,8 +1088,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         // TODO: Handle save to Db
 
         imageList = <String>[];
-        editedTags = <Tag>[];
-        tagsToHandleBackNavigation = <Tag>[];
+        editedTags = <UiTag>[];
+        tagsToHandleBackNavigation = <UiTag>[];
         selectedTagCount = 0;
         editedCategory = <String, String>{};
         editedSubcategory = <String, List<String>>{};

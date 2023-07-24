@@ -1,7 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/cat_subcat.model.dart';
-import 'package:whereisit/models/tag.model.dart';
+import 'package:whereisit/models/ui_tag.model.dart';
 
 class Item {
   Item({
@@ -56,7 +56,7 @@ class Item {
   final String updatedBy;
   //--------------- ONLY FOR UI USE ---------------
   String? uiName;
-  List<Tag>? uiTagsList;
+  List<UiTag>? uiTagsList;
   List<String>? uiImagesList;
   String? uiSelectedCategory;
   CardData? uiCardData;
@@ -159,9 +159,9 @@ class Item {
         description: json["description"],
         qr: json["qr"],
         createdAt: DateTime.tryParse(json["createdAt"]) ?? DateTime.now(),
-        createdBy: json["createdBy"] ?? 0,
+        createdBy: json["createdBy"] ?? '',
         updatedAt: DateTime.tryParse(json["updatedAt"]) ?? DateTime.now(),
-        updatedBy: json["updatedBy"] ?? 0,
+        updatedBy: json["updatedBy"] ?? '',
         //--------------- ONLY FOR UI USE ---------------
         uiName: json['uiName'] ?? '',
         uiTagsList: json['uiTagsList'] ?? [],

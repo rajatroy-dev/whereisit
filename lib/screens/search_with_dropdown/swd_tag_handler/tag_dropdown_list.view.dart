@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/models/tag.model.dart';
+import 'package:whereisit/models/ui_tag.model.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 
 class TagDropdownList extends StatelessWidget {
@@ -13,7 +13,7 @@ class TagDropdownList extends StatelessWidget {
     required this.handleSelect,
   }) : super(key: key);
 
-  Widget _alertDialog(BuildContext context, Tag? tag) {
+  Widget _alertDialog(BuildContext context, UiTag? tag) {
     var deleteButton = TextButton(
       onPressed: () {
         if (tag != null) {
@@ -88,7 +88,7 @@ class TagDropdownList extends StatelessWidget {
                           onChanged: (bool? value) {
                             var tempList = state.item.uiTagsList ?? [];
                             var temp = tempList[index];
-                            tempList[index] = Tag(
+                            tempList[index] = UiTag(
                               isNew: temp.isNew,
                               item: temp.item,
                               isSelected: value,
@@ -202,7 +202,7 @@ class TagDropdownList extends StatelessWidget {
                                       ? state.item.uiTagsList!
                                       : [];
                                   var temp = tempList[index];
-                                  tempList[index] = Tag(
+                                  tempList[index] = UiTag(
                                     isNew: temp.isNew,
                                     item: temp.item,
                                     isSelected: value,

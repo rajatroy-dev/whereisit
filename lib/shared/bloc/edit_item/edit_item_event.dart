@@ -51,14 +51,14 @@ class EditItemTagSearch extends EditItemEvent {
 
 class EditItemTagAdd extends EditItemEvent {
   static const name = 'EditItemTagAdd';
-  final Tag? tag;
+  final UiTag? tag;
 
   EditItemTagAdd(this.tag);
 }
 
 class EditItemTagToggle extends EditItemEvent {
   static const name = 'EditItemTagToggle';
-  final Tag tag;
+  final UiTag tag;
 
   EditItemTagToggle(this.tag);
 }
@@ -71,7 +71,7 @@ class EditItemTagRemove extends EditItemEvent {
 
 class EditItemTagDelete extends EditItemEvent {
   static const name = 'EditItemTagDelete';
-  final Tag tag;
+  final UiTag tag;
 
   EditItemTagDelete(this.tag);
 }
@@ -89,7 +89,7 @@ class EditItemTagUpdateCount extends EditItemEvent {
 }
 
 class EditItemTagsSelected extends EditItemEvent {
-  final Tag? tag;
+  final UiTag? tag;
 
   EditItemTagsSelected({this.tag});
 }

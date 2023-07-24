@@ -1,38 +1,57 @@
 import '../database.dart';
-import '../../models/tag_dao.model.dart';
+import '../../models/tag.model.dart';
 
 class TagDao {
-  Future<int> insert(TagModel tag) async {
-    final db = await DatabaseProvider.database;
+  static const String table = 'tags';
 
-    return await db.insert('tags', tag.toMap());
+  Future<int> insert(Tag tag) async {
+    final db = await DatabaseProvider.database;
+    final now = DateTime.now();
+
+    tag = tag.copyWith(
+      createdAt: now,
+      updatedAt: now,
+      // TODO: Currently we are only considering system user
+      createdBy: 'system',
+      updatedBy: 'system',
+    );
+
+    return await db.insert(table, tag.toMap());
   }
 
-  Future<TagModel> findById(int id) async {
+  Future<Tag> findById(int id) async {
     final db = await DatabaseProvider.database;
 
     return await db.query(
-      'tags',
+      table,
       where: 'id = ?',
       whereArgs: [id],
-    ) as TagModel;
+    ) as Tag;
   }
 
-  Future<List<TagModel>> findAll() async {
+  Future<List<Tag>> findAll() async {
     final db = await DatabaseProvider.database;
 
-    var res = await db.query('tags');
-    List<TagModel> list =
-        res.isNotEmpty ? res.map((e) => TagModel.fromMap(e)).toList() : [];
+    var res = await db.query(table);
+    List<Tag> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Tag.fromMap(res[index]));
+    }
 
     return list;
   }
 
-  Future<int> update(TagModel tag) async {
+  Future<int> update(Tag tag) async {
     final db = await DatabaseProvider.database;
+    final now = DateTime.now();
 
-    return db.update(
-      'tags',
+    tag = tag.copyWith(
+      // TODO: Currently we are only considering system user
+      updatedAt: now,
+    );
+
+    return await db.update(
+      table,
       tag.toMap(),
       where: 'id = ?',
       whereArgs: [tag.id],
@@ -42,8 +61,8 @@ class TagDao {
   Future<int> delete(int id) async {
     final db = await DatabaseProvider.database;
 
-    return db.delete(
-      'tags',
+    return await db.delete(
+      table,
       where: 'id = ?',
       whereArgs: [id],
     );

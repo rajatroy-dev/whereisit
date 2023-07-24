@@ -1,22 +1,12 @@
-// To parse this JSON data, do
-//
-//     final itemTag = itemTagFromMap(jsonString);
-
-import 'dart:convert';
-
-ItemTag itemTagFromMap(String str) => ItemTag.fromMap(json.decode(str));
-
-String itemTagToMap(ItemTag data) => json.encode(data.toMap());
-
 class ItemTag {
   ItemTag({
     this.id,
-    this.itemId,
+    required this.itemId,
     required this.tagId,
   });
 
   int? id;
-  int? itemId;
+  final int itemId;
   final int tagId;
 
   factory ItemTag.fromMap(Map<String, dynamic> json) => ItemTag(
