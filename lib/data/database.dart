@@ -159,7 +159,7 @@ class DatabaseProvider {
     await db.execute('CREATE TABLE tags ('
         'id INTEGER PRIMARY KEY, '
         'name TEXT NOT NULL UNIQUE, '
-        'tag_count INTEGER, '
+        'tag_count INTEGER DEFAULT 0, '
         'created_by TEXT NOT NULL, '
         'created_at TEXT NOT NULL, '
         'updated_by TEXT NOT NULL, '
@@ -168,7 +168,7 @@ class DatabaseProvider {
 
     // An item can have multiple tags
     // A tag can be used by multiple items
-    await db.execute('CREATE TABLE items_tags ('
+    await db.execute('CREATE TABLE item_tag ('
         'PRIMARY KEY (item_id, tag_id), '
         // items are the main entity
         // so, deleting an item will have cascading effect on all other entities

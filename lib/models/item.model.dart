@@ -46,7 +46,7 @@ class Item {
   final String name;
   final String thumbnail;
   int? quantity;
-  int? favorite;
+  bool? favorite;
   String? serial;
   String? description;
   String? qr;
@@ -70,6 +70,9 @@ class Item {
   String? uiProperty;
   //--------------- ONLY FOR UI USE ---------------
 
+  int get favoriteInt => favorite != null && favorite! ? 1 : 0;
+  static boolFromInt(int? value) => value != null && value == 1;
+
   Item copyWith({
     int? id,
     int? locationId,
@@ -79,7 +82,7 @@ class Item {
     String? name,
     String? thumbnail,
     int? quantity,
-    int? favorite,
+    bool? favorite,
     String? serial,
     String? description,
     String? qr,
@@ -116,7 +119,7 @@ class Item {
         name: json["name"],
         thumbnail: json["thumbnail"],
         quantity: json["quantity"],
-        favorite: json["favorite"],
+        favorite: boolFromInt(json["favorite"]),
         serial: json["serial"],
         description: json["description"],
         qr: json["qr"],
@@ -135,7 +138,7 @@ class Item {
         "name": name,
         "thumbnail": thumbnail,
         "quantity": quantity,
-        "favorite": favorite,
+        "favorite": favoriteInt,
         "serial": serial,
         "description": description,
         "qr": qr,

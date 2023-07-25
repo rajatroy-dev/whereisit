@@ -26,7 +26,26 @@ class TagDao {
       table,
       where: 'id = ?',
       whereArgs: [id],
+      limit: 1,
     ) as Tag;
+  }
+
+  Future<List<Tag>> findTagsByItem(int id) async {
+    final db = await DatabaseProvider.database;
+
+    final res = await db.rawQuery('''
+      SELECT tags.id, tags.name, tags.count
+      FROM tags
+      INNER JOIN item_tag ON tags.id = item_tag.tag_id
+      WHERE item_tag.tag_id = ?
+    ''', [id]);
+
+    List<Tag> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Tag.fromMap(res[index]));
+    }
+
+    return list;
   }
 
   Future<List<Tag>> findAll() async {

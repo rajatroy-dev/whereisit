@@ -30,6 +30,24 @@ class ItemDao {
     ) as Item;
   }
 
+  Future<List<Item>> findItemsByTag(int id) async {
+    final db = await DatabaseProvider.database;
+
+    final res = await db.rawQuery('''
+      SELECT items.id, items.name, items.thumbnail, items.quantity, items.favorite
+      FROM items
+      INNER JOIN item_tag ON items.id = item_tag.item_id
+      WHERE item_tag.item_id = ?
+    ''', [id]);
+
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
+
+    return list;
+  }
+
   Future<List<Item>> findAll() async {
     final db = await DatabaseProvider.database;
 
