@@ -48,6 +48,33 @@ class ItemDao {
     return list;
   }
 
+  Future<List<Item>> findItemsWithLocationPropertyRoomCategory(int id) async {
+    final db = await DatabaseProvider.database;
+
+    final res = await db.rawQuery('''
+      SELECT items.id, items.name, items.thumbnail, items.quantity, items.favorite,
+      items.serial, items.description, items.qr, items.created_by, items.created_at,
+      items.updated_by, items.updated_at,
+      locations.id, locations.latitude, locations.longitude, locations.address, 
+      properties.id, properties.name,
+      rooms.id, rooms.name,
+      categories.id, categories.parent, categories.name
+      FROM items
+      INNER JOIN locations ON items.location_id = locations.id
+      INNER JOIN properties ON items.property_id = properties.id
+      INNER JOIN rooms ON items.room_id = rooms.id
+      INNER JOIN categories ON items.category_id = categories.id
+      WHERE items.id = ?
+    ''', [id]);
+
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
+
+    return list;
+  }
+
   Future<List<Item>> findAll() async {
     final db = await DatabaseProvider.database;
 
