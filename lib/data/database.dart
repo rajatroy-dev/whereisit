@@ -20,6 +20,7 @@ class DatabaseProvider {
 
     var openDb = await openDatabase(
       pathToDatabase,
+      version: 1,
       onCreate: _onCreate,
       onConfigure: _onConfigure,
     );
@@ -37,20 +38,23 @@ class DatabaseProvider {
 
     DateTime now = DateTime.now();
     String isoDate = now.toIso8601String();
-    await db.execute('INSERT INTO users '
-        '(name, '
-        'username, '
-        'created_by, '
-        'created_at, '
-        'updated_by, '
-        'updated_at) '
-        'VALUES '
-        '(\'System\', '
-        'system, '
-        'system, '
-        '$isoDate, '
-        'system, '
-        '$isoDate);');
+    await db.execute('''
+      INSERT INTO users (
+        name,
+        username,
+        created_by,
+        created_at,
+        updated_by,
+        updated_at
+      ) VALUES (
+        'System',
+        'system',
+        'system',
+        $isoDate,
+        'system',
+        $isoDate
+      )
+    ''');
 
     // location is like a geographical location
     // It will have an address
@@ -67,18 +71,21 @@ class DatabaseProvider {
     // The items stored will normally be categorized like books, electronics ...
     await db.execute(createCategoriesTable);
 
-    await db.execute('INSERT INTO categories '
-        '(name, '
-        'created_by, '
-        'created_at, '
-        'updated_by, '
-        'updated_at) '
-        'VALUES '
-        '(\'Uncategorized\', '
-        'system, '
-        '$isoDate, '
-        'system, '
-        '$isoDate);');
+    await db.execute('''
+      INSERT INTO categories (
+        name,
+        created_by,
+        created_at,
+        updated_by,
+        updated_at
+        ) VALUES (
+        'Uncategorized',
+        'system',
+        $isoDate,
+        'system',
+        $isoDate
+      )
+    ''');
 
     // Items are the things that are stored
     await db.execute(createItemsTable);
@@ -103,9 +110,9 @@ class DatabaseProvider {
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
       username TEXT NOT NULL UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -116,9 +123,9 @@ class DatabaseProvider {
       latitude TEXT,
       longitude TEXT,
       address TEXT NOT NULL UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -128,9 +135,9 @@ class DatabaseProvider {
       id INTEGER PRIMARY KEY,
       location_id INTEGER REFERENCES locations(id) ON DELETE RESTRICT,
       name TEXT NOT NULL UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -140,9 +147,9 @@ class DatabaseProvider {
       id INTEGER PRIMARY KEY,
       property_id INTEGER REFERENCES properties(id) ON DELETE RESTRICT,
       name TEXT NOT NULL,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -152,9 +159,9 @@ class DatabaseProvider {
       id INTEGER PRIMARY KEY,
       parent_category TEXT,
       name TEXT NOT NULL UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -173,9 +180,9 @@ class DatabaseProvider {
       serial TEXT,
       description TEXT,
       qr TEXT UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -186,9 +193,9 @@ class DatabaseProvider {
       item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
       filename TEXT NOT NULL,
       file_location TEXT NOT NULL UNIQUE,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
@@ -198,9 +205,9 @@ class DatabaseProvider {
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
       tag_count INTEGER DEFAULT 0,
-      created_by TEXT NOT NULL,
+      created_by TEXT NOT NULL REFERENCES users(username),
       created_at TEXT NOT NULL,
-      updated_by TEXT NOT NULL,
+      updated_by TEXT NOT NULL REFERENCES users(username),
       updated_at TEXT NOT NULL
     )
   ''';
