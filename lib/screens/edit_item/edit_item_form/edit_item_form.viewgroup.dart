@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/edit_item/edit_item_form/selection_button/selection_button.view.dart';
-import 'package:whereisit/screens/map_location_selector/map_location_selector.screen.dart';
 import 'package:whereisit/shared/enums/search_type.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_state.enum.dart';
 import 'package:whereisit/shared/enums/selection_button_type.enum.dart';

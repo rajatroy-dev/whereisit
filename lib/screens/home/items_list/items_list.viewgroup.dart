@@ -21,55 +21,64 @@ class ItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Divider(height: 5),
-          const SizedBox(height: 14),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 5.0,
-              bottom: 5.0,
-            ),
-            child: Text(
-              listTitle,
-              style: const TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 280,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                return ItemCard(data: list[index]);
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  FilteredItems.routeName,
-                  arguments: navigateTo != Traits.none ? navigateTo : null,
-                ).then(
-                  (_) => BlocProvider.of<FilteredItemsBloc>(context).add(
-                    FilteredItemsClear(),
+    return list.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Divider(height: 5),
+                const SizedBox(height: 14),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 5.0,
+                    bottom: 5.0,
+                  ),
+                  child: Text(
+                    listTitle,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                child: const Text('View All'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                SizedBox(
+                  height: 280,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      return ItemCard(data: list[index]);
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        FilteredItems.routeName,
+                        arguments:
+                            navigateTo != Traits.none ? navigateTo : null,
+                      ).then(
+                        (_) => BlocProvider.of<FilteredItemsBloc>(context).add(
+                          FilteredItemsClear(),
+                        ),
+                      ),
+                      child: const Text('View All'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        : const SizedBox(
+            height: 150,
+            width: double.infinity,
+            child: Center(
+              child: Text('No items to display!'),
+            ),
+          );
   }
 }

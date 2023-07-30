@@ -21,9 +21,17 @@ class TilesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _buildTilesContainer(),
-    );
+    return list.isNotEmpty
+        ? Column(
+            children: _buildTilesContainer(),
+          )
+        : const SizedBox(
+            height: 150,
+            width: double.infinity,
+            child: Center(
+              child: Text('No items to display!'),
+            ),
+          );
   }
 
   List<Widget> _buildTilesContainer() {
