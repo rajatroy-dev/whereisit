@@ -123,6 +123,58 @@ class ItemDao {
     return list;
   }
 
+  Future<List<Item>> findLatestItems() async {
+    final db = await DatabaseProvider.database;
+
+    var res = await db.query(
+      table,
+      orderBy: 'updated_at DESC',
+      limit: 5,
+    );
+
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
+
+    return list;
+  }
+
+  Future<List<Item>> findOldestItems() async {
+    final db = await DatabaseProvider.database;
+
+    var res = await db.query(
+      table,
+      orderBy: 'updated_at ASC',
+      limit: 5,
+    );
+
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
+
+    return list;
+  }
+
+  Future<List<Item>> findFavoriteItems() async {
+    final db = await DatabaseProvider.database;
+
+    var res = await db.query(
+      table,
+      where: 'favorite = ?',
+      whereArgs: [1],
+      limit: 5,
+    );
+
+    List<Item> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
+    }
+
+    return list;
+  }
+
   Future<int> update(Item item) async {
     final db = await DatabaseProvider.database;
     final now = DateTime.now();

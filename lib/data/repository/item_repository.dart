@@ -13,6 +13,9 @@ class ItemRepository {
   Future<ItemWithLocationPropertyRoomCategoryTag?>
       findItemWithLocationPropertyRoomCategoryTagById(int id) =>
           dao.findItemWithLocationPropertyRoomCategoryTagById(id);
+  Future<List<Item>> findLatestItems() => dao.findLatestItems();
+  Future<List<Item>> findOldestItems() => dao.findOldestItems();
+  Future<List<Item>> findFavoriteItems() => dao.findFavoriteItems();
   Future<int> update(Item item) => dao.update(item);
   Future<int> delete(int id) => dao.delete(id);
 }
