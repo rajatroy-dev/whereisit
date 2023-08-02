@@ -22,15 +22,19 @@ class ItemDao {
     return await db.insert(table, item.toMap());
   }
 
-  Future<Item> findById(int id) async {
+  Future<Item?> findById(int id) async {
     final db = await DatabaseProvider.database;
 
-    return await db.query(
+    final res = await db.query(
       table,
       where: 'id = ?',
       whereArgs: [id],
       limit: 1,
-    ) as Item;
+    );
+
+    if (res.isEmpty) return null;
+
+    return Item.fromMap(res.first);
   }
 
   Future<List<Item>> findItemsByTag(int id) async {
@@ -59,14 +63,19 @@ class ItemDao {
     final db = await DatabaseProvider.database;
 
     final res = await db.rawQuery('''
-      SELECT items.id, items.name, items.thumbnail, items.quantity, items.favorite,
-        items.serial, items.description, items.qr, items.created_by, items.created_at,
-        items.updated_by, items.updated_at,
-        locations.id, locations.latitude, locations.longitude, locations.address, 
-        properties.id, properties.name,
-        rooms.id, rooms.name,
-        categories.id, categories.parent, categories.name,
-        tags.id, tags.name, tags.tag_count
+      SELECT items.id AS items_id, items.name AS items_name,
+        items.thumbnail AS items_thumbnail, items.quantity AS items_quantity,
+        items.favorite AS items_favorite, items.serial AS items_serial,
+        items.description AS items_description, items.qr AS items_qr,
+        items.created_by AS items_created_by, items.created_at AS items_created_at,
+        items.updated_by AS items_updated_by, items.updated_at AS items_updated_at,
+        locations.id AS locations_id, locations.latitude AS locations_latitude,
+        locations.longitude AS locations_longitude, locations.address AS locations_address, 
+        properties.id AS properties_id, properties.name AS properties_name,
+        rooms.id AS rooms_id, rooms.name AS rooms_name,
+        categories.id AS categories_id, categories.parent AS categories_parent,
+        categories.name AS categories_name,
+        tags.id AS tags_id, tags.name AS tags_name, tags.tag_count AS tags_tag_count
       FROM items
       INNER JOIN locations ON items.location_id = locations.id
       INNER JOIN properties ON items.property_id = properties.id
@@ -77,39 +86,37 @@ class ItemDao {
       WHERE items.id = ?
     ''', [id]);
 
-    if (res.isNotEmpty) {
-      final map = res.first;
-      return ItemWithLocationPropertyRoomCategoryTag(
-        itemId: map['items.id'] as int,
-        itemName: map['items.name'] as String,
-        itemThumbnail: map['items.thumbnail'] as String,
-        itemQuantity: map['items.quantity'] as int,
-        itemFavorite: map['items.favorite'] == 1,
-        itemSerial: map['items.serial'] as String? ?? '',
-        itemDescription: map['items.description'] as String? ?? '',
-        itemQr: map['items.qr'] as String? ?? '',
-        itemCreatedBy: map['items.created_by'] as String,
-        itemCreatedAt: _parseDateTime(map['items.created_at']),
-        itemUpdatedBy: map['items.updated_by'] as String,
-        itemUpdatedAt: _parseDateTime(map['items.updated_at']),
-        locationId: map['locations.id'] as int? ?? -1,
-        locationLatitude: map['locations.latitude'] as double? ?? -100,
-        locationLongitude: map['locations.longitude'] as double? ?? -200,
-        locationAddress: map['locations.address'] as String? ?? '',
-        propertyId: map['properties.id'] as int? ?? -1,
-        propertyName: map['properties.name'] as String? ?? '',
-        roomId: map['rooms.id'] as int? ?? -1,
-        roomName: map['rooms.name'] as String? ?? '',
-        categoryId: map['categories.id'] as int? ?? -1,
-        categoryParent: map['categories.parent'] as int? ?? -1,
-        categoryName: map['categories.name'] as String? ?? '',
-        tagId: map['tags.id'] as int? ?? -1,
-        tagName: map['tags.name'] as String? ?? '',
-        tagCount: map['tags.tag_count'] as int? ?? -1,
-      );
-    }
+    if (res.isEmpty) return null;
 
-    return null;
+    final map = res.first;
+    return ItemWithLocationPropertyRoomCategoryTag(
+      itemId: map['items_id'] as int,
+      itemName: map['items_name'] as String,
+      itemThumbnail: map['items_thumbnail'] as String,
+      itemQuantity: map['items_quantity'] as int,
+      itemFavorite: map['items_favorite'] == 1,
+      itemSerial: map['items_serial'] as String? ?? '',
+      itemDescription: map['items_description'] as String? ?? '',
+      itemQr: map['items_qr'] as String? ?? '',
+      itemCreatedBy: map['items_created_by'] as String,
+      itemCreatedAt: _parseDateTime(map['items_created_at']),
+      itemUpdatedBy: map['items_updated_by'] as String,
+      itemUpdatedAt: _parseDateTime(map['items_updated_at']),
+      locationId: map['locations_id'] as int? ?? -1,
+      locationLatitude: map['locations_latitude'] as double? ?? -100,
+      locationLongitude: map['locations_longitude'] as double? ?? -200,
+      locationAddress: map['locations_address'] as String? ?? '',
+      propertyId: map['properties_id'] as int? ?? -1,
+      propertyName: map['properties_name'] as String? ?? '',
+      roomId: map['rooms_id'] as int? ?? -1,
+      roomName: map['rooms_name'] as String? ?? '',
+      categoryId: map['categories_id'] as int? ?? -1,
+      categoryParent: map['categories_parent'] as int? ?? -1,
+      categoryName: map['categories_name'] as String? ?? '',
+      tagId: map['tags_id'] as int? ?? -1,
+      tagName: map['tags_name'] as String? ?? '',
+      tagCount: map['tags_tag_count'] as int? ?? -1,
+    );
   }
 
   Future<List<Item>> findLatestItems() async {

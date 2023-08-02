@@ -8,7 +8,7 @@ class ItemRepository {
   final dao = ItemDao();
 
   Future<int> insert(Item item) => dao.insert(item);
-  Future<Item> findById(int id) => dao.findById(id);
+  Future<Item?> findById(int id) => dao.findById(id);
   Future<List<Item>> findItemsByTag(int id) => dao.findItemsByTag(id);
   Future<ItemWithLocationPropertyRoomCategoryTag?>
       findItemWithLocationPropertyRoomCategoryTagById(int id) =>
