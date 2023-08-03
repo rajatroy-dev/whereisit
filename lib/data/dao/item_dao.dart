@@ -1,5 +1,4 @@
 import 'package:whereisit/models/item_with_location_propert_room_category_tag.model.dart';
-import 'package:whereisit/models/ranked_tag.model.dart';
 
 import '../database.dart';
 import '../../models/item.model.dart';
@@ -171,7 +170,7 @@ class ItemDao {
     return list;
   }
 
-  Future<List<RankedTag>> findItemsWithHighestTagCount() async {
+  Future<List<Item>> findItemsWithHighestTagCount() async {
     final db = await DatabaseProvider.database;
 
     final res = await db.rawQuery('''
@@ -191,20 +190,14 @@ class ItemDao {
           items.thumbnail AS item_thumbnail,
           items.quantity AS item_quantity,
           items.favorite AS item_favorite,
-          ranked_tags.tag_id,
-          ranked_tags.tag_name,
-          ranked_tags.tag_count
         FROM items
         INNER JOIN ranked_tags ON items.id = ranked_tags.item_id
         WHERE ranked_tags.tag_rank = 1
         LIMIT 5;
       ''');
-    List<RankedTag> list = [];
+    List<Item> list = [];
     if (res.isNotEmpty) {
-      list = List.generate(
-        res.length,
-        (index) => RankedTag.fromMap(res[index]),
-      );
+      list = List.generate(res.length, (index) => Item.fromMap(res[index]));
     }
 
     return list;
