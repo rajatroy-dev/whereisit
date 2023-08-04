@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whereisit/models/card_data.model.dart';
-import 'package:whereisit/screens/home/items_list/item_card/item_location.view.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_quantity.view.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/intents/Item_details.intent.dart';
@@ -59,7 +58,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                 ),
               ),
             ),
-            ItemLocation(itemLocation: intent.data.location),
             ItemQuantity(itemQuantity: intent.data.qty),
             Padding(
               padding: const EdgeInsets.all(5.0),
