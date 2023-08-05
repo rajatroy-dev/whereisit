@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:whereisit/screens/home/cubit/home_cubit.dart';
 import 'package:whereisit/screens/home/items_list/items_list.viewgroup.dart';
+import 'package:whereisit/screens/home/items_list/items_list_divider.view.dart';
+import 'package:whereisit/screens/home/items_list/items_list_title.view.dart';
 import 'package:whereisit/screens/home/tiles_container/tiles_container.viewgroup.dart';
+import 'package:whereisit/shared/enums/items_type.enum.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
 import 'package:whereisit/shared/widgets/list_error/list_error.viewgroup.dart';
 
@@ -25,95 +28,122 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        if (state is FetchAllLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+    return SingleChildScrollView(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              if (state is FetchTilesListLoading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              if (state is FetchTilesListSuccess)
+                TilesContainer(
+                  list: state.response.result[ItemsType.tiles] != null
+                      ? state.response.result[ItemsType.tiles]!
+                      : [],
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ------------------- Favorite Items
+                    const ItemsListDivider(),
+                    const ItemsListTitle(listTitle: 'Favorite Items'),
+                    if (state is FetchFavoritesListLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    if (state is FetchFavoritesListSuccess)
+                      ItemsList(
+                        list: state.response.result[ItemsType.favorite] != null
+                            ? state.response.result[ItemsType.favorite]!
+                            : [],
+                        navigateTo: Traits.none,
+                      ),
+                    if (state is FetchFavoritesListFailure)
+                      ListError(
+                        errorMessage:
+                            state.response.error[ItemsType.favorite] != null
+                                ? state.response.error[ItemsType.favorite]!
+                                : 'Something went wrong!',
+                      ),
+                    // ------------------- Favorite Items
+                    // ------------------- Oldest Items
+                    const ItemsListDivider(),
+                    const ItemsListTitle(listTitle: 'Oldest Items'),
+                    if (state is FetchOldestItemsLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    if (state is FetchOldestItemsSuccess)
+                      ItemsList(
+                        list: state.response.result[ItemsType.oldest] != null
+                            ? state.response.result[ItemsType.oldest]!
+                            : [],
+                        navigateTo: Traits.none,
+                      ),
+                    if (state is FetchOldestItemsFailure)
+                      ListError(
+                        errorMessage:
+                            state.response.error[ItemsType.oldest] != null
+                                ? state.response.error[ItemsType.oldest]!
+                                : 'Something went wrong!',
+                      ),
+                    // ------------------- Oldest Items
+                    // ------------------- Latest Items
+                    const ItemsListDivider(),
+                    const ItemsListTitle(listTitle: 'Latest Items'),
+                    if (state is FetchOldestItemsLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    if (state is FetchLatestItemsSuccess)
+                      ItemsList(
+                        list: state.response.result[ItemsType.latest] != null
+                            ? state.response.result[ItemsType.latest]!
+                            : [],
+                        navigateTo: Traits.none,
+                      ),
+                    if (state is FetchLatestItemsFailure)
+                      ListError(
+                        errorMessage:
+                            state.response.error[ItemsType.latest] != null
+                                ? state.response.error[ItemsType.latest]!
+                                : 'Something went wrong!',
+                      ),
+                    // ------------------- Latest Items
+                    // ------------------- Most Tagged Items
+                    const ItemsListDivider(),
+                    const ItemsListTitle(listTitle: 'Latest Items'),
+                    if (state is FetchMostTaggedItemsLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    if (state is FetchMostTaggedListSuccess)
+                      ItemsList(
+                        list:
+                            state.response.result[ItemsType.mostTagged] != null
+                                ? state.response.result[ItemsType.mostTagged]!
+                                : [],
+                        navigateTo: Traits.none,
+                      ),
+                    if (state is FetchMostTaggedListFailure)
+                      ListError(
+                        errorMessage:
+                            state.response.error[ItemsType.mostTagged] != null
+                                ? state.response.error[ItemsType.mostTagged]!
+                                : 'Something went wrong!',
+                      ),
+                    // ------------------- Most Tagged Items
+                  ],
+                ),
+              ),
+            ],
           );
-        }
-
-        if (state is FetchAllComplete) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                state.response.success['tiles'] != null &&
-                        state.response.success['tiles']!
-                    ? TilesContainer(
-                        list: state.response.result['tiles'] != null
-                            ? state.response.result['tiles']!
-                            : [],
-                      )
-                    : ListError(
-                        errorMessage: state.response.error['tiles'] != null
-                            ? state.response.error['tiles']!
-                            : 'Something went wrong!',
-                      ),
-                state.response.success['oldest_items'] != null &&
-                        state.response.success['oldest_items']!
-                    ? ItemsList(
-                        listTitle: 'Oldest Items',
-                        list: state.response.result['oldest_items'] != null
-                            ? state.response.result['oldest_items']!
-                            : [],
-                        navigateTo: Traits.none,
-                      )
-                    : ListError(
-                        errorMessage:
-                            state.response.error['oldest_items'] != null
-                                ? state.response.error['oldest_items']!
-                                : 'Something went wrong!',
-                      ),
-                state.response.success['favorites'] != null &&
-                        state.response.success['favorites']!
-                    ? ItemsList(
-                        listTitle: 'Favorites',
-                        list: state.response.result['favorites'] != null
-                            ? state.response.result['favorites']!
-                            : [],
-                        navigateTo: Traits.favorites,
-                      )
-                    : ListError(
-                        errorMessage: state.response.error['favorites'] != null
-                            ? state.response.error['favorites']!
-                            : 'Something went wrong!',
-                      ),
-                state.response.success['latest_items'] != null &&
-                        state.response.success['latest_items']!
-                    ? ItemsList(
-                        listTitle: 'Latest Items',
-                        list: state.response.result['latest_items'] != null
-                            ? state.response.result['latest_items']!
-                            : [],
-                        navigateTo: Traits.none,
-                      )
-                    : ListError(
-                        errorMessage:
-                            state.response.error['latest_items'] != null
-                                ? state.response.error['latest_items']!
-                                : 'Something went wrong!',
-                      ),
-                state.response.success['most_tagged'] != null &&
-                        state.response.success['most_tagged']!
-                    ? ItemsList(
-                        listTitle: 'Most Tagged',
-                        list: state.response.result['most_tagged'] != null
-                            ? state.response.result['most_tagged']!
-                            : [],
-                        navigateTo: Traits.none,
-                      )
-                    : ListError(
-                        errorMessage:
-                            state.response.error['most_tagged'] != null
-                                ? state.response.error['most_tagged']!
-                                : 'Something went wrong!',
-                      ),
-              ],
-            ),
-          );
-        }
-        return const SizedBox();
-      },
+        },
+      ),
     );
   }
 }

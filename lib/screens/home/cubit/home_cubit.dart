@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/shared/enums/items_type.enum.dart';
 
-import 'package:whereisit/models/home_cubit_response.dart';
+import 'package:whereisit/shared/intents/home_cubit_response.dart';
 import 'package:whereisit/models/tiles_details_data.model.dart';
 
 part 'home_state.dart';
@@ -71,81 +72,87 @@ class HomeCubit extends Cubit<HomeState> {
     var favoriteList = oldestList;
     var mostTaggedList = oldestList;
 
-    emit(FetchAllLoading());
+    emit(FetchTilesListLoading());
+    emit(FetchOldestItemsLoading());
+    emit(FetchLatestItemsLoading());
+    emit(FetchFavoritesListLoading());
+    emit(FetchMostTaggedItemsLoading());
 
     var response = HomeCubitResponse({}, {}, {}, {}, {});
 
-    if (tilesList.isEmpty) {
-      response.success['tiles'] = false;
-      response.error['tiles'] = 'Error while loading Tiles!';
-      response.errorCode['tiles'] = "1";
-      response.statusCode['tiles'] = 400;
-      response.result['tiles'] = null;
+    response.success[ItemsType.tiles] = true;
+    response.error[ItemsType.tiles] = '';
+    response.errorCode[ItemsType.tiles] = "0";
+    response.statusCode[ItemsType.tiles] = 200;
+    response.result[ItemsType.tiles] = tilesList;
+    emit(FetchTilesListSuccess(response));
+
+    if (favoriteList.isEmpty) {
+      response.success[ItemsType.favorite] = false;
+      response.error[ItemsType.favorite] =
+          'Error while loading list of favorites!';
+      response.errorCode[ItemsType.favorite] = "4";
+      response.statusCode[ItemsType.favorite] = 400;
+      response.result[ItemsType.favorite] = null;
+      emit(FetchFavoritesListFailure(response));
     } else {
-      response.success['tiles'] = true;
-      response.error['tiles'] = '';
-      response.errorCode['tiles'] = "0";
-      response.statusCode['tiles'] = 200;
-      response.result['tiles'] = tilesList;
+      response.success[ItemsType.favorite] = true;
+      response.error[ItemsType.favorite] = '';
+      response.errorCode[ItemsType.favorite] = "0";
+      response.statusCode[ItemsType.favorite] = 200;
+      response.result[ItemsType.favorite] = favoriteList;
+      emit(FetchFavoritesListSuccess(response));
     }
 
     if (oldestList.isEmpty) {
-      response.success['oldest_items'] = false;
-      response.error['oldest_items'] =
+      response.success[ItemsType.oldest] = false;
+      response.error[ItemsType.oldest] =
           'Error while loading list of oldest items!';
-      response.errorCode['oldest_items'] = "2";
-      response.statusCode['oldest_items'] = 400;
-      response.result['oldest_items'] = null;
+      response.errorCode[ItemsType.oldest] = "2";
+      response.statusCode[ItemsType.oldest] = 400;
+      response.result[ItemsType.oldest] = null;
+      emit(FetchOldestItemsFailure(response));
     } else {
-      response.success['oldest_items'] = true;
-      response.error['oldest_items'] = '';
-      response.errorCode['oldest_items'] = "0";
-      response.statusCode['oldest_items'] = 200;
-      response.result['oldest_items'] = oldestList;
+      response.success[ItemsType.oldest] = true;
+      response.error[ItemsType.oldest] = '';
+      response.errorCode[ItemsType.oldest] = "0";
+      response.statusCode[ItemsType.oldest] = 200;
+      response.result[ItemsType.oldest] = oldestList;
+      emit(FetchOldestItemsSuccess(response));
     }
 
     if (latestList.isEmpty) {
-      response.success['latest_items'] = false;
-      response.error['latest_items'] =
+      response.success[ItemsType.latest] = false;
+      response.error[ItemsType.latest] =
           'Error while loading list of latest items!';
-      response.errorCode['latest_items'] = "3";
-      response.statusCode['latest_items'] = 400;
-      response.result['latest_items'] = null;
+      response.errorCode[ItemsType.latest] = "3";
+      response.statusCode[ItemsType.latest] = 400;
+      response.result[ItemsType.latest] = null;
+      emit(FetchLatestItemsFailure(response));
     } else {
-      response.success['latest_items'] = true;
-      response.error['latest_items'] = '';
-      response.errorCode['latest_items'] = "0";
-      response.statusCode['latest_items'] = 200;
-      response.result['latest_items'] = oldestList;
-    }
-
-    if (favoriteList.isEmpty) {
-      response.success['favorites'] = false;
-      response.error['favorites'] = 'Error while loading list of favorites!';
-      response.errorCode['favorites'] = "4";
-      response.statusCode['favorites'] = 400;
-      response.result['favorites'] = null;
-    } else {
-      response.success['favorites'] = true;
-      response.error['favorites'] = '';
-      response.errorCode['favorites'] = "0";
-      response.statusCode['favorites'] = 200;
-      response.result['favorites'] = favoriteList;
+      response.success[ItemsType.latest] = true;
+      response.error[ItemsType.latest] = '';
+      response.errorCode[ItemsType.latest] = "0";
+      response.statusCode[ItemsType.latest] = 200;
+      response.result[ItemsType.latest] = oldestList;
+      emit(FetchLatestItemsSuccess(response));
     }
 
     if (mostTaggedList.isEmpty) {
-      response.success['most_tagged'] = false;
-      response.error['most_tagged'] =
+      response.success[ItemsType.mostTagged] = false;
+      response.error[ItemsType.mostTagged] =
           'Error while loading list of most tagged items!';
-      response.errorCode['most_tagged'] = "5";
-      response.statusCode['most_tagged'] = 400;
-      response.result['most_tagged'] = null;
+      response.errorCode[ItemsType.mostTagged] = "5";
+      response.statusCode[ItemsType.mostTagged] = 400;
+      response.result[ItemsType.mostTagged] = null;
+      emit(FetchMostTaggedListFailure(response));
     } else {
-      response.success['most_tagged'] = true;
-      response.error['most_tagged'] = '';
-      response.errorCode['most_tagged'] = "0";
-      response.statusCode['most_tagged'] = 200;
-      response.result['most_tagged'] = mostTaggedList;
+      response.success[ItemsType.mostTagged] = true;
+      response.error[ItemsType.mostTagged] = '';
+      response.errorCode[ItemsType.mostTagged] = "0";
+      response.statusCode[ItemsType.mostTagged] = 200;
+      response.result[ItemsType.mostTagged] = mostTaggedList;
+      emit(FetchMostTaggedListSuccess(response));
     }
 
     emit(FetchAllComplete(response));
