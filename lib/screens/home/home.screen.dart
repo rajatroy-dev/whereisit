@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:whereisit/screens/home/cubit/home_cubit.dart';
+import 'package:whereisit/screens/home/bloc/home_bloc.dart';
 import 'package:whereisit/screens/home/items_list/items_list.viewgroup.dart';
 import 'package:whereisit/screens/home/items_list/items_list_divider.view.dart';
 import 'package:whereisit/screens/home/items_list/items_list_title.view.dart';
@@ -22,127 +21,185 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    BlocProvider.of<HomeCubit>(context).fetchAll();
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchTiles());
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchOldest());
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchLatest());
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchFavorites());
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchMostTagged());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          return Column(
-            children: [
-              if (state is FetchTilesListLoading)
-                const Center(
+      child: Column(
+        children: [
+          BlocBuilder<HomeBloc, HomeState>(
+            buildWhen: (previous, current) =>
+                current is HomeFetchTilesLoading ||
+                current is HomeFetchTilesSuccess,
+            builder: (context, state) {
+              if (state is HomeFetchTilesLoading) {
+                return const Center(
                   child: CircularProgressIndicator(),
-                ),
-              if (state is FetchTilesListSuccess)
-                TilesContainer(
+                );
+              }
+              if (state is HomeFetchTilesSuccess) {
+                return TilesContainer(
                   list: state.response.result[ItemsType.tiles] != null
                       ? state.response.result[ItemsType.tiles]!
                       : [],
-                ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ------------------- Favorite Items
-                    const ItemsListDivider(),
-                    const ItemsListTitle(listTitle: 'Favorite Items'),
-                    if (state is FetchFavoritesListLoading)
-                      const Center(
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ------------------- Favorite Items
+                const ItemsListDivider(),
+                const ItemsListTitle(listTitle: 'Favorite Items'),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      current is HomeFetchFavoritesLoading ||
+                      current is HomeFetchFavoritesSuccess ||
+                      current is HomeFetchFavoritesFailure,
+                  builder: (context, state) {
+                    if (state is HomeFetchFavoritesLoading) {
+                      return const Center(
                         child: CircularProgressIndicator(),
-                      ),
-                    if (state is FetchFavoritesListSuccess)
-                      ItemsList(
+                      );
+                    }
+                    if (state is HomeFetchFavoritesSuccess) {
+                      return ItemsList(
                         list: state.response.result[ItemsType.favorite] != null
                             ? state.response.result[ItemsType.favorite]!
                             : [],
                         navigateTo: Traits.none,
-                      ),
-                    if (state is FetchFavoritesListFailure)
-                      ListError(
+                      );
+                    }
+                    if (state is HomeFetchFavoritesFailure) {
+                      return ListError(
                         errorMessage:
                             state.response.error[ItemsType.favorite] != null
                                 ? state.response.error[ItemsType.favorite]!
                                 : 'Something went wrong!',
-                      ),
-                    // ------------------- Favorite Items
-                    // ------------------- Oldest Items
-                    const ItemsListDivider(),
-                    const ItemsListTitle(listTitle: 'Oldest Items'),
-                    if (state is FetchOldestItemsLoading)
-                      const Center(
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                // ------------------- Favorite Items
+                // ------------------- Oldest Items
+                const ItemsListDivider(),
+                const ItemsListTitle(listTitle: 'Oldest Items'),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      current is HomeFetchOldestLoading ||
+                      current is HomeFetchOldestSuccess ||
+                      current is HomeFetchOldestFailure,
+                  builder: (context, state) {
+                    if (state is HomeFetchOldestLoading) {
+                      return const Center(
                         child: CircularProgressIndicator(),
-                      ),
-                    if (state is FetchOldestItemsSuccess)
-                      ItemsList(
+                      );
+                    }
+                    if (state is HomeFetchOldestSuccess) {
+                      return ItemsList(
                         list: state.response.result[ItemsType.oldest] != null
                             ? state.response.result[ItemsType.oldest]!
                             : [],
                         navigateTo: Traits.none,
-                      ),
-                    if (state is FetchOldestItemsFailure)
-                      ListError(
+                      );
+                    }
+                    if (state is HomeFetchOldestFailure) {
+                      return ListError(
                         errorMessage:
                             state.response.error[ItemsType.oldest] != null
                                 ? state.response.error[ItemsType.oldest]!
                                 : 'Something went wrong!',
-                      ),
-                    // ------------------- Oldest Items
-                    // ------------------- Latest Items
-                    const ItemsListDivider(),
-                    const ItemsListTitle(listTitle: 'Latest Items'),
-                    if (state is FetchOldestItemsLoading)
-                      const Center(
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                // ------------------- Oldest Items
+                // ------------------- Latest Items
+                const ItemsListDivider(),
+                const ItemsListTitle(listTitle: 'Latest Items'),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      current is HomeFetchLatestLoading ||
+                      current is HomeFetchLatestSuccess ||
+                      current is HomeFetchLatestFailure,
+                  builder: (context, state) {
+                    if (state is HomeFetchLatestLoading) {
+                      return const Center(
                         child: CircularProgressIndicator(),
-                      ),
-                    if (state is FetchLatestItemsSuccess)
-                      ItemsList(
+                      );
+                    }
+                    if (state is HomeFetchLatestSuccess) {
+                      return ItemsList(
                         list: state.response.result[ItemsType.latest] != null
                             ? state.response.result[ItemsType.latest]!
                             : [],
                         navigateTo: Traits.none,
-                      ),
-                    if (state is FetchLatestItemsFailure)
-                      ListError(
+                      );
+                    }
+                    if (state is HomeFetchLatestFailure) {
+                      return ListError(
                         errorMessage:
                             state.response.error[ItemsType.latest] != null
                                 ? state.response.error[ItemsType.latest]!
                                 : 'Something went wrong!',
-                      ),
-                    // ------------------- Latest Items
-                    // ------------------- Most Tagged Items
-                    const ItemsListDivider(),
-                    const ItemsListTitle(listTitle: 'Latest Items'),
-                    if (state is FetchMostTaggedItemsLoading)
-                      const Center(
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                // ------------------- Latest Items
+                // ------------------- Most Tagged Items
+                const ItemsListDivider(),
+                const ItemsListTitle(listTitle: 'Most Tagged Items'),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      current is HomeFetchMostTaggedLoading ||
+                      current is HomeFetchMostTaggedSuccess ||
+                      current is HomeFetchMostTaggedFailure,
+                  builder: (context, state) {
+                    if (state is HomeFetchMostTaggedLoading) {
+                      return const Center(
                         child: CircularProgressIndicator(),
-                      ),
-                    if (state is FetchMostTaggedListSuccess)
-                      ItemsList(
+                      );
+                    }
+                    if (state is HomeFetchMostTaggedSuccess) {
+                      return ItemsList(
                         list:
                             state.response.result[ItemsType.mostTagged] != null
                                 ? state.response.result[ItemsType.mostTagged]!
                                 : [],
                         navigateTo: Traits.none,
-                      ),
-                    if (state is FetchMostTaggedListFailure)
-                      ListError(
+                      );
+                    }
+                    if (state is HomeFetchMostTaggedFailure) {
+                      return ListError(
                         errorMessage:
                             state.response.error[ItemsType.mostTagged] != null
                                 ? state.response.error[ItemsType.mostTagged]!
                                 : 'Something went wrong!',
-                      ),
-                    // ------------------- Most Tagged Items
-                  ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
-              ),
-            ],
-          );
-        },
+                // ------------------- Most Tagged Items
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

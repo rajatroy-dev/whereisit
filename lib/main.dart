@@ -7,7 +7,7 @@ import 'package:whereisit/screens/category_subcategory/category_subcategory.view
 import 'package:whereisit/screens/favorites/favorites.screen.dart';
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
-import 'package:whereisit/screens/home/cubit/home_cubit.dart';
+import 'package:whereisit/screens/home/bloc/home_bloc.dart';
 import 'package:whereisit/screens/home/home.screen.dart';
 import 'package:whereisit/screens/item_details/item_details.screen.dart';
 import 'package:whereisit/screens/search_items/search_items.screen.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(create: (context) => FilteredItemsBloc()),
         BlocProvider(
           create: (context) => EditItemBloc(Item.forUi({})),

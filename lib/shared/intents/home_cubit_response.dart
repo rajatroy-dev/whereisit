@@ -1,13 +1,13 @@
 import 'package:whereisit/shared/enums/items_type.enum.dart';
 
-class HomeCubitResponse {
+class HomeBlocResponse {
   final Map<ItemsType, bool> success;
   final Map<ItemsType, String> error;
   final Map<ItemsType, String> errorCode;
   final Map<ItemsType, int> statusCode;
   final Map<ItemsType, dynamic> result;
 
-  HomeCubitResponse(
+  HomeBlocResponse(
     this.error,
     this.result,
     this.success,
