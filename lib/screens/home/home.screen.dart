@@ -29,6 +29,43 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  _whenToBuild(ItemsType type, HomeState current) {
+    var result = false;
+
+    switch (type) {
+      case ItemsType.favorite:
+        result = current is HomeFetchFavoritesLoading ||
+            current is HomeFetchFavoritesSuccess ||
+            current is HomeFetchFavoritesFailure;
+        break;
+      case ItemsType.oldest:
+        result = current is HomeFetchOldestLoading ||
+            current is HomeFetchOldestSuccess ||
+            current is HomeFetchOldestFailure;
+        break;
+      case ItemsType.latest:
+        result = current is HomeFetchLatestLoading ||
+            current is HomeFetchLatestSuccess ||
+            current is HomeFetchLatestFailure;
+        break;
+      case ItemsType.mostTagged:
+        result = current is HomeFetchMostTaggedLoading ||
+            current is HomeFetchMostTaggedSuccess ||
+            current is HomeFetchMostTaggedFailure;
+        break;
+      default:
+        break;
+    }
+
+    return result;
+  }
+
+  _buildProgressIndicator() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -40,9 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 current is HomeFetchTilesSuccess,
             builder: (context, state) {
               if (state is HomeFetchTilesLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                _buildProgressIndicator();
               }
               if (state is HomeFetchTilesSuccess) {
                 return TilesContainer(
@@ -64,14 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 const ItemsListTitle(listTitle: 'Favorite Items'),
                 BlocBuilder<HomeBloc, HomeState>(
                   buildWhen: (previous, current) =>
-                      current is HomeFetchFavoritesLoading ||
-                      current is HomeFetchFavoritesSuccess ||
-                      current is HomeFetchFavoritesFailure,
+                      _whenToBuild(ItemsType.favorite, current),
                   builder: (context, state) {
                     if (state is HomeFetchFavoritesLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      _buildProgressIndicator();
                     }
                     if (state is HomeFetchFavoritesSuccess) {
                       return ItemsList(
@@ -98,14 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 const ItemsListTitle(listTitle: 'Oldest Items'),
                 BlocBuilder<HomeBloc, HomeState>(
                   buildWhen: (previous, current) =>
-                      current is HomeFetchOldestLoading ||
-                      current is HomeFetchOldestSuccess ||
-                      current is HomeFetchOldestFailure,
+                      _whenToBuild(ItemsType.oldest, current),
                   builder: (context, state) {
                     if (state is HomeFetchOldestLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      _buildProgressIndicator();
                     }
                     if (state is HomeFetchOldestSuccess) {
                       return ItemsList(
@@ -132,14 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 const ItemsListTitle(listTitle: 'Latest Items'),
                 BlocBuilder<HomeBloc, HomeState>(
                   buildWhen: (previous, current) =>
-                      current is HomeFetchLatestLoading ||
-                      current is HomeFetchLatestSuccess ||
-                      current is HomeFetchLatestFailure,
+                      _whenToBuild(ItemsType.latest, current),
                   builder: (context, state) {
                     if (state is HomeFetchLatestLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      _buildProgressIndicator();
                     }
                     if (state is HomeFetchLatestSuccess) {
                       return ItemsList(
@@ -166,14 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 const ItemsListTitle(listTitle: 'Most Tagged Items'),
                 BlocBuilder<HomeBloc, HomeState>(
                   buildWhen: (previous, current) =>
-                      current is HomeFetchMostTaggedLoading ||
-                      current is HomeFetchMostTaggedSuccess ||
-                      current is HomeFetchMostTaggedFailure,
+                      _whenToBuild(ItemsType.mostTagged, current),
                   builder: (context, state) {
                     if (state is HomeFetchMostTaggedLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      _buildProgressIndicator();
                     }
                     if (state is HomeFetchMostTaggedSuccess) {
                       return ItemsList(
