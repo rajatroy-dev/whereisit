@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:whereisit/data/repository/property_repository.dart';
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/tiles_details_data.model.dart';
 import 'package:whereisit/shared/enums/items_type.enum.dart';
@@ -9,9 +10,11 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final propertyRepo = PropertyRepository();
+
   HomeBloc() : super(HomeInitial()) {
     var tilesList = [
-      TilesDetailsData('Property', 1),
+      TilesDetailsData('Property', 0),
       TilesDetailsData('Area', 3),
       TilesDetailsData('Room', 2),
       TilesDetailsData('Item', 4),
@@ -69,15 +72,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     var latestList = oldestList;
     var favoriteList = oldestList;
     var mostTaggedList = oldestList;
+    var response = HomeBlocResponse({}, {}, {}, {}, {});
 
-    on<HomeFetchTiles>((event, emit) {
+    on<HomeFetchTiles>((event, emit) async {
       emit(HomeFetchTilesLoading());
 
-      var response = HomeBlocResponse({}, {}, {}, {}, {});
+      var totalProperties = await propertyRepo.getTotalProperties();
+
       response.success[ItemsType.tiles] = true;
       response.error[ItemsType.tiles] = '';
       response.errorCode[ItemsType.tiles] = "0";
-      response.statusCode[ItemsType.tiles] = 200;
+      response.statusCode[ItemsType.tiles] = totalProperties;
       response.result[ItemsType.tiles] = tilesList;
 
       emit(HomeFetchTilesSuccess(response));

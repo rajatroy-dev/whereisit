@@ -2,16 +2,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
-  static late Database _database;
+  static Database? _database;
 
   static Future<Database> get database async {
-    // ignore: unnecessary_null_comparison
-    if (_database != null) {
-      return _database;
-    }
+    if (_database != null) return _database!;
 
     _database = await _initDatabase();
-    return _database;
+    return _database!;
   }
 
   static Future<Database> _initDatabase() async {
@@ -38,23 +35,15 @@ class DatabaseProvider {
 
     DateTime now = DateTime.now();
     String isoDate = now.toIso8601String();
-    await db.execute('''
-      INSERT INTO users (
-        name,
-        username,
-        created_by,
-        created_at,
-        updated_by,
-        updated_at
-      ) VALUES (
-        'System',
-        'system',
-        'system',
-        $isoDate,
-        'system',
-        $isoDate
-      )
-    ''');
+
+    await db.insert('users', {
+      'name': 'System',
+      'username': 'system',
+      'created_by': 'system',
+      'created_at': isoDate,
+      'updated_by': 'system',
+      'updated_at': isoDate,
+    });
 
     // location is like a geographical location
     // It will have an address
@@ -71,21 +60,13 @@ class DatabaseProvider {
     // The items stored will normally be categorized like books, electronics ...
     await db.execute(createCategoriesTable);
 
-    await db.execute('''
-      INSERT INTO categories (
-        name,
-        created_by,
-        created_at,
-        updated_by,
-        updated_at
-        ) VALUES (
-        'Uncategorized',
-        'system',
-        $isoDate,
-        'system',
-        $isoDate
-      )
-    ''');
+    await db.insert('categories', {
+      'name': 'Uncategorized',
+      'created_by': 'system',
+      'created_at': isoDate,
+      'updated_by': 'system',
+      'updated_at': isoDate,
+    });
 
     // Items are the things that are stored
     await db.execute(createItemsTable);
@@ -214,9 +195,9 @@ class DatabaseProvider {
 
   static const createItemTagTable = '''
     CREATE TABLE item_tag (
-      PRIMARY KEY (item_id, tag_id),
       item_id INTEGER REFERENCES items(id) ON DELETE CASCADE,
-      tag_id INTEGER NOT NULL REFERENCES tags(id) ON DELETE RESTRICT
+      tag_id INTEGER NOT NULL REFERENCES tags(id) ON DELETE RESTRICT,
+      PRIMARY KEY (item_id, tag_id)
     )
   ''';
 }
