@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final property = propertyFromMap(jsonString);
-
 class Property {
   Property({
     this.id,
@@ -13,8 +9,8 @@ class Property {
     required this.updatedBy,
   });
 
-  int? id;
-  int? locationId;
+  final int? id;
+  final int? locationId;
   final String name;
   final DateTime createdAt;
   final String createdBy;
