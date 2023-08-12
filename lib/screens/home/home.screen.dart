@@ -86,6 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       : [],
                 );
               }
+              if (state is HomeFetchTilesFailure) {
+                return ListError(
+                  errorMessage: state.response.error[ItemsType.favorite] != null
+                      ? state.response.error[ItemsType.favorite]!
+                      : 'Something went wrong!',
+                );
+              }
               return const SizedBox();
             },
           ),

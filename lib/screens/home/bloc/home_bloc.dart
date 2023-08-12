@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:whereisit/data/repository/item_repository.dart';
+import 'package:whereisit/data/repository/location_repository.dart';
 import 'package:whereisit/data/repository/property_repository.dart';
 import 'package:whereisit/data/repository/room_repository.dart';
 import 'package:whereisit/models/card_data.model.dart';
@@ -13,6 +15,8 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final propertyRepo = PropertyRepository();
   final roomRepo = RoomRepository();
+  final locationRepo = LocationRepository();
+  final itemRepo = ItemRepository();
 
   HomeBloc() : super(HomeInitial()) {
     var tilesList = <TilesDetailsData>[];
@@ -74,23 +78,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeFetchTiles>((event, emit) async {
       emit(HomeFetchTilesLoading());
 
-      var totalProperties = await propertyRepo.getTotalProperties();
-      var totalRooms = await roomRepo.getTotalRooms();
+      try {
+        var totalProperties = await propertyRepo.getTotalProperties();
+        var totalRooms = await roomRepo.getTotalRooms();
+        var totalLocations = await locationRepo.getTotalLocations();
+        var totalItems = await itemRepo.getTotalItems();
 
-      tilesList = [
-        TilesDetailsData('Property', totalProperties),
-        TilesDetailsData('Area', totalRooms),
-        TilesDetailsData('Room', 2),
-        TilesDetailsData('Item', 4),
-      ];
+        tilesList = [
+          TilesDetailsData('Property', totalProperties),
+          TilesDetailsData('Area', totalLocations),
+          TilesDetailsData('Room', totalRooms),
+          TilesDetailsData('Item', totalItems),
+        ];
 
-      response.success[ItemsType.tiles] = true;
-      response.error[ItemsType.tiles] = '';
-      response.errorCode[ItemsType.tiles] = "0";
-      response.statusCode[ItemsType.tiles] = 200;
-      response.result[ItemsType.tiles] = tilesList;
+        response.success[ItemsType.tiles] = true;
+        response.error[ItemsType.tiles] = '';
+        response.errorCode[ItemsType.tiles] = "0";
+        response.statusCode[ItemsType.tiles] = 200;
+        response.result[ItemsType.tiles] = tilesList;
 
-      emit(HomeFetchTilesSuccess(response));
+        emit(HomeFetchTilesSuccess(response));
+      } catch (e) {
+        response.success[ItemsType.oldest] = false;
+        response.error[ItemsType.oldest] = 'Error while loading tiles!';
+        response.errorCode[ItemsType.oldest] = "1";
+        response.statusCode[ItemsType.oldest] = 500;
+        response.result[ItemsType.oldest] = null;
+
+        emit(HomeFetchTilesFailure(response));
+      }
     });
 
     on<HomeFetchOldest>((event, emit) {

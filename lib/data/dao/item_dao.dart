@@ -1,3 +1,4 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:whereisit/models/item_with_location_propert_room_category_tag.model.dart';
 
 import '../database.dart';
@@ -54,7 +55,7 @@ class ItemDao {
     return list;
   }
 
-// item_with_location_propert_room_category_tag
+  // item_with_location_propert_room_category_tag
   Future<ItemWithLocationPropertyRoomCategoryTag?>
       findItemWithLocationPropertyRoomCategoryTagById(
     int id,
@@ -195,12 +196,22 @@ class ItemDao {
         WHERE ranked_tags.tag_rank = 1
         LIMIT 5;
       ''');
+
     List<Item> list = [];
     if (res.isNotEmpty) {
       list = List.generate(res.length, (index) => Item.fromMap(res[index]));
     }
 
     return list;
+  }
+
+  Future<int> getTotalItems() async {
+    final db = await DatabaseProvider.database;
+
+    final res = await db.rawQuery('SELECT COUNT(*) FROM $table');
+    int? count = Sqflite.firstIntValue(res);
+
+    return count ?? 0;
   }
 
   Future<List<Item>> findAll() async {

@@ -45,6 +45,12 @@ class HomeFetchMostTaggedSuccess extends HomeInitial {
   HomeFetchMostTaggedSuccess(this.response);
 }
 
+class HomeFetchTilesFailure extends HomeInitial {
+  final HomeBlocResponse response;
+
+  HomeFetchTilesFailure(this.response);
+}
+
 class HomeFetchOldestFailure extends HomeInitial {
   final HomeBlocResponse response;
 
