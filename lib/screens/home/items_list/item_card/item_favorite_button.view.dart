@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ItemFavoriteButton extends StatelessWidget {
-  final String id;
+  final int id;
 
   const ItemFavoriteButton({
     Key? key,

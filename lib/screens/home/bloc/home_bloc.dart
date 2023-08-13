@@ -71,7 +71,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     ];
 
     var latestList = oldestList;
-    var favoriteList = oldestList;
     var mostTaggedList = oldestList;
     var response = HomeBlocResponse({}, {}, {}, {}, {});
 
@@ -99,13 +98,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         emit(HomeFetchTilesSuccess(response));
       } catch (e) {
-        response.success[ItemsType.oldest] = false;
-        response.error[ItemsType.oldest] = 'Error while loading tiles!';
-        response.errorCode[ItemsType.oldest] = "1";
-        response.statusCode[ItemsType.oldest] = 500;
-        response.result[ItemsType.oldest] = null;
+        response.success[ItemsType.tiles] = false;
+        response.error[ItemsType.tiles] = 'Error while loading tiles!';
+        response.errorCode[ItemsType.tiles] = "1";
+        response.statusCode[ItemsType.tiles] = 500;
+        response.result[ItemsType.tiles] = null;
 
         emit(HomeFetchTilesFailure(response));
+      }
+    });
+
+    on<HomeFetchFavorites>((event, emit) async {
+      emit(HomeFetchFavoritesLoading());
+
+      try {
+        var favorites = await itemRepo.findFavoriteItems();
+
+        response.success[ItemsType.favorite] = true;
+        response.error[ItemsType.favorite] = '';
+        response.errorCode[ItemsType.favorite] = "0";
+        response.statusCode[ItemsType.favorite] = 200;
+        response.result[ItemsType.favorite] = favorites;
+        emit(HomeFetchFavoritesSuccess(response));
+      } catch (e) {
+        response.success[ItemsType.favorite] = false;
+        response.error[ItemsType.favorite] =
+            'Error while loading list of favorites!';
+        response.errorCode[ItemsType.favorite] = "4";
+        response.statusCode[ItemsType.favorite] = 400;
+        response.result[ItemsType.favorite] = null;
+        emit(HomeFetchFavoritesFailure(response));
       }
     });
 
@@ -150,28 +172,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         response.statusCode[ItemsType.latest] = 200;
         response.result[ItemsType.latest] = oldestList;
         emit(HomeFetchLatestSuccess(response));
-      }
-    });
-
-    on<HomeFetchFavorites>((event, emit) {
-      emit(HomeFetchFavoritesLoading());
-
-      var response = HomeBlocResponse({}, {}, {}, {}, {});
-      if (favoriteList.isEmpty) {
-        response.success[ItemsType.favorite] = false;
-        response.error[ItemsType.favorite] =
-            'Error while loading list of favorites!';
-        response.errorCode[ItemsType.favorite] = "4";
-        response.statusCode[ItemsType.favorite] = 400;
-        response.result[ItemsType.favorite] = null;
-        emit(HomeFetchFavoritesFailure(response));
-      } else {
-        response.success[ItemsType.favorite] = true;
-        response.error[ItemsType.favorite] = '';
-        response.errorCode[ItemsType.favorite] = "0";
-        response.statusCode[ItemsType.favorite] = 200;
-        response.result[ItemsType.favorite] = favoriteList;
-        emit(HomeFetchFavoritesSuccess(response));
       }
     });
 

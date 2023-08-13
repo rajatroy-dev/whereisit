@@ -4,7 +4,7 @@ import '../database.dart';
 import '../../models/room.model.dart';
 
 class RoomDao {
-  static const String table = 'room';
+  static const String table = 'rooms';
 
   Future<int> insert(Room room) async {
     final db = await DatabaseProvider.database;

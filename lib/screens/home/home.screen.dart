@@ -74,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocBuilder<HomeBloc, HomeState>(
             buildWhen: (previous, current) =>
                 current is HomeFetchTilesLoading ||
-                current is HomeFetchTilesSuccess,
+                current is HomeFetchTilesSuccess ||
+                current is HomeFetchTilesFailure,
             builder: (context, state) {
               if (state is HomeFetchTilesLoading) {
                 _buildProgressIndicator();
@@ -88,8 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               if (state is HomeFetchTilesFailure) {
                 return ListError(
-                  errorMessage: state.response.error[ItemsType.favorite] != null
-                      ? state.response.error[ItemsType.favorite]!
+                  errorMessage: state.response.error[ItemsType.tiles] != null
+                      ? state.response.error[ItemsType.tiles]!
                       : 'Something went wrong!',
                 );
               }

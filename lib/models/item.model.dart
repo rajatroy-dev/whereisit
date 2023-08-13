@@ -161,9 +161,9 @@ class Item {
         serial: json["serial"],
         description: json["description"],
         qr: json["qr"],
-        createdAt: DateTime.tryParse(json["createdAt"]) ?? DateTime.now(),
+        createdAt: DateTime.tryParse(json["createdAt"] ?? '') ?? DateTime.now(),
         createdBy: json["createdBy"] ?? '',
-        updatedAt: DateTime.tryParse(json["updatedAt"]) ?? DateTime.now(),
+        updatedAt: DateTime.tryParse(json["updatedAt"] ?? '') ?? DateTime.now(),
         updatedBy: json["updatedBy"] ?? '',
         //--------------- ONLY FOR UI USE ---------------
         uiName: json['uiName'] ?? '',

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:whereisit/models/card_data.model.dart';
+import 'package:whereisit/models/item.model.dart';
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
 import 'package:whereisit/screens/home/items_list/item_card/item_card.viewgroup.dart';
 import 'package:whereisit/shared/enums/traits.enum.dart';
 
 class ItemsList extends StatelessWidget {
-  final List<CardData> list;
+  final List<Item> list;
   final Traits navigateTo;
 
   const ItemsList({

@@ -1,6 +1,6 @@
 class RouteArguments {
   final bool hasParams;
-  Map<String, String>? params;
+  Map<String, dynamic>? params;
 
   RouteArguments({
     required this.hasParams,
