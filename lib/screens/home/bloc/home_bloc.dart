@@ -4,7 +4,6 @@ import 'package:whereisit/data/repository/item_repository.dart';
 import 'package:whereisit/data/repository/location_repository.dart';
 import 'package:whereisit/data/repository/property_repository.dart';
 import 'package:whereisit/data/repository/room_repository.dart';
-import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/models/tiles_details_data.model.dart';
 import 'package:whereisit/shared/enums/items_type.enum.dart';
 import 'package:whereisit/shared/intents/home_cubit_response.dart';
@@ -21,61 +20,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     var tilesList = <TilesDetailsData>[];
 
-    var oldestList = [
-      CardData(
-        id: "6",
-        imageSrc: 'https://picsum.photos/115',
-        title: "A random picture 6",
-        location: "A random location 6",
-        qty: 1,
-        tags: ["tag3", "tag4"],
-        createdAt: "2022-07-12",
-      ),
-      CardData(
-        id: "7",
-        imageSrc: 'https://picsum.photos/115',
-        title: "A random picture 7",
-        location: "A random location 7",
-        qty: 2,
-        tags: ["tag7", "tag8"],
-        createdAt: "2022-06-06",
-      ),
-      CardData(
-        id: "8",
-        imageSrc: 'https://picsum.photos/115',
-        title: "A random picture 8",
-        location: "A random location 8",
-        qty: 3,
-        tags: ["tag9", "tag10"],
-        createdAt: "2022-05-19",
-      ),
-      CardData(
-        id: "9",
-        imageSrc: 'https://picsum.photos/115',
-        title: "A random picture 9",
-        location: "A random location 9",
-        qty: 4,
-        tags: ["tag7", "tag10"],
-        createdAt: "2022-04-17",
-        isFavorite: true,
-      ),
-      CardData(
-        id: "10",
-        imageSrc: 'https://picsum.photos/115',
-        title: "A random picture 10",
-        location: "A random location 10",
-        qty: 10,
-        tags: ["tag8", "tag9"],
-        createdAt: "2022-03-20",
-      ),
-    ];
-
-    var latestList = oldestList;
-    var mostTaggedList = oldestList;
-    var response = HomeBlocResponse({}, {}, {}, {}, {});
-
     on<HomeFetchTiles>((event, emit) async {
       emit(HomeFetchTilesLoading());
+      var response = HomeBlocResponse({}, {}, {}, {}, {});
 
       try {
         var totalProperties = await propertyRepo.getTotalProperties();
@@ -110,6 +57,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<HomeFetchFavorites>((event, emit) async {
       emit(HomeFetchFavoritesLoading());
+      var response = HomeBlocResponse({}, {}, {}, {}, {});
 
       try {
         var favorites = await itemRepo.findFavoriteItems();
@@ -131,11 +79,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
-    on<HomeFetchOldest>((event, emit) {
+    on<HomeFetchOldest>((event, emit) async {
       emit(HomeFetchOldestLoading());
-
       var response = HomeBlocResponse({}, {}, {}, {}, {});
-      if (oldestList.isEmpty) {
+
+      try {
+        var oldestItems = await itemRepo.findOldestItems();
+
+        response.success[ItemsType.oldest] = true;
+        response.error[ItemsType.oldest] = '';
+        response.errorCode[ItemsType.oldest] = "0";
+        response.statusCode[ItemsType.oldest] = 200;
+        response.result[ItemsType.oldest] = oldestItems;
+        emit(HomeFetchOldestSuccess(response));
+      } catch (e) {
         response.success[ItemsType.oldest] = false;
         response.error[ItemsType.oldest] =
             'Error while loading list of oldest items!';
@@ -143,21 +100,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         response.statusCode[ItemsType.oldest] = 400;
         response.result[ItemsType.oldest] = null;
         emit(HomeFetchOldestFailure(response));
-      } else {
-        response.success[ItemsType.oldest] = true;
-        response.error[ItemsType.oldest] = '';
-        response.errorCode[ItemsType.oldest] = "0";
-        response.statusCode[ItemsType.oldest] = 200;
-        response.result[ItemsType.oldest] = oldestList;
-        emit(HomeFetchOldestSuccess(response));
       }
     });
 
-    on<HomeFetchLatest>((event, emit) {
+    on<HomeFetchLatest>((event, emit) async {
       emit(HomeFetchLatestLoading());
-
       var response = HomeBlocResponse({}, {}, {}, {}, {});
-      if (latestList.isEmpty) {
+
+      try {
+        var latestItems = await itemRepo.findLatestItems();
+
+        response.success[ItemsType.latest] = true;
+        response.error[ItemsType.latest] = '';
+        response.errorCode[ItemsType.latest] = "0";
+        response.statusCode[ItemsType.latest] = 200;
+        response.result[ItemsType.latest] = latestItems;
+        emit(HomeFetchLatestSuccess(response));
+      } catch (e) {
         response.success[ItemsType.latest] = false;
         response.error[ItemsType.latest] =
             'Error while loading list of latest items!';
@@ -165,21 +124,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         response.statusCode[ItemsType.latest] = 400;
         response.result[ItemsType.latest] = null;
         emit(HomeFetchLatestFailure(response));
-      } else {
-        response.success[ItemsType.latest] = true;
-        response.error[ItemsType.latest] = '';
-        response.errorCode[ItemsType.latest] = "0";
-        response.statusCode[ItemsType.latest] = 200;
-        response.result[ItemsType.latest] = oldestList;
-        emit(HomeFetchLatestSuccess(response));
       }
     });
 
-    on<HomeFetchMostTagged>((event, emit) {
+    on<HomeFetchMostTagged>((event, emit) async {
       emit(HomeFetchMostTaggedLoading());
-
       var response = HomeBlocResponse({}, {}, {}, {}, {});
-      if (mostTaggedList.isEmpty) {
+
+      try {
+        var mostTaggedItems = await itemRepo.findItemsWithHighestTagCount();
+
+        response.success[ItemsType.mostTagged] = true;
+        response.error[ItemsType.mostTagged] = '';
+        response.errorCode[ItemsType.mostTagged] = "0";
+        response.statusCode[ItemsType.mostTagged] = 200;
+        response.result[ItemsType.mostTagged] = mostTaggedItems;
+        emit(HomeFetchMostTaggedSuccess(response));
+      } catch (e) {
         response.success[ItemsType.mostTagged] = false;
         response.error[ItemsType.mostTagged] =
             'Error while loading list of most tagged items!';
@@ -187,13 +148,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         response.statusCode[ItemsType.mostTagged] = 400;
         response.result[ItemsType.mostTagged] = null;
         emit(HomeFetchMostTaggedFailure(response));
-      } else {
-        response.success[ItemsType.mostTagged] = true;
-        response.error[ItemsType.mostTagged] = '';
-        response.errorCode[ItemsType.mostTagged] = "0";
-        response.statusCode[ItemsType.mostTagged] = 200;
-        response.result[ItemsType.mostTagged] = mostTaggedList;
-        emit(HomeFetchMostTaggedSuccess(response));
       }
     });
   }
