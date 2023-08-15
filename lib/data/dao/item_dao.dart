@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:whereisit/data/db_response.dart';
 import 'package:whereisit/models/item_with_location_propert_room_category_tag.model.dart';
 
 import '../database.dart';
@@ -37,22 +38,33 @@ class ItemDao {
     return Item.fromMap(res.first);
   }
 
-  Future<List<Item>> findItemsByTag(int id) async {
+  Future<DatabaseResponse> findItemsByTag(int id) async {
     final db = await DatabaseProvider.database;
 
-    final res = await db.rawQuery('''
-      SELECT items.id, items.name, items.thumbnail, items.quantity, items.favorite
-      FROM items
-      INNER JOIN item_tag ON items.id = item_tag.item_id
-      WHERE item_tag.item_id = ?
-    ''', [id]);
+    List<Map<String, Object?>> res;
+    try {
+      res = await db.rawQuery('''
+        SELECT
+          items.id,
+          items.name,
+          items.thumbnail,
+          items.quantity,
+          items.favorite
+        FROM items
+        INNER JOIN item_tag
+          ON items.id = item_tag.item_id
+        WHERE item_tag.item_id = ?
+      ''', [id]);
+    } catch (e) {
+      return DatabaseResponse<String>.error(e.toString());
+    }
 
     List<Item> list = [];
     if (res.isNotEmpty) {
       list = List.generate(res.length, (index) => Item.fromMap(res[index]));
     }
 
-    return list;
+    return DatabaseResponse.completed(list);
   }
 
   // item_with_location_propert_room_category_tag
@@ -175,25 +187,18 @@ class ItemDao {
     final db = await DatabaseProvider.database;
 
     final res = await db.rawQuery('''
-        WITH ranked_tags AS (
-          SELECT 
-            item_tag.item_id,
-            tags.id AS tag_id,
-            tags.name AS tag_name,
-            tags.tag_count,
-            ROW_NUMBER() OVER (PARTITION BY item_tag.item_id ORDER BY tags.tag_count DESC) AS tag_rank
-          FROM item_tag
-          INNER JOIN tags ON item_tag.tags.id = tags.id
-        )
         SELECT 
           items.id AS item_id,
           items.name AS item_name,
           items.thumbnail AS item_thumbnail,
           items.quantity AS item_quantity,
           items.favorite AS item_favorite,
+          COUNT(item_tag.tag_id) AS tag_count
         FROM items
-        INNER JOIN ranked_tags ON items.id = ranked_tags.item_id
-        WHERE ranked_tags.tag_rank = 1
+        INNER JOIN item_tag 
+          ON items.id = item_tag.item_id
+        GROUP BY items.id, items.name
+        ORDER BY tag_count DESC
         LIMIT 5;
       ''');
 

@@ -1,3 +1,4 @@
+import 'package:whereisit/data/db_response.dart';
 import 'package:whereisit/models/item_with_location_propert_room_category_tag.model.dart';
 
 import '../dao/item_dao.dart';
@@ -8,7 +9,7 @@ class ItemRepository {
 
   Future<int> insert(Item item) => dao.insert(item);
   Future<Item?> findById(int id) => dao.findById(id);
-  Future<List<Item>> findItemsByTag(int id) => dao.findItemsByTag(id);
+  Future<DatabaseResponse> findItemsByTag(int id) => dao.findItemsByTag(id);
   Future<ItemWithLocationPropertyRoomCategoryTag?>
       findItemWithLocationPropertyRoomCategoryTagById(int id) =>
           dao.findItemWithLocationPropertyRoomCategoryTagById(id);
