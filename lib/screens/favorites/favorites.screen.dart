@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:whereisit/models/card_data.model.dart';
 import 'package:whereisit/shared/widgets/full_width_card_list/full_width_card_list.viewgroup.dart';
-import 'package:whereisit/shared/widgets/sort_filter/sort_filter.viewgroup.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({
@@ -142,22 +141,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SortFilter(
-          sortHandler: () {},
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 5.0,
-          ),
-          child: TextFormField(
-            onChanged: handleChange,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Search . . .',
-            ),
-          ),
-        ),
         Expanded(
           child: isLoading
               ? const Center(
