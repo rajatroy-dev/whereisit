@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whereisit/screens/filter_options/filter_options.screen.dart';
+import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 
 class FavoritesFilter extends StatelessWidget {
   const FavoritesFilter({Key? key}) : super(key: key);
@@ -10,7 +12,11 @@ class FavoritesFilter extends StatelessWidget {
         Icons.filter_alt_rounded,
       ),
       onPressed: () {
-        // TODO: Add Bloc to handle filter
+        var args = RouteArguments(
+          hasParams: true,
+          params: {'fromFavorites': true},
+        );
+        Navigator.pushNamed(context, FilterOptions.routeName, arguments: args);
       },
     );
   }
