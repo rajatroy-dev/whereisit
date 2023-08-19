@@ -3,36 +3,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
+import 'package:whereisit/shared/widgets/abstract_accordian/abstract_accordian.view.dart';
 
-class Accordion extends StatefulWidget {
-  final String title;
-  final List<String> content;
+class Accordion extends AbstractAccordian {
   final bool? isEditable;
   final bool? isOnlyCategory;
 
   const Accordion({
     Key? key,
-    required this.title,
-    required this.content,
+    required title,
+    required content,
     this.isEditable,
     this.isOnlyCategory,
-  }) : super(key: key);
+  }) : super(key: key, title: title, content: content);
   @override
-  State<Accordion> createState() => _AccordionState();
+  AccordionState createState() => AccordionState();
 }
 
-class _AccordionState extends State<Accordion> {
-  // Show or hide the content
-  bool _showContent = false;
+class AccordionState extends AbstractAccordianState<Accordion> {
+  @override
+  void handleAccordianItemTap(BuildContext context, int itemIndex) {
+    BlocProvider.of<EditItemBloc>(context).add(
+      EditItemSubcategorySelect({widget.title: widget.content[itemIndex]}),
+    );
+  }
 
-  List<Widget> _buildList(String category) {
+  @override
+  List<Widget> buildAccordianList() {
     var columnList = <Widget>[];
     for (var index = 0; index < widget.content.length; index++) {
       columnList.add(
         InkWell(
-          onTap: () => BlocProvider.of<EditItemBloc>(context).add(
-            EditItemSubcategorySelect({category: widget.content[index]}),
-          ),
+          onTap: () => handleAccordianItemTap(context, index),
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(
@@ -46,7 +48,7 @@ class _AccordionState extends State<Accordion> {
                     onChanged: (value) {
                       BlocProvider.of<EditItemBloc>(context).add(
                         EditItemSubcategoryChange({
-                          '$index:$category': value,
+                          '$index:${widget.title}': value,
                         }),
                       );
                     },
@@ -69,6 +71,49 @@ class _AccordionState extends State<Accordion> {
   }
 
   @override
+  void handleAccordianTitleTap(BuildContext context) {
+    widget.isOnlyCategory == null || !widget.isOnlyCategory!
+        ? super.toggleAccordian()
+        : () => BlocProvider.of<EditItemBloc>(context).add(
+              EditItemCategorySelect(widget.title),
+            );
+  }
+
+  @override
+  Widget? buildAccordianTitle() {
+    if (widget.isEditable != null && widget.isEditable!) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: TextFormField(
+          onChanged: (value) {
+            BlocProvider.of<EditItemBloc>(context).add(
+              EditItemCategoryChange({widget.title: value}),
+            );
+          },
+          initialValue: widget.title,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Category',
+          ),
+        ),
+      );
+    }
+
+    return Text(widget.title);
+  }
+
+  @override
+  Widget? buildAccordianTitleTrailingIcon() {
+    if (widget.isOnlyCategory == null || !widget.isOnlyCategory!) {
+      return Icon(
+        super.isAccordianOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+      );
+    }
+
+    return null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(
@@ -78,47 +123,18 @@ class _AccordionState extends State<Accordion> {
       child: Column(
         children: [
           InkWell(
-            onTap: widget.isOnlyCategory == null || !widget.isOnlyCategory!
-                ? () => setState(() {
-                      _showContent = !_showContent;
-                    })
-                : () => BlocProvider.of<EditItemBloc>(context).add(
-                      EditItemCategorySelect(widget.title),
-                    ),
+            onTap: () => handleAccordianTitleTap(context),
             child: ListTile(
               // The title
-              title: widget.isEditable != null && widget.isEditable!
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: TextFormField(
-                        onChanged: (value) {
-                          BlocProvider.of<EditItemBloc>(context).add(
-                            EditItemCategoryChange({widget.title: value}),
-                          );
-                        },
-                        initialValue: widget.title,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Category',
-                        ),
-                      ),
-                    )
-                  : Text(widget.title),
-              trailing: widget.isOnlyCategory == null || !widget.isOnlyCategory!
-                  ? Icon(
-                      _showContent
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                    )
-                  : const SizedBox(),
+              title: buildAccordianTitle(),
+              trailing: buildAccordianTitleTrailingIcon(),
             ),
           ),
           // Show or hide the content based on the state
-          _showContent
-              ? Column(
-                  children: _buildList(widget.title),
-                )
-              : const SizedBox(),
+          if (isAccordianOpen)
+            Column(
+              children: buildAccordianList(),
+            ),
         ],
       ),
     );
