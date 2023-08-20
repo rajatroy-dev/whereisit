@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whereisit/screens/category_subcategory/accordian/accordian.view.dart';
+import 'package:whereisit/screens/category_subcategory/accordian/category_subcategory_accordian.view.dart';
 import 'package:whereisit/screens/category_subcategory/add_edit_category/add_category.view.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/appbar_action.enum.dart';
@@ -43,7 +43,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
                             state.item.uiCatSubcat!.subcategories[category];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Accordion(
+                          child: CategorySubcategoryAccordian(
                             title: category,
                             content: subCategories ?? [],
                             isOnlyCategory:
@@ -71,7 +71,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
                             state.item.uiCatSubcat!.subcategories[category];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Accordion(
+                          child: CategorySubcategoryAccordian(
                             title: category,
                             content: subCategories ?? [],
                             isEditable: true,
@@ -100,7 +100,7 @@ class CategorySubcategoryScreen extends StatelessWidget {
                                 state.item.uiCatSubcat!.categories[index];
                             var subCategories =
                                 state.item.uiCatSubcat!.subcategories[category];
-                            return Accordion(
+                            return CategorySubcategoryAccordian(
                               title: category,
                               content: subCategories ?? [],
                               isOnlyCategory: subCategories == null ||

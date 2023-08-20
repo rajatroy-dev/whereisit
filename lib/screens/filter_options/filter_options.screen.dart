@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/screens/category_subcategory/accordian/accordian.view.dart';
+import 'package:whereisit/screens/category_subcategory/accordian/category_subcategory_accordian.view.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
@@ -42,7 +42,7 @@ class FilterOptions extends StatelessWidget {
       body: Column(
         children: [
           const Text("Filter By"),
-          Accordion(
+          CategorySubcategoryAccordian(
             title: 'Property',
             content: [
               'ABC',
