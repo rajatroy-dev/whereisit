@@ -5,7 +5,7 @@ import 'package:whereisit/screens/add/add.screen.dart';
 import 'package:whereisit/screens/all_items/all_items.screen.dart';
 import 'package:whereisit/screens/category_subcategory/category_subcategory.viewgroup.dart';
 import 'package:whereisit/screens/favorites/favorites.screen.dart';
-import 'package:whereisit/screens/favorites/favorites_filter.view.dart';
+import 'package:whereisit/screens/favorites/favorites_filter_button.view.dart';
 import 'package:whereisit/screens/filter_options/filter_options.screen.dart';
 import 'package:whereisit/screens/filtered_items/bloc/filtered_items_bloc.dart';
 import 'package:whereisit/screens/filtered_items/filtered_items.screen.dart';
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
       ),
       floatingActionButton:
-          _selectedIndex == 1 ? const FavoritesFilter() : null,
+          _selectedIndex == 1 ? const FavoritesFilterButton() : null,
     );
   }
 }

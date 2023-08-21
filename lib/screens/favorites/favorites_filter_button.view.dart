@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:whereisit/screens/filter_options/filter_options.screen.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 
-class FavoritesFilter extends StatelessWidget {
-  const FavoritesFilter({Key? key}) : super(key: key);
+class FavoritesFilterButton extends StatelessWidget {
+  const FavoritesFilterButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
