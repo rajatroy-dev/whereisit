@@ -6,6 +6,7 @@ import 'package:whereisit/shared/enums/appbar_action.enum.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/scaffold_search_bar.view.dart';
 
 class AppScaffold extends StatefulWidget {
+  final String? title;
   final AppBarAction? action;
   final Widget? body;
   final Widget? bottomNavigationBar;
@@ -13,6 +14,7 @@ class AppScaffold extends StatefulWidget {
 
   const AppScaffold({
     Key? key,
+    this.title,
     this.action,
     this.body,
     this.bottomNavigationBar,
@@ -82,7 +84,7 @@ class _AppScaffoldState extends State<AppScaffold> {
           controller: textController,
         );
       default:
-        return const Text('WhereIsIt');
+        return Text(widget.title ?? 'WhereIsIt');
     }
   }
 

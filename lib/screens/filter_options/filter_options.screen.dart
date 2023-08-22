@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whereisit/screens/category_subcategory/accordian/category_subcategory_accordian.view.dart';
+import 'package:whereisit/screens/filter_options/filter_accordian/filter_accordian.view.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
@@ -35,14 +35,15 @@ class FilterOptions extends StatelessWidget {
 
     if (args != null) {
       args = args as RouteArguments;
-      fromFavorites = args.params!['fromFavorites'] as bool;
+      var params = args.params as Map<String, bool>;
+      fromFavorites = params['fromFavorites']!;
     }
 
     return AppScaffold(
+      title: 'Filter favorite items',
       body: Column(
         children: [
-          const Text("Filter By"),
-          CategorySubcategoryAccordian(
+          FilterAccordian(
             title: 'Property',
             content: [
               'ABC',
@@ -50,36 +51,47 @@ class FilterOptions extends StatelessWidget {
               'GHI',
             ],
           ),
-          const Text("Property"),
-          const Text("Area"),
-          const Text("Room"),
-          if (!fromFavorites) ..._buildFavoritesFilter(),
-          const Text("Tags"),
-          Row(
-            children: [
-              const Text("#abc"),
-              Checkbox(
-                value: true,
-                onChanged: (bool? value) {},
-              ),
-              const Text("#def"),
-              Checkbox(
-                value: false,
-                onChanged: (bool? value) {},
-              ),
-              const Text("#ghi"),
-              Checkbox(
-                value: false,
-                onChanged: (bool? value) {},
-              ),
-              const Text("#jkl"),
-              Checkbox(
-                value: false,
-                onChanged: (bool? value) {},
-              ),
+          FilterAccordian(
+            title: 'Area',
+            content: [
+              'ABC',
+              'DEF',
+              'GHI',
             ],
           ),
-          const Text("Map Location"),
+          FilterAccordian(
+            title: 'Room',
+            content: [
+              'ABC',
+              'DEF',
+              'GHI',
+            ],
+          ),
+          if (!fromFavorites) ..._buildFavoritesFilter(),
+          FilterAccordian(
+            title: 'Tags',
+            content: [
+              'ABC',
+              'DEF',
+              'GHI',
+            ],
+          ),
+          FilterAccordian(
+            title: 'Address',
+            content: [
+              'ABC',
+              'DEF',
+              'GHI',
+            ],
+          ),
+          FilterAccordian(
+            title: 'Category',
+            content: [
+              'ABC',
+              'DEF',
+              'GHI',
+            ],
+          ),
         ],
       ),
     );
