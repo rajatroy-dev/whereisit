@@ -8,14 +8,12 @@ import 'package:whereisit/shared/widgets/accordian/accordian.view.dart';
 class FilterAccordian extends StatefulWidget {
   final String title;
   final List<String> content;
-  final bool? isEditable;
   final bool? isOnlyCategory;
 
   const FilterAccordian({
     super.key,
     required this.title,
     required this.content,
-    this.isEditable,
     this.isOnlyCategory,
   });
 
@@ -46,25 +44,10 @@ class _FilterAccordianState extends State<FilterAccordian> {
               bottom: 8.0,
               left: 32.0,
             ),
-            child: widget.isEditable != null && widget.isEditable!
-                ? TextFormField(
-                    onChanged: (value) {
-                      BlocProvider.of<EditItemBloc>(context).add(
-                        EditItemSubcategoryChange({
-                          '$index:${widget.title}': value,
-                        }),
-                      );
-                    },
-                    initialValue: widget.content[index],
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Sub category ${index + 1}',
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(widget.content[index]),
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(widget.content[index]),
+            ),
           ),
         ),
       );
@@ -74,43 +57,17 @@ class _FilterAccordianState extends State<FilterAccordian> {
   }
 
   void handleAccordianTitleTap(BuildContext context) {
-    widget.isOnlyCategory == null || !widget.isOnlyCategory!
-        ? toggleAccordian()
-        : () => BlocProvider.of<EditItemBloc>(context).add(
-              EditItemCategorySelect(widget.title),
-            );
+    toggleAccordian();
   }
 
   Widget? buildAccordianTitle() {
-    if (widget.isEditable != null && widget.isEditable!) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: TextFormField(
-          onChanged: (value) {
-            BlocProvider.of<EditItemBloc>(context).add(
-              EditItemCategoryChange({widget.title: value}),
-            );
-          },
-          initialValue: widget.title,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Category',
-          ),
-        ),
-      );
-    }
-
     return Text(widget.title);
   }
 
   Widget? buildAccordianTitleTrailingIcon() {
-    if (widget.isOnlyCategory == null || !widget.isOnlyCategory!) {
-      return Icon(
-        isAccordianOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-      );
-    }
-
-    return null;
+    return Icon(
+      isAccordianOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+    );
   }
 
   void toggleAccordian() {

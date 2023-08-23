@@ -35,14 +35,14 @@ class FilterOptions extends StatelessWidget {
 
     if (args != null) {
       args = args as RouteArguments;
-      var params = args.params as Map<String, bool>;
-      fromFavorites = params['fromFavorites']!;
+      fromFavorites = args.params!['fromFavorites'] as bool;
     }
 
     return AppScaffold(
       title: 'Filter favorite items',
       body: Column(
         children: [
+          // TODO: handle empty filter criteria
           FilterAccordian(
             title: 'Property',
             content: [
