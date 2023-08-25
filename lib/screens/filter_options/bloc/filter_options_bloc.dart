@@ -45,6 +45,16 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
           tags.add(tag.id);
         }
       }
+
+      var result = {
+        "categories": categories,
+        "locations": locations,
+        "properties": properties,
+        "rooms": rooms,
+        "tags": tags,
+      };
+
+      emit(FilterOptionsLoadSuccess(result));
     });
   }
 }
