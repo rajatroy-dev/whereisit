@@ -36,18 +36,23 @@ class _FilterAccordianState extends State<FilterAccordian> {
       columnList.add(
         InkWell(
           onTap: () => handleAccordianItemTap(context, index),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(
-              top: 8.0,
-              right: 16.0,
-              bottom: 8.0,
-              left: 32.0,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(widget.content[index]),
-            ),
+          child: Row(
+            children: [
+              Checkbox(value: false, onChanged: (value) {}),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  right: 16.0,
+                  bottom: 8.0,
+                  left: 32.0,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(widget.content[index]),
+                ),
+              ),
+            ],
           ),
         ),
       );
