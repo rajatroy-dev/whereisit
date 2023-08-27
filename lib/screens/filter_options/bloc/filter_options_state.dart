@@ -10,3 +10,17 @@ class FilterOptionsLoadSuccess extends FilterOptionsState {
 
   FilterOptionsLoadSuccess(this.filterOptions);
 }
+
+class FilterOptionsLoadPropertiesSuccess extends FilterOptionsState {
+  final List<Property> filterOptions;
+
+  FilterOptionsLoadPropertiesSuccess(this.filterOptions);
+}
+
+class FilterOptionsLoadPropertiesFailure extends FilterOptionsState {}
+
+class FilterOptionsLoadFailure extends FilterOptionsState {}
+
+class FilterOptionToggleSuccess extends FilterOptionsState {}
+
+class FilterOptionToggleFailure extends FilterOptionsState {}

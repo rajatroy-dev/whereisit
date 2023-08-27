@@ -3,18 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
+import 'package:whereisit/shared/enums/available_filters.enum.dart';
 import 'package:whereisit/shared/widgets/accordian/accordian.view.dart';
 
 class FilterAccordian extends StatefulWidget {
   final String title;
   final List<String> content;
   final bool? isOnlyCategory;
+  final AvailableFilters filterType;
 
   const FilterAccordian({
     super.key,
     required this.title,
     required this.content,
     this.isOnlyCategory,
+    required this.filterType,
   });
 
   @override
@@ -23,6 +26,7 @@ class FilterAccordian extends StatefulWidget {
 
 class _FilterAccordianState extends State<FilterAccordian> {
   var isAccordianOpen = false;
+  var isFirstLoad = true;
 
   void handleAccordianItemTap(BuildContext context, int itemIndex) {
     BlocProvider.of<EditItemBloc>(context).add(
@@ -30,7 +34,11 @@ class _FilterAccordianState extends State<FilterAccordian> {
     );
   }
 
-  List<Widget> buildAccordianList() {
+  Widget buildAccordianList() {
+    if (isFirstLoad) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     var columnList = <Widget>[];
     for (var index = 0; index < widget.content.length; index++) {
       columnList.add(
@@ -58,10 +66,14 @@ class _FilterAccordianState extends State<FilterAccordian> {
       );
     }
 
-    return columnList;
+    return Column(children: columnList);
   }
 
   void handleAccordianTitleTap(BuildContext context) {
+    isFirstLoad = false;
+    BlocProvider.of<EditItemBloc>(context).add(
+      EditItemSubcategorySelect({widget.title: widget.content[itemIndex]}),
+    );
     toggleAccordian();
   }
 

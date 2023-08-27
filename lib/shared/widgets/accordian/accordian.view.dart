@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class Accordian extends StatelessWidget {
   final bool isAccordianOpen;
-  final bool areListItemsLoading;
 
   final void Function(BuildContext context) handleAccordianTitleTap;
-  final List<Widget> Function() buildAccordianList;
+  final Widget Function() buildAccordianList;
   final Widget? Function() buildAccordianTitleTrailingIcon;
   final Widget? Function() buildAccordianTitle;
 
@@ -16,7 +15,6 @@ class Accordian extends StatelessWidget {
     required this.buildAccordianList,
     required this.buildAccordianTitleTrailingIcon,
     required this.buildAccordianTitle,
-    required this.areListItemsLoading,
   });
 
   @override
@@ -37,12 +35,7 @@ class Accordian extends StatelessWidget {
             ),
           ),
           // Show or hide the content based on the state
-          if (isAccordianOpen && !areListItemsLoading)
-            Column(
-              children: buildAccordianList(),
-            ),
-          if (isAccordianOpen && areListItemsLoading)
-            const CircularProgressIndicator(),
+          if (isAccordianOpen) buildAccordianList(),
         ],
       ),
     );

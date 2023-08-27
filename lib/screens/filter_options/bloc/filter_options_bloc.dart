@@ -6,6 +6,7 @@ import 'package:whereisit/data/repository/location_repository.dart';
 import 'package:whereisit/data/repository/property_repository.dart';
 import 'package:whereisit/data/repository/room_repository.dart';
 import 'package:whereisit/data/repository/tag_repository.dart';
+import 'package:whereisit/models/property.model.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
 
 part 'filter_options_event.dart';
@@ -24,6 +25,11 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
   FilterOptionsBloc() : super(FilterOptionsInitial()) {
     on<FilterOptionsLoad>((event, emit) async {
       var items = await itemRepo.findFavoriteItems();
+      if (items.isEmpty) {
+        emit(FilterOptionsLoadFailure());
+        return;
+      }
+
       var categories = <int>[];
       var locations = <int>[];
       var properties = <int>[];

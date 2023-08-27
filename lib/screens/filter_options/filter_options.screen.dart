@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
 import 'package:whereisit/screens/filter_options/filter_accordian/filter_accordian.view.dart';
+import 'package:whereisit/shared/enums/available_filters.enum.dart';
 import 'package:whereisit/shared/intents/route_arguments.intent.dart';
 import 'package:whereisit/shared/widgets/app_scaffold/app_scaffold.viewgroup.dart';
 
@@ -26,6 +27,7 @@ class FilterOptions extends StatelessWidget {
               // TODO: handle empty filter criteria
               if (properties.isNotEmpty)
                 FilterAccordian(
+                  filterType: AvailableFilters.property,
                   title: 'Property',
                   content: [
                     'ABC',
@@ -35,6 +37,7 @@ class FilterOptions extends StatelessWidget {
                 ),
               if (locations.isNotEmpty)
                 FilterAccordian(
+                  filterType: AvailableFilters.location,
                   title: 'Area',
                   content: [
                     'ABC',
@@ -44,6 +47,7 @@ class FilterOptions extends StatelessWidget {
                 ),
               if (rooms.isNotEmpty)
                 FilterAccordian(
+                  filterType: AvailableFilters.room,
                   title: 'Room',
                   content: [
                     'ABC',
@@ -53,6 +57,7 @@ class FilterOptions extends StatelessWidget {
                 ),
               if (tags.isNotEmpty)
                 FilterAccordian(
+                  filterType: AvailableFilters.tags,
                   title: 'Tags',
                   content: [
                     'ABC',
@@ -62,6 +67,7 @@ class FilterOptions extends StatelessWidget {
                 ),
               if (categories.isNotEmpty)
                 FilterAccordian(
+                  filterType: AvailableFilters.category,
                   title: 'Category',
                   content: [
                     'ABC',
@@ -70,6 +76,12 @@ class FilterOptions extends StatelessWidget {
                   ],
                 ),
             ],
+          );
+        }
+
+        if (state is FilterOptionsLoadFailure) {
+          return const Center(
+            child: Text('No favorite items!'),
           );
         }
 
@@ -83,6 +95,7 @@ class FilterOptions extends StatelessWidget {
       children: [
         // TODO: handle empty filter criteria
         FilterAccordian(
+          filterType: AvailableFilters.property,
           title: 'Property',
           content: [
             'ABC',
@@ -91,6 +104,7 @@ class FilterOptions extends StatelessWidget {
           ],
         ),
         FilterAccordian(
+          filterType: AvailableFilters.location,
           title: 'Area',
           content: [
             'ABC',
@@ -99,6 +113,7 @@ class FilterOptions extends StatelessWidget {
           ],
         ),
         FilterAccordian(
+          filterType: AvailableFilters.room,
           title: 'Room',
           content: [
             'ABC',
@@ -122,6 +137,7 @@ class FilterOptions extends StatelessWidget {
           ],
         ),
         FilterAccordian(
+          filterType: AvailableFilters.tags,
           title: 'Tags',
           content: [
             'ABC',
@@ -130,14 +146,7 @@ class FilterOptions extends StatelessWidget {
           ],
         ),
         FilterAccordian(
-          title: 'Address',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-        FilterAccordian(
+          filterType: AvailableFilters.category,
           title: 'Category',
           content: [
             'ABC',
