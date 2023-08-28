@@ -2,13 +2,14 @@
 // accordion.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
 import 'package:whereisit/shared/widgets/accordian/accordian.view.dart';
 
 class FilterAccordian extends StatefulWidget {
   final String title;
-  final List<String> content;
+  final List<int> content;
   final bool? isOnlyCategory;
   final AvailableFilters filterType;
 
@@ -74,6 +75,25 @@ class _FilterAccordianState extends State<FilterAccordian> {
     BlocProvider.of<EditItemBloc>(context).add(
       EditItemSubcategorySelect({widget.title: widget.content[itemIndex]}),
     );
+
+    switch (widget.filterType) {
+      case AvailableFilters.property:
+        BlocProvider.of<FilterOptionsBloc>(context).add(
+          FilterOptionsLoadProperties(widget.content),
+        );
+        break;
+      case AvailableFilters.category:
+        break;
+      case AvailableFilters.location:
+        break;
+      case AvailableFilters.room:
+        break;
+      case AvailableFilters.tags:
+        break;
+      default:
+        break;
+    }
+
     toggleAccordian();
   }
 

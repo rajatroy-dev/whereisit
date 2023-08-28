@@ -36,6 +36,24 @@ class PropertyDao {
     return count ?? 0;
   }
 
+  Future<List<Property>> findByIds(List<int> ids) async {
+    final db = await DatabaseProvider.database;
+
+    var placeHolders = ids.map((id) => '?').join(', ');
+
+    final res = await db.query(
+      table,
+      where: 'id IN ($placeHolders)',
+      whereArgs: ids,
+    );
+
+    List<Property> list = res.isNotEmpty
+        ? List.generate(res.length, (index) => Property.fromMap(res[index]))
+        : [];
+
+    return list;
+  }
+
   Future<List<Property>> findAll() async {
     final db = await DatabaseProvider.database;
 

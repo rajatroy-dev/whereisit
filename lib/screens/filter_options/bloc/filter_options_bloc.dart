@@ -65,5 +65,14 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
 
       emit(FilterOptionsLoadSuccess(result));
     });
+
+    on<FilterOptionsLoadProperties>((event, emit) async {
+      try {
+        var properties = await propertyRepo.findByIds(event.propertyIds);
+        emit(FilterOptionsLoadPropertiesSuccess(properties));
+      } catch (e) {
+        emit(FilterOptionsLoadPropertiesFailure());
+      }
+    });
   }
 }

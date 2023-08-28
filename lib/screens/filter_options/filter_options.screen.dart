@@ -29,51 +29,31 @@ class FilterOptions extends StatelessWidget {
                 FilterAccordian(
                   filterType: AvailableFilters.property,
                   title: 'Property',
-                  content: [
-                    'ABC',
-                    'DEF',
-                    'GHI',
-                  ],
+                  content: properties,
                 ),
               if (locations.isNotEmpty)
                 FilterAccordian(
                   filterType: AvailableFilters.location,
                   title: 'Area',
-                  content: [
-                    'ABC',
-                    'DEF',
-                    'GHI',
-                  ],
+                  content: locations,
                 ),
               if (rooms.isNotEmpty)
                 FilterAccordian(
                   filterType: AvailableFilters.room,
                   title: 'Room',
-                  content: [
-                    'ABC',
-                    'DEF',
-                    'GHI',
-                  ],
+                  content: rooms,
                 ),
               if (tags.isNotEmpty)
                 FilterAccordian(
                   filterType: AvailableFilters.tags,
                   title: 'Tags',
-                  content: [
-                    'ABC',
-                    'DEF',
-                    'GHI',
-                  ],
+                  content: tags,
                 ),
               if (categories.isNotEmpty)
                 FilterAccordian(
                   filterType: AvailableFilters.category,
                   title: 'Category',
-                  content: [
-                    'ABC',
-                    'DEF',
-                    'GHI',
-                  ],
+                  content: categories,
                 ),
             ],
           );
