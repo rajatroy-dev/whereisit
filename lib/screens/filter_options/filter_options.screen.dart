@@ -61,7 +61,7 @@ class FilterOptions extends StatelessWidget {
 
         if (state is FilterOptionsLoadFailure) {
           return const Center(
-            child: Text('No favorite items!'),
+            child: Text('Something Went Wrong!'),
           );
         }
 

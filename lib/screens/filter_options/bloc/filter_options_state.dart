@@ -11,13 +11,13 @@ class FilterOptionsLoadSuccess extends FilterOptionsState {
   FilterOptionsLoadSuccess(this.filterOptions);
 }
 
-class FilterOptionsLoadPropertiesSuccess extends FilterOptionsState {
-  final List<Property> filterOptions;
+class FilterOptionsLoadTypeSuccess extends FilterOptionsState {
+  final List<dynamic> filterOptions;
 
-  FilterOptionsLoadPropertiesSuccess(this.filterOptions);
+  FilterOptionsLoadTypeSuccess(this.filterOptions);
 }
 
-class FilterOptionsLoadPropertiesFailure extends FilterOptionsState {}
+class FilterOptionsLoadTypeFailure extends FilterOptionsState {}
 
 class FilterOptionsLoadFailure extends FilterOptionsState {}
 

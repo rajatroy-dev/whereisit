@@ -2,6 +2,7 @@
 // accordion.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/models/property.model.dart';
 import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
@@ -28,41 +29,55 @@ class FilterAccordian extends StatefulWidget {
 class _FilterAccordianState extends State<FilterAccordian> {
   var isAccordianOpen = false;
   var isFirstLoad = true;
+  var list = <dynamic>[];
 
-  void handleAccordianItemTap(BuildContext context, int itemIndex) {
-    BlocProvider.of<EditItemBloc>(context).add(
-      EditItemSubcategorySelect({widget.title: widget.content[itemIndex]}),
+  void handleAccordianItemTap(int itemIndex, bool state) {
+    BlocProvider.of<FilterOptionsBloc>(context).add(
+      FilterOptionsToggle(widget.filterType, itemIndex, state),
     );
   }
 
-  Widget buildAccordianList() {
+  Widget buildAccordianList(FilterOptionsState state) {
     if (isFirstLoad) {
       return const Center(child: CircularProgressIndicator());
     }
 
     var columnList = <Widget>[];
+    var options = <dynamic>[];
+    if (state is FilterOptionsLoadTypeSuccess) {
+      switch (widget.filterType) {
+        case AvailableFilters.property:
+          options = state.filterOptions as List<Property>;
+          break;
+        default:
+      }
+    }
+
     for (var index = 0; index < widget.content.length; index++) {
       columnList.add(
-        InkWell(
-          onTap: () => handleAccordianItemTap(context, index),
-          child: Row(
-            children: [
-              Checkbox(value: false, onChanged: (value) {}),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                  right: 16.0,
-                  bottom: 8.0,
-                  left: 32.0,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(widget.content[index]),
-                ),
+        Row(
+          children: [
+            Checkbox(
+              value: false,
+              onChanged: (value) => handleAccordianItemTap(
+                index,
+                value ?? false,
               ),
-            ],
-          ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                right: 16.0,
+                bottom: 8.0,
+                left: 32.0,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(options[index].name),
+              ),
+            ),
+          ],
         ),
       );
     }
@@ -79,7 +94,7 @@ class _FilterAccordianState extends State<FilterAccordian> {
     switch (widget.filterType) {
       case AvailableFilters.property:
         BlocProvider.of<FilterOptionsBloc>(context).add(
-          FilterOptionsLoadProperties(widget.content),
+          FilterOptionsLoadType(widget.filterType, widget.content),
         );
         break;
       case AvailableFilters.category:
@@ -115,12 +130,16 @@ class _FilterAccordianState extends State<FilterAccordian> {
 
   @override
   Widget build(BuildContext context) {
-    return Accordian(
-      buildAccordianList: buildAccordianList,
-      buildAccordianTitle: buildAccordianTitle,
-      buildAccordianTitleTrailingIcon: buildAccordianTitleTrailingIcon,
-      handleAccordianTitleTap: handleAccordianTitleTap,
-      isAccordianOpen: isAccordianOpen,
+    return BlocBuilder<FilterOptionsBloc, FilterOptionsState>(
+      builder: (context, state) {
+        return Accordian(
+          buildAccordianList: () => buildAccordianList(state),
+          buildAccordianTitle: buildAccordianTitle,
+          buildAccordianTitleTrailingIcon: buildAccordianTitleTrailingIcon,
+          handleAccordianTitleTap: handleAccordianTitleTap,
+          isAccordianOpen: isAccordianOpen,
+        );
+      },
     );
   }
 }

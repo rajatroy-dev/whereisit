@@ -5,10 +5,11 @@ sealed class FilterOptionsEvent {}
 
 class FilterOptionsLoad extends FilterOptionsEvent {}
 
-class FilterOptionsLoadProperties extends FilterOptionsEvent {
-  final List<int> propertyIds;
+class FilterOptionsLoadType extends FilterOptionsEvent {
+  final AvailableFilters filterType;
+  final List<int> ids;
 
-  FilterOptionsLoadProperties(this.propertyIds);
+  FilterOptionsLoadType(this.filterType, this.ids);
 }
 
 class FilterOptionsToggle extends FilterOptionsEvent {

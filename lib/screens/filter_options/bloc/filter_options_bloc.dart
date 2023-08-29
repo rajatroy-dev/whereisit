@@ -6,7 +6,6 @@ import 'package:whereisit/data/repository/location_repository.dart';
 import 'package:whereisit/data/repository/property_repository.dart';
 import 'package:whereisit/data/repository/room_repository.dart';
 import 'package:whereisit/data/repository/tag_repository.dart';
-import 'package:whereisit/models/property.model.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
 
 part 'filter_options_event.dart';
@@ -66,12 +65,18 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
       emit(FilterOptionsLoadSuccess(result));
     });
 
-    on<FilterOptionsLoadProperties>((event, emit) async {
+    on<FilterOptionsLoadType>((event, emit) async {
       try {
-        var properties = await propertyRepo.findByIds(event.propertyIds);
-        emit(FilterOptionsLoadPropertiesSuccess(properties));
+        switch (event.filterType) {
+          case AvailableFilters.property:
+            var properties = await propertyRepo.findByIds(event.ids);
+            emit(FilterOptionsLoadTypeSuccess(properties));
+            break;
+          default:
+            break;
+        }
       } catch (e) {
-        emit(FilterOptionsLoadPropertiesFailure());
+        emit(FilterOptionsLoadTypeFailure());
       }
     });
   }
