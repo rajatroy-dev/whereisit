@@ -6,6 +6,7 @@ class LocationRepository {
 
   Future<int> insert(Location location) => dao.insert(location);
   Future<Location?> findById(int id) => dao.findById(id);
+  Future<List<Location>> findByIds(List<int> ids) => dao.findByIds(ids);
   Future<int> getTotalLocations() => dao.getTotalLocations();
   Future<List<Location>> findAll() => dao.findAll();
   Future<int> update(Location location) => dao.update(location);

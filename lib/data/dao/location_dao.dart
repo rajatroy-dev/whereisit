@@ -27,6 +27,24 @@ class LocationDao {
     return Location.fromMap(res.first);
   }
 
+  Future<List<Location>> findByIds(List<int> ids) async {
+    final db = await DatabaseProvider.database;
+
+    var placeHolders = ids.map((id) => '?').join(', ');
+
+    final res = await db.query(
+      table,
+      where: 'id IN ($placeHolders)',
+      whereArgs: ids,
+    );
+
+    List<Location> list = res.isNotEmpty
+        ? List.generate(res.length, (index) => Location.fromMap(res[index]))
+        : [];
+
+    return list;
+  }
+
   Future<int> getTotalLocations() async {
     final db = await DatabaseProvider.database;
 

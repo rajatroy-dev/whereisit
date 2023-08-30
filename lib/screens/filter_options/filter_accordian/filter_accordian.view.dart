@@ -2,6 +2,7 @@
 // accordion.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whereisit/models/location.model.dart';
 import 'package:whereisit/models/property.model.dart';
 import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
@@ -49,11 +50,30 @@ class _FilterAccordianState extends State<FilterAccordian> {
         case AvailableFilters.property:
           options = state.filterOptions as List<Property>;
           break;
+        case AvailableFilters.location:
+          options = state.filterOptions as List<Location>;
+          break;
         default:
+          break;
       }
     }
 
     for (var index = 0; index < widget.content.length; index++) {
+      var text = '';
+
+      switch (widget.filterType) {
+        case AvailableFilters.property:
+          var tProperty = options[index] as Property;
+          text = tProperty.name;
+          break;
+        case AvailableFilters.location:
+          var tLocation = options[index] as Location;
+          text = tLocation.address;
+          break;
+        default:
+          break;
+      }
+
       columnList.add(
         Row(
           children: [
@@ -74,7 +94,7 @@ class _FilterAccordianState extends State<FilterAccordian> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(options[index].name),
+                child: Text(text),
               ),
             ),
           ],
