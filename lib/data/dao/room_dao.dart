@@ -27,6 +27,24 @@ class RoomDao {
     return Room.fromMap(res.first);
   }
 
+  Future<List<Room>> findByIds(List<int> ids) async {
+    final db = await DatabaseProvider.database;
+
+    var placeHolders = ids.map((id) => '?').join(', ');
+
+    final res = await db.query(
+      table,
+      where: 'id IN ($placeHolders)',
+      whereArgs: ids,
+    );
+
+    List<Room> list = res.isNotEmpty
+        ? List.generate(res.length, (index) => Room.fromMap(res[index]))
+        : [];
+
+    return list;
+  }
+
   Future<int> getTotalRooms() async {
     final db = await DatabaseProvider.database;
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whereisit/models/location.model.dart';
 import 'package:whereisit/models/property.model.dart';
+import 'package:whereisit/models/room.model.dart';
 import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
 import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
@@ -53,6 +54,9 @@ class _FilterAccordianState extends State<FilterAccordian> {
         case AvailableFilters.location:
           options = state.filterOptions as List<Location>;
           break;
+        case AvailableFilters.room:
+          options = state.filterOptions as List<Room>;
+          break;
         default:
           break;
       }
@@ -69,6 +73,10 @@ class _FilterAccordianState extends State<FilterAccordian> {
         case AvailableFilters.location:
           var tLocation = options[index] as Location;
           text = tLocation.address;
+          break;
+        case AvailableFilters.room:
+          var tRoom = options[index] as Room;
+          text = tRoom.name;
           break;
         default:
           break;

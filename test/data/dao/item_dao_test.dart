@@ -1,68 +1,24 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:whereisit/data/dao/item_dao.dart';
-import 'package:whereisit/data/database.dart';
 import 'package:whereisit/models/item.model.dart';
 
+import 'item_dao_test.mocks.dart';
+
+@GenerateMocks([Database])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('ItemDao Tests', () {
-    late Database db;
-    late ItemDao itemDao;
+    final String user = 'system';
     late DateTime now;
-
-    String user = 'system';
+    late ItemDao itemDao;
 
     // Set up the database before running each test.
     setUp(() async {
       now = DateTime.now();
-      db = await openDatabase(
-        inMemoryDatabasePath,
-        onCreate: (db, version) async {
-          // Create necessary tables if needed
-          await db.execute(DatabaseProvider.createUsersTable);
-          await db.execute(DatabaseProvider.createLocationsTable);
-          await db.execute(DatabaseProvider.createCategoriesTable);
-          await db.execute(DatabaseProvider.createPropertiesTable);
-          await db.execute(DatabaseProvider.createRoomsTable);
-          await db.execute(DatabaseProvider.createItemsTable);
-
-          await db.execute('''
-            INSERT INTO users (
-              name,
-              username,
-              created_by,
-              created_at,
-              updated_by,
-              updated_at
-            ) VALUES (
-              'System',
-              $user,
-              $user,
-              $now,
-              $user,
-              $now
-            )
-          ''');
-
-          await db.execute('''
-            INSERT INTO categories (
-              name,
-              created_by,
-              created_at,
-              updated_by,
-              updated_at
-              ) VALUES (
-              'Uncategorized',
-              $user,
-              $now,
-              $user,
-              $now
-            )
-          ''');
-        },
-      );
       itemDao = ItemDao();
     });
 
@@ -72,6 +28,8 @@ void main() {
     });
 
     test('Insert Item', () async {
+      final database = MockDatabase();
+      when(database);
       final item = Item(
         name: 'Test Item',
         thumbnail: 'thumbnail.jpg',

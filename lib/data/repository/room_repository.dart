@@ -6,6 +6,7 @@ class RoomRepository {
 
   Future<int> insert(Room room) => dao.insert(room);
   Future<Room?> findById(int id) => dao.findById(id);
+  Future<List<Room>> findByIds(List<int> ids) => dao.findByIds(ids);
   Future<int> getTotalRooms() => dao.getTotalRooms();
   Future<List<Room>> findAll() => dao.findAll();
   Future<int> update(Room room) => dao.update(room);

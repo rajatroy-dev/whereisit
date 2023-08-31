@@ -76,6 +76,10 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
             var locations = await locationRepo.findByIds(event.ids);
             emit(FilterOptionsLoadTypeSuccess(locations));
             break;
+          case AvailableFilters.room:
+            var rooms = await roomRepo.findByIds(event.ids);
+            emit(FilterOptionsLoadTypeSuccess(rooms));
+            break;
           default:
             break;
         }
