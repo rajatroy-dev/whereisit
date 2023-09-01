@@ -11,6 +11,12 @@ class FilterOptionsLoadSuccess extends FilterOptionsState {
   FilterOptionsLoadSuccess(this.filterOptions);
 }
 
+class FilterOptionsLoadWithoutFavoritesSuccess extends FilterOptionsState {
+  final Map<String, dynamic> filterOptions;
+
+  FilterOptionsLoadWithoutFavoritesSuccess(this.filterOptions);
+}
+
 class FilterOptionsLoadTypeSuccess extends FilterOptionsState {
   final List<dynamic> filterOptions;
 

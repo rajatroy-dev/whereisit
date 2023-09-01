@@ -5,6 +5,8 @@ sealed class FilterOptionsEvent {}
 
 class FilterOptionsLoad extends FilterOptionsEvent {}
 
+class FilterOptionsLoadWithoutFavorites extends FilterOptionsEvent {}
+
 class FilterOptionsLoadType extends FilterOptionsEvent {
   final AvailableFilters filterType;
   final List<int> ids;

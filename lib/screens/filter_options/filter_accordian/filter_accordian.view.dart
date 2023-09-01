@@ -6,7 +6,6 @@ import 'package:whereisit/models/location.model.dart';
 import 'package:whereisit/models/property.model.dart';
 import 'package:whereisit/models/room.model.dart';
 import 'package:whereisit/screens/filter_options/bloc/filter_options_bloc.dart';
-import 'package:whereisit/shared/bloc/edit_item/edit_item_bloc.dart';
 import 'package:whereisit/shared/enums/available_filters.enum.dart';
 import 'package:whereisit/shared/widgets/accordian/accordian.view.dart';
 
@@ -114,29 +113,39 @@ class _FilterAccordianState extends State<FilterAccordian> {
   }
 
   void handleAccordianTitleTap(BuildContext context) {
-    isFirstLoad = false;
-    BlocProvider.of<EditItemBloc>(context).add(
-      EditItemSubcategorySelect({widget.title: widget.content[itemIndex]}),
-    );
-
-    switch (widget.filterType) {
-      case AvailableFilters.property:
-        BlocProvider.of<FilterOptionsBloc>(context).add(
-          FilterOptionsLoadType(widget.filterType, widget.content),
-        );
-        break;
-      case AvailableFilters.category:
-        break;
-      case AvailableFilters.location:
-        break;
-      case AvailableFilters.room:
-        break;
-      case AvailableFilters.tags:
-        break;
-      default:
-        break;
+    if (isFirstLoad) {
+      switch (widget.filterType) {
+        case AvailableFilters.property:
+          BlocProvider.of<FilterOptionsBloc>(context).add(
+            FilterOptionsLoadType(widget.filterType, widget.content),
+          );
+          break;
+        case AvailableFilters.category:
+          BlocProvider.of<FilterOptionsBloc>(context).add(
+            FilterOptionsLoadType(widget.filterType, widget.content),
+          );
+          break;
+        case AvailableFilters.location:
+          BlocProvider.of<FilterOptionsBloc>(context).add(
+            FilterOptionsLoadType(widget.filterType, widget.content),
+          );
+          break;
+        case AvailableFilters.room:
+          BlocProvider.of<FilterOptionsBloc>(context).add(
+            FilterOptionsLoadType(widget.filterType, widget.content),
+          );
+          break;
+        case AvailableFilters.tags:
+          BlocProvider.of<FilterOptionsBloc>(context).add(
+            FilterOptionsLoadType(widget.filterType, widget.content),
+          );
+          break;
+        default:
+          break;
+      }
     }
 
+    isFirstLoad = false;
     toggleAccordian();
   }
 

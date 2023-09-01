@@ -13,9 +13,10 @@ class FilterOptions extends StatelessWidget {
 
   Widget _buildFilterOptionsForFavorites() {
     return BlocBuilder<FilterOptionsBloc, FilterOptionsState>(
-      buildWhen: (previous, current) => current is FilterOptionsLoadSuccess,
+      buildWhen: (previous, current) =>
+          current is FilterOptionsLoadWithoutFavoritesSuccess,
       builder: (context, state) {
-        if (state is FilterOptionsLoadSuccess) {
+        if (state is FilterOptionsLoadWithoutFavoritesSuccess) {
           var categories = state.filterOptions['categories'] as List<int>;
           var locations = state.filterOptions['locations'] as List<int>;
           var properties = state.filterOptions['properties'] as List<int>;
@@ -71,70 +72,85 @@ class FilterOptions extends StatelessWidget {
   }
 
   Widget _buildFilterOptions() {
-    return Column(
-      children: [
-        // TODO: handle empty filter criteria
-        FilterAccordian(
-          filterType: AvailableFilters.property,
-          title: 'Property',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-        FilterAccordian(
-          filterType: AvailableFilters.location,
-          title: 'Area',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-        FilterAccordian(
-          filterType: AvailableFilters.room,
-          title: 'Room',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-        const Text("Favorite"),
-        Row(
-          children: [
-            const Text("Yes"),
-            Checkbox(
-              value: true,
-              onChanged: (bool? value) {},
-            ),
-            const Text("No"),
-            Checkbox(
-              value: false,
-              onChanged: (bool? value) {},
-            ),
-          ],
-        ),
-        FilterAccordian(
-          filterType: AvailableFilters.tags,
-          title: 'Tags',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-        FilterAccordian(
-          filterType: AvailableFilters.category,
-          title: 'Category',
-          content: [
-            'ABC',
-            'DEF',
-            'GHI',
-          ],
-        ),
-      ],
+    return BlocBuilder<FilterOptionsBloc, FilterOptionsState>(
+      buildWhen: (previous, current) => current is FilterOptionsLoadSuccess,
+      builder: (context, state) {
+        if (state is FilterOptionsLoadSuccess) {
+          return Column(
+            children: [
+              // TODO: handle empty filter criteria
+              FilterAccordian(
+                filterType: AvailableFilters.property,
+                title: 'Property',
+                content: [
+                  'ABC',
+                  'DEF',
+                  'GHI',
+                ],
+              ),
+              FilterAccordian(
+                filterType: AvailableFilters.location,
+                title: 'Area',
+                content: [
+                  'ABC',
+                  'DEF',
+                  'GHI',
+                ],
+              ),
+              FilterAccordian(
+                filterType: AvailableFilters.room,
+                title: 'Room',
+                content: [
+                  'ABC',
+                  'DEF',
+                  'GHI',
+                ],
+              ),
+              const Text("Favorite"),
+              Row(
+                children: [
+                  const Text("Yes"),
+                  Checkbox(
+                    value: true,
+                    onChanged: (bool? value) {},
+                  ),
+                  const Text("No"),
+                  Checkbox(
+                    value: false,
+                    onChanged: (bool? value) {},
+                  ),
+                ],
+              ),
+              FilterAccordian(
+                filterType: AvailableFilters.tags,
+                title: 'Tags',
+                content: [
+                  'ABC',
+                  'DEF',
+                  'GHI',
+                ],
+              ),
+              FilterAccordian(
+                filterType: AvailableFilters.category,
+                title: 'Category',
+                content: [
+                  'ABC',
+                  'DEF',
+                  'GHI',
+                ],
+              ),
+            ],
+          );
+        }
+
+        if (state is FilterOptionsLoadFailure) {
+          return const Center(
+            child: Text('Something Went Wrong!'),
+          );
+        }
+
+        return const SizedBox();
+      },
     );
   }
 
@@ -149,7 +165,13 @@ class FilterOptions extends StatelessWidget {
     }
 
     if (fromFavorites) {
-      BlocProvider.of<FilterOptionsBloc>(context).add(FilterOptionsLoad());
+      BlocProvider.of<FilterOptionsBloc>(context).add(
+        FilterOptionsLoadWithoutFavorites(),
+      );
+    } else {
+      BlocProvider.of<FilterOptionsBloc>(context).add(
+        FilterOptionsLoad(),
+      );
     }
 
     return AppScaffold(
