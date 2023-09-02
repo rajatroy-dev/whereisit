@@ -72,72 +72,66 @@ class FilterOptions extends StatelessWidget {
   }
 
   Widget _buildFilterOptions() {
+    bool? _isfavorite = true;
+
     return BlocBuilder<FilterOptionsBloc, FilterOptionsState>(
       buildWhen: (previous, current) => current is FilterOptionsLoadSuccess,
       builder: (context, state) {
         if (state is FilterOptionsLoadSuccess) {
+          var categories = state.filterOptions['categories'] as List<int>;
+          var locations = state.filterOptions['locations'] as List<int>;
+          var properties = state.filterOptions['properties'] as List<int>;
+          var rooms = state.filterOptions['rooms'] as List<int>;
+          var tags = state.filterOptions['tags'] as List<int>;
+
           return Column(
             children: [
               // TODO: handle empty filter criteria
               FilterAccordian(
                 filterType: AvailableFilters.property,
                 title: 'Property',
-                content: [
-                  'ABC',
-                  'DEF',
-                  'GHI',
-                ],
+                content: properties,
               ),
               FilterAccordian(
                 filterType: AvailableFilters.location,
                 title: 'Area',
-                content: [
-                  'ABC',
-                  'DEF',
-                  'GHI',
-                ],
+                content: locations,
               ),
               FilterAccordian(
                 filterType: AvailableFilters.room,
                 title: 'Room',
-                content: [
-                  'ABC',
-                  'DEF',
-                  'GHI',
-                ],
+                content: rooms,
               ),
               const Text("Favorite"),
               Row(
                 children: [
-                  const Text("Yes"),
-                  Checkbox(
+                  Radio(
                     value: true,
-                    onChanged: (bool? value) {},
+                    groupValue: _isfavorite,
+                    onChanged: (bool? value) {
+                      _isfavorite = value ?? false;
+                    },
+                  ),
+                  const Text("Yes"),
+                  Radio(
+                    value: false,
+                    groupValue: _isfavorite,
+                    onChanged: (bool? value) {
+                      _isfavorite = value ?? false;
+                    },
                   ),
                   const Text("No"),
-                  Checkbox(
-                    value: false,
-                    onChanged: (bool? value) {},
-                  ),
                 ],
               ),
               FilterAccordian(
                 filterType: AvailableFilters.tags,
                 title: 'Tags',
-                content: [
-                  'ABC',
-                  'DEF',
-                  'GHI',
-                ],
+                content: tags,
               ),
               FilterAccordian(
                 filterType: AvailableFilters.category,
                 title: 'Category',
-                content: [
-                  'ABC',
-                  'DEF',
-                  'GHI',
-                ],
+                content: categories,
               ),
             ],
           );
