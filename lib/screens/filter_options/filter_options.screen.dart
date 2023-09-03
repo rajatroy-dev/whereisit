@@ -14,9 +14,9 @@ class FilterOptions extends StatelessWidget {
   Widget _buildFilterOptionsForFavorites() {
     return BlocBuilder<FilterOptionsBloc, FilterOptionsState>(
       buildWhen: (previous, current) =>
-          current is FilterOptionsLoadWithoutFavoritesSuccess,
+          current is FilterOptionsLoadForFavoritesSuccess,
       builder: (context, state) {
-        if (state is FilterOptionsLoadWithoutFavoritesSuccess) {
+        if (state is FilterOptionsLoadForFavoritesSuccess) {
           var categories = state.filterOptions['categories'] as List<int>;
           var locations = state.filterOptions['locations'] as List<int>;
           var properties = state.filterOptions['properties'] as List<int>;
@@ -160,7 +160,7 @@ class FilterOptions extends StatelessWidget {
 
     if (fromFavorites) {
       BlocProvider.of<FilterOptionsBloc>(context).add(
-        FilterOptionsLoadWithoutFavorites(),
+        FilterOptionsLoadForFavorites(),
       );
     } else {
       BlocProvider.of<FilterOptionsBloc>(context).add(

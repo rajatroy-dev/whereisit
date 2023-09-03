@@ -23,6 +23,11 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
 
   FilterOptionsBloc() : super(FilterOptionsInitial()) {
     on<FilterOptionsLoad>((event, emit) async {
+      var categories = await itemRepo.findItemsWithCategory();
+      var locations = await itemRepo.findItemsWithLocations();
+    });
+
+    on<FilterOptionsLoadForFavorites>((event, emit) async {
       // TODO: Change from favorite to generic
       var items = await itemRepo.findFavoriteItems();
       if (items.isEmpty) {

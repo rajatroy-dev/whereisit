@@ -210,6 +210,42 @@ class ItemDao {
     return list;
   }
 
+  Future<List<int>> findItemsWithCategories() async {
+    final db = await DatabaseProvider.database;
+
+    // Category cannot be empty. Default is 1 (Uncategorized).
+    var res = await db.query('SELECT category_id FROM $table');
+    List<int> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(
+        res.length,
+        (index) => Item.fromMap(res[index]).categoryId!,
+      );
+    }
+
+    return list;
+  }
+
+  Future<List<int>> findItemsWithLocations() async {
+    final db = await DatabaseProvider.database;
+
+    // Category cannot be empty. Default is 1 (Uncategorized).
+    var res = await db.query(
+      'SELECT location_id FROM $table',
+      where: 'location_id != ?',
+      whereArgs: [null],
+    );
+    List<int> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(
+        res.length,
+        (index) => Item.fromMap(res[index]).categoryId!,
+      );
+    }
+
+    return list;
+  }
+
   Future<int> getTotalItems() async {
     final db = await DatabaseProvider.database;
 
