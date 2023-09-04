@@ -23,52 +23,58 @@ class FilterOptionsBloc extends Bloc<FilterOptionsEvent, FilterOptionsState> {
 
   FilterOptionsBloc() : super(FilterOptionsInitial()) {
     on<FilterOptionsLoad>((event, emit) async {
-      var categories = await itemRepo.findItemsWithCategory();
+      var categories = await itemRepo.findItemsWithCategories();
       var locations = await itemRepo.findItemsWithLocations();
+      var properties = await itemRepo.findItemsWithProperties();
     });
 
     on<FilterOptionsLoadForFavorites>((event, emit) async {
-      // TODO: Change from favorite to generic
-      var items = await itemRepo.findFavoriteItems();
-      if (items.isEmpty) {
+      try {
+        // TODO: Change from favorite to generic
+        var items = await itemRepo.findFavoriteItems();
+
+        if (items.isEmpty) {
+          emit(FilterOptionsLoadFailure());
+          return;
+        }
+
+        var categories = <int>[];
+        var locations = <int>[];
+        var properties = <int>[];
+        var rooms = <int>[];
+        var tags = <int>[];
+
+        for (var item in items) {
+          if (item.categoryId != null) {
+            categories.add(item.categoryId!);
+          }
+          if (item.locationId != null) {
+            locations.add(item.locationId!);
+          }
+          if (item.propertyId != null) {
+            properties.add(item.propertyId!);
+          }
+          if (item.roomId != null) {
+            rooms.add(item.roomId!);
+          }
+          var taggedItems = await tagRepo.findTagsByItem(item.id!);
+          for (var tag in taggedItems) {
+            tags.add(tag.id);
+          }
+        }
+
+        var result = {
+          "categories": categories,
+          "locations": locations,
+          "properties": properties,
+          "rooms": rooms,
+          "tags": tags,
+        };
+
+        emit(FilterOptionsLoadForFavoritesSuccess(result));
+      } catch (e) {
         emit(FilterOptionsLoadFailure());
-        return;
       }
-
-      var categories = <int>[];
-      var locations = <int>[];
-      var properties = <int>[];
-      var rooms = <int>[];
-      var tags = <int>[];
-
-      for (var item in items) {
-        if (item.categoryId != null) {
-          categories.add(item.categoryId!);
-        }
-        if (item.locationId != null) {
-          locations.add(item.locationId!);
-        }
-        if (item.propertyId != null) {
-          properties.add(item.propertyId!);
-        }
-        if (item.roomId != null) {
-          rooms.add(item.roomId!);
-        }
-        var taggedItems = await tagRepo.findTagsByItem(item.id!);
-        for (var tag in taggedItems) {
-          tags.add(tag.id);
-        }
-      }
-
-      var result = {
-        "categories": categories,
-        "locations": locations,
-        "properties": properties,
-        "rooms": rooms,
-        "tags": tags,
-      };
-
-      emit(FilterOptionsLoadSuccess(result));
     });
 
     on<FilterOptionsLoadType>((event, emit) async {

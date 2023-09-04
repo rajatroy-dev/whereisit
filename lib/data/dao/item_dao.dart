@@ -239,7 +239,27 @@ class ItemDao {
     if (res.isNotEmpty) {
       list = List.generate(
         res.length,
-        (index) => Item.fromMap(res[index]).categoryId!,
+        (index) => Item.fromMap(res[index]).locationId!,
+      );
+    }
+
+    return list;
+  }
+
+  Future<List<int>> findItemsWithProperties() async {
+    final db = await DatabaseProvider.database;
+
+    // Category cannot be empty. Default is 1 (Uncategorized).
+    var res = await db.query(
+      'SELECT property_id FROM $table',
+      where: 'property_id != ?',
+      whereArgs: [null],
+    );
+    List<int> list = [];
+    if (res.isNotEmpty) {
+      list = List.generate(
+        res.length,
+        (index) => Item.fromMap(res[index]).propertyId!,
       );
     }
 

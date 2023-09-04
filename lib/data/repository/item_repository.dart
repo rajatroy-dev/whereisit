@@ -19,8 +19,9 @@ class ItemRepository {
   Future<List<Item>> findItemsWithHighestTagCount() =>
       dao.findItemsWithHighestTagCount();
   Future<int> getTotalItems() => dao.getTotalItems();
-  Future<List<int>> findItemsWithCategory() => dao.findItemsWithCategories();
+  Future<List<int>> findItemsWithCategories() => dao.findItemsWithCategories();
   Future<List<int>> findItemsWithLocations() => dao.findItemsWithLocations();
+  Future<List<int>> findItemsWithProperties() => dao.findItemsWithProperties();
   Future<List<Item>> findAll() => dao.findAll();
   Future<int> update(Item item) => dao.update(item);
   Future<int> delete(int id) => dao.delete(id);
