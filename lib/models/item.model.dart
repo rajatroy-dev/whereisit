@@ -168,7 +168,7 @@ class Item {
         //--------------- ONLY FOR UI USE ---------------
         uiName: json['uiName'] ?? '',
         uiTagsList: json['uiTagsList'] ?? [],
-        uiImagesList: json['uiImagesList'] ?? [],
+        uiImagesList: json['uiImagesList'] ?? <String>[],
         uiSelectedCategory: json['uiSelectedCategory'] ?? '',
         uiCardData: json['uiCardData'] ??
             CardData(

@@ -10,7 +10,7 @@ import 'package:whereisit/screens/edit_item/edit_item.screen.dart';
 import 'package:whereisit/shared/widgets/image_source_choice/image_source_choice_popup.dart';
 
 class AddScreen extends StatefulWidget {
-  const AddScreen({Key? key}) : super(key: key);
+  const AddScreen({super.key});
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -26,17 +26,21 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   sendImagetoEdit(XFile image) async {
+    if (!mounted) return;
+
     Directory tempDir = await getApplicationDocumentsDirectory();
     var path = '${tempDir.path}/${image.name}';
     await image.saveTo(path);
-    BlocProvider.of<EditItemBloc>(context).add(EditItemNewFirstImage(path));
-    Navigator.pushNamed(
-      context,
-      EditItem.routeName,
-    );
-    setState(() {
-      showImageSourceChoice = false;
-    });
+    if (mounted) {
+      BlocProvider.of<EditItemBloc>(context).add(EditItemNewFirstImage(path));
+      Navigator.pushNamed(
+        context,
+        EditItem.routeName,
+      );
+      setState(() {
+        showImageSourceChoice = false;
+      });
+    }
   }
 
   handleImageSourceSelection(BuildContext context, SourceChoice choice) async {

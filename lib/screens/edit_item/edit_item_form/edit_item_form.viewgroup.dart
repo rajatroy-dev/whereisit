@@ -168,7 +168,7 @@ class _EditItemFormState extends State<EditItemForm> {
                               '${state.item.uiCoordinates?.longitude}',
                         );
                       }
-                      return SelectionButton(
+                      return const SelectionButton(
                         buttonType: SelectionButtonType.location,
                         buttonState: SelectionButtonState.noValue,
                       );
@@ -193,7 +193,7 @@ class _EditItemFormState extends State<EditItemForm> {
                           buttonText: '${state.item.uiSelectedCategory}',
                         );
                       }
-                      return SelectionButton(
+                      return const SelectionButton(
                         buttonType: SelectionButtonType.category,
                         buttonState: SelectionButtonState.noValue,
                       );

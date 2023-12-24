@@ -12,15 +12,16 @@ class SelectionButton extends StatelessWidget {
   final String? buttonText;
 
   const SelectionButton({
-    Key? key,
+    super.key,
     required this.buttonType,
     required this.buttonState,
     this.buttonText,
-  })  : assert(
-          buttonState == SelectionButtonState.hasValue && buttonText == null,
+  }) : assert(
+          (buttonState == SelectionButtonState.noValue && buttonText == null) ||
+              (buttonState == SelectionButtonState.hasValue &&
+                  buttonText != null),
           'Button state is selected but button text was not provided!',
-        ),
-        super(key: key);
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class SelectionButton extends StatelessWidget {
       },
       SelectionButtonType.location: {
         "selectedLabel": '$buttonText',
-        "unSelectedLabel": 'Select a location from Maps',
+        "unselectedLabel": 'Select a location from Maps',
         "icon": Icons.add_location_alt_rounded,
         "onPressed": () {
           Navigator.pushNamed(
@@ -60,7 +61,7 @@ class SelectionButton extends StatelessWidget {
       onPressed: buttons[buttonType]["onPressed"],
       label: buttonState == SelectionButtonState.noValue
           ? Text(
-              buttons[buttonType]["unSelectedLabel"],
+              buttons[buttonType]["unselectedLabel"],
             )
           : Text(
               buttons[buttonType]["selectedLabel"],

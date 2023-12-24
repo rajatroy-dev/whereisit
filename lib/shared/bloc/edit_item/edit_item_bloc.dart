@@ -428,7 +428,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     on<EditItemNewFirstImage>(
       (event, emit) {
-        item = _buildItem(EditItemNewFirstImage.name, item, [event.image]);
+        List<String> firstImage = [event.image];
+        item = _buildItem(EditItemNewFirstImage.name, item, firstImage);
 
         emit(EditItemNewInitial(item));
       },
