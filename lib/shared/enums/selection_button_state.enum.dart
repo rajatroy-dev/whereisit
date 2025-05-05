@@ -1,4 +1,0 @@
-enum SelectionButtonState {
-  hasValue,
-  noValue,
-}
