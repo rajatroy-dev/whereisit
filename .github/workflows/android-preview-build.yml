@@ -40,7 +40,9 @@ jobs:
         run: npm ci
 
       - name: Build Android app
-        run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
+        run: printf 'y' | eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
+        # for first build: printf 'y' | eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
+        # reference: https://github.com/expo/eas-cli/issues/1060
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
