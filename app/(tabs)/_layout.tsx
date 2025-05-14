@@ -1,13 +1,11 @@
 import IconSymbol from '@/components/ui/IconSymbol';
-import useAppStore from '@/state/app-store';
-import { config } from '@/tamagui.config';
+import { useAppTheme } from '@/state/app-store';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
 export default function TabLayout() {
-  const currentTheme = useAppStore((state) => state.theme);
-  const theme = currentTheme === 'dark' ? config.themes.dark : config.themes.light;
+  const theme = useAppTheme();
 
   return (
     <Tabs
