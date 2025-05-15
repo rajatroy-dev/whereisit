@@ -12,6 +12,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: theme.accentColor.val,
         tabBarActiveBackgroundColor: theme.background.val,
+        tabBarInactiveBackgroundColor: theme.background.val,
         headerShown: false,
         tabBarStyle: Platform.select({
           ios: {
@@ -22,10 +23,17 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="add"
+        options={{
+          title: 'Add',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="add" color={color} />,
         }}
       />
     </Tabs>

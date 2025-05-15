@@ -6,24 +6,40 @@ import { combine } from 'zustand/middleware';
 
 const useAppStore = create(
     combine(
-        { theme: config.themes.dark },
+        {
+            theme: config.themes.dark,
+            colorScheme: 'dark'
+        },
         (set) => ({
             setTheme: (value: 'light' | 'dark' | null | undefined) => set(() => ({
                 theme: value === undefined || value === null || value === 'dark'
-                    ? config.themes.light
-                    : config.themes.dark
+                    ? config.themes.dark
+                    : config.themes.light
             })),
+            setColorScheme: (value: 'light' | 'dark' | null | undefined) => set(() => ({
+                colorScheme: value === undefined || value === null || value === 'dark'
+                    ? 'dark'
+                    : 'light'
+            }))
         })
     ),
 );
 
 const useAppTheme = () => {
-    const colorScheme = useColorScheme();
-    const theme = useAppStore((state) => state.theme);
-    const setTheme = useAppStore((state) => state.setTheme);
+    const systemColorScheme = useColorScheme();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => setTheme(colorScheme), []);
+    const theme = useAppStore((state) => state.theme);
+    const colorScheme = useAppStore((state) => state.colorScheme);
+    const setTheme = useAppStore((state) => state.setTheme);
+    const setColorScheme = useAppStore((state) => state.setColorScheme);
+
+    useEffect(() => {
+        if (colorScheme !== systemColorScheme) {
+            setTheme(systemColorScheme);
+            setColorScheme(systemColorScheme);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return theme;
 }

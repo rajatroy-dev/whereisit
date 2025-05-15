@@ -4,7 +4,7 @@ import { Text } from "@tamagui/core";
 import { useMemo, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-export default function HomeLayput() {
+export default function HomePage() {
     const setTheme = useAppStore(state => state.setTheme);
     const theme = useAppStore(state => state.theme);
 
