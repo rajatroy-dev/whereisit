@@ -1,15 +1,24 @@
 import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
 import useAppStore from "@/state/app-store";
 import { Text } from "@tamagui/core";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function HomeLayput() {
-    const [theme, setCurrentTheme] = useState('dark');
-    const setTheme = useAppStore((state) => state.setTheme);
+    const setTheme = useAppStore(state => state.setTheme);
+    const theme = useAppStore(state => state.theme);
+
+    const [currentTheme, setCurrentTheme] = useState('dark');
+    const [counter, setCounter] = useState(1);
+
+    const styles = useMemo(() => stylesheet(
+        theme.color.val,
+        theme.accentColor.val,
+        theme.background.val
+    ), [theme]);
 
     const handleTheme = () => {
-        if (theme === 'dark') {
+        if (currentTheme === 'dark') {
             setTheme('light');
             setCurrentTheme('light');
         } else {
@@ -19,26 +28,48 @@ export default function HomeLayput() {
     }
 
     return (
-        <CustomSafeAreaView>
+        <CustomSafeAreaView style={styles.screen}>
             <View style={styles.container}>
-                <Text>Where Is It?</Text>
+                <Text style={styles.text}>Where Is It?</Text>
+                <Text style={styles.text}>{counter}</Text>
                 <TouchableOpacity
                     onPress={handleTheme}
                     style={styles.button}>
-                    <Text>Toggle Theme</Text>
+                    <Text style={styles.text}>Toggle Theme</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => setCounter(counter + 1)}
+                    style={styles.button}>
+                    <Text style={styles.text}>Increase Counter</Text>
                 </TouchableOpacity>
             </View>
         </CustomSafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    button: {
-        paddingVertical: 10
-    }
-});
+const stylesheet = (
+    color?: string,
+    accentColor?: string,
+    backgroundColor?: string
+) => {
+    console.log('Styles rendered!');
+
+    return StyleSheet.create({
+        screen: {
+            backgroundColor: backgroundColor
+        },
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        button: {
+            paddingVertical: 10,
+            marginVertical: 10,
+            backgroundColor: accentColor
+        },
+        text: {
+            color: color
+        }
+    });
+}

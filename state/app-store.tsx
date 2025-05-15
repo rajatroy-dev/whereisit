@@ -22,6 +22,7 @@ const useAppTheme = () => {
     const theme = useAppStore((state) => state.theme);
     const setTheme = useAppStore((state) => state.setTheme);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => setTheme(colorScheme), []);
 
     return theme;
