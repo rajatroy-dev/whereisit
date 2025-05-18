@@ -15,7 +15,8 @@ export default function AddPage() {
         theme.background.val,
         theme.borderColor.val,
         theme.borderColorFocus.val,
-        theme.shadowColor.val
+        theme.shadowColor.val,
+        theme.borderColorHover.val
     ), [theme]);
 
     return (
@@ -41,6 +42,14 @@ export default function AddPage() {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View style={styles.buttons}>
+                    <TouchableOpacity style={styles.buttonCancel}>
+                        <Text style={styles.text}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.text}>Save</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </CustomSafeAreaView>
     );
@@ -52,7 +61,8 @@ const stylesheet = (
     backgroundColor?: string,
     borderColor?: string,
     borderColorFocus?: string,
-    shadowColor?: string
+    shadowColor?: string,
+    cancelBackground?: string
 ) => StyleSheet.create({
     screen: {
         backgroundColor: backgroundColor
@@ -65,12 +75,22 @@ const stylesheet = (
     },
     button: {
         paddingVertical: 10,
-        marginVertical: 10,
-        backgroundColor: accentColor
+        marginHorizontal: 10,
+        backgroundColor: accentColor,
+        borderRadius: 5,
+        flex: 1
+    },
+    buttonCancel: {
+        paddingVertical: 10,
+        marginHorizontal: 10,
+        backgroundColor: cancelBackground,
+        borderRadius: 5,
+        flex: 1
     },
     text: {
         color: color,
-        paddingLeft: 10
+        paddingHorizontal: 10,
+        textAlign: 'center'
     },
     textInput: {
         borderWidth: 1,
@@ -104,5 +124,11 @@ const stylesheet = (
     gallerySelection: {
         paddingLeft: 10,
         paddingRight: 5
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginBottom: 10
     }
 });
