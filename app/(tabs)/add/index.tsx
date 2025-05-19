@@ -1,13 +1,32 @@
 import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
 import IconSymbol from "@/components/ui/IconSymbol";
 import useAppStore from "@/state/app-store";
-import { useMemo, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function AddPage() {
     const theme = useAppStore(state => state.theme);
 
     const [isItemFocused, setItemFocused] = useState(false);
+    const [images, setImages] = useState<{ id: number; imagePath: string; }[]>([]);
+
+    useEffect(() => {
+        const data = [
+            {
+                id: 1,
+                imagePath: 'https://picsum.photos/200'
+            },
+            {
+                id: 2,
+                imagePath: 'https://picsum.photos/200'
+            },
+            {
+                id: 3,
+                imagePath: 'https://picsum.photos/200'
+            }
+        ];
+        setImages(data);
+    }, []);
 
     const styles = useMemo(() => stylesheet(
         theme.color.val,
@@ -22,6 +41,32 @@ export default function AddPage() {
     return (
         <CustomSafeAreaView style={styles.screen}>
             <View style={styles.container}>
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: theme.background.val,
+                    height: 300
+                }}>
+                    <FlatList horizontal data={images} renderItem={({ item }) => (
+                        <Image style={{ flex: 1, height: 200, width: 200, marginLeft: 10 }} source={{ uri: item.imagePath }} />
+                    )} />
+                    <View style={{ elevation: 2, backgroundColor: theme.background.val, marginBottom: 30 }}>
+                        <Text style={{
+                            color: theme.color.val,
+                            marginTop: 10,
+                            textAlign: 'center'
+                        }}>
+                            Image
+                        </Text>
+                        <TextInput
+                            placeholder="Where are you storing it?"
+                            placeholderTextColor={theme.placeholderColor.val}
+                            style={[
+                                styles.textInput,
+                                isItemFocused ? styles.textInputFocus : styles.textInputBlur
+                            ]} />
+                    </View>
+                </View>
                 <TextInput
                     onFocus={() => setItemFocused(true)}
                     onBlur={() => setItemFocused(false)}
@@ -113,7 +158,8 @@ const stylesheet = (
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10
+        marginBottom: 10,
+        alignItems: 'center'
     },
     imageSelection: {
         flexDirection: 'row'
