@@ -1,6 +1,8 @@
 import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
 import IconSymbol from "@/components/ui/IconSymbol";
 import useAppStore from "@/state/app-store";
+// https://docs.expo.dev/versions/latest/sdk/imagepicker/
+import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
@@ -8,22 +10,22 @@ export default function AddPage() {
     const theme = useAppStore(state => state.theme);
 
     const [isItemFocused, setItemFocused] = useState(false);
-    const [images, setImages] = useState<{ id: number; imagePath: string; }[]>([]);
+    const [images, setImages] = useState<{ id: string; imagePath: string; }[]>([]);
 
     useEffect(() => {
         const data = [
             {
-                id: 1,
+                id: '1',
                 imagePath: 'https://picsum.photos/200'
             },
-            {
-                id: 2,
-                imagePath: 'https://picsum.photos/200'
-            },
-            {
-                id: 3,
-                imagePath: 'https://picsum.photos/200'
-            }
+            // {
+            //     id: 2,
+            //     imagePath: 'https://picsum.photos/200'
+            // },
+            // {
+            //     id: 3,
+            //     imagePath: 'https://picsum.photos/200'
+            // }
         ];
         setImages(data);
     }, []);
@@ -38,6 +40,42 @@ export default function AddPage() {
         theme.borderColorHover.val
     ), [theme]);
 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images']
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            const imagesCopy = [...images];
+            imagesCopy.push({
+                id: result.assets[0].assetId || '',
+                imagePath: result.assets[0].uri
+            });
+            setImages(imagesCopy);
+        }
+    };
+
+    const clickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ['images']
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            const imagesCopy = [...images];
+            imagesCopy.push({
+                id: result.assets[0].assetId || '',
+                imagePath: result.assets[0].uri
+            });
+            setImages(imagesCopy);
+        }
+    };
+
     return (
         <CustomSafeAreaView style={styles.screen}>
             <View style={styles.container}>
@@ -50,7 +88,7 @@ export default function AddPage() {
                     <FlatList horizontal data={images} renderItem={({ item }) => (
                         <Image style={{ flex: 1, height: 200, width: 200, marginLeft: 10 }} source={{ uri: item.imagePath }} />
                     )} />
-                    <View style={{ elevation: 2, backgroundColor: theme.background.val, marginBottom: 30 }}>
+                    <View style={{ marginBottom: 30, paddingHorizontal: 20, paddingBottom: 10, borderWidth: 1, borderColor: theme.borderColor.val, borderRadius: 5 }}>
                         <Text style={{
                             color: theme.color.val,
                             marginTop: 10,
