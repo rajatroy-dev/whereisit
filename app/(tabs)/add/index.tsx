@@ -4,7 +4,7 @@ import useAppStore from "@/state/app-store";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useMemo, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function AddPage() {
     const theme = useAppStore(state => state.theme);
@@ -18,14 +18,14 @@ export default function AddPage() {
                 id: '1',
                 imagePath: 'https://picsum.photos/200'
             },
-            // {
-            //     id: 2,
-            //     imagePath: 'https://picsum.photos/200'
-            // },
-            // {
-            //     id: 3,
-            //     imagePath: 'https://picsum.photos/200'
-            // }
+            {
+                id: '2',
+                imagePath: 'https://picsum.photos/200'
+            },
+            {
+                id: '3',
+                imagePath: 'https://picsum.photos/200'
+            }
         ];
         setImages(data);
     }, []);
@@ -78,17 +78,26 @@ export default function AddPage() {
 
     return (
         <CustomSafeAreaView style={styles.screen}>
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}>
                 <View style={{
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: theme.background.val,
-                    height: 300
+                    height: 350
                 }}>
-                    <FlatList horizontal data={images} renderItem={({ item }) => (
-                        <Image style={{ flex: 1, height: 200, width: 200, marginLeft: 10 }} source={{ uri: item.imagePath }} />
+                    <FlatList horizontal data={images} renderItem={({ item, index }) => (
+                        <Image
+                            style={{
+                                flex: 1,
+                                height: 200,
+                                width: 200,
+                                marginLeft: index === 0 ? 0 : 10
+                            }}
+                            source={{ uri: item.imagePath }} />
                     )} />
-                    <View style={{ marginBottom: 30, paddingHorizontal: 20, paddingBottom: 10, borderWidth: 1, borderColor: theme.borderColor.val, borderRadius: 5 }}>
+                    <View style={{ width: 200, marginBottom: 30, borderTopWidth: 1, borderColor: theme.borderColor.val }}>
                         <Text style={{
                             color: theme.color.val,
                             marginTop: 10,
@@ -105,15 +114,18 @@ export default function AddPage() {
                             ]} />
                     </View>
                 </View>
-                <TextInput
-                    onFocus={() => setItemFocused(true)}
-                    onBlur={() => setItemFocused(false)}
-                    placeholder="What do you want to store?"
-                    placeholderTextColor={theme.placeholderColor.val}
-                    style={[
-                        styles.textInput,
-                        isItemFocused ? styles.textInputFocus : styles.textInputBlur
-                    ]} />
+                <View style={{ flexDirection: 'row' }}>
+                    <TextInput
+                        onFocus={() => setItemFocused(true)}
+                        onBlur={() => setItemFocused(false)}
+                        placeholder="What do you want to store?"
+                        placeholderTextColor={theme.placeholderColor.val}
+                        style={[
+                            styles.textInput,
+                            isItemFocused ? styles.textInputFocus : styles.textInputBlur,
+                            { flex: 1, marginHorizontal: 8 }
+                        ]} />
+                </View>
                 <View style={styles.addAnImageQuestion}>
                     <Text style={styles.text}>Want to add an image?</Text>
                     <View style={styles.imageSelection}>
@@ -133,7 +145,7 @@ export default function AddPage() {
                         <Text style={styles.text}>Save</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         </CustomSafeAreaView>
     );
 }
@@ -178,8 +190,7 @@ const stylesheet = (
     textInput: {
         borderWidth: 1,
         borderRadius: 5,
-        paddingHorizontal: 10,
-        width: '100%',
+        paddingHorizontal: 15,
         shadowColor: shadowColor,
         borderColor: borderColor,
         marginVertical: 10
