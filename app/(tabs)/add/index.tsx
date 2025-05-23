@@ -14,18 +14,18 @@ export default function AddPage() {
 
     useEffect(() => {
         const data = [
-            {
-                id: '1',
-                imagePath: 'https://picsum.photos/200'
-            },
-            {
-                id: '2',
-                imagePath: 'https://picsum.photos/200'
-            },
-            {
-                id: '3',
-                imagePath: 'https://picsum.photos/200'
-            }
+            // {
+            //     id: '1',
+            //     imagePath: 'https://picsum.photos/200'
+            // },
+            // {
+            //     id: '2',
+            //     imagePath: 'https://picsum.photos/200'
+            // },
+            // {
+            //     id: '3',
+            //     imagePath: 'https://picsum.photos/200'
+            // }
         ];
         setImages(data);
     }, []);
@@ -43,17 +43,22 @@ export default function AddPage() {
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images']
+            mediaTypes: ['images'],
+            allowsMultipleSelection: true
         });
 
         console.log(result);
 
         if (!result.canceled) {
             const imagesCopy = [...images];
-            imagesCopy.push({
-                id: result.assets[0].assetId || '',
-                imagePath: result.assets[0].uri
-            });
+
+            for (const eachImage of result.assets) {
+                imagesCopy.push({
+                    id: eachImage.assetId || `${Date.now() + Math.random()}`,
+                    imagePath: eachImage.uri
+                });
+            }
+
             setImages(imagesCopy);
         }
     };
@@ -61,17 +66,22 @@ export default function AddPage() {
     const clickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ['images']
+            mediaTypes: ['images'],
+            allowsMultipleSelection: true
         });
 
         console.log(result);
 
         if (!result.canceled) {
             const imagesCopy = [...images];
-            imagesCopy.push({
-                id: result.assets[0].assetId || '',
-                imagePath: result.assets[0].uri
-            });
+
+            for (const eachImage of result.assets) {
+                imagesCopy.push({
+                    id: eachImage.assetId || `${Date.now() + Math.random()}`,
+                    imagePath: eachImage.uri
+                });
+            }
+
             setImages(imagesCopy);
         }
     };
@@ -87,16 +97,19 @@ export default function AddPage() {
                     backgroundColor: theme.background.val,
                     height: 350
                 }}>
-                    <FlatList horizontal data={images} renderItem={({ item, index }) => (
-                        <Image
-                            style={{
-                                flex: 1,
-                                height: 200,
-                                width: 200,
-                                marginLeft: index === 0 ? 0 : 10
-                            }}
-                            source={{ uri: item.imagePath }} />
-                    )} />
+                    {images.length > 0
+                        ? <FlatList horizontal data={images} renderItem={({ item, index }) => (
+                            <Image
+                                style={{
+                                    borderRadius: 5,
+                                    flex: 1,
+                                    height: 200,
+                                    width: 200,
+                                    marginLeft: index === 0 ? 0 : 10
+                                }}
+                                source={{ uri: item.imagePath }} />
+                        )} />
+                        : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
                     <View style={{ width: 200, marginBottom: 30, borderTopWidth: 1, borderColor: theme.borderColor.val }}>
                         <Text style={{
                             color: theme.color.val,
@@ -129,10 +142,10 @@ export default function AddPage() {
                 <View style={styles.addAnImageQuestion}>
                     <Text style={styles.text}>Want to add an image?</Text>
                     <View style={styles.imageSelection}>
-                        <TouchableOpacity style={styles.cameraSelection}>
+                        <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
                             <IconSymbol name="camera" color={theme.accentColor.val} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.gallerySelection}>
+                        <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
                             <IconSymbol name="image" color={theme.accentColor.val} />
                         </TouchableOpacity>
                     </View>
