@@ -4,7 +4,7 @@ import useAppStore from "@/state/app-store";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useMemo, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -14,6 +14,7 @@ export default function AddPage() {
 
     const [itemName, setItemName] = useState('');
     const [isItemFocused, setItemFocused] = useState(false);
+    const [isLocationFocused, setLocationFocused] = useState(false);
     const [images, setImages] = useState<{ id: string; imagePath: string; }[]>([]);
 
     useEffect(() => {
@@ -76,8 +77,8 @@ export default function AddPage() {
         if (permissionResponse?.status === ImagePicker.PermissionStatus.DENIED) {
             Toast.show({
                 type: 'error',
-                text1: 'Camera Permission',
-                text2: 'Denied'
+                text1: 'Denied',
+                text2: 'Camera Permission'
             });
             return;
         }
@@ -106,7 +107,7 @@ export default function AddPage() {
     return (
         <CustomSafeAreaView style={styles.screen}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                behavior="padding"
                 style={styles.container}>
                 {itemName.length > 0
                     ? <View style={{
@@ -137,11 +138,13 @@ export default function AddPage() {
                                 {itemName}
                             </Text>
                             <TextInput
+                                onFocus={() => setLocationFocused(true)}
+                                onBlur={() => setLocationFocused(false)}
                                 placeholder="Where are you storing it?"
                                 placeholderTextColor={theme.placeholderColor.val}
                                 style={[
                                     styles.textInput,
-                                    isItemFocused ? styles.textInputFocus : styles.textInputBlur
+                                    isLocationFocused ? styles.textInputFocus : styles.textInputBlur
                                 ]} />
                         </View>
                     </View>
@@ -176,7 +179,14 @@ export default function AddPage() {
                     <TouchableOpacity style={styles.buttonCancel}>
                         <Text style={styles.text}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity
+                        disabled={!(itemName.length > 0)}
+                        style={[
+                            styles.button,
+                            !(itemName.length > 0)
+                                ? { backgroundColor: theme.accent1.val }
+                                : { backgroundColor: theme.accentColor.val }
+                        ]}>
                         <Text style={styles.text}>Save</Text>
                     </TouchableOpacity>
                 </View>
