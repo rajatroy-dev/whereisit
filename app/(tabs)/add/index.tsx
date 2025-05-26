@@ -1,39 +1,21 @@
 import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
 import IconSymbol from "@/components/ui/IconSymbol";
-import useAppStore from "@/state/app-store";
+import { useAppTheme } from "@/state/app-store";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
-    const theme = useAppStore(state => state.theme);
+    const theme = useAppTheme();
     const [permission, requestPermission] = ImagePicker.useCameraPermissions();
 
 
     const [itemName, setItemName] = useState('');
     const [isItemFocused, setItemFocused] = useState(false);
     const [isLocationFocused, setLocationFocused] = useState(false);
-    const [images, setImages] = useState<{ id: string; imagePath: string; }[]>([]);
-
-    useEffect(() => {
-        const data = [
-            // {
-            //     id: '1',
-            //     imagePath: 'https://picsum.photos/200'
-            // },
-            // {
-            //     id: '2',
-            //     imagePath: 'https://picsum.photos/200'
-            // },
-            // {
-            //     id: '3',
-            //     imagePath: 'https://picsum.photos/200'
-            // }
-        ];
-        setImages(data);
-    }, []);
+    const [images, setImages] = useState<IImageDate[]>([]);
 
     const styles = useMemo(() => stylesheet(
         theme.color.val,
@@ -77,8 +59,8 @@ export default function AddPage() {
         if (permissionResponse?.status === ImagePicker.PermissionStatus.DENIED) {
             Toast.show({
                 type: 'error',
-                text1: 'Denied',
-                text2: 'Camera Permission'
+                text1: 'Need camera permission to take a photo',
+                text2: 'Current staus: Denied'
             });
             return;
         }
@@ -184,7 +166,7 @@ export default function AddPage() {
                         style={[
                             styles.button,
                             !(itemName.length > 0)
-                                ? { backgroundColor: theme.accent1.val }
+                                ? { backgroundColor: theme.placeholderColor.val }
                                 : { backgroundColor: theme.accentColor.val }
                         ]}>
                         <Text style={styles.text}>Save</Text>
@@ -273,3 +255,5 @@ const stylesheet = (
         marginBottom: 10
     }
 });
+
+type IImageDate = { id: string; imagePath: string; };

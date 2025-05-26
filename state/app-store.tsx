@@ -1,4 +1,5 @@
 import { config } from '@/tamagui.config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { create, ExtractState } from 'zustand';
@@ -8,19 +9,16 @@ const useAppStore = create(
     combine(
         {
             theme: config.themes.dark,
-            colorScheme: 'dark'
         },
         (set) => ({
-            setTheme: (value: 'light' | 'dark' | null | undefined) => set(() => ({
-                theme: value === undefined || value === null || value === 'dark'
-                    ? config.themes.dark
-                    : config.themes.light
-            })),
-            setColorScheme: (value: 'light' | 'dark' | null | undefined) => set(() => ({
-                colorScheme: value === undefined || value === null || value === 'dark'
-                    ? 'dark'
-                    : 'light'
-            }))
+            setTheme: (value: string | null | undefined) => set(() => {
+                AsyncStorage.setItem('theme', value || 'dark');
+                return {
+                    theme: value === undefined || value === null || value === 'dark'
+                        ? config.themes.dark
+                        : config.themes.light
+                };
+            }),
         })
     ),
 );
@@ -29,15 +27,20 @@ const useAppTheme = () => {
     const systemColorScheme = useColorScheme();
 
     const theme = useAppStore((state) => state.theme);
-    const colorScheme = useAppStore((state) => state.colorScheme);
     const setTheme = useAppStore((state) => state.setTheme);
-    const setColorScheme = useAppStore((state) => state.setColorScheme);
 
     useEffect(() => {
-        if (colorScheme !== systemColorScheme) {
-            setTheme(systemColorScheme);
-            setColorScheme(systemColorScheme);
-        }
+        AsyncStorage.getItem('theme')
+            .then((value) => {
+                if (value) {
+                    setTheme(value);
+                } else if (systemColorScheme) {
+                    AsyncStorage.setItem('theme', systemColorScheme)
+                        .then(() => {
+                            setTheme(systemColorScheme);
+                        });
+                }
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
