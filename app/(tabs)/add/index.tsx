@@ -5,7 +5,6 @@ import { useAppTheme } from "@/state/app-store";
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
 import { FlatList, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Dropdown } from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -99,56 +98,89 @@ export default function AddPage() {
             <KeyboardAvoidingView
                 behavior="padding"
                 style={styles.container}>
-                {itemName.length > 0
-                    ? <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: theme.background.val,
-                        height: 350
-                    }}>
-                        {images.length > 0
-                            ? <FlatList horizontal data={images} renderItem={({ item, index }) => (
-                                <Image
-                                    style={{
-                                        borderRadius: 5,
-                                        flex: 1,
-                                        height: 200,
-                                        width: 200,
-                                        marginLeft: index === 0 ? 0 : 10
-                                    }}
-                                    source={{ uri: item.imagePath }} />
-                            )} />
-                            : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
-                        <View style={{ width: 200, marginBottom: 30, borderTopWidth: 1, borderColor: theme.borderColor.val, alignItems: 'center' }}>
-                            <Text style={{
-                                color: theme.color.val,
-                                marginTop: 10,
-                                textAlign: 'center'
+                {isLocationFocused
+                    ? <>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TextInput
+                                onFocus={() => setItemFocused(true)}
+                                onBlur={() => setItemFocused(false)}
+                                onChangeText={setLocationName}
+                                placeholder="Where are you storing it?"
+                                placeholderTextColor={theme.placeholderColor.val}
+                                style={[
+                                    styles.textInput,
+                                    isItemFocused ? styles.textInputFocus : styles.textInputBlur,
+                                    { flex: 1, marginHorizontal: 8 }
+                                ]} />
+                        </View>
+                        <View style={styles.addAnImageQuestion}>
+                            <Text style={styles.text}>Want to add an image?</Text>
+                            <View style={styles.imageSelection}>
+                                <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
+                                    <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
+                                    <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={styles.buttons}>
+                            <TouchableOpacity style={styles.buttonCancel} onPress={() => setLocationFocused(false)}>
+                                <Text style={styles.text}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                disabled={!(itemName.length > 0)}
+                                style={[
+                                    styles.button,
+                                    !(itemName.length > 0)
+                                        ? { backgroundColor: theme.placeholderColor.val }
+                                        : { backgroundColor: theme.accentColor.val }
+                                ]}>
+                                <Text style={styles.text}>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                    : <>
+                        {itemName.length > 0
+                            ? <View style={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: theme.background.val,
+                                height: 350
                             }}>
-                                {itemName}
-                            </Text>
-                            <Dropdown
-                                style={[styles.dropdown, isLocationFocused && { borderColor: 'blue' }]}
-                                placeholderStyle={styles.placeholderStyle}
-                                selectedTextStyle={styles.selectedTextStyle}
-                                inputSearchStyle={styles.inputSearchStyle}
-                                iconStyle={styles.iconStyle}
-                                data={data}
-                                search
-                                maxHeight={300}
-                                labelField="label"
-                                valueField="value"
-                                placeholder={!isLocationFocused ? 'Where are you storing it?' : locationName}
-                                searchPlaceholder="Search . . ."
-                                value={locationName}
-                                onFocus={() => setLocationFocused(true)}
-                                onBlur={() => setLocationFocused(false)}
-                                onChange={item => {
-                                    setLocationName(item.value);
-                                    setLocationFocused(false);
-                                }}
-                            />
-                            {/* <TextInput
+                                {images.length > 0
+                                    ? <FlatList horizontal data={images} renderItem={({ item, index }) => (
+                                        <Image
+                                            style={{
+                                                borderRadius: 5,
+                                                flex: 1,
+                                                height: 200,
+                                                width: 200,
+                                                marginLeft: index === 0 ? 0 : 10
+                                            }}
+                                            source={{ uri: item.imagePath }} />
+                                    )} />
+                                    : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                <View style={{ width: 200, marginBottom: 30, borderTopWidth: 1, borderColor: theme.borderColor.val, alignItems: 'center' }}>
+                                    <Text style={{
+                                        color: theme.color.val,
+                                        marginTop: 10,
+                                        textAlign: 'center'
+                                    }}>
+                                        {itemName}
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() => setLocationFocused(true)}
+                                        style={{
+                                            elevation: 1,
+                                            backgroundColor: theme.background.val,
+                                            paddingVertical: 10,
+                                            marginVertical: 10,
+                                            borderRadius: 5
+                                        }}>
+                                        <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
+                                    </TouchableOpacity>
+                                    {/* <TextInput
                                 onFocus={() => setLocationFocused(true)}
                                 onBlur={() => setLocationFocused(false)}
                                 placeholder="Where are you storing it?"
@@ -157,50 +189,51 @@ export default function AddPage() {
                                     styles.textInput,
                                     isLocationFocused ? styles.textInputFocus : styles.textInputBlur
                                 ]} /> */}
+                                </View>
+                            </View>
+                            : <></>}
+                        <View style={{ flexDirection: 'row' }}>
+                            <TextInput
+                                onFocus={() => setItemFocused(true)}
+                                onBlur={() => setItemFocused(false)}
+                                onChangeText={setItemName}
+                                placeholder="What do you want to store?"
+                                placeholderTextColor={theme.placeholderColor.val}
+                                style={[
+                                    styles.textInput,
+                                    isItemFocused ? styles.textInputFocus : styles.textInputBlur,
+                                    { flex: 1, marginHorizontal: 8 }
+                                ]} />
                         </View>
-                    </View>
-                    : <></>}
-                <View style={{ flexDirection: 'row' }}>
-                    <TextInput
-                        onFocus={() => setItemFocused(true)}
-                        onBlur={() => setItemFocused(false)}
-                        onChangeText={setItemName}
-                        placeholder="What do you want to store?"
-                        placeholderTextColor={theme.placeholderColor.val}
-                        style={[
-                            styles.textInput,
-                            isItemFocused ? styles.textInputFocus : styles.textInputBlur,
-                            { flex: 1, marginHorizontal: 8 }
-                        ]} />
-                </View>
-                {itemName.length > 0
-                    ? <View style={styles.addAnImageQuestion}>
-                        <Text style={styles.text}>Want to add an image?</Text>
-                        <View style={styles.imageSelection}>
-                            <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
-                                <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                        {itemName.length > 0
+                            ? <View style={styles.addAnImageQuestion}>
+                                <Text style={styles.text}>Want to add an image?</Text>
+                                <View style={styles.imageSelection}>
+                                    <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
+                                        <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
+                                        <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            : <></>}
+                        <View style={styles.buttons}>
+                            <TouchableOpacity style={styles.buttonCancel}>
+                                <Text style={styles.text}>Cancel</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
-                                <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                            <TouchableOpacity
+                                disabled={!(itemName.length > 0)}
+                                style={[
+                                    styles.button,
+                                    !(itemName.length > 0)
+                                        ? { backgroundColor: theme.placeholderColor.val }
+                                        : { backgroundColor: theme.accentColor.val }
+                                ]}>
+                                <Text style={styles.text}>Save</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    : <></>}
-                <View style={styles.buttons}>
-                    <TouchableOpacity style={styles.buttonCancel}>
-                        <Text style={styles.text}>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        disabled={!(itemName.length > 0)}
-                        style={[
-                            styles.button,
-                            !(itemName.length > 0)
-                                ? { backgroundColor: theme.placeholderColor.val }
-                                : { backgroundColor: theme.accentColor.val }
-                        ]}>
-                        <Text style={styles.text}>Save</Text>
-                    </TouchableOpacity>
-                </View>
+                    </>}
             </KeyboardAvoidingView>
         </CustomSafeAreaView>
     );
@@ -282,41 +315,7 @@ const stylesheet = (
         justifyContent: 'space-between',
         width: '100%',
         marginBottom: 10
-    },
-    dropdown: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 0.5,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-        width: 220
-    },
-    icon: {
-        marginRight: 5,
-    },
-    label: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        left: 22,
-        top: 8,
-        zIndex: 999,
-        paddingHorizontal: 8,
-        fontSize: 14,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
+    }
 });
 
 type IImageDate = { id: string; imagePath: string; };
