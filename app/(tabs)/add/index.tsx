@@ -4,7 +4,7 @@ import { useAppTheme } from "@/state/app-store";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -100,6 +100,23 @@ export default function AddPage() {
                 style={styles.container}>
                 {isLocationFocused
                     ? <>
+                        {locationName.length > 0
+                            ? <View style={{ justifyContent: 'flex-end', height: 200, width: '100%' }}>
+                                <ScrollView style={{
+                                    elevation: 0.5,
+                                    shadowColor: theme.colorPress.val,
+                                    backgroundColor: theme.background.val,
+                                    borderRadius: 5,
+                                    margin: 10,
+                                    padding: 10
+                                }}>
+                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
+                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
+                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
+                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
+                                </ScrollView>
+                            </View>
+                            : <></>}
                         <View style={{ flexDirection: 'row' }}>
                             <TextInput
                                 onFocus={() => setItemFocused(true)}
@@ -172,7 +189,8 @@ export default function AddPage() {
                                     <TouchableOpacity
                                         onPress={() => setLocationFocused(true)}
                                         style={{
-                                            elevation: 1,
+                                            elevation: 0.5,
+                                            shadowColor: theme.colorPress.val,
                                             backgroundColor: theme.background.val,
                                             paddingVertical: 10,
                                             marginVertical: 10,
