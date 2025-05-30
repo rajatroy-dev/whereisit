@@ -103,22 +103,39 @@ export default function AddPage() {
                         {locationName.length > 0
                             ? <View style={{ justifyContent: 'flex-end', height: 200, width: '100%' }}>
                                 <ScrollView style={{
-                                    elevation: 0.5,
+                                    elevation: 1,
                                     shadowColor: theme.colorPress.val,
                                     backgroundColor: theme.background.val,
                                     borderRadius: 5,
                                     margin: 10,
                                     padding: 10
                                 }}>
-                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
-                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
-                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
-                                    <TouchableOpacity style={{ paddingBottom: 20 }}><Text>Abc</Text></TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => {}}
+                                        style={{ paddingBottom: 20 }}>
+                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => {}}
+                                        style={{ paddingBottom: 20 }}>
+                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => {}}
+                                        style={{ paddingBottom: 20 }}>
+                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => {}}
+                                        style={{ paddingBottom: 20 }}>
+                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                    </TouchableOpacity>
                                 </ScrollView>
                             </View>
                             : <></>}
                         <View style={{ flexDirection: 'row' }}>
                             <TextInput
+                                value={locationName}
                                 onFocus={() => setItemFocused(true)}
                                 onBlur={() => setItemFocused(false)}
                                 onChangeText={setLocationName}
@@ -130,19 +147,24 @@ export default function AddPage() {
                                     { flex: 1, marginHorizontal: 8 }
                                 ]} />
                         </View>
-                        <View style={styles.addAnImageQuestion}>
-                            <Text style={styles.text}>Want to add an image?</Text>
-                            <View style={styles.imageSelection}>
-                                <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
-                                    <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
-                                    <IconSymbol name="image" color={theme.accentColor.val} size={32} />
-                                </TouchableOpacity>
+                        {locationName.length > 0
+                            ? <View style={styles.addAnImageQuestion}>
+                                <Text style={styles.text}>Want to add an image?</Text>
+                                <View style={styles.imageSelection}>
+                                    <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
+                                        <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
+                                        <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
+                            : <></>}
                         <View style={styles.buttons}>
-                            <TouchableOpacity style={styles.buttonCancel} onPress={() => setLocationFocused(false)}>
+                            <TouchableOpacity style={styles.buttonCancel} onPress={() => {
+                                setLocationFocused(false);
+                                setLocationName('');
+                            }}>
                                 <Text style={styles.text}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -189,7 +211,7 @@ export default function AddPage() {
                                     <TouchableOpacity
                                         onPress={() => setLocationFocused(true)}
                                         style={{
-                                            elevation: 0.5,
+                                            elevation: 1,
                                             shadowColor: theme.colorPress.val,
                                             backgroundColor: theme.background.val,
                                             paddingVertical: 10,
@@ -198,20 +220,12 @@ export default function AddPage() {
                                         }}>
                                         <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
                                     </TouchableOpacity>
-                                    {/* <TextInput
-                                onFocus={() => setLocationFocused(true)}
-                                onBlur={() => setLocationFocused(false)}
-                                placeholder="Where are you storing it?"
-                                placeholderTextColor={theme.placeholderColor.val}
-                                style={[
-                                    styles.textInput,
-                                    isLocationFocused ? styles.textInputFocus : styles.textInputBlur
-                                ]} /> */}
                                 </View>
                             </View>
                             : <></>}
                         <View style={{ flexDirection: 'row' }}>
                             <TextInput
+                                value={itemName}
                                 onFocus={() => setItemFocused(true)}
                                 onBlur={() => setItemFocused(false)}
                                 onChangeText={setItemName}
