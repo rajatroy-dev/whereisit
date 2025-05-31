@@ -16,7 +16,9 @@ export default function AddPage() {
     const [isItemFocused, setItemFocused] = useState(false);
     const [locationName, setLocationName] = useState('');
     const [isLocationFocused, setLocationFocused] = useState(false);
-    const [images, setImages] = useState<IImageDate[]>([]);
+    const [isLocationChoiceVisible, setLocationChoiceVisible] = useState(false);
+    const [itemImages, setItemImages] = useState<IImageDate[]>([]);
+    const [locationImages, setLocationImages] = useState<IImageDate[]>([]);
 
     const data = [
         { value: 1, label: 'Living Room > Closet' },
@@ -34,7 +36,7 @@ export default function AddPage() {
         theme.borderColorHover.val
     ), [theme]);
 
-    const pickImage = async () => {
+    const pickImage = async (type: 'item' | 'location') => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
@@ -44,7 +46,7 @@ export default function AddPage() {
         console.log(result);
 
         if (!result.canceled) {
-            const imagesCopy = [...images];
+            const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
 
             for (const eachImage of result.assets) {
                 imagesCopy.push({
@@ -53,11 +55,12 @@ export default function AddPage() {
                 });
             }
 
-            setImages(imagesCopy);
+            if (type === 'item') setItemImages(imagesCopy);
+            if (type === 'location') setLocationImages(imagesCopy);
         }
     };
 
-    const clickImage = async () => {
+    const clickImage = async (type: 'item' | 'location') => {
         let permissionResponse;
         if (!permission?.granted) {
             permissionResponse = await requestPermission();
@@ -80,7 +83,7 @@ export default function AddPage() {
         console.log(result);
 
         if (!result.canceled) {
-            const imagesCopy = [...images];
+            const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
 
             for (const eachImage of result.assets) {
                 imagesCopy.push({
@@ -89,7 +92,8 @@ export default function AddPage() {
                 });
             }
 
-            setImages(imagesCopy);
+            if (type === 'item') setItemImages(imagesCopy);
+            if (type === 'location') setLocationImages(imagesCopy);
         }
     };
 
@@ -102,43 +106,64 @@ export default function AddPage() {
                     ? <>
                         {locationName.length > 0
                             ? <View style={{ justifyContent: 'flex-end', height: 200, width: '100%' }}>
-                                <ScrollView style={{
-                                    elevation: 1,
-                                    shadowColor: theme.colorPress.val,
-                                    backgroundColor: theme.background.val,
-                                    borderRadius: 5,
-                                    margin: 10,
-                                    padding: 10
-                                }}>
-                                    <TouchableOpacity
-                                        onPress={() => {}}
-                                        style={{ paddingBottom: 20 }}>
-                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => {}}
-                                        style={{ paddingBottom: 20 }}>
-                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => {}}
-                                        style={{ paddingBottom: 20 }}>
-                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => {}}
-                                        style={{ paddingBottom: 20 }}>
-                                        <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                    </TouchableOpacity>
-                                </ScrollView>
+                                {locationImages.length > 0
+                                    ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
+                                        <Image
+                                            style={{
+                                                borderRadius: 5,
+                                                flex: 1,
+                                                height: 200,
+                                                width: 200,
+                                                marginLeft: index === 0 ? 0 : 10
+                                            }}
+                                            source={{ uri: item.imagePath }} />
+                                    )} />
+                                    : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                {isLocationChoiceVisible
+                                    ? <ScrollView style={{
+                                        elevation: 1,
+                                        shadowColor: theme.colorPress.val,
+                                        backgroundColor: theme.background.val,
+                                        borderRadius: 5,
+                                        margin: 10,
+                                        padding: 10
+                                    }}>
+                                        <TouchableOpacity
+                                            onPress={() => { }}
+                                            style={{ paddingBottom: 20 }}>
+                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => { }}
+                                            style={{ paddingBottom: 20 }}>
+                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => { }}
+                                            style={{ paddingBottom: 20 }}>
+                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => { }}
+                                            style={{ paddingBottom: 20 }}>
+                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                        </TouchableOpacity>
+                                    </ScrollView>
+                                    : <></>}
                             </View>
                             : <></>}
                         <View style={{ flexDirection: 'row' }}>
                             <TextInput
                                 value={locationName}
                                 onFocus={() => setItemFocused(true)}
-                                onBlur={() => setItemFocused(false)}
-                                onChangeText={setLocationName}
+                                onBlur={() => {
+                                    setItemFocused(false);
+                                    setLocationChoiceVisible(false);
+                                }}
+                                onChangeText={(text) => {
+                                    setLocationName(text);
+                                    setLocationChoiceVisible(true);
+                                }}
                                 placeholder="Where are you storing it?"
                                 placeholderTextColor={theme.placeholderColor.val}
                                 style={[
@@ -151,10 +176,10 @@ export default function AddPage() {
                             ? <View style={styles.addAnImageQuestion}>
                                 <Text style={styles.text}>Want to add an image?</Text>
                                 <View style={styles.imageSelection}>
-                                    <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
+                                    <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('location')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
                                         <IconSymbol name="image" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
                                 </View>
@@ -187,8 +212,8 @@ export default function AddPage() {
                                 backgroundColor: theme.background.val,
                                 height: 350
                             }}>
-                                {images.length > 0
-                                    ? <FlatList horizontal data={images} renderItem={({ item, index }) => (
+                                {itemImages.length > 0
+                                    ? <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
                                         <Image
                                             style={{
                                                 borderRadius: 5,
@@ -211,8 +236,8 @@ export default function AddPage() {
                                     <TouchableOpacity
                                         onPress={() => setLocationFocused(true)}
                                         style={{
-                                            elevation: 1,
-                                            shadowColor: theme.colorPress.val,
+                                            borderWidth: 1,
+                                            borderColor: theme.borderColorFocus.val,
                                             backgroundColor: theme.background.val,
                                             paddingVertical: 10,
                                             marginVertical: 10,
@@ -241,10 +266,10 @@ export default function AddPage() {
                             ? <View style={styles.addAnImageQuestion}>
                                 <Text style={styles.text}>Want to add an image?</Text>
                                 <View style={styles.imageSelection}>
-                                    <TouchableOpacity style={styles.cameraSelection} onPress={clickImage}>
+                                    <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.gallerySelection} onPress={pickImage}>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
                                         <IconSymbol name="image" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
                                 </View>
