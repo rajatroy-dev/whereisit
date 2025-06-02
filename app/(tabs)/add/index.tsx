@@ -4,7 +4,7 @@ import { useAppTheme } from "@/state/app-store";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -100,12 +100,12 @@ export default function AddPage() {
     return (
         <CustomSafeAreaView style={styles.screen}>
             <KeyboardAvoidingView
-                behavior="padding"
+                behavior={Platform.OS === "ios" ? "padding" : "position"}
                 style={styles.container}>
                 {isLocationFocused
                     ? <>
                         {locationName.length > 0
-                            ? <View style={{ justifyContent: 'flex-end', height: 200, width: '100%' }}>
+                            ? <View style={{ justifyContent: 'flex-end', width: '100%' }}>
                                 {locationImages.length > 0
                                     ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
                                         <Image
@@ -120,35 +120,42 @@ export default function AddPage() {
                                     )} />
                                     : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
                                 {isLocationChoiceVisible
-                                    ? <ScrollView style={{
-                                        elevation: 1,
-                                        shadowColor: theme.colorPress.val,
-                                        backgroundColor: theme.background.val,
-                                        borderRadius: 5,
-                                        margin: 10,
-                                        padding: 10
+                                    ? <View style={{
+                                        width: '100%',
+                                        position: 'absolute',
                                     }}>
-                                        <TouchableOpacity
-                                            onPress={() => { }}
-                                            style={{ paddingBottom: 20 }}>
-                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => { }}
-                                            style={{ paddingBottom: 20 }}>
-                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => { }}
-                                            style={{ paddingBottom: 20 }}>
-                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => { }}
-                                            style={{ paddingBottom: 20 }}>
-                                            <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                        </TouchableOpacity>
-                                    </ScrollView>
+                                        <ScrollView style={{
+                                            bottom: 0,
+                                            left: 0,
+                                            elevation: 1,
+                                            shadowColor: theme.colorPress.val,
+                                            backgroundColor: theme.background.val,
+                                            borderRadius: 5,
+                                            marginHorizontal: 10,
+                                            padding: 10
+                                        }}>
+                                            <TouchableOpacity
+                                                onPress={() => { }}
+                                                style={{ paddingBottom: 20 }}>
+                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => { }}
+                                                style={{ paddingBottom: 20 }}>
+                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => { }}
+                                                style={{ paddingBottom: 20 }}>
+                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => { }}
+                                                style={{ paddingBottom: 20 }}>
+                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
+                                            </TouchableOpacity>
+                                        </ScrollView>
+                                    </View>
                                     : <></>}
                             </View>
                             : <></>}
@@ -210,7 +217,7 @@ export default function AddPage() {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: theme.background.val,
-                                height: 350
+                                height: 550
                             }}>
                                 {itemImages.length > 0
                                     ? <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
@@ -246,6 +253,19 @@ export default function AddPage() {
                                         <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
                                     </TouchableOpacity>
                                 </View>
+                                {locationImages.length > 0
+                                    ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
+                                        <Image
+                                            style={{
+                                                borderRadius: 5,
+                                                flex: 1,
+                                                height: 200,
+                                                width: 200,
+                                                marginLeft: index === 0 ? 0 : 10
+                                            }}
+                                            source={{ uri: item.imagePath }} />
+                                    )} />
+                                    : <></>}
                             </View>
                             : <></>}
                         <View style={{ flexDirection: 'row' }}>
@@ -269,7 +289,7 @@ export default function AddPage() {
                                     <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('item')}>
                                         <IconSymbol name="image" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
                                 </View>
