@@ -106,19 +106,25 @@ export default function AddPage() {
                     ? <>
                         {locationName.length > 0
                             ? <View style={{ justifyContent: 'flex-end', width: '100%' }}>
-                                {locationImages.length > 0
-                                    ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
-                                        <Image
-                                            style={{
-                                                borderRadius: 5,
-                                                flex: 1,
-                                                height: 200,
-                                                width: 200,
-                                                marginLeft: index === 0 ? 0 : 10
-                                            }}
-                                            source={{ uri: item.imagePath }} />
-                                    )} />
-                                    : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                <View
+                                    style={{
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                    {locationImages.length > 0
+                                        ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
+                                            <Image
+                                                style={{
+                                                    borderRadius: 5,
+                                                    flex: 1,
+                                                    height: 200,
+                                                    width: 200,
+                                                    marginLeft: index === 0 ? 0 : 10
+                                                }}
+                                                source={{ uri: item.imagePath }} />
+                                        )} />
+                                        : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                </View>
                                 {isLocationChoiceVisible
                                     ? <View style={{
                                         width: '100%',
@@ -200,7 +206,8 @@ export default function AddPage() {
                                 <Text style={styles.text}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                disabled={!(itemName.length > 0)}
+                                disabled={!(locationName.length > 0)}
+                                onPress={() => setLocationFocused(false)}
                                 style={[
                                     styles.button,
                                     !(itemName.length > 0)
@@ -217,7 +224,7 @@ export default function AddPage() {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: theme.background.val,
-                                height: 550
+                                height: locationImages.length > 0 ? 550 : 350
                             }}>
                                 {itemImages.length > 0
                                     ? <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
@@ -232,26 +239,19 @@ export default function AddPage() {
                                             source={{ uri: item.imagePath }} />
                                     )} />
                                     : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
-                                <View style={{ width: 200, marginBottom: 30, borderTopWidth: 1, borderColor: theme.borderColor.val, alignItems: 'center' }}>
+                                <View style={{
+                                    width: 200,
+                                    paddingBottom: 10,
+                                    borderBottomWidth: 1,
+                                    borderColor: theme.borderColor.val,
+                                    alignItems: 'center'
+                                }}>
                                     <Text style={{
                                         color: theme.color.val,
-                                        marginTop: 10,
                                         textAlign: 'center'
                                     }}>
                                         {itemName}
                                     </Text>
-                                    <TouchableOpacity
-                                        onPress={() => setLocationFocused(true)}
-                                        style={{
-                                            borderWidth: 1,
-                                            borderColor: theme.borderColorFocus.val,
-                                            backgroundColor: theme.background.val,
-                                            paddingVertical: 10,
-                                            marginVertical: 10,
-                                            borderRadius: 5
-                                        }}>
-                                        <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
-                                    </TouchableOpacity>
                                 </View>
                                 {locationImages.length > 0
                                     ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
@@ -266,6 +266,20 @@ export default function AddPage() {
                                             source={{ uri: item.imagePath }} />
                                     )} />
                                     : <></>}
+                                <View style={{ width: 200, marginTop: 10, marginBottom: 30, alignItems: 'center' }}>
+                                    <TouchableOpacity
+                                        onPress={() => setLocationFocused(true)}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderColor: theme.borderColorFocus.val,
+                                            backgroundColor: theme.background.val,
+                                            paddingVertical: 10,
+                                            marginVertical: 10,
+                                            borderRadius: 5
+                                        }}>
+                                        <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                             : <></>}
                         <View style={{ flexDirection: 'row' }}>
