@@ -105,9 +105,10 @@ export default function AddPage() {
                 {isLocationFocused
                     ? <>
                         {locationName.length > 0
-                            ? <View style={{ justifyContent: 'flex-end', width: '100%' }}>
+                            ? <View style={{ justifyContent: 'flex-end' }}>
                                 <View
                                     style={{
+                                        width: '100%',
                                         justifyContent: 'center',
                                         alignItems: 'center'
                                     }}>
@@ -123,7 +124,7 @@ export default function AddPage() {
                                                 }}
                                                 source={{ uri: item.imagePath }} />
                                         )} />
-                                        : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                        : <IconSymbol name="image" color={theme.borderColorHover.val} size={200} />}
                                 </View>
                                 {isLocationChoiceVisible
                                     ? <View style={{
@@ -187,7 +188,7 @@ export default function AddPage() {
                         </View>
                         {locationName.length > 0
                             ? <View style={styles.addAnImageQuestion}>
-                                <Text style={styles.text}>Want to add an image?</Text>
+                                <Text style={styles.text}>Want to add a location image?</Text>
                                 <View style={styles.imageSelection}>
                                     <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('location')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
@@ -202,6 +203,7 @@ export default function AddPage() {
                             <TouchableOpacity style={styles.buttonCancel} onPress={() => {
                                 setLocationFocused(false);
                                 setLocationName('');
+                                setLocationImages([]);
                             }}>
                                 <Text style={styles.text}>Cancel</Text>
                             </TouchableOpacity>
@@ -224,7 +226,7 @@ export default function AddPage() {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: theme.background.val,
-                                height: locationImages.length > 0 ? 550 : 350
+                                height: locationImages.length > 0 ? 540 : 350
                             }}>
                                 {itemImages.length > 0
                                     ? <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
@@ -238,17 +240,21 @@ export default function AddPage() {
                                             }}
                                             source={{ uri: item.imagePath }} />
                                     )} />
-                                    : <IconSymbol name="image" color={theme.accentColor.val} size={200} />}
+                                    : <IconSymbol name="image" color={theme.borderColorHover.val} size={200} />}
                                 <View style={{
-                                    width: 200,
+                                    width: '100%',
                                     paddingBottom: 10,
                                     borderBottomWidth: 1,
                                     borderColor: theme.borderColor.val,
-                                    alignItems: 'center'
+                                    alignItems: 'center',
+                                    marginTop: 10,
+                                    marginBottom: 20
                                 }}>
                                     <Text style={{
                                         color: theme.color.val,
-                                        textAlign: 'center'
+                                        textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        fontSize: 20
                                     }}>
                                         {itemName}
                                     </Text>
@@ -266,7 +272,7 @@ export default function AddPage() {
                                             source={{ uri: item.imagePath }} />
                                     )} />
                                     : <></>}
-                                <View style={{ width: 200, marginTop: 10, marginBottom: 30, alignItems: 'center' }}>
+                                <View style={{ width: 200, marginVertical: 10, alignItems: 'center' }}>
                                     <TouchableOpacity
                                         onPress={() => setLocationFocused(true)}
                                         style={{
@@ -274,8 +280,8 @@ export default function AddPage() {
                                             borderColor: theme.borderColorFocus.val,
                                             backgroundColor: theme.background.val,
                                             paddingVertical: 10,
-                                            marginVertical: 10,
-                                            borderRadius: 5
+                                            borderRadius: 5,
+                                            width: '100%'
                                         }}>
                                         <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
                                     </TouchableOpacity>
@@ -298,7 +304,7 @@ export default function AddPage() {
                         </View>
                         {itemName.length > 0
                             ? <View style={styles.addAnImageQuestion}>
-                                <Text style={styles.text}>Want to add an image?</Text>
+                                <Text style={styles.text}>Want to add an item image?</Text>
                                 <View style={styles.imageSelection}>
                                     <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
