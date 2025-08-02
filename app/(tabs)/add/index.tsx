@@ -243,21 +243,35 @@ export default function AddPage() {
                                     : <IconSymbol name="image" color={theme.borderColorHover.val} size={200} />}
                                 <View style={{
                                     width: '100%',
-                                    paddingBottom: 10,
-                                    borderBottomWidth: 1,
+                                    borderWidth: 1,
                                     borderColor: theme.borderColor.val,
-                                    alignItems: 'center',
-                                    marginTop: 10,
-                                    marginBottom: 20
+                                    borderRadius: 5,
+                                    paddingHorizontal: 10,
+                                    paddingVertical: 5
                                 }}>
-                                    <Text style={{
-                                        color: theme.color.val,
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 20
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
                                     }}>
-                                        {itemName}
-                                    </Text>
+                                        <View style={{ justifyContent: 'flex-start' }}>
+                                            <Text style={{ fontSize: 10 }}>Storing</Text>
+                                            <View>
+                                                <Text style={{
+                                                    color: theme.color.val,
+                                                    fontWeight: 'bold',
+                                                    fontSize: 20
+                                                }}>
+                                                    {itemName}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <View>
+                                                <Text>Edit</Text>
+                                            </View>
+                                        </View>
+                                    </View>
                                 </View>
                                 {locationImages.length > 0
                                     ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
