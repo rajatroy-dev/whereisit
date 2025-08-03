@@ -302,7 +302,7 @@ export default function AddPage() {
                                 </View>
                             </View>
                             : <></>}
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', width: '100%' }}>
                             <TextInput
                                 value={itemName}
                                 onFocus={() => setItemFocused(true)}
@@ -329,21 +329,23 @@ export default function AddPage() {
                                 </View>
                             </View>
                             : <></>}
-                        <View style={styles.buttons}>
-                            <TouchableOpacity style={styles.buttonCancel}>
-                                <Text style={styles.text}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                disabled={!(itemName.length > 0)}
-                                style={[
-                                    styles.button,
-                                    !(itemName.length > 0)
-                                        ? { backgroundColor: theme.placeholderColor.val }
-                                        : { backgroundColor: theme.accentColor.val }
-                                ]}>
-                                <Text style={styles.text}>Save</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {itemName.length > 0
+                            ? <View style={styles.buttons}>
+                                <TouchableOpacity style={styles.buttonCancel}>
+                                    <Text style={styles.text}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    disabled={!(itemName.length > 0)}
+                                    style={[
+                                        styles.button,
+                                        !(itemName.length > 0)
+                                            ? { backgroundColor: theme.placeholderColor.val }
+                                            : { backgroundColor: theme.accentColor.val }
+                                    ]}>
+                                    <Text style={styles.text}>Save</Text>
+                                </TouchableOpacity>
+                            </View>
+                            : <></>}
                     </>}
             </KeyboardAvoidingView>
         </CustomSafeAreaView>
