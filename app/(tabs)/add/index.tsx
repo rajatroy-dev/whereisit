@@ -178,7 +178,7 @@ export default function AddPage() {
                                     setLocationName(text);
                                     setLocationChoiceVisible(true);
                                 }}
-                                placeholder="Where are you storing it?"
+                                placeholder="Where will it be stored? (Optional)"
                                 placeholderTextColor={theme.placeholderColor.val}
                                 style={[
                                     styles.textInput,
@@ -286,7 +286,7 @@ export default function AddPage() {
                                             source={{ uri: item.imagePath }} />
                                     )} />
                                     : <></>}
-                                <View style={{ width: 200, marginVertical: 10, alignItems: 'center' }}>
+                                <View style={{ width: '100%', marginHorizontal: 50, marginVertical: 10, alignItems: 'center' }}>
                                     <TouchableOpacity
                                         onPress={() => setLocationFocused(true)}
                                         style={{
@@ -297,12 +297,12 @@ export default function AddPage() {
                                             borderRadius: 5,
                                             width: '100%'
                                         }}>
-                                        <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where are you storing it?'}</Text>
+                                        <Text style={styles.text}>{locationName.length > 0 ? locationName : 'Where will it be stored? (Optional)'}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                             : <></>}
-                        <View style={{ flexDirection: 'row', width: '100%' }}>
+                        <View style={{ flexDirection: 'row', width: '100%', marginBottom: 16 }}>
                             <TextInput
                                 value={itemName}
                                 onFocus={() => setItemFocused(true)}
@@ -317,8 +317,8 @@ export default function AddPage() {
                                 ]} />
                         </View>
                         {itemName.length > 0
-                            ? <View style={styles.addAnImageQuestion}>
-                                <Text style={styles.text}>Want to add an item image?</Text>
+                            ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
+                                <Text style={styles.text}>Want to add an item image? (Optional)</Text>
                                 <View style={styles.imageSelection}>
                                     <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
                                         <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
@@ -396,7 +396,6 @@ const stylesheet = (
         paddingHorizontal: 15,
         shadowColor: shadowColor,
         borderColor: borderColor,
-        marginVertical: 10
     },
     textInputFocus: {
         borderWidth: 2,
@@ -410,7 +409,6 @@ const stylesheet = (
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10,
         alignItems: 'center'
     },
     imageSelection: {
@@ -427,7 +425,7 @@ const stylesheet = (
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        marginBottom: 10
+        marginBottom: 16
     }
 });
 
