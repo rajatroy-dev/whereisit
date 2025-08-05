@@ -302,6 +302,35 @@ export default function AddPage() {
                                 </View>
                             </View>
                             : <></>}
+                        {itemName.length > 0
+                            ? <View style={{ flexDirection: 'row', width: '100%', marginBottom: 16 }}>
+                                <TextInput
+                                    value={locationName}
+                                    onFocus={() => setItemFocused(true)}
+                                    onBlur={() => setItemFocused(false)}
+                                    onChangeText={setLocationName}
+                                    placeholder="Where will it be stored? (Optional)"
+                                    placeholderTextColor={theme.placeholderColor.val}
+                                    style={[
+                                        styles.textInput,
+                                        isItemFocused ? styles.textInputFocus : styles.textInputBlur,
+                                        { flex: 1, marginHorizontal: 8 }
+                                    ]} />
+                            </View>
+                            : <></>}
+                        {locationName.length > 0
+                            ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
+                                <Text style={styles.text}>Want to add a location image? (Optional)</Text>
+                                <View style={styles.imageSelection}>
+                                    <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
+                                        <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('item')}>
+                                        <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            : <></>}
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 16 }}>
                             <TextInput
                                 value={itemName}
