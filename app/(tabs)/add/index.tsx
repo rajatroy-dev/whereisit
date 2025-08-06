@@ -345,7 +345,7 @@ export default function AddPage() {
                                     { flex: 1, marginHorizontal: 8 }
                                 ]} />
                         </View>
-                        {itemName.length > 0
+                        {itemName.length > 0 && itemImages.length <= 0
                             ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
                                 <Text style={styles.text}>Want to add an item image? (Optional)</Text>
                                 <View style={styles.imageSelection}>
@@ -356,6 +356,26 @@ export default function AddPage() {
                                         <IconSymbol name="image" color={theme.accentColor.val} size={32} />
                                     </TouchableOpacity>
                                 </View>
+                            </View>
+                            : <></>}
+                        {itemImages.length > 0
+                            ? <View style={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: theme.background.val,
+                                height: locationImages.length > 0 ? 540 : 350
+                            }}>
+                                <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
+                                    <Image
+                                        style={{
+                                            borderRadius: 5,
+                                            flex: 1,
+                                            height: 200,
+                                            width: 200,
+                                            marginLeft: index === 0 ? 0 : 10
+                                        }}
+                                        source={{ uri: item.imagePath }} />
+                                )} />
                             </View>
                             : <></>}
                         {itemName.length > 0
