@@ -41,6 +41,14 @@
           "photosPermission": "To add pictures of your items, we need to see your photos.",
           "cameraPermission": "To click a picture of your item, we need your camera."
         }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/images/plus.png"
+          ]
+        }
       ]
     ],
     "experiments": {
