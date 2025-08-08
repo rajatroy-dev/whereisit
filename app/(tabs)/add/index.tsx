@@ -1,10 +1,11 @@
 import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
 import IconSymbol from "@/components/ui/IconSymbol";
 import { useAppTheme } from "@/state/app-store";
+import { Image } from "expo-image";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -54,6 +55,10 @@ export default function AddPage() {
                     imagePath: eachImage.uri
                 });
             }
+            imagesCopy.push({
+                id: `${Date.now() + Math.random()}`,
+                imagePath: 'plus'
+            })
 
             if (type === 'item') setItemImages(imagesCopy);
             if (type === 'location') setLocationImages(imagesCopy);
@@ -91,6 +96,10 @@ export default function AddPage() {
                     imagePath: eachImage.uri
                 });
             }
+            imagesCopy.push({
+                id: `${Date.now() + Math.random()}`,
+                imagePath: 'plus'
+            });
 
             if (type === 'item') setItemImages(imagesCopy);
             if (type === 'location') setLocationImages(imagesCopy);
@@ -363,10 +372,28 @@ export default function AddPage() {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: theme.background.val,
-                                height: locationImages.length > 0 ? 540 : 350
+                                height: 216
                             }}>
-                                <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
-                                    <Image
+                                <FlatList horizontal data={itemImages} renderItem={({ item, index }) => {
+                                    if (index === itemImages.length - 1) {
+                                        return <TouchableOpacity style={{
+                                            borderRadius: 5,
+                                            marginHorizontal: 10,
+                                            backgroundColor: '#BEBEBE',
+                                            height: 200,
+                                            width: 100,
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+                                            <Image
+                                                style={{
+                                                    height: 50,
+                                                    width: 50
+                                                }}
+                                                source={require('@/assets/images/plus.png')} />
+                                        </TouchableOpacity>;
+                                    }
+                                    return <Image
                                         style={{
                                             borderRadius: 5,
                                             flex: 1,
@@ -374,8 +401,8 @@ export default function AddPage() {
                                             width: 200,
                                             marginLeft: index === 0 ? 0 : 10
                                         }}
-                                        source={{ uri: item.imagePath }} />
-                                )} />
+                                        source={{ uri: item.imagePath }} />;
+                                }} />
                             </View>
                             : <></>}
                         {itemName.length > 0
