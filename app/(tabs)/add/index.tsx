@@ -340,19 +340,30 @@ export default function AddPage() {
                                 </View>
                             </View>
                             : <></>}
-                        <View style={{ flexDirection: 'row', width: '100%', marginBottom: 16 }}>
-                            <TextInput
-                                value={itemName}
-                                onFocus={() => setItemFocused(true)}
-                                onBlur={() => setItemFocused(false)}
-                                onChangeText={setItemName}
-                                placeholder="What do you want to store?"
-                                placeholderTextColor={theme.placeholderColor.val}
-                                style={[
-                                    styles.textInput,
-                                    isItemFocused ? styles.textInputFocus : styles.textInputBlur,
-                                    { flex: 1, marginHorizontal: 8 }
-                                ]} />
+                        <View style={[
+                            {
+                                flexDirection: 'column',
+                                marginBottom: 16,
+                                borderWidth: 1,
+                                borderRadius: 5,
+                                borderColor: theme.borderColor.val,
+                                marginHorizontal: 8
+                            },
+                            isItemFocused ? styles.textInputFocus : styles.textInputBlur
+                        ]}>
+                            <Text style={{ fontSize: 10, paddingHorizontal: 14, paddingTop: 8 }}>Storing</Text>
+                            <View>
+                                <TextInput
+                                    value={itemName}
+                                    onFocus={() => setItemFocused(true)}
+                                    onBlur={() => setItemFocused(false)}
+                                    onChangeText={setItemName}
+                                    placeholder="What do you want to store?"
+                                    placeholderTextColor={theme.placeholderColor.val}
+                                    style={[
+                                        styles.textInput,
+                                    ]} />
+                            </View>
                         </View>
                         {itemName.length > 0 && itemImages.length <= 0
                             ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
@@ -467,18 +478,13 @@ const stylesheet = (
     },
     textInput: {
         color: color,
-        borderWidth: 1,
-        borderRadius: 5,
         paddingHorizontal: 15,
         shadowColor: shadowColor,
-        borderColor: borderColor,
     },
     textInputFocus: {
-        borderWidth: 2,
-        borderColor: borderColorFocus
+        borderColor: accentColor
     },
     textInputBlur: {
-        borderWidth: 1,
         borderColor: borderColor,
     },
     addAnImageQuestion: {
