@@ -5,12 +5,13 @@ import { Image } from "expo-image";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
     const theme = useAppTheme();
     const [permission, requestPermission] = ImagePicker.useCameraPermissions();
+    const { width } = useWindowDimensions();
 
 
     const [itemName, setItemName] = useState('');
@@ -342,16 +343,18 @@ export default function AddPage() {
                             : <></>}
                         <View style={[
                             {
-                                flexDirection: 'column',
                                 marginBottom: 16,
                                 borderWidth: 1,
                                 borderRadius: 5,
                                 borderColor: theme.borderColor.val,
                                 marginHorizontal: 8
                             },
-                            isItemFocused ? styles.textInputFocus : styles.textInputBlur
+                            isItemFocused ? styles.textInputFocus : styles.textInputBlur,
+                            itemName.length <= 0 ? { width: (width - 32) } : {}
                         ]}>
-                            <Text style={{ fontSize: 10, paddingHorizontal: 14, paddingTop: 8 }}>Storing</Text>
+                            {itemName.length > 0
+                                ? <Text style={{ fontSize: 10, paddingHorizontal: 14, paddingTop: 8 }}>Storing</Text>
+                                : <></>}
                             <View>
                                 <TextInput
                                     value={itemName}
@@ -362,6 +365,7 @@ export default function AddPage() {
                                     placeholderTextColor={theme.placeholderColor.val}
                                     style={[
                                         styles.textInput,
+                                        itemName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
                                     ]} />
                             </View>
                         </View>
