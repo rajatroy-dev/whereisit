@@ -347,15 +347,18 @@ export default function AddPage() {
                                 borderWidth: 1,
                                 borderRadius: 5,
                                 borderColor: theme.borderColor.val,
-                                marginHorizontal: 8
+                                marginHorizontal: 8,
+                                flexDirection: 'row',
+                                width: '100%',
+                                paddingHorizontal: 8,
+                                paddingVertical: 0,
                             },
                             isItemFocused ? styles.textInputFocus : styles.textInputBlur,
-                            itemName.length <= 0 ? { width: (width - 32) } : {}
                         ]}>
-                            {itemName.length > 0
-                                ? <Text style={{ fontSize: 10, paddingHorizontal: 14, paddingTop: 8 }}>Storing</Text>
-                                : <></>}
-                            <View>
+                            <View style={{ width: '100%' }}>
+                                {itemName.length > 0
+                                    ? <Text style={{ fontSize: 10, paddingHorizontal: 4, paddingTop: 8 }}>Storing</Text>
+                                    : <></>}
                                 <TextInput
                                     value={itemName}
                                     onFocus={() => setItemFocused(true)}
@@ -365,7 +368,8 @@ export default function AddPage() {
                                     placeholderTextColor={theme.placeholderColor.val}
                                     style={[
                                         styles.textInput,
-                                        itemName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+                                        itemName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' },
+                                        // itemName.length > 0 ? { fontSize: 18 } : {}
                                     ]} />
                             </View>
                         </View>
@@ -382,7 +386,7 @@ export default function AddPage() {
                                 </View>
                             </View>
                             : <></>}
-                        {itemImages.length > 0
+                        {itemName.length > 0 && itemImages.length > 0
                             ? <View style={{
                                 justifyContent: 'center',
                                 alignItems: 'center',
@@ -423,7 +427,7 @@ export default function AddPage() {
                         {itemName.length > 0
                             ? <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.buttonCancel}>
-                                    <Text style={styles.text}>Cancel</Text>
+                                    <Text style={styles.text}>CANCEL</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     disabled={!(itemName.length > 0)}
@@ -433,7 +437,7 @@ export default function AddPage() {
                                             ? { backgroundColor: theme.placeholderColor.val }
                                             : { backgroundColor: theme.accentColor.val }
                                     ]}>
-                                    <Text style={styles.text}>Save</Text>
+                                    <Text style={styles.text}>SAVE</Text>
                                 </TouchableOpacity>
                             </View>
                             : <></>}
@@ -482,7 +486,6 @@ const stylesheet = (
     },
     textInput: {
         color: color,
-        paddingHorizontal: 15,
         shadowColor: shadowColor,
     },
     textInputFocus: {
@@ -492,7 +495,6 @@ const stylesheet = (
         borderColor: borderColor,
     },
     addAnImageQuestion: {
-        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -510,7 +512,6 @@ const stylesheet = (
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
         marginBottom: 16
     }
 });
