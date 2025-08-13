@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { FlatList, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -194,6 +194,37 @@ export default function AddPage() {
                         }} />
                     </View>
                     : <></>}
+                <View style={[
+                    {
+                        marginBottom: 16,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderColor: theme.borderColor.val,
+                        marginHorizontal: 8,
+                        flexDirection: 'row',
+                        width: '100%',
+                        paddingHorizontal: 8,
+                        paddingVertical: 0,
+                    },
+                    isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
+                ]}>
+                    <View style={{ width: '100%' }}>
+                        {locationName.length > 0
+                            ? <Text style={{ fontSize: 10, paddingHorizontal: 4, paddingTop: 8 }}>At</Text>
+                            : <></>}
+                        <TextInput
+                            value={locationName}
+                            onFocus={() => setLocationFocused(true)}
+                            onBlur={() => setLocationFocused(false)}
+                            onChangeText={setLocationName}
+                            placeholder="Where will you keep this item? (Optional)"
+                            placeholderTextColor={theme.placeholderColor.val}
+                            style={[
+                                styles.textInput,
+                                locationName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' },
+                            ]} />
+                    </View>
+                </View>
                 {itemName.length > 0
                     ? <View style={styles.buttons}>
                         <TouchableOpacity style={styles.buttonCancel}>
@@ -210,125 +241,6 @@ export default function AddPage() {
                             <Text style={styles.text}>SAVE</Text>
                         </TouchableOpacity>
                     </View>
-                    : <></>}
-                {isLocationFocused
-                    ? <>
-                        {locationName.length > 0
-                            ? <View style={{ justifyContent: 'flex-end' }}>
-                                <View
-                                    style={{
-                                        width: '100%',
-                                        justifyContent: 'center',
-                                        alignItems: 'center'
-                                    }}>
-                                    {locationImages.length > 0
-                                        ? <FlatList horizontal data={locationImages} renderItem={({ item, index }) => (
-                                            <Image
-                                                style={{
-                                                    borderRadius: 5,
-                                                    flex: 1,
-                                                    height: 200,
-                                                    width: 200,
-                                                    marginLeft: index === 0 ? 0 : 10
-                                                }}
-                                                source={{ uri: item.imagePath }} />
-                                        )} />
-                                        : <IconSymbol name="image" color={theme.borderColorHover.val} size={200} />}
-                                </View>
-                                {isLocationChoiceVisible
-                                    ? <View style={{
-                                        width: '100%',
-                                        position: 'absolute',
-                                    }}>
-                                        <ScrollView style={{
-                                            bottom: 0,
-                                            left: 0,
-                                            elevation: 1,
-                                            shadowColor: theme.colorPress.val,
-                                            backgroundColor: theme.background.val,
-                                            borderRadius: 5,
-                                            marginHorizontal: 10,
-                                            padding: 10
-                                        }}>
-                                            <TouchableOpacity
-                                                onPress={() => { }}
-                                                style={{ paddingBottom: 20 }}>
-                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => { }}
-                                                style={{ paddingBottom: 20 }}>
-                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => { }}
-                                                style={{ paddingBottom: 20 }}>
-                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => { }}
-                                                style={{ paddingBottom: 20 }}>
-                                                <Text style={[styles.text, { textAlign: 'left' }]}>Abc</Text>
-                                            </TouchableOpacity>
-                                        </ScrollView>
-                                    </View>
-                                    : <></>}
-                            </View>
-                            : <></>}
-                        <View style={{ flexDirection: 'row' }}>
-                            <TextInput
-                                value={locationName}
-                                onFocus={() => setItemFocused(true)}
-                                onBlur={() => {
-                                    setItemFocused(false);
-                                    setLocationChoiceVisible(false);
-                                }}
-                                onChangeText={(text) => {
-                                    setLocationName(text);
-                                    setLocationChoiceVisible(true);
-                                }}
-                                placeholder="Where will it be stored? (Optional)"
-                                placeholderTextColor={theme.placeholderColor.val}
-                                style={[
-                                    styles.textInput,
-                                    isItemFocused ? styles.textInputFocus : styles.textInputBlur,
-                                    { flex: 1, marginHorizontal: 8 }
-                                ]} />
-                        </View>
-                        {locationName.length > 0
-                            ? <View style={styles.addAnImageQuestion}>
-                                <Text style={styles.text}>Want to add a location image?</Text>
-                                <View style={styles.imageSelection}>
-                                    <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('location')}>
-                                        <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
-                                        <IconSymbol name="image" color={theme.accentColor.val} size={32} />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                            : <></>}
-                        <View style={styles.buttons}>
-                            <TouchableOpacity style={styles.buttonCancel} onPress={() => {
-                                setLocationFocused(false);
-                                setLocationName('');
-                                setLocationImages([]);
-                            }}>
-                                <Text style={styles.text}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                disabled={!(locationName.length > 0)}
-                                onPress={() => setLocationFocused(false)}
-                                style={[
-                                    styles.button,
-                                    !(itemName.length > 0)
-                                        ? { backgroundColor: theme.placeholderColor.val }
-                                        : { backgroundColor: theme.accentColor.val }
-                                ]}>
-                                <Text style={styles.text}>Save</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </>
                     : <></>}
             </KeyboardAvoidingView>
         </CustomSafeAreaView>
