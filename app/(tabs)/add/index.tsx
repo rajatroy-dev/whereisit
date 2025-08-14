@@ -225,6 +225,57 @@ export default function AddPage() {
                             ]} />
                     </View>
                 </View>
+                {locationName.length > 0 && locationImages.length <= 0
+                    ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
+                        <Text style={styles.text}>Want to add a location image? (Optional)</Text>
+                        <View style={styles.imageSelection}>
+                            <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('location')}>
+                                <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
+                                <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    : <></>}
+                {locationName.length > 0 && locationImages.length > 0
+                    ? <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: theme.background.val,
+                        height: 216
+                    }}>
+                        <FlatList horizontal data={locationImages} renderItem={({ item, index }) => {
+                            if (index === itemImages.length - 1) {
+                                return <TouchableOpacity style={{
+                                    borderRadius: 5,
+                                    marginHorizontal: 10,
+                                    backgroundColor: '#BEBEBE',
+                                    height: 200,
+                                    width: 100,
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <Image
+                                        style={{
+                                            height: 50,
+                                            width: 50
+                                        }}
+                                        source={require('@/assets/images/plus.png')} />
+                                </TouchableOpacity>;
+                            }
+                            return <Image
+                                style={{
+                                    borderRadius: 5,
+                                    flex: 1,
+                                    height: 200,
+                                    width: 200,
+                                    marginLeft: 10
+                                }}
+                                source={{ uri: item.imagePath }} />;
+                        }} />
+                    </View>
+                    : <></>}
                 {itemName.length > 0
                     ? <View style={styles.buttons}>
                         <TouchableOpacity style={styles.buttonCancel}>
