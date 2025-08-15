@@ -122,7 +122,6 @@ export default function AddPage() {
                         flexDirection: 'row',
                         width: '100%',
                         paddingHorizontal: 8,
-                        paddingVertical: 0,
                     },
                     isItemFocused ? styles.textInputFocus : styles.textInputBlur,
                 ]}>
@@ -194,37 +193,34 @@ export default function AddPage() {
                         }} />
                     </View>
                     : <></>}
-                <View style={[
-                    {
-                        marginBottom: 16,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        borderColor: theme.borderColor.val,
-                        marginHorizontal: 8,
-                        flexDirection: 'row',
-                        width: '100%',
-                        paddingHorizontal: 8,
-                        paddingVertical: 0,
-                    },
-                    isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
-                ]}>
-                    <View style={{ width: '100%' }}>
-                        {locationName.length > 0
-                            ? <Text style={{ fontSize: 10, paddingHorizontal: 4, paddingTop: 8 }}>At</Text>
-                            : <></>}
-                        <TextInput
-                            value={locationName}
-                            onFocus={() => setLocationFocused(true)}
-                            onBlur={() => setLocationFocused(false)}
-                            onChangeText={setLocationName}
-                            placeholder="Where will you keep this item? (Optional)"
-                            placeholderTextColor={theme.placeholderColor.val}
-                            style={[
-                                styles.textInput,
-                                locationName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' },
-                            ]} />
-                    </View>
-                </View>
+                {itemName.length > 0
+                    ? <TouchableOpacity style={[
+                        {
+                            marginBottom: 16,
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            borderColor: theme.borderColor.val,
+                            marginHorizontal: 8,
+                            flexDirection: 'row',
+                            width: '100%',
+                            paddingHorizontal: 8,
+                        },
+                        isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
+                    ]}>
+                        <View style={{ paddingHorizontal: 4, width: '100%', paddingVertical: 10 }}>
+                            {locationName.length > 0
+                                ? <Text style={{ fontSize: 10, paddingVertical: 10 }}>At</Text>
+                                : <></>}
+                            <Text
+                                style={[
+                                    styles.textInput,
+                                    locationName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal', color: theme.placeholderColor.val },
+                                ]}>
+                                {locationName.length > 0 ? locationName : 'Where will you keep this item? (Optional)'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    : <></>}
                 {locationName.length > 0 && locationImages.length <= 0
                     ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
                         <Text style={styles.text}>Want to add a location image? (Optional)</Text>
