@@ -18,7 +18,7 @@ export default function AddPage() {
     const [isItemFocused, setItemFocused] = useState(false);
     const [locationName, setLocationName] = useState('');
     const [isLocationFocused, setLocationFocused] = useState(false);
-    const [isLocationChoiceVisible, setLocationChoiceVisible] = useState(false);
+    const [selectLocation, setSelectLocation] = useState(false);
     const [itemImages, setItemImages] = useState<IImageDate[]>([]);
     const [locationImages, setLocationImages] = useState<IImageDate[]>([]);
 
@@ -107,6 +107,10 @@ export default function AddPage() {
         }
     };
 
+    if (selectLocation) {
+        return <LocationSearch />;
+    }
+
     return (
         <CustomSafeAreaView style={styles.screen}>
             <KeyboardAvoidingView
@@ -194,19 +198,21 @@ export default function AddPage() {
                     </View>
                     : <></>}
                 {itemName.length > 0
-                    ? <TouchableOpacity style={[
-                        {
-                            marginBottom: 16,
-                            borderWidth: 1,
-                            borderRadius: 5,
-                            borderColor: theme.borderColor.val,
-                            marginHorizontal: 8,
-                            flexDirection: 'row',
-                            width: '100%',
-                            paddingHorizontal: 8,
-                        },
-                        isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
-                    ]}>
+                    ? <TouchableOpacity
+                        onPress={() => setSelectLocation(true)}
+                        style={[
+                            {
+                                marginBottom: 16,
+                                borderWidth: 1,
+                                borderRadius: 5,
+                                borderColor: theme.borderColor.val,
+                                marginHorizontal: 8,
+                                flexDirection: 'row',
+                                width: '100%',
+                                paddingHorizontal: 8,
+                            },
+                            isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
+                        ]}>
                         <View style={{ paddingHorizontal: 4, width: '100%', paddingVertical: 10 }}>
                             {locationName.length > 0
                                 ? <Text style={{ fontSize: 10, paddingVertical: 10 }}>At</Text>
@@ -289,6 +295,51 @@ export default function AddPage() {
                         </TouchableOpacity>
                     </View>
                     : <></>}
+            </KeyboardAvoidingView>
+        </CustomSafeAreaView>
+    );
+}
+
+function LocationSearch() {
+    const theme = useAppTheme();
+    const [locationName, setLocationName] = useState<string>();
+
+    const styles = useMemo(() => stylesheet(
+        theme.color.val,
+        theme.accentColor.val,
+        theme.background.val,
+        theme.borderColor.val,
+        theme.borderColorFocus.val,
+        theme.shadowColor.val,
+        theme.borderColorHover.val
+    ), [theme]);
+
+    return (
+        <CustomSafeAreaView style={styles.screen}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "position"}
+                style={styles.container}>
+                <View style={[
+                    {
+                        marginBottom: 16,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        marginHorizontal: 8,
+                        flexDirection: 'row',
+                        width: '100%',
+                        paddingHorizontal: 8,
+                        borderColor: theme.accentColor.val
+                    }
+                ]}>
+                    <View style={{ width: '100%' }}>
+                        <TextInput
+                            value={locationName}
+                            autoFocus
+                            onChangeText={setLocationName}
+                            placeholder="What do you want to store?"
+                            placeholderTextColor={theme.placeholderColor.val} />
+                    </View>
+                </View>
             </KeyboardAvoidingView>
         </CustomSafeAreaView>
     );
