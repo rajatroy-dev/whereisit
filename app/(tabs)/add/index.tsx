@@ -108,7 +108,10 @@ export default function AddPage() {
     };
 
     if (selectLocation) {
-        return <LocationSearch />;
+        return <LocationSearch
+            setSelectLocation={setSelectLocation}
+            setLocationName={setLocationName}
+        />;
     }
 
     return (
@@ -300,9 +303,15 @@ export default function AddPage() {
     );
 }
 
-function LocationSearch() {
+function LocationSearch(
+    props: {
+        setSelectLocation: (value: boolean) => void;
+        setLocationName: (value: string) => void;
+    }
+) {
     const theme = useAppTheme();
-    const [locationName, setLocationName] = useState<string>();
+    const [locationName] = useState<string>('');
+    const { setSelectLocation, setLocationName } = props;
 
     const styles = useMemo(() => stylesheet(
         theme.color.val,
@@ -336,9 +345,26 @@ function LocationSearch() {
                             value={locationName}
                             autoFocus
                             onChangeText={setLocationName}
-                            placeholder="What do you want to store?"
+                            placeholder='Where will you keep this item? (Optional)'
                             placeholderTextColor={theme.placeholderColor.val} />
                     </View>
+                </View>
+                <View style={styles.buttons}>
+                    <TouchableOpacity
+                        style={styles.buttonCancel}
+                        onPress={() => setSelectLocation(false)}>
+                        <Text style={styles.text}>CANCEL</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        disabled={locationName.length <= 0}
+                        style={[
+                            styles.button,
+                            locationName.length <= 0
+                                ? { backgroundColor: theme.placeholderColor.val }
+                                : { backgroundColor: theme.accentColor.val }
+                        ]}>
+                        <Text style={styles.text}>SAVE</Text>
+                    </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
         </CustomSafeAreaView>
