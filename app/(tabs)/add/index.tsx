@@ -5,7 +5,17 @@ import { Image } from "expo-image";
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
 import { useMemo, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import {
+    FlatList,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    useWindowDimensions,
+    View
+} from "react-native";
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
@@ -106,6 +116,16 @@ export default function AddPage() {
             if (type === 'location') setLocationImages(imagesCopy);
         }
     };
+
+    const handleCancel = () => {
+        setItemName('');
+        setItemFocused(false);
+        setLocationName('');
+        setLocationFocused(false);
+        setSelectLocation(false);
+        setItemImages([]);
+        setLocationImages([]);
+    }
 
     if (selectLocation) {
         return <LocationSearch
@@ -283,16 +303,17 @@ export default function AddPage() {
                     : <></>}
                 {itemName.length > 0
                     ? <View style={styles.buttons}>
-                        <TouchableOpacity style={styles.buttonCancel}>
+                        <TouchableOpacity
+                            onPress={handleCancel}
+                            style={styles.buttonCancel}
+                        >
                             <Text style={styles.text}>CANCEL</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             disabled={!(itemName.length > 0)}
                             style={[
                                 styles.button,
-                                !(itemName.length > 0)
-                                    ? { backgroundColor: theme.placeholderColor.val }
-                                    : { backgroundColor: theme.accentColor.val }
+                                { backgroundColor: theme.accentColor.val }
                             ]}>
                             <Text style={styles.text}>SAVE</Text>
                         </TouchableOpacity>
