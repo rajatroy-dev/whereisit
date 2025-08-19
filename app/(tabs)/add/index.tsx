@@ -129,6 +129,7 @@ export default function AddPage() {
 
     if (selectLocation) {
         return <LocationSearch
+            locationName={locationName}
             setSelectLocation={setSelectLocation}
             setLocationName={setLocationName}
         />;
@@ -326,13 +327,13 @@ export default function AddPage() {
 
 function LocationSearch(
     props: {
-        setSelectLocation: (value: boolean) => void;
+        locationName: string;
         setLocationName: (value: string) => void;
+        setSelectLocation: (value: boolean) => void;
     }
 ) {
     const theme = useAppTheme();
-    const [locationName] = useState<string>('');
-    const { setSelectLocation, setLocationName } = props;
+    const { locationName, setLocationName, setSelectLocation } = props;
 
     const styles = useMemo(() => stylesheet(
         theme.color.val,
@@ -343,6 +344,10 @@ function LocationSearch(
         theme.shadowColor.val,
         theme.borderColorHover.val
     ), [theme]);
+
+    const handleCancel = () => {
+        setSelectLocation(false);
+    }
 
     return (
         <CustomSafeAreaView style={styles.screen}>
@@ -373,15 +378,16 @@ function LocationSearch(
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         style={styles.buttonCancel}
-                        onPress={() => setSelectLocation(false)}>
+                        onPress={handleCancel}>
                         <Text style={styles.text}>CANCEL</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         disabled={locationName.length <= 0}
+                        onPress={handleCancel}
                         style={[
                             styles.button,
                             locationName.length <= 0
-                                ? { backgroundColor: theme.placeholderColor.val }
+                                ? { backgroundColor: theme.backgroundPress.val }
                                 : { backgroundColor: theme.accentColor.val }
                         ]}>
                         <Text style={styles.text}>SAVE</Text>
