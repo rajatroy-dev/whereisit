@@ -55,8 +55,6 @@ export default function AddPage() {
             allowsMultipleSelection: true
         });
 
-        console.log(result);
-
         if (!result.canceled) {
             const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
 
@@ -66,10 +64,6 @@ export default function AddPage() {
                     imagePath: eachImage.uri
                 });
             }
-            imagesCopy.push({
-                id: `${Date.now() + Math.random()}`,
-                imagePath: 'plus'
-            })
 
             if (type === 'item') setItemImages(imagesCopy);
             if (type === 'location') setLocationImages(imagesCopy);
@@ -96,8 +90,6 @@ export default function AddPage() {
             allowsMultipleSelection: true
         });
 
-        console.log(result);
-
         if (!result.canceled) {
             const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
 
@@ -107,10 +99,6 @@ export default function AddPage() {
                     imagePath: eachImage.uri
                 });
             }
-            imagesCopy.push({
-                id: `${Date.now() + Math.random()}`,
-                imagePath: 'plus'
-            });
 
             if (type === 'item') setItemImages(imagesCopy);
             if (type === 'location') setLocationImages(imagesCopy);
@@ -170,9 +158,31 @@ export default function AddPage() {
                             ]} />
                     </View>
                 </View>
-                {itemName.length > 0 && itemImages.length <= 0
+                {itemName.length > 0 && itemImages.length > 0
+                    ? <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: theme.background.val,
+                        height: 216
+                    }}>
+                        <FlatList horizontal data={itemImages} renderItem={({ item, index }) => (
+                            <Image
+                                style={{
+                                    borderRadius: 5,
+                                    flex: 1,
+                                    height: 200,
+                                    width: 200,
+                                    marginLeft: 10
+                                }}
+                                source={{ uri: item.imagePath }} />
+                        )} />
+                    </View>
+                    : <></>}
+                {itemName.length > 0
                     ? <View style={[styles.addAnImageQuestion, { marginBottom: 16 }]}>
-                        <Text style={styles.text}>Want to add an item image? (Optional)</Text>
+                        {itemImages.length <= 0
+                            ? <Text style={styles.text}>Want to add an item image? (Optional)</Text>
+                            : <Text style={styles.text}>Add more location images? (Optional)</Text>}
                         <View style={styles.imageSelection}>
                             <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
                                 <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
@@ -181,44 +191,6 @@ export default function AddPage() {
                                 <IconSymbol name="image" color={theme.accentColor.val} size={32} />
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    : <></>}
-                {itemName.length > 0 && itemImages.length > 0
-                    ? <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: theme.background.val,
-                        height: 216
-                    }}>
-                        <FlatList horizontal data={itemImages} renderItem={({ item, index }) => {
-                            if (index === itemImages.length - 1) {
-                                return <TouchableOpacity style={{
-                                    borderRadius: 5,
-                                    marginHorizontal: 10,
-                                    backgroundColor: '#BEBEBE',
-                                    height: 200,
-                                    width: 100,
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                    <Image
-                                        style={{
-                                            height: 50,
-                                            width: 50
-                                        }}
-                                        source={require('@/assets/images/plus.png')} />
-                                </TouchableOpacity>;
-                            }
-                            return <Image
-                                style={{
-                                    borderRadius: 5,
-                                    flex: 1,
-                                    height: 200,
-                                    width: 200,
-                                    marginLeft: 10
-                                }}
-                                source={{ uri: item.imagePath }} />;
-                        }} />
                     </View>
                     : <></>}
                 {itemName.length > 0
@@ -237,7 +209,7 @@ export default function AddPage() {
                             },
                             isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
                         ]}>
-                        <View style={{ paddingHorizontal: 4, width: '100%', paddingVertical: 10 }}>
+                        <View style={{ paddingHorizontal: 4, width: '100%', paddingBottom: 10 }}>
                             {locationName.length > 0
                                 ? <Text style={{ fontSize: 10, paddingVertical: 10 }}>At</Text>
                                 : <></>}
@@ -273,15 +245,17 @@ export default function AddPage() {
                     }}>
                         <FlatList horizontal data={locationImages} renderItem={({ item, index }) => {
                             if (index === itemImages.length - 1) {
-                                return <TouchableOpacity style={{
-                                    borderRadius: 5,
-                                    marginHorizontal: 10,
-                                    backgroundColor: '#BEBEBE',
-                                    height: 200,
-                                    width: 100,
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
+                                return <TouchableOpacity
+                                    onPress={() => pickImage('location')}
+                                    style={{
+                                        borderRadius: 5,
+                                        marginHorizontal: 10,
+                                        backgroundColor: '#BEBEBE',
+                                        height: 200,
+                                        width: 100,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
                                     <Image
                                         style={{
                                             height: 50,
