@@ -32,12 +32,6 @@ export default function AddPage() {
     const [itemImages, setItemImages] = useState<IImageDate[]>([]);
     const [locationImages, setLocationImages] = useState<IImageDate[]>([]);
 
-    const data = [
-        { value: 1, label: 'Living Room > Closet' },
-        { value: 2, label: 'Bedroom > Table' },
-        { value: 3, label: 'Kitchen > Refrigerator' },
-    ];
-
     const styles = useMemo(() => stylesheet(
         theme.color.val,
         theme.accentColor.val,
@@ -293,6 +287,12 @@ function LocationSearch(
     const theme = useAppTheme();
     const { locationName, setLocationName, setSelectLocation } = props;
 
+    const data = [
+        { value: 1, label: 'Living Room > Closet' },
+        { value: 2, label: 'Bedroom > Table' },
+        { value: 3, label: 'Kitchen > Refrigerator' },
+    ];
+
     const styles = useMemo(() => stylesheet(
         theme.color.val,
         theme.accentColor.val,
@@ -312,6 +312,26 @@ function LocationSearch(
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "position"}
                 style={styles.container}>
+                <View style={{
+                    maxHeight: 500,
+                    marginHorizontal: 8,
+                    paddingHorizontal: 8,
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    borderColor: theme.borderColor.val
+                }}>
+                    <FlatList data={data} renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => setLocationName(item.label)}>
+                            <Text
+                                style={{
+                                    paddingVertical: 8
+                                }}>
+                                {item.label}
+                            </Text>
+                        </TouchableOpacity>
+                    )} />
+                </View>
                 <View style={[
                     {
                         marginBottom: 16,
