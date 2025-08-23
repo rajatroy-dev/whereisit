@@ -204,9 +204,9 @@ export default function AddPage() {
                             },
                             isLocationFocused ? styles.textInputFocus : styles.textInputBlur,
                         ]}>
-                        <View style={{ paddingHorizontal: 4, width: '100%', paddingBottom: 10 }}>
+                        <View style={{ paddingHorizontal: 4, width: '100%', paddingVertical: 10 }}>
                             {locationName.length > 0
-                                ? <Text style={{ fontSize: 10, paddingVertical: 10 }}>At</Text>
+                                ? <Text style={{ fontSize: 10, paddingBottom: 10 }}>At</Text>
                                 : <></>}
                             <Text
                                 style={[
@@ -287,6 +287,8 @@ function LocationSearch(
     const theme = useAppTheme();
     const { locationName, setLocationName, setSelectLocation } = props;
 
+    const [localLocation, setLocalLocation] = useState(locationName);
+
     const data = [
         { value: 1, label: 'Living Room > Closet' },
         { value: 2, label: 'Bedroom > Table' },
@@ -305,6 +307,12 @@ function LocationSearch(
 
     const handleCancel = () => {
         setSelectLocation(false);
+        setLocationName(locationName);
+    }
+
+    const handleSave = () => {
+        setSelectLocation(false);
+        setLocationName(localLocation);
     }
 
     return (
@@ -313,24 +321,28 @@ function LocationSearch(
                 behavior={Platform.OS === "ios" ? "padding" : "position"}
                 style={styles.container}>
                 <View style={{
-                    maxHeight: 500,
                     marginHorizontal: 8,
                     paddingHorizontal: 8,
                     borderWidth: 1,
                     borderRadius: 5,
                     borderColor: theme.borderColor.val
                 }}>
-                    <FlatList data={data} renderItem={({ item }) => (
-                        <TouchableOpacity
-                            onPress={() => setLocationName(item.label)}>
-                            <Text
-                                style={{
-                                    paddingVertical: 8
-                                }}>
-                                {item.label}
-                            </Text>
-                        </TouchableOpacity>
-                    )} />
+                    <FlatList
+                        style={{
+                            flexGrow: 0
+                        }}
+                        data={data}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => setLocalLocation(item.label)}>
+                                <Text
+                                    style={{
+                                        paddingVertical: 8
+                                    }}>
+                                    {item.label}
+                                </Text>
+                            </TouchableOpacity>
+                        )} />
                 </View>
                 <View style={[
                     {
@@ -346,9 +358,8 @@ function LocationSearch(
                 ]}>
                     <View style={{ width: '100%' }}>
                         <TextInput
-                            value={locationName}
-                            autoFocus
-                            onChangeText={setLocationName}
+                            value={localLocation}
+                            onChangeText={setLocalLocation}
                             placeholder='Where will you keep this item? (Optional)'
                             placeholderTextColor={theme.placeholderColor.val} />
                     </View>
@@ -360,11 +371,11 @@ function LocationSearch(
                         <Text style={styles.text}>CANCEL</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        disabled={locationName.length <= 0}
-                        onPress={handleCancel}
+                        disabled={localLocation.length <= 0}
+                        onPress={handleSave}
                         style={[
                             styles.button,
-                            locationName.length <= 0
+                            localLocation.length <= 0
                                 ? { backgroundColor: theme.backgroundPress.val }
                                 : { backgroundColor: theme.accentColor.val }
                         ]}>
