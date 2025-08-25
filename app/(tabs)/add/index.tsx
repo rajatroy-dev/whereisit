@@ -1,10 +1,10 @@
-import CustomSafeAreaView from "@/components/ui/CustomSafeAreaView";
-import IconSymbol from "@/components/ui/IconSymbol";
-import { useAppTheme } from "@/state/app-store";
-import { Image } from "expo-image";
+import CustomSafeAreaView from '@/components/ui/CustomSafeAreaView';
+import IconSymbol from '@/components/ui/IconSymbol';
+import { useAppTheme } from '@/state/app-store';
+import { Image } from 'expo-image';
 // https://docs.expo.dev/versions/latest/sdk/imagepicker/
 import * as ImagePicker from 'expo-image-picker';
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
     FlatList,
     KeyboardAvoidingView,
@@ -13,16 +13,13 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    useWindowDimensions,
     View
-} from "react-native";
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 
 export default function AddPage() {
     const theme = useAppTheme();
     const [permission, requestPermission] = ImagePicker.useCameraPermissions();
-    const { width } = useWindowDimensions();
-
 
     const [itemName, setItemName] = useState('');
     const [isItemFocused, setItemFocused] = useState(false);
@@ -37,30 +34,28 @@ export default function AddPage() {
         theme.accentColor.val,
         theme.background.val,
         theme.borderColor.val,
-        theme.borderColorFocus.val,
         theme.shadowColor.val,
         theme.borderColorHover.val
     ), [theme]);
 
     const pickImage = async (type: 'item' | 'location') => {
         // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
             allowsMultipleSelection: true
         });
 
         if (!result.canceled) {
-            const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
+            const updated = type === 'item' ? [...itemImages] : [...locationImages];
 
             for (const eachImage of result.assets) {
-                imagesCopy.push({
-                    id: eachImage.assetId || `${Date.now() + Math.random()}`,
+                updated.push({
+                    id: eachImage.assetId ?? `${Date.now() + Math.random()}`,
                     imagePath: eachImage.uri
                 });
             }
 
-            if (type === 'item') setItemImages(imagesCopy);
-            if (type === 'location') setLocationImages(imagesCopy);
+            type === 'item' ? setItemImages(updated) : setLocationImages(updated);
         }
     };
 
@@ -74,7 +69,7 @@ export default function AddPage() {
             Toast.show({
                 type: 'error',
                 text1: 'Need camera permission to take a photo',
-                text2: 'Current staus: Denied'
+                text2: 'Current status: Denied'
             });
             return;
         }
@@ -85,24 +80,23 @@ export default function AddPage() {
         });
 
         if (!result.canceled) {
-            const imagesCopy = type === 'item' ? [...itemImages] : [...locationImages];
+            const updated = type === 'item' ? [...itemImages] : [...locationImages];
 
             for (const eachImage of result.assets) {
-                imagesCopy.push({
-                    id: eachImage.assetId || `${Date.now() + Math.random()}`,
+                updated.push({
+                    id: eachImage.assetId ?? `${Date.now() + Math.random()}`,
                     imagePath: eachImage.uri
                 });
             }
 
-            if (type === 'item') setItemImages(imagesCopy);
-            if (type === 'location') setLocationImages(imagesCopy);
+            type === 'item' ? setItemImages(updated) : setLocationImages(updated);
         }
     };
 
     const handleCancel = () => {
         setItemName('');
-        setItemFocused(false);
         setLocationName('');
+        setItemFocused(false);
         setLocationFocused(false);
         setSelectLocation(false);
         setItemImages([]);
@@ -120,7 +114,7 @@ export default function AddPage() {
     return (
         <CustomSafeAreaView style={styles.screen}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "position"}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
                 <View style={[
                     {
@@ -144,7 +138,7 @@ export default function AddPage() {
                             onFocus={() => setItemFocused(true)}
                             onBlur={() => setItemFocused(false)}
                             onChangeText={setItemName}
-                            placeholder="What do you want to store?"
+                            placeholder='What do you want to store?'
                             placeholderTextColor={theme.placeholderColor.val}
                             style={[
                                 styles.textInput,
@@ -180,10 +174,10 @@ export default function AddPage() {
                             : <Text style={styles.text}>Add more item images? (Optional)</Text>}
                         <View style={styles.imageSelection}>
                             <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('item')}>
-                                <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                <IconSymbol name='camera' color={theme.accentColor.val} size={32} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('item')}>
-                                <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                <IconSymbol name='image' color={theme.accentColor.val} size={32} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -246,10 +240,10 @@ export default function AddPage() {
                             : <Text style={styles.text}>Add more location images? (Optional)</Text>}
                         <View style={styles.imageSelection}>
                             <TouchableOpacity style={styles.cameraSelection} onPress={() => clickImage('location')}>
-                                <IconSymbol name="camera" color={theme.accentColor.val} size={32} />
+                                <IconSymbol name='camera' color={theme.accentColor.val} size={32} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.gallerySelection} onPress={() => pickImage('location')}>
-                                <IconSymbol name="image" color={theme.accentColor.val} size={32} />
+                                <IconSymbol name='image' color={theme.accentColor.val} size={32} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -300,7 +294,6 @@ function LocationSearch(
         theme.accentColor.val,
         theme.background.val,
         theme.borderColor.val,
-        theme.borderColorFocus.val,
         theme.shadowColor.val,
         theme.borderColorHover.val
     ), [theme]);
@@ -318,7 +311,7 @@ function LocationSearch(
     return (
         <CustomSafeAreaView style={styles.screen}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "position"}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
                 style={styles.container}>
                 <View style={{
                     marginHorizontal: 8,
@@ -392,7 +385,6 @@ const stylesheet = (
     accentColor?: string,
     backgroundColor?: string,
     borderColor?: string,
-    borderColorFocus?: string,
     shadowColor?: string,
     cancelBackground?: string
 ) => StyleSheet.create({
