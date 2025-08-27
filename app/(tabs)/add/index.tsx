@@ -26,8 +26,8 @@ export default function AddPage() {
     const [locationName, setLocationName] = useState('');
     const [isLocationFocused, setLocationFocused] = useState(false);
     const [selectLocation, setSelectLocation] = useState(false);
-    const [itemImages, setItemImages] = useState<IImageDate[]>([]);
-    const [locationImages, setLocationImages] = useState<IImageDate[]>([]);
+    const [itemImages, setItemImages] = useState<IImageData[]>([]);
+    const [locationImages, setLocationImages] = useState<IImageData[]>([]);
 
     const styles = useMemo(() => stylesheet(
         theme.color.val,
@@ -448,4 +448,7 @@ const stylesheet = (
     }
 });
 
-type IImageDate = { id: string; imagePath: string; };
+type IImageData = { id: string; imagePath: string; };
+
+export { IImageData };
+
