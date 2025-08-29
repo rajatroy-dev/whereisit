@@ -41,11 +41,12 @@ export default function InputWithLabel({
       ]}
     >
       <View style={{ width: '100%' }}>
-        {value?.length > 0 && (
+        {value?.length > 0 
+        ?
           <Text style={{ fontSize: 10, paddingHorizontal: 4, paddingTop: 8 }}>
             {label}
           </Text>
-        )}
+        : <></>}
         <TextInput
           value={value}
           onFocus={() => setFocused(true)}

@@ -1,3 +1,4 @@
+import InputWithLabel from '@/components/functional/InputWithLabel';
 import CustomSafeAreaView from '@/components/ui/CustomSafeAreaView';
 import IconSymbol from '@/components/ui/IconSymbol';
 import { useAppTheme } from '@/state/app-store';
@@ -116,36 +117,16 @@ export default function AddPage() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
         style={styles.container}>
-        <View style={[
-          {
-            marginBottom: 16,
-            borderWidth: 1,
-            borderRadius: 5,
-            borderColor: theme.borderColor.val,
-            marginHorizontal: 8,
-            flexDirection: 'row',
-            width: '100%',
-            paddingHorizontal: 8,
-          },
-          isItemFocused ? styles.textInputFocus : styles.textInputBlur,
-        ]}>
-          <View style={{ width: '100%' }}>
-            {itemName.length > 0
-              ? <Text style={{ fontSize: 10, paddingHorizontal: 4, paddingTop: 8 }}>Storing</Text>
-              : <></>}
-            <TextInput
-              value={itemName}
-              onFocus={() => setItemFocused(true)}
-              onBlur={() => setItemFocused(false)}
-              onChangeText={setItemName}
-              placeholder='What do you want to store?'
-              placeholderTextColor={theme.placeholderColor.val}
-              style={[
-                styles.textInput,
-                itemName.length > 0 ? { fontWeight: 'bold' } : { fontWeight: 'normal' },
-              ]} />
-          </View>
-        </View>
+        
+        <InputWithLabel
+          value={itemName}
+          onChange={setItemName}
+          placeholder="What do you want to store?"
+          label="Storing"
+          focused={isItemFocused}
+          setFocused={setItemFocused}
+        />
+
         {itemName.length > 0 && itemImages.length > 0
           ? <View style={{
             justifyContent: 'center',
